@@ -10,9 +10,7 @@ import com.tailoredshapes.inventoryserver.model.User;
 import java.io.IOException;
 import java.io.OutputStream;
 
-/**
- * Created by tmarsh on 2/19/14.
- */
+
 public class UserHandler implements HttpHandler {
 
     private UserDAO dao;

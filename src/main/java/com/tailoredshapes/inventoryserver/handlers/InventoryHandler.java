@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
+import com.google.inject.Inject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.tailoredshapes.inventoryserver.dao.DAO;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 
+
 public class InventoryHandler implements HttpHandler{
 
     private Responder<Inventory> responder;
@@ -18,6 +20,7 @@ public class InventoryHandler implements HttpHandler{
     private DAO<Inventory> dao;
     private Parser<Inventory> inventoryParser;
 
+    @Inject
     public InventoryHandler(Responder<Inventory> responder,
                             Authenticator authenticator,
                             DAO<Inventory> dao,
