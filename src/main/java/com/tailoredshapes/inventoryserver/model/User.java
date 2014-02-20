@@ -1,13 +1,13 @@
 package com.tailoredshapes.inventoryserver.model;
 
-/**
- * Created by tmarsh on 2/14/14.
- */
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 public class User implements Idable<User>{
     Long id;
     String name;
-    String privateKey;
-    String publicKey;
+    PrivateKey privateKey;
+    PublicKey publicKey;
 
     public Long getId() {
         return id;
@@ -27,20 +27,20 @@ public class User implements Idable<User>{
         return this;
     }
 
-    public String getPrivateKey() {
+    public PrivateKey getPrivateKey() {
         return privateKey;
     }
 
-    public User setPrivateKey(String privateKey) {
+    public User setPrivateKey(PrivateKey privateKey) {
         this.privateKey = privateKey;
         return this;
     }
 
-    public String getPublicKey() {
+    public PublicKey getPublicKey() {
         return publicKey;
     }
 
-    public User setPublicKey(String publicKey) {
+    public User setPublicKey(PublicKey publicKey) {
         this.publicKey = publicKey;
         return this;
     }
