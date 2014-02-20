@@ -2,7 +2,7 @@ package com.tailoredshapes.inventoryserver.repositories;
 
 import com.tailoredshapes.inventoryserver.dao.Encoder;
 import com.tailoredshapes.inventoryserver.dao.InMemoryUserDAO;
-import com.tailoredshapes.inventoryserver.dao.Serializer;
+import com.tailoredshapes.inventoryserver.dao.Serialiser;
 import com.tailoredshapes.inventoryserver.dao.UserDAO;
 import com.tailoredshapes.inventoryserver.model.User;
 import org.junit.Before;
@@ -15,9 +15,9 @@ public class InMemoryUserRepositoryTest {
     Long testId = 1l;
     private byte[] testSerializedUser = new byte[0];
 
-    private Serializer<User> serializer = new Serializer<User>() {
+    private Serialiser<User> serialiser = new Serialiser<User>() {
         @Override
-        public byte[] serialize(User object) {
+        public byte[] serialise(User object) {
             return testSerializedUser;
         }
     };
@@ -34,7 +34,7 @@ public class InMemoryUserRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        dao = new InMemoryUserDAO(serializer, encoder);
+        dao = new InMemoryUserDAO(serialiser, encoder);
         storedUser = dao.create(new User());
 
     }

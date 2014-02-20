@@ -9,11 +9,11 @@ import java.util.Map;
 public class InMemoryDAO<T extends Idable<T>> implements DAO<T>{
 
     Map<User, Map<Long, T>> db;
-    private Serializer<T> serializer;
+    private Serialiser<T> serialiser;
     private Encoder encoder;
 
-    protected InMemoryDAO(Serializer<T> serializer, Encoder encoder) {
-        this.serializer = serializer;
+    protected InMemoryDAO(Serialiser<T> serialiser, Encoder encoder) {
+        this.serialiser = serialiser;
         this.encoder = encoder;
         db = new HashMap<>();
     }
@@ -31,7 +31,7 @@ public class InMemoryDAO<T extends Idable<T>> implements DAO<T>{
     @Override
     public T create(User user, T object) {
         Map<Long, T> usermap = getUserMap(user);
-        byte[] bits = serializer.serialize(object);
+        byte[] bits = serialiser.serialise(object);
 
         Long sig = encoder.encode(user, bits);
         object.setId(sig);
@@ -42,7 +42,7 @@ public class InMemoryDAO<T extends Idable<T>> implements DAO<T>{
     @Override
     public T read(User user, T object) {
         Map<Long, T> usermap = getUserMap(user);
-        byte[] bits = serializer.serialize(object);
+        byte[] bits = serialiser.serialise(object);
 
         Long sig = encoder.encode(user, bits);
         return usermap.get(sig);
@@ -54,7 +54,7 @@ public class InMemoryDAO<T extends Idable<T>> implements DAO<T>{
         if(!usermap.containsKey(object.getId())){
             throw new RuntimeException("Object does not exist");
         }
-        byte[] bits = serializer.serialize(object);
+        byte[] bits = serialiser.serialise(object);
         Long sig = encoder.encode(user, bits);
         object.setId(sig);
         usermap.put(sig, object);

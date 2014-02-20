@@ -10,9 +10,9 @@ public class InMemoryUserDAOTest {
     Long testId = 1l;
     private byte[] testSerializedUser = new byte[0];
 
-    private Serializer<User> serializer = new Serializer<User>() {
+    private Serialiser<User> serialiser = new Serialiser<User>() {
         @Override
-        public byte[] serialize(User object) {
+        public byte[] serialise(User object) {
             return testSerializedUser;
         }
     };
@@ -26,7 +26,7 @@ public class InMemoryUserDAOTest {
 
     @Test
     public void shouldUpdateAnObject(){
-        InMemoryUserDAO dao = new InMemoryUserDAO(serializer, encoder);
+        InMemoryUserDAO dao = new InMemoryUserDAO(serialiser, encoder);
         User user = new User();
         User returnedUser = dao.create(user);
         assertEquals(testId, returnedUser.getId());
@@ -43,7 +43,7 @@ public class InMemoryUserDAOTest {
 
     @Test
     public void shouldDeleteAnObject(){
-        InMemoryUserDAO dao = new InMemoryUserDAO(serializer, encoder);
+        InMemoryUserDAO dao = new InMemoryUserDAO(serialiser, encoder);
         User user = new User();
         User returnedUser = dao.create(user);
         assertEquals(testId, returnedUser.getId());

@@ -11,13 +11,13 @@ import static org.junit.Assert.assertNull;
 public class InMemoryDAOTest {
 
     private User testUser;
-    private Model testModel;
+    private TestModel testModel;
     private byte[] testSerializedModel = new byte[0];
     private Long testId = -1l;
 
-    private Serializer<Model> serializer = new Serializer<Model>() {
+    private Serialiser<TestModel> serialiser = new Serialiser<TestModel>() {
         @Override
-        public byte[] serialize(Model object) {
+        public byte[] serialise(TestModel object) {
             return testSerializedModel;
         }
     };
@@ -29,46 +29,20 @@ public class InMemoryDAOTest {
         }
     };
 
-    private class Model implements Idable<Model>{
-
-        Long id = 0l;
-        String value;
-
-        @Override
-        public Long getId() {
-            return id;
-        }
-
-        @Override
-        public Model setId(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public Model setValue(String value) {
-            this.value = value;
-            return this;
-        }
-    }
-
     @Before
     public void setUp(){
-        testModel = new Model();
+        testModel = new TestModel();
         testModel.setValue("Twifty");
         testUser = new User();
     }
 
     @Test
     public void shouldCreateAndReadAnObject(){
-        InMemoryDAO<Model> dao = new InMemoryDAO<>(serializer, encoder);
-        Model model = dao.create(testUser, testModel);
+        InMemoryDAO<TestModel> dao = new InMemoryDAO<>(serialiser, encoder);
+        TestModel model = dao.create(testUser, testModel);
         assertEquals(testId, model.getId());
 
-        Model lookupModel = new Model();
+        TestModel lookupModel = new TestModel();
         lookupModel.setId(testId);
 
         model = dao.read(testUser, lookupModel);
@@ -78,14 +52,14 @@ public class InMemoryDAOTest {
 
     @Test
     public void shouldUpdateAnObject(){
-        InMemoryDAO<Model> dao = new InMemoryDAO<>(serializer, encoder);
-        Model model = dao.create(testUser, testModel);
+        InMemoryDAO<TestModel> dao = new InMemoryDAO<>(serialiser, encoder);
+        TestModel model = dao.create(testUser, testModel);
         assertEquals(testId, model.getId());
 
-        Model updatedModel = new Model().setId(testId).setValue("New Value");
+        TestModel updatedModel = new TestModel().setId(testId).setValue("New Value");
         dao.update(testUser, updatedModel);
 
-        Model lookupModel = new Model();
+        TestModel lookupModel = new TestModel();
         lookupModel.setId(testId);
 
         model = dao.read(testUser, lookupModel);
@@ -94,16 +68,16 @@ public class InMemoryDAOTest {
 
     @Test
     public void shouldDeleteAnObject(){
-        InMemoryDAO<Model> dao = new InMemoryDAO<>(serializer, encoder);
-        Model model = dao.create(testUser, testModel);
+        InMemoryDAO<TestModel> dao = new InMemoryDAO<>(serialiser, encoder);
+        TestModel model = dao.create(testUser, testModel);
         assertEquals(testId, model.getId());
 
-        Model fatedModel = new Model().setId(testId);
-        Model lastChanceModel = dao.delete(testUser, fatedModel);
+        TestModel fatedModel = new TestModel().setId(testId);
+        TestModel lastChanceModel = dao.delete(testUser, fatedModel);
 
         assertEquals(testModel, lastChanceModel);
 
-        Model lookupModel = new Model();
+        TestModel lookupModel = new TestModel();
         lookupModel.setId(testId);
 
         model = dao.read(testUser, lookupModel);

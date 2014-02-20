@@ -7,19 +7,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InMemoryUserDAO implements UserDAO{
-    private final Serializer<User> serializer;
+    private final Serialiser<User> serialiser;
     private final Encoder encoder;
     public Map<Long, User> db = new HashMap<>();
     private UserDAO dao;
 
     @Inject
-    public InMemoryUserDAO(Serializer<User> serializer, Encoder encoder) {
-        this.serializer = serializer;
+    public InMemoryUserDAO(Serialiser<User> serialiser, Encoder encoder) {
+        this.serialiser = serialiser;
         this.encoder = encoder;
     }
 
     public User create(User user){
-        byte[] serialize = serializer.serialize(user);
+        byte[] serialize = serialiser.serialise(user);
         Long id = encoder.encode(user, serialize);
         user.setId(id);
 
