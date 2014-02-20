@@ -5,23 +5,32 @@ import com.tailoredshapes.inventoryserver.model.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InMemoryDAOTest {
 
     private User testUser;
     private Model testModel;
-    private byte[] testSerializedModel;
+    private byte[] testSerializedModel = new byte[0];
     private Long testId = -1l;
 
-    @Mock private Serializer<Model> serializer;
-    @Mock private Encoder encoder;
+    private Serializer<Model> serializer = new Serializer<Model>() {
+        @Override
+        public byte[] serialize(Model object) {
+            return testSerializedModel;
+        }
+    };
+
+    private Encoder encoder = new Encoder() {
+        @Override
+        public Long encode(User user, byte[] bits) {
+            return testId;
+        }
+    };
 
     private class Model implements Idable<Model>{
 
@@ -54,8 +63,6 @@ public class InMemoryDAOTest {
         testModel = new Model();
         testModel.setValue("Twifty");
         testUser = new User();
-        when(serializer.serialize(testModel)).thenReturn(testSerializedModel);
-        when(encoder.encode(testUser, testSerializedModel)).thenReturn(testId);
     }
 
     @Test
