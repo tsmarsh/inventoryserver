@@ -10,34 +10,63 @@ import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
-
-@RunWith(MockitoJUnitRunner.class)
 public class InventoryParserTest {
 
-    @Mock private UserRepository userRepository;
-    @Mock private CategoryRepository categoryRepository;
-    @Mock private InventoryRepository inventoryRepository;
-    @Mock private MetricTypeRepository metricTypeRepository;
+    private UserRepository userRepository;
+    private CategoryRepository categoryRepository;
+    private InventoryRepository inventoryRepository;
+    private MetricTypeRepository metricTypeRepository;
 
-    @Mock private User testUser;
-    @Mock private Category testCategory;
-    @Mock private Inventory testParentInventory;
-    @Mock private MetricType testType;
+    private User testUser = new User();
+    private Category testCategory = new Category();
+    private Inventory testParentInventory = new Inventory();
+    private MetricType testType = new MetricType();
 
 
     @Before
     public void init(){
-        when(userRepository.findById(1)).thenReturn(testUser);
-        when(categoryRepository.findByFullname("com.tailoredshapes")).thenReturn(testCategory);
-        when(inventoryRepository.findById(666)).thenReturn(testParentInventory);
-        when(metricTypeRepository.findByName("string")).thenReturn(testType);
+        userRepository = new UserRepository() {
+            @Override
+            public User findById(long user_id) {
+                if(user_id == 1l){
+                    return testUser;
+                }
+                return null;
+            }
+        };
+
+        categoryRepository = new CategoryRepository() {
+            @Override
+            public Category findByFullname(String categoryFullName) {
+                if(categoryFullName.equals("com.tailoredshapes")){
+                    return testCategory;
+                }
+                return null;
+            }
+        };
+
+        inventoryRepository = new InventoryRepository() {
+            @Override
+            public Inventory findById(long id) {
+                if(id == 666l){
+                    return testParentInventory;
+                }
+                return null;
+            }
+        };
+
+        metricTypeRepository = new MetricTypeRepository() {
+            @Override
+            public MetricType findByName(String name) {
+                if(name.equals("string")){
+                    return testType;
+                }
+                return null;
+            }
+        };
     }
 
     @Test
