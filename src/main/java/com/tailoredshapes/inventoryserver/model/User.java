@@ -3,7 +3,7 @@ package com.tailoredshapes.inventoryserver.model;
 /**
  * Created by tmarsh on 2/14/14.
  */
-public class User {
+public class User implements Idable<User>{
     Long id;
     String name;
     String privateKey;
@@ -13,31 +13,35 @@ public class User {
         return id;
     }
 
-    public void setId(Long id) {
+    public User setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public User setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getPrivateKey() {
         return privateKey;
     }
 
-    public void setPrivateKey(String privateKey) {
+    public User setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
+        return this;
     }
 
     public String getPublicKey() {
         return publicKey;
     }
 
-    public void setPublicKey(String publicKey) {
+    public User setPublicKey(String publicKey) {
         this.publicKey = publicKey;
+        return this;
     }
 }
