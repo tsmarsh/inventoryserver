@@ -3,9 +3,6 @@ package com.tailoredshapes.inventoryserver.dao;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import static org.junit.Assert.assertEquals;
 
 public class JSONSerialiserTest {
