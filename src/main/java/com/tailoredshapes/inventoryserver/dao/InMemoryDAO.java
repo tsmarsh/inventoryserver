@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.dao;
 
+import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Idable;
 import com.tailoredshapes.inventoryserver.model.User;
 
@@ -12,7 +13,8 @@ public class InMemoryDAO<T extends Idable<T>> implements DAO<T>{
     private Serialiser<T> serialiser;
     private Encoder encoder;
 
-    protected InMemoryDAO(Serialiser<T> serialiser, Encoder encoder) {
+    @Inject
+    public InMemoryDAO(Serialiser<T> serialiser, Encoder encoder) {
         this.serialiser = serialiser;
         this.encoder = encoder;
         db = new HashMap<>();

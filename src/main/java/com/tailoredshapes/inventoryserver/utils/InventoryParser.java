@@ -10,6 +10,7 @@ import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class InventoryParser implements Parser<Inventory> {
     private final InventoryRepository inventoryRepository;
     private final MetricTypeRepository metricTypeRepository;
 
+    @Inject
     public InventoryParser(UserRepository userRepository, CategoryRepository categoryRepository, InventoryRepository inventoryRepository, MetricTypeRepository metricTypeRepository) {
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;

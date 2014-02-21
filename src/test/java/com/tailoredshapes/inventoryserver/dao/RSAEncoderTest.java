@@ -1,16 +1,13 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.tailoredshapes.inventoryserver.model.User;
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class RSAEncoderTest {
 

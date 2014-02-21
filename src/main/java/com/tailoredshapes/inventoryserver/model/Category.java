@@ -3,7 +3,7 @@ package com.tailoredshapes.inventoryserver.model;
 /**
  * Created by tmarsh on 2/14/14.
  */
-public class Category {
+public class Category implements Idable<Category>{
     Long id;
     String name;
     String fullname;
@@ -14,8 +14,9 @@ public class Category {
         return parent;
     }
 
-    public void setParent(Category parent) {
+    public Category setParent(Category parent) {
         this.parent = parent;
+        return this;
     }
 
     Category parent;
@@ -24,23 +25,26 @@ public class Category {
         return id;
     }
 
-    public void setId(Long id) {
+    public Category setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Category setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getFullname() {
         return fullname;
     }
 
-    public void setFullname(String fullname) {
+    public Category setFullname(String fullname) {
         this.fullname = fullname;
+        return this;
     }
 }

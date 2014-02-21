@@ -8,5 +8,6 @@ import java.io.OutputStream;
  * Created by tmarsh on 2/16/14.
  */
 public interface Responder<T> {
-    String respond(T inventory, OutputStream responseBody);
+    String respond(T object, OutputStream responseBody);
 }
+
