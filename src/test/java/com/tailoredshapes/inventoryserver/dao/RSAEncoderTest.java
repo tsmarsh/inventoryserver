@@ -10,6 +10,7 @@ import java.security.KeyPairGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 public class RSAEncoderTest {
 
@@ -23,6 +24,15 @@ public class RSAEncoderTest {
         KeyPair keyPair = rsa1024.generateKeyPair();
         user = new User().setId(1412l).setName("Archer").setPrivateKey(keyPair.getPrivate()).setPublicKey(keyPair.getPublic());
         bits = "Archer".getBytes();
+    }
+
+    @Test
+    public void testShouldNotReturnNull() throws Exception {
+        RSAEncoder rsaEncoder = new RSAEncoder();
+
+        Long encode = rsaEncoder.encode(user, bits);
+
+        assertNotNull(encode);
     }
 
     @Test
