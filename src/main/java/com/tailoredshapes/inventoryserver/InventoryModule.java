@@ -12,9 +12,13 @@ import com.tailoredshapes.inventoryserver.handlers.Responder;
 import com.tailoredshapes.inventoryserver.handlers.UserHandler;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
+import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryCategoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryInventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryMetricTypeRepository;
+import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserRepository;
 import com.tailoredshapes.inventoryserver.utils.InventoryParser;
 import com.tailoredshapes.inventoryserver.utils.Parser;
 import org.hibernate.SessionFactory;
@@ -54,6 +58,8 @@ public class InventoryModule implements Module {
         binder.bind(new TypeLiteral<Responder<User>>(){}).to(new TypeLiteral<JSONResponder<User>>(){});
         binder.bind(new TypeLiteral<InventoryRepository>(){}).to(InMemoryInventoryRepository.class);
         binder.bind(new TypeLiteral<CategoryRepository>(){}).to(InMemoryCategoryRepository.class);
+        binder.bind(new TypeLiteral<UserRepository>(){}).to(InMemoryUserRepository.class);
+        binder.bind(new TypeLiteral<MetricTypeRepository>(){}).to(InMemoryMetricTypeRepository.class);
     }
 
     @Provides

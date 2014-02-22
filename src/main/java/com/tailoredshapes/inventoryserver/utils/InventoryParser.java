@@ -2,6 +2,7 @@ package com.tailoredshapes.inventoryserver.utils;
 
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
+import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
@@ -54,20 +55,20 @@ public class InventoryParser implements Parser<Inventory> {
 
         if(jo.has("metrics")){
             JSONArray jsonMetrics = jo.getJSONArray("metrics");
-            inventory.setMetrics(parseMetrics(jsonMetrics));
+            inventory.setMetrics(parseMetrics(inventory.getUser(), jsonMetrics));
         }
 
         return inventory;
     }
 
-    protected List<Metric> parseMetrics(JSONArray jsonMetrics) {
+    protected List<Metric> parseMetrics(User user, JSONArray jsonMetrics) {
 
         List<Metric> metrics = new ArrayList<>(jsonMetrics.length());
         for(int i=0; i < jsonMetrics.length(); i++){
             JSONObject jsonObject = jsonMetrics.getJSONObject(i);
             metrics.add(new Metric()
                     .setValue(jsonObject.getString("value"))
-                    .setType(metricTypeRepository.findByName(jsonObject.getString("type"))));
+                    .setType(metricTypeRepository.findByName(user, jsonObject.getString("type"))));
 
         }
         return metrics;

@@ -60,7 +60,7 @@ public class InventoryParserTest {
 
         metricTypeRepository = new MetricTypeRepository() {
             @Override
-            public MetricType findByName(String name) {
+            public MetricType findByName(User user, String name) {
                 if(name.equals("string")){
                     return testType;
                 }
