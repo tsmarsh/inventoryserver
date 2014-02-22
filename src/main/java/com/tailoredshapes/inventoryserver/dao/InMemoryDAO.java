@@ -44,10 +44,7 @@ public class InMemoryDAO<T extends Idable<T>> implements DAO<T>{
     @Override
     public T read(User user, T object) {
         Map<Long, T> usermap = getUserMap(user);
-        byte[] bits = serialiser.serialise(object);
-
-        Long sig = encoder.encode(user, bits);
-        return usermap.get(sig);
+        return usermap.get(object.getId());
     }
 
     @Override

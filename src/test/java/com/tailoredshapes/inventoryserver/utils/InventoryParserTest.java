@@ -50,7 +50,7 @@ public class InventoryParserTest {
 
         inventoryRepository = new InventoryRepository() {
             @Override
-            public Inventory findById(long id) {
+            public Inventory findById(User user, Long id) {
                 if(id == 666l){
                     return testParentInventory;
                 }

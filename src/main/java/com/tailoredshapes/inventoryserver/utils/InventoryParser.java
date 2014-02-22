@@ -2,7 +2,6 @@ package com.tailoredshapes.inventoryserver.utils;
 
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
-import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
@@ -50,7 +49,7 @@ public class InventoryParser implements Parser<Inventory> {
 
         if(jo.has("parent_id")){
             long parent_id = jo.getLong("parent_id");
-            inventory.setParent(inventoryRepository.findById(parent_id));
+            inventory.setParent(inventoryRepository.findById(inventory.getUser(), parent_id));
         }
 
         if(jo.has("metrics")){

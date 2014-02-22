@@ -12,6 +12,8 @@ import com.tailoredshapes.inventoryserver.handlers.JSONResponder;
 import com.tailoredshapes.inventoryserver.handlers.Responder;
 import com.tailoredshapes.inventoryserver.handlers.UserHandler;
 import com.tailoredshapes.inventoryserver.model.*;
+import com.tailoredshapes.inventoryserver.repositories.InMemoryInventoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
 import com.tailoredshapes.inventoryserver.utils.InventoryParser;
 import com.tailoredshapes.inventoryserver.utils.Parser;
 import org.hibernate.SessionFactory;
@@ -50,6 +52,7 @@ public class InventoryModule implements Module {
         binder.bind(new TypeLiteral<Serialiser<MetricType>>(){}).to(new TypeLiteral<JSONSerialiser<MetricType>>(){});
         binder.bind(new TypeLiteral<Responder<Inventory>>(){}).to(new TypeLiteral<JSONResponder<Inventory>>(){});
         binder.bind(new TypeLiteral<Responder<User>>(){}).to(new TypeLiteral<JSONResponder<User>>(){});
+        binder.bind(new TypeLiteral<InventoryRepository>(){}).to(InMemoryInventoryRepository.class);
     }
 
     @Provides
