@@ -1,4 +1,4 @@
-package com.tailoredshapes.inventoryserver.dao;
+package com.tailoredshapes.inventoryserver.model;
 
 import com.tailoredshapes.inventoryserver.model.Idable;
 
