@@ -1,10 +1,11 @@
-package com.tailoredshapes.inventoryserver.repositories;
+package com.tailoredshapes.inventoryserver.repositories.memory;
 
 import com.tailoredshapes.inventoryserver.dao.Encoder;
 import com.tailoredshapes.inventoryserver.dao.InMemoryUserDAO;
 import com.tailoredshapes.inventoryserver.dao.Serialiser;
 import com.tailoredshapes.inventoryserver.dao.UserDAO;
 import com.tailoredshapes.inventoryserver.model.User;
+import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserRepository;
 import org.junit.Before;
 import org.junit.Test;
 

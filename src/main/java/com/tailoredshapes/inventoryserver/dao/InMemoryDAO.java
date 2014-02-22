@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class InMemoryDAO<T extends Idable<T>> implements DAO<T>{
 
-    Map<User, Map<Long, T>> db;
+    public Map<User, Map<Long, T>> db;
     private Serialiser<T> serialiser;
     private Encoder encoder;
 

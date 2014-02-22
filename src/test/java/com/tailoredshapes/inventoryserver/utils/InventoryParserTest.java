@@ -40,7 +40,7 @@ public class InventoryParserTest {
 
         categoryRepository = new CategoryRepository() {
             @Override
-            public Category findByFullname(String categoryFullName) {
+            public Category findByFullname(User user, String categoryFullName) {
                 if(categoryFullName.equals("com.tailoredshapes")){
                     return testCategory;
                 }

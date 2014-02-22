@@ -1,10 +1,11 @@
-package com.tailoredshapes.inventoryserver.repositories;
+package com.tailoredshapes.inventoryserver.repositories.memory;
 
 import com.tailoredshapes.inventoryserver.dao.*;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
+import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryInventoryRepository;
 import org.junit.Before;
 import org.junit.Test;
 

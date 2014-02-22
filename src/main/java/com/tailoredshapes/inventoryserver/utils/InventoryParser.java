@@ -40,7 +40,7 @@ public class InventoryParser implements Parser<Inventory> {
         inventory.setUser(userRepository.findById(user_id));
 
         String categoryFullName = jo.getString("category");
-        inventory.setCategory(categoryRepository.findByFullname(categoryFullName));
+        inventory.setCategory(categoryRepository.findByFullname(inventory.getUser(), categoryFullName));
 
         if(jo.has("id")){
             inventory.setId(jo.getLong("id"));

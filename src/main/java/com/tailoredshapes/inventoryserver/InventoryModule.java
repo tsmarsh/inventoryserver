@@ -1,7 +1,6 @@
 package com.tailoredshapes.inventoryserver;
 
 import com.google.inject.*;
-import com.jolbox.bonecp.BoneCPConfig;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -12,7 +11,9 @@ import com.tailoredshapes.inventoryserver.handlers.JSONResponder;
 import com.tailoredshapes.inventoryserver.handlers.Responder;
 import com.tailoredshapes.inventoryserver.handlers.UserHandler;
 import com.tailoredshapes.inventoryserver.model.*;
-import com.tailoredshapes.inventoryserver.repositories.InMemoryInventoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryCategoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryInventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
 import com.tailoredshapes.inventoryserver.utils.InventoryParser;
 import com.tailoredshapes.inventoryserver.utils.Parser;
@@ -20,7 +21,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import javax.inject.Named;
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
@@ -53,6 +53,7 @@ public class InventoryModule implements Module {
         binder.bind(new TypeLiteral<Responder<Inventory>>(){}).to(new TypeLiteral<JSONResponder<Inventory>>(){});
         binder.bind(new TypeLiteral<Responder<User>>(){}).to(new TypeLiteral<JSONResponder<User>>(){});
         binder.bind(new TypeLiteral<InventoryRepository>(){}).to(InMemoryInventoryRepository.class);
+        binder.bind(new TypeLiteral<CategoryRepository>(){}).to(InMemoryCategoryRepository.class);
     }
 
     @Provides
