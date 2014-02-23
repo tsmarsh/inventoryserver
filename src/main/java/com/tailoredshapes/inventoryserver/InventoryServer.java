@@ -12,5 +12,6 @@ public class InventoryServer {
         HttpServer server = injector.getInstance(HttpServer.class);
 
         server.start();
+        System.out.println("Server started listening on 0.0.0.0:5555");
     }
 }
