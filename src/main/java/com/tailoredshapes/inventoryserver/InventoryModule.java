@@ -6,10 +6,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.tailoredshapes.inventoryserver.dao.*;
 import com.tailoredshapes.inventoryserver.filters.ParameterFilter;
-import com.tailoredshapes.inventoryserver.handlers.InventoryHandler;
-import com.tailoredshapes.inventoryserver.handlers.JSONResponder;
-import com.tailoredshapes.inventoryserver.handlers.Responder;
-import com.tailoredshapes.inventoryserver.handlers.UserHandler;
+import com.tailoredshapes.inventoryserver.handlers.*;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
@@ -60,6 +57,7 @@ public class InventoryModule implements Module {
         binder.bind(new TypeLiteral<CategoryRepository>(){}).to(InMemoryCategoryRepository.class);
         binder.bind(new TypeLiteral<UserRepository>(){}).to(InMemoryUserRepository.class);
         binder.bind(new TypeLiteral<MetricTypeRepository>(){}).to(InMemoryMetricTypeRepository.class);
+        binder.bind(UserIdExtractor.class).to(UrlIdExtractor.class);
     }
 
     @Provides

@@ -4,8 +4,8 @@ import com.tailoredshapes.inventoryserver.model.Idable;
 
 public class TestModel implements Idable<TestModel> {
 
-    Long id = 0l;
-    String value;
+    private Long id = 0l;
+    private String value;
 
     @Override
     public Long getId() {

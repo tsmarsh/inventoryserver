@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.tailoredshapes.inventoryserver.model.Idable;
+import com.tailoredshapes.inventoryserver.model.TestModel;
 import com.tailoredshapes.inventoryserver.model.User;
 import org.junit.Before;
 import org.junit.Test;

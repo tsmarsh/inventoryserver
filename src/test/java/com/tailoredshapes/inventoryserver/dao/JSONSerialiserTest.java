@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.dao;
 
+import com.tailoredshapes.inventoryserver.model.TestModel;
 import org.json.JSONObject;
 import org.junit.Test;
 
@@ -12,7 +13,7 @@ public class JSONSerialiserTest {
         @Override
         public byte[] serialise(TestModel object) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("value", object.value);
+            jsonObject.put("value", object.getValue());
             jsonObject.put("id", object.getId());
             return jsonObject.toString().getBytes();
         }
