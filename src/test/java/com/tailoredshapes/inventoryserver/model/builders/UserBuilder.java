@@ -17,31 +17,31 @@ public class UserBuilder {
         KeyPairGenerator rsa1024 = null;
         try {
             rsa1024 = KeyPairGenerator.getInstance("RSA");
+            rsa1024.initialize(1024);
+            KeyPair keyPair = rsa1024.generateKeyPair();
+            privateKey = keyPair.getPrivate();
+            publicKey = keyPair.getPublic();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        rsa1024.initialize(1024);
-        KeyPair keyPair = rsa1024.generateKeyPair();
-        privateKey = keyPair.getPrivate();
-        publicKey = keyPair.getPublic();
     }
 
-    public UserBuilder id(Long id){
+    public UserBuilder id(Long id) {
         this.id = id;
         return this;
     }
 
-    public UserBuilder name(String name){
+    public UserBuilder name(String name) {
         this.name = name;
         return this;
     }
 
-    public UserBuilder privateKey(PrivateKey key){
+    public UserBuilder privateKey(PrivateKey key) {
         this.privateKey = key;
         return this;
     }
 
-    public UserBuilder publicKey(PublicKey key){
+    public UserBuilder publicKey(PublicKey key) {
         this.publicKey = key;
         return this;
     }

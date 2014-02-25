@@ -15,7 +15,7 @@ public class Authenticator {
         this.userIdExtractor = userIdExtractor;
     }
 
-    public User authenticate(HttpExchange httpExchange){
+    public User authenticate(HttpExchange httpExchange) {
         Long extract = userIdExtractor.extract(httpExchange);
         return userRepository.findById(extract);
     }

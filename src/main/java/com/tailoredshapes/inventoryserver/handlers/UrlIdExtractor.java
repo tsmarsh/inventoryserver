@@ -8,14 +8,14 @@ import java.util.regex.Pattern;
 
 public class UrlIdExtractor implements UserIdExtractor {
 
-    Pattern userIdPattern =  Pattern.compile("^/(\\d+)/.*$");
+    private final Pattern userIdPattern = Pattern.compile("^/(\\d+)/.*$");
 
     @Override
     public Long extract(HttpExchange exchange) {
         URI requestURI = exchange.getRequestURI();
         String path = requestURI.getPath();
         Matcher matcher = userIdPattern.matcher(path);
-        if(matcher.matches()){
+        if (matcher.matches()) {
             return Long.parseLong(matcher.group(1));
         }
         return null;

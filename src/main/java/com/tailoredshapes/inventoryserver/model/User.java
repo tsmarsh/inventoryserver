@@ -3,11 +3,11 @@ package com.tailoredshapes.inventoryserver.model;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public class User implements Idable<User>{
-    Long id;
-    String name;
-    PrivateKey privateKey;
-    PublicKey publicKey;
+public class User implements Idable<User> {
+    private Long id;
+    private String name;
+    private PrivateKey privateKey;
+    private PublicKey publicKey;
 
     public Long getId() {
         return id;

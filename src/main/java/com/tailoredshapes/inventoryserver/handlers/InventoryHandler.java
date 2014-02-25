@@ -13,18 +13,18 @@ import java.io.OutputStream;
 import java.util.Map;
 
 
-public class InventoryHandler implements HttpHandler{
+public class InventoryHandler implements HttpHandler {
 
-    private Responder<Inventory> responder;
-    private Authenticator authenticator;
-    private DAO<Inventory> dao;
-    private Parser<Inventory> inventoryParser;
+    private final Responder<Inventory> responder;
+    private final Authenticator authenticator;
+    private final DAO<Inventory> dao;
+    private final Parser<Inventory> inventoryParser;
 
     @Inject
     public InventoryHandler(Responder<Inventory> responder,
                             Authenticator authenticator,
                             DAO<Inventory> dao,
-                            Parser<Inventory> parser){
+                            Parser<Inventory> parser) {
         this.responder = responder;
         this.authenticator = authenticator;
         this.dao = dao;
@@ -35,15 +35,15 @@ public class InventoryHandler implements HttpHandler{
     public void handle(HttpExchange httpExchange) throws IOException {
         User user = authenticator.authenticate(httpExchange);
 
+        @SuppressWarnings("unchecked")
         Map<String, Object> parameters = (Map<String, Object>) httpExchange.getAttribute("parameters");
         String jsonString = (String) parameters.get("inventory");
 
         Inventory inventory = inventoryParser.parse(jsonString);
         String response;
-        OutputStream responseBody = httpExchange.getResponseBody();
 
-        try{
-            switch (HttpMethod.valueOf(httpExchange.getRequestMethod())){
+        try (OutputStream responseBody = httpExchange.getResponseBody()) {
+            switch (HttpMethod.valueOf(httpExchange.getRequestMethod())) {
                 case put:
                     inventory = dao.create(user, inventory);
                     response = responder.respond(inventory, responseBody);
@@ -66,10 +66,8 @@ public class InventoryHandler implements HttpHandler{
                     break;
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
             httpExchange.sendResponseHeaders(500, 0);
-        }finally {
-            responseBody.close();
         }
     }
 }

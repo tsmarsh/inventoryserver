@@ -1,8 +1,8 @@
 package com.tailoredshapes.inventoryserver.model;
 
-public class MetricType implements Idable<MetricType>{
-    Long id;
-    String name;
+public class MetricType implements Idable<MetricType> {
+    private Long id;
+    private String name;
 
     public Long getId() {
         return id;

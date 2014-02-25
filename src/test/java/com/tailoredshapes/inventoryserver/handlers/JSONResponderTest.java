@@ -2,7 +2,6 @@ package com.tailoredshapes.inventoryserver.handlers;
 
 import com.tailoredshapes.inventoryserver.dao.JSONSerialiser;
 import com.tailoredshapes.inventoryserver.model.TestModel;
-
 import org.json.JSONObject;
 import org.junit.Test;
 
@@ -14,9 +13,10 @@ import static org.junit.Assert.assertEquals;
 public class JSONResponderTest {
     OutputStream stream = new OutputStream() {
         StringBuilder bob = new StringBuilder();
+
         @Override
         public void write(int b) throws IOException {
-            bob.append((char)b);
+            bob.append((char) b);
         }
 
         @Override

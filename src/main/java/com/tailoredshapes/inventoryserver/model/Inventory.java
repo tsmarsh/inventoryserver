@@ -3,11 +3,11 @@ package com.tailoredshapes.inventoryserver.model;
 import java.util.List;
 
 public class Inventory implements Idable<Inventory> {
-    Long id;
-    User user;
-    Category category;
-    List<Metric> metrics;
-    Inventory parent;
+    private Long id;
+    private User user;
+    private Category category;
+    private List<Metric> metrics;
+    private Inventory parent;
 
     public Long getId() {
         return id;

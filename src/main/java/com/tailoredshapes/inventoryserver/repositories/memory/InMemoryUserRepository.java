@@ -7,7 +7,7 @@ import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 
 public class InMemoryUserRepository implements UserRepository {
 
-    private UserDAO dao;
+    private final UserDAO dao;
 
     @Inject
     public InMemoryUserRepository(UserDAO dao) {

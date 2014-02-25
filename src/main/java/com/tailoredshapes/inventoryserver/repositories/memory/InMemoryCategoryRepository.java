@@ -1,7 +1,6 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
 import com.google.inject.Inject;
-import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.User;
@@ -11,7 +10,7 @@ import java.util.Map;
 
 public class InMemoryCategoryRepository implements CategoryRepository {
 
-    private InMemoryDAO<Category> dao;
+    private final InMemoryDAO<Category> dao;
 
     @Inject
     public InMemoryCategoryRepository(InMemoryDAO<Category> dao) {
@@ -20,9 +19,9 @@ public class InMemoryCategoryRepository implements CategoryRepository {
 
     @Override
     public Category findByFullname(User user, String categoryFullName) {
-        Map<Long,Category> longCategoryMap = dao.db.get(user);
-        for(Category cat : longCategoryMap.values()){
-            if(cat.getFullname().equals(categoryFullName)){
+        Map<Long, Category> longCategoryMap = dao.db.get(user);
+        for (Category cat : longCategoryMap.values()) {
+            if (cat.getFullname().equals(categoryFullName)) {
                 return cat;
             }
         }

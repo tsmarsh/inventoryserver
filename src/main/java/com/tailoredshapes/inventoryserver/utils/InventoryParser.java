@@ -14,9 +14,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by tmarsh on 2/16/14.
- */
 public class InventoryParser implements Parser<Inventory> {
 
     private final UserRepository userRepository;
@@ -43,17 +40,17 @@ public class InventoryParser implements Parser<Inventory> {
         String categoryFullName = jo.getString("category");
         inventory.setCategory(categoryRepository.findByFullname(inventory.getUser(), categoryFullName));
 
-        if(jo.has("id")){
+        if (jo.has("id")) {
             inventory.setId(jo.getLong("id"));
         }
 
 
-        if(jo.has("parent_id")){
+        if (jo.has("parent_id")) {
             long parent_id = jo.getLong("parent_id");
             inventory.setParent(inventoryRepository.findById(inventory.getUser(), parent_id));
         }
 
-        if(jo.has("metrics")){
+        if (jo.has("metrics")) {
             JSONArray jsonMetrics = jo.getJSONArray("metrics");
             inventory.setMetrics(parseMetrics(inventory.getUser(), jsonMetrics));
         }
@@ -61,10 +58,10 @@ public class InventoryParser implements Parser<Inventory> {
         return inventory;
     }
 
-    protected List<Metric> parseMetrics(User user, JSONArray jsonMetrics) {
+    List<Metric> parseMetrics(User user, JSONArray jsonMetrics) {
 
         List<Metric> metrics = new ArrayList<>(jsonMetrics.length());
-        for(int i=0; i < jsonMetrics.length(); i++){
+        for (int i = 0; i < jsonMetrics.length(); i++) {
             JSONObject jsonObject = jsonMetrics.getJSONObject(i);
             metrics.add(new Metric()
                     .setValue(jsonObject.getString("value"))

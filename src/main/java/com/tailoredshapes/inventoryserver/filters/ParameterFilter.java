@@ -80,7 +80,7 @@ public class ParameterFilter extends Filter {
                         List<String> values = (List<String>) obj;
                         values.add(value);
                     } else if (obj instanceof String) {
-                        List<String> values = new ArrayList<String>();
+                        List<String> values = new ArrayList<>();
                         values.add((String) obj);
                         values.add(value);
                         parameters.put(key, values);

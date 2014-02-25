@@ -1,17 +1,14 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import java.io.IOException;
 import java.security.Key;
-import java.security.PrivateKey;
 
 public class JSONSerialiser<T> implements Serialiser<T> {
 
@@ -22,7 +19,7 @@ public class JSONSerialiser<T> implements Serialiser<T> {
         SimpleModule securityModule = new SimpleModule("Security", new Version(1, 0, 0, null));
         securityModule.addSerializer(Key.class, new JsonSerializer<Key>() {
             @Override
-            public void serialize(Key value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            public void serialize(Key value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
                 jgen.writeBinary(value.getEncoded());
             }
         });

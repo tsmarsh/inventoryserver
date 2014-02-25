@@ -1,5 +1,5 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
-public enum HttpMethod{
+public enum HttpMethod {
     get, post, put, delete
 }

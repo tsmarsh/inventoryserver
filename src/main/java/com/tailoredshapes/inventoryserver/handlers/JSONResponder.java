@@ -6,8 +6,8 @@ import com.tailoredshapes.inventoryserver.dao.JSONSerialiser;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class JSONResponder<T> implements Responder<T>{
-    private JSONSerialiser<T> serialiser;
+public class JSONResponder<T> implements Responder<T> {
+    private final JSONSerialiser<T> serialiser;
 
     @Inject
     public JSONResponder(JSONSerialiser<T> serialiser) {

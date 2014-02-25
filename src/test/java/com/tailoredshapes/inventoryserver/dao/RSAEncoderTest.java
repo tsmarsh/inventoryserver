@@ -15,7 +15,7 @@ public class RSAEncoderTest {
     byte[] bits;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         KeyPairGenerator rsa1024 = KeyPairGenerator.getInstance("RSA");
         rsa1024.initialize(1024);
         KeyPair keyPair = rsa1024.generateKeyPair();
@@ -33,7 +33,7 @@ public class RSAEncoderTest {
     }
 
     @Test
-    public void testShouldEncodeBitsConsistently(){
+    public void testShouldEncodeBitsConsistently() {
         RSAEncoder rsaEncoder = new RSAEncoder();
 
         Long encode = rsaEncoder.encode(user, bits);

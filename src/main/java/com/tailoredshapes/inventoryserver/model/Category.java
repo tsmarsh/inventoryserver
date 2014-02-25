@@ -1,14 +1,12 @@
 package com.tailoredshapes.inventoryserver.model;
 
-/**
- * Created by tmarsh on 2/14/14.
- */
-public class Category implements Idable<Category>{
-    Long id;
-    String name;
-    String fullname;
+public class Category implements Idable<Category> {
+    private Long id;
+    private String name;
+    private String fullname;
 
-    public Category(){};
+    public Category() {
+    }
 
     public Category getParent() {
         return parent;
@@ -19,7 +17,7 @@ public class Category implements Idable<Category>{
         return this;
     }
 
-    Category parent;
+    private Category parent;
 
     public Long getId() {
         return id;

@@ -6,10 +6,10 @@
 <hibernate-mapping package="com.tailoredshapes.inventoryserver.model">
     <class name="Category">
         <id name="id">
-            <generator class="uuid" />
+            <generator class="uuid"/>
         </id>
         <property name="name"/>
         <property name="fullname"/>
-        <property name="parent" />
+        <property name="parent"/>
     </class>
 </hibernate-mapping>

@@ -27,11 +27,11 @@ public class InventoryParserTest {
 
 
     @Before
-    public void init(){
+    public void init() {
         userRepository = new UserRepository() {
             @Override
             public User findById(long user_id) {
-                if(user_id == 1l){
+                if (user_id == 1l) {
                     return testUser;
                 }
                 return null;
@@ -41,7 +41,7 @@ public class InventoryParserTest {
         categoryRepository = new CategoryRepository() {
             @Override
             public Category findByFullname(User user, String categoryFullName) {
-                if(categoryFullName.equals("com.tailoredshapes")){
+                if (categoryFullName.equals("com.tailoredshapes")) {
                     return testCategory;
                 }
                 return null;
@@ -51,7 +51,7 @@ public class InventoryParserTest {
         inventoryRepository = new InventoryRepository() {
             @Override
             public Inventory findById(User user, Long id) {
-                if(id == 666l){
+                if (id == 666l) {
                     return testParentInventory;
                 }
                 return null;
@@ -61,7 +61,7 @@ public class InventoryParserTest {
         metricTypeRepository = new MetricTypeRepository() {
             @Override
             public MetricType findByName(User user, String name) {
-                if(name.equals("string")){
+                if (name.equals("string")) {
                     return testType;
                 }
                 return null;

@@ -3,8 +3,8 @@ package com.tailoredshapes.inventoryserver;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.sun.net.httpserver.HttpServer;
+
 import java.io.IOException;
-import java.net.InetSocketAddress;
 
 public class InventoryServer {
     public static void main(String... args) throws IOException {

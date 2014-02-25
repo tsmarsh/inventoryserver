@@ -6,8 +6,8 @@
 <hibernate-mapping package="com.tailoredshapes.inventoryserver.model">
     <class name="MetricType">
         <id name="id">
-            <generator class="uuid" />
+            <generator class="uuid"/>
         </id>
-        <property name="name" />
+        <property name="name"/>
     </class>
 </hibernate-mapping>

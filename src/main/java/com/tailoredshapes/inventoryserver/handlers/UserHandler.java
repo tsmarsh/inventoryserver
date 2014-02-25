@@ -3,7 +3,6 @@ package com.tailoredshapes.inventoryserver.handlers;
 import com.google.inject.Inject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.UserDAO;
 import com.tailoredshapes.inventoryserver.model.User;
 
@@ -13,11 +12,11 @@ import java.io.OutputStream;
 
 public class UserHandler implements HttpHandler {
 
-    private UserDAO dao;
-    private Responder<User> responder;
+    private final UserDAO dao;
+    private final Responder<User> responder;
 
     @Inject
-    public UserHandler(UserDAO dao, Responder<User> responder){
+    public UserHandler(UserDAO dao, Responder<User> responder) {
         this.dao = dao;
         this.responder = responder;
     }
@@ -26,10 +25,9 @@ public class UserHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         User user = null;
         String response;
-        OutputStream responseBody = httpExchange.getResponseBody();
 
-        try{
-            switch (HttpMethod.valueOf(httpExchange.getRequestMethod())){
+        try (OutputStream responseBody = httpExchange.getResponseBody()) {
+            switch (HttpMethod.valueOf(httpExchange.getRequestMethod())) {
                 case put:
                     user = dao.create(user);
                     response = responder.respond(user, responseBody);
@@ -52,10 +50,8 @@ public class UserHandler implements HttpHandler {
                     break;
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
             httpExchange.sendResponseHeaders(500, 0);
-        }finally {
-            responseBody.close();
         }
     }
 }

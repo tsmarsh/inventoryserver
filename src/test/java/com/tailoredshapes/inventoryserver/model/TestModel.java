@@ -1,7 +1,5 @@
 package com.tailoredshapes.inventoryserver.model;
 
-import com.tailoredshapes.inventoryserver.model.Idable;
-
 public class TestModel implements Idable<TestModel> {
 
     private Long id = 0l;

@@ -3,7 +3,6 @@ package com.tailoredshapes.inventoryserver;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.sun.net.httpserver.HttpServer;
-import junit.framework.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;

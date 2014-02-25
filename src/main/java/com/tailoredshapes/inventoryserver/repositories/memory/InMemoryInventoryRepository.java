@@ -9,7 +9,7 @@ import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
 
 public class InMemoryInventoryRepository implements InventoryRepository {
 
-    private DAO<Inventory> dao;
+    private final DAO<Inventory> dao;
 
     @Inject
     public InMemoryInventoryRepository(InMemoryDAO<Inventory> inventoryDAO) {

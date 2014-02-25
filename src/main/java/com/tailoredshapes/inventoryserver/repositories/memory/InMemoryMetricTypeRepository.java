@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class InMemoryMetricTypeRepository implements MetricTypeRepository {
 
-    private InMemoryDAO<MetricType> dao;
+    private final InMemoryDAO<MetricType> dao;
 
     @Inject
     public InMemoryMetricTypeRepository(InMemoryDAO<MetricType> dao) {
@@ -19,9 +19,9 @@ public class InMemoryMetricTypeRepository implements MetricTypeRepository {
 
     @Override
     public MetricType findByName(User user, String name) {
-        Map<Long,MetricType> longMetricTypeMap = dao.db.get(user);
-        for(MetricType type : longMetricTypeMap.values()){
-            if(type.getName().equals(name)){
+        Map<Long, MetricType> longMetricTypeMap = dao.db.get(user);
+        for (MetricType type : longMetricTypeMap.values()) {
+            if (type.getName().equals(name)) {
                 return type;
             }
         }

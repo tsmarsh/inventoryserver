@@ -25,7 +25,7 @@ public class InMemoryUserDAOTest {
     };
 
     @Test
-    public void shouldUpdateAnObject(){
+    public void shouldUpdateAnObject() {
         InMemoryUserDAO dao = new InMemoryUserDAO(serialiser, encoder);
         User user = new User();
         User returnedUser = dao.create(user);
@@ -42,7 +42,7 @@ public class InMemoryUserDAOTest {
     }
 
     @Test
-    public void shouldDeleteAnObject(){
+    public void shouldDeleteAnObject() {
         InMemoryUserDAO dao = new InMemoryUserDAO(serialiser, encoder);
         User user = new User();
         User returnedUser = dao.create(user);

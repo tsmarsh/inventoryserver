@@ -1,6 +1,5 @@
 package com.tailoredshapes.inventoryserver.dao;
 
-import com.tailoredshapes.inventoryserver.model.Idable;
 import com.tailoredshapes.inventoryserver.model.TestModel;
 import com.tailoredshapes.inventoryserver.model.User;
 import org.junit.Before;
@@ -31,14 +30,14 @@ public class InMemoryDAOTest {
     };
 
     @Before
-    public void setUp(){
+    public void setUp() {
         testModel = new TestModel();
         testModel.setValue("Twifty");
         testUser = new User();
     }
 
     @Test
-    public void shouldCreateAndReadAnObject(){
+    public void shouldCreateAndReadAnObject() {
         InMemoryDAO<TestModel> dao = new InMemoryDAO<>(serialiser, encoder);
         TestModel model = dao.create(testUser, testModel);
         assertEquals(testId, model.getId());
@@ -52,7 +51,7 @@ public class InMemoryDAOTest {
     }
 
     @Test
-    public void shouldUpdateAnObject(){
+    public void shouldUpdateAnObject() {
         InMemoryDAO<TestModel> dao = new InMemoryDAO<>(serialiser, encoder);
         TestModel model = dao.create(testUser, testModel);
         assertEquals(testId, model.getId());
@@ -68,7 +67,7 @@ public class InMemoryDAOTest {
     }
 
     @Test
-    public void shouldDeleteAnObject(){
+    public void shouldDeleteAnObject() {
         InMemoryDAO<TestModel> dao = new InMemoryDAO<>(serialiser, encoder);
         TestModel model = dao.create(testUser, testModel);
         assertEquals(testId, model.getId());

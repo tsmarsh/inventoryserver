@@ -7,11 +7,11 @@ import com.tailoredshapes.inventoryserver.model.User;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryDAO<T extends Idable<T>> implements DAO<T>{
+public class InMemoryDAO<T extends Idable<T>> implements DAO<T> {
 
-    public Map<User, Map<Long, T>> db;
-    private Serialiser<T> serialiser;
-    private Encoder encoder;
+    public final Map<User, Map<Long, T>> db;
+    private final Serialiser<T> serialiser;
+    private final Encoder encoder;
 
     @Inject
     public InMemoryDAO(Serialiser<T> serialiser, Encoder encoder) {
@@ -22,7 +22,7 @@ public class InMemoryDAO<T extends Idable<T>> implements DAO<T>{
 
     private Map<Long, T> getUserMap(User user) {
         Map<Long, T> usermap = db.get(user);
-        if(null == usermap){
+        if (null == usermap) {
             usermap = new HashMap<>();
             db.put(user, usermap);
         }
@@ -50,7 +50,7 @@ public class InMemoryDAO<T extends Idable<T>> implements DAO<T>{
     @Override
     public T update(User user, T object) {
         Map<Long, T> usermap = getUserMap(user);
-        if(!usermap.containsKey(object.getId())){
+        if (!usermap.containsKey(object.getId())) {
             throw new RuntimeException("Object does not exist");
         }
         byte[] bits = serialiser.serialise(object);
