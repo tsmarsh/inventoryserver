@@ -126,6 +126,19 @@ public class InventoryModule implements Module {
     }
 
     @Provides
+    @Named("protocol")
+    public String protocolProvider(){
+        return "http";
+    }
+
+    @Provides
+    public UrlBuilder<User> userUrlBuilderProvider(@Named("protocol") String protocol,
+                                                   @Named("host") String host,
+                                                   @Named("port") Integer port){
+        return new UserUrlBuilder(protocol, host, port);
+    }
+
+    @Provides
     public HttpServer httpServerProvider(@Named("host") String host,
                                          @Named("port") Integer port,
                                          InventoryHandler handler,

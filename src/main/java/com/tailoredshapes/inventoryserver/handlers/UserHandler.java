@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
 import com.google.inject.Inject;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.tailoredshapes.inventoryserver.dao.UserDAO;
@@ -14,11 +15,13 @@ public class UserHandler implements HttpHandler {
 
     private final UserDAO dao;
     private final Responder<User> responder;
+    private UrlBuilder<User> urlBuilder;
 
     @Inject
-    public UserHandler(UserDAO dao, Responder<User> responder) {
+    public UserHandler(UserDAO dao, Responder<User> responder, UrlBuilder<User> urlBuilder) {
         this.dao = dao;
         this.responder = responder;
+        this.urlBuilder = urlBuilder;
     }
 
     @Override
@@ -28,11 +31,6 @@ public class UserHandler implements HttpHandler {
 
         try (OutputStream responseBody = httpExchange.getResponseBody()) {
             switch (HttpMethod.valueOf(httpExchange.getRequestMethod())) {
-                case put:
-                    user = dao.create(user);
-                    response = responder.respond(user, responseBody);
-                    httpExchange.sendResponseHeaders(200, response.length());
-                    break;
                 case get:
                     user = dao.read(user);
                     response = responder.respond(user, responseBody);
@@ -41,13 +39,12 @@ public class UserHandler implements HttpHandler {
                 case post:
                     user = dao.update(user);
                     response = responder.respond(user, responseBody);
-                    httpExchange.sendResponseHeaders(304, response.length());
+                    Headers responseHeaders = httpExchange.getResponseHeaders();
+                    responseHeaders.add("location", urlBuilder.build(user));
+                    httpExchange.sendResponseHeaders(302, response.length());
                     break;
-                case delete:
-                    user = dao.delete(user);
-                    response = responder.respond(user, responseBody);
-                    httpExchange.sendResponseHeaders(200, response.length());
-                    break;
+                default:
+                    throw new RuntimeException("Method not supported.");
             }
 
         } catch (Exception e) {
