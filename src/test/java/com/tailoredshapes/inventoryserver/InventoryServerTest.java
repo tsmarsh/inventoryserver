@@ -125,16 +125,23 @@ public class InventoryServerTest {
         assertEquals("Cassie", postResponseObject.getString("name"));
         assertNotSame(postResponseObject.getLong("id"), getResponseObject.getLong("id"));
         assertEquals(postResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
-//
-//
-//        //READ
-//        getMethod = new GetMethod(location);
-//        responseCode = httpClient.executeMethod(getMethod);
-//        assertEquals(200, responseCode);
-//        getResponseObject = new JSONObject(new String(postMethod.getResponseBody()));
-//        assertEquals("Cassie", getResponseObject.getString("name"));
-//        assertEquals(putResponseObject.getLong("id"), getResponseObject.getLong("id"));
-//        assertEquals(putResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
+
+        //Read
+
+        stringStream = new ByteArrayOutputStream();
+        parameters.put("user", putResponseObject.toString());
+        when(readExchange2.getRequestMethod()).thenReturn("get");
+        when(readExchange2.getAttribute("parameters")).thenReturn(parameters);
+        when(readExchange2.getResponseBody()).thenReturn(stringStream);
+
+        handler.handle(readExchange2);
+        verify(readExchange2).sendResponseHeaders(eq(200), anyInt());
+
+        JSONObject getResponseObject2 = new JSONObject(stringStream.toString());
+        assertEquals("Cassie", getResponseObject2.getString("name"));
+        assertEquals(postResponseObject.getLong("id"), getResponseObject2.getLong("id"));
+        assertEquals(postResponseObject.getString("publicKey"), getResponseObject2.getString("publicKey"));
+        assertFalse(postResponseObject.has("privateKey"));
     }
 
 }
