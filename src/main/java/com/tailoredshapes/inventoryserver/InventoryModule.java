@@ -42,7 +42,8 @@ public class InventoryModule implements Module {
         binder.bind(new TypeLiteral<DAO<Inventory>>() {
         }).to(new TypeLiteral<InMemoryDAO<Inventory>>() {
         }).in(Singleton.class);
-        binder.bind(UserDAO.class).to(new TypeLiteral<InMemoryUserDAO<RSA>>(){}).in(Singleton.class);
+        binder.bind(UserDAO.class).to(new TypeLiteral<InMemoryUserDAO<RSA>>() {
+        }).in(Singleton.class);
         binder.bind(new TypeLiteral<DAO<Category>>() {
         }).to(new TypeLiteral<InMemoryDAO<Category>>() {
         }).in(Singleton.class);
@@ -83,8 +84,10 @@ public class InventoryModule implements Module {
         binder.bind(new TypeLiteral<MetricTypeRepository>() {
         }).to(InMemoryMetricTypeRepository.class);
         binder.bind(UserIdExtractor.class).to(UrlIdExtractor.class);
-        binder.bind(new TypeLiteral<Encoder<RSA>>(){}).to(RSAEncoder.class);
-        binder.bind(new TypeLiteral<KeyProvider<RSA>>(){}).to(RSAKeyProvider.class);
+        binder.bind(new TypeLiteral<Encoder<RSA>>() {
+        }).to(RSAEncoder.class);
+        binder.bind(new TypeLiteral<KeyProvider<RSA>>() {
+        }).to(RSAKeyProvider.class);
     }
 
     @Provides
@@ -127,14 +130,14 @@ public class InventoryModule implements Module {
 
     @Provides
     @Named("protocol")
-    public String protocolProvider(){
+    public String protocolProvider() {
         return "http";
     }
 
     @Provides
     public UrlBuilder<User> userUrlBuilderProvider(@Named("protocol") String protocol,
                                                    @Named("host") String host,
-                                                   @Named("port") Integer port){
+                                                   @Named("port") Integer port) {
         return new UserUrlBuilder(protocol, host, port);
     }
 

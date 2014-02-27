@@ -46,9 +46,9 @@ public class UserHandler implements HttpHandler {
                     httpExchange.sendResponseHeaders(200, response.length());
                     break;
                 case post:
-                    if(null == user.getId()) {
+                    if (null == user.getId()) {
                         user = dao.create(user);
-                    }else{
+                    } else {
                         user = dao.update(user);
                     }
                     response = responder.respond(user, responseBody);

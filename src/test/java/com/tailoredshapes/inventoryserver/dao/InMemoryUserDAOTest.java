@@ -37,7 +37,8 @@ public class InMemoryUserDAOTest {
 
     @Mock
     private PublicKey publicKey;
-    @Mock private PrivateKey privateKey;
+    @Mock
+    private PrivateKey privateKey;
 
     private KeyProvider<TestAlgorithm> keyProvider = new KeyProvider<TestAlgorithm>() {
         @Override
