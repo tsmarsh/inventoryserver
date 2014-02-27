@@ -30,9 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.intThat;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -43,6 +41,11 @@ public class InventoryServerTest {
     private UserHandler handler;
     @Mock
     private HttpExchange exchange;
+
+    @Mock HttpExchange readExchange1;
+    @Mock HttpExchange updateExchange;
+    @Mock HttpExchange readExchange2;
+
     private OutputStream stringStream;
     private Map<String, String> parameters;
     private Headers headers;
@@ -82,16 +85,23 @@ public class InventoryServerTest {
         assertFalse(putResponseObject.has("privateKey"));
 
 
-//        //READ
-//        GetMethod getMethod = new GetMethod(location);
-//        responseCode = httpClient.executeMethod(getMethod);
-//        assertEquals(200, responseCode);
-//        JSONObject getResponseObject = new JSONObject(new String(postMethod.getResponseBody()));
-//        assertEquals("Archer", getResponseObject.getString("name"));
-//        assertEquals(putResponseObject.getLong("id"), getResponseObject.getLong("id"));
-//        assertEquals(putResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
-//
-//
+        //READ
+        stringStream = new ByteArrayOutputStream();
+        parameters.put("user", putResponseObject.toString());
+        when(readExchange1.getRequestMethod()).thenReturn("get");
+        when(readExchange1.getAttribute("parameters")).thenReturn(parameters);
+        when(readExchange1.getResponseBody()).thenReturn(stringStream);
+
+        handler.handle(readExchange1);
+        verify(readExchange1).sendResponseHeaders(eq(200), anyInt());
+
+        JSONObject getResponseObject = new JSONObject(stringStream.toString());
+        assertEquals("Archer", getResponseObject.getString("name"));
+        assertEquals(putResponseObject.getLong("id"), getResponseObject.getLong("id"));
+        assertEquals(putResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
+        assertFalse(putResponseObject.has("privateKey"));
+
+
 //        //UPDATE / DELETE
 //        postMethod = new PostMethod(location);
 //        putResponseObject.put("name", "Cassie");

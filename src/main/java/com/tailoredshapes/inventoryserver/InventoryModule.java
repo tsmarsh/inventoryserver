@@ -41,17 +41,17 @@ public class InventoryModule implements Module {
         binder.bind(Encoder.class).to(RSAEncoder.class);
         binder.bind(new TypeLiteral<DAO<Inventory>>() {
         }).to(new TypeLiteral<InMemoryDAO<Inventory>>() {
-        });
-        binder.bind(UserDAO.class).to(new TypeLiteral<InMemoryUserDAO<RSA>>(){});
+        }).in(Singleton.class);
+        binder.bind(UserDAO.class).to(new TypeLiteral<InMemoryUserDAO<RSA>>(){}).in(Singleton.class);
         binder.bind(new TypeLiteral<DAO<Category>>() {
         }).to(new TypeLiteral<InMemoryDAO<Category>>() {
-        });
+        }).in(Singleton.class);
         binder.bind(new TypeLiteral<DAO<Metric>>() {
         }).to(new TypeLiteral<InMemoryDAO<Metric>>() {
-        });
+        }).in(Singleton.class);
         binder.bind(new TypeLiteral<DAO<MetricType>>() {
         }).to(new TypeLiteral<InMemoryDAO<MetricType>>() {
-        });
+        }).in(Singleton.class);
         binder.bind(new TypeLiteral<Parser<Inventory>>() {
         }).to(InventoryParser.class);
         binder.bind(new TypeLiteral<Serialiser<Inventory>>() {
