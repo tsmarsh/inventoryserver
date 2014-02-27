@@ -42,6 +42,9 @@ public class InMemoryUserDAO<R extends Algorithm> implements UserDAO {
     }
 
     public User update(User user) {
+        byte[] serialize = serialiser.serialise(user);
+
+        user.setId(encoder.encode(user, serialize));
         db.put(user.getId(), user);
         return user;
     }

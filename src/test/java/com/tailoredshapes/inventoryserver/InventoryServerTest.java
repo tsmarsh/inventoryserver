@@ -102,20 +102,29 @@ public class InventoryServerTest {
         assertFalse(putResponseObject.has("privateKey"));
 
 
-//        //UPDATE / DELETE
-//        postMethod = new PostMethod(location);
-//        putResponseObject.put("name", "Cassie");
-//        RequestEntity postEntity = new StringRequestEntity(jsonObject.toString());
-//        postMethod.setRequestEntity(postEntity);
-//        responseCode = httpClient.executeMethod(postMethod);
-//        assertEquals(302, responseCode);
-//        location = postMethod.getResponseHeader("location").getValue();
-//        assertNotNull(location);
-//
-//        JSONObject postResponseObject = new JSONObject(new String(postMethod.getResponseBody()));
-//        assertEquals("Cassie", getResponseObject.getString("name"));
-//        assertNotSame(postResponseObject.getLong("id"), getResponseObject.getLong("id"));
-//        assertEquals(postResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
+        //UPDATE / DELETE
+        stringStream = new ByteArrayOutputStream();
+        headers = new Headers();
+        putResponseObject.put("name", "Cassie");
+        parameters.put("user", putResponseObject.toString());
+
+        when(updateExchange.getRequestMethod()).thenReturn("post");
+        when(updateExchange.getAttribute("parameters")).thenReturn(parameters);
+        when(updateExchange.getResponseBody()).thenReturn(stringStream);
+        when(updateExchange.getResponseHeaders()).thenReturn(headers);
+
+        handler.handle(updateExchange);
+        verify(updateExchange).sendResponseHeaders(eq(302), anyInt());
+
+        String location2 = headers.get("location").get(0);
+        assertNotNull(location2);
+        assertNotSame(location, location2);
+
+
+        JSONObject postResponseObject = new JSONObject(stringStream.toString());
+        assertEquals("Cassie", postResponseObject.getString("name"));
+        assertNotSame(postResponseObject.getLong("id"), getResponseObject.getLong("id"));
+        assertEquals(postResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
 //
 //
 //        //READ

@@ -61,6 +61,7 @@ public class UserHandler implements HttpHandler {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             httpExchange.sendResponseHeaders(500, 0);
         }
     }
