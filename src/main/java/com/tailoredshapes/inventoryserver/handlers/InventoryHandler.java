@@ -44,11 +44,6 @@ public class InventoryHandler implements HttpHandler {
 
         try (OutputStream responseBody = httpExchange.getResponseBody()) {
             switch (HttpMethod.valueOf(httpExchange.getRequestMethod())) {
-                case put:
-                    inventory = dao.create(user, inventory);
-                    response = responder.respond(inventory, responseBody);
-                    httpExchange.sendResponseHeaders(200, response.length());
-                    break;
                 case get:
                     inventory = dao.read(user, inventory);
                     response = responder.respond(inventory, responseBody);
@@ -58,11 +53,6 @@ public class InventoryHandler implements HttpHandler {
                     inventory = dao.update(user, inventory);
                     response = responder.respond(inventory, responseBody);
                     httpExchange.sendResponseHeaders(304, response.length());
-                    break;
-                case delete:
-                    inventory = dao.delete(user, inventory);
-                    response = responder.respond(inventory, responseBody);
-                    httpExchange.sendResponseHeaders(200, response.length());
                     break;
             }
 

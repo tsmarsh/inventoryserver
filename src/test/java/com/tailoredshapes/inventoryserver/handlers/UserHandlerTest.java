@@ -1,9 +1,10 @@
-package com.tailoredshapes.inventoryserver;
+package com.tailoredshapes.inventoryserver.handlers;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
+import com.tailoredshapes.inventoryserver.InventoryModule;
 import com.tailoredshapes.inventoryserver.handlers.UserHandler;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class InventoryServerTest {
+public class UserHandlerTest {
 
     private Injector injector = Guice.createInjector(new InventoryModule("localhost", 6666));
     private UserHandler handler;
@@ -42,8 +43,9 @@ public class InventoryServerTest {
     private Map<String, String> parameters;
     private Headers headers;
 
-    @Before
-    public void setUp() throws Exception {
+    @Test
+    public void testCanCRUDAUser() throws Exception {
+        //CREATE
         handler = injector.getInstance(UserHandler.class);
         stringStream = new ByteArrayOutputStream();
         parameters = new HashMap<>();
@@ -52,13 +54,6 @@ public class InventoryServerTest {
         when(exchange.getResponseBody()).thenReturn(stringStream);
         when(exchange.getAttribute("parameters")).thenReturn(parameters);
         when(exchange.getResponseHeaders()).thenReturn(headers);
-    }
-
-    @Test
-    public void testCanCRUDAUser() throws Exception {
-
-
-        //CREATE
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", "Archer");
