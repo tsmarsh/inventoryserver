@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.utils;
 
+import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import org.json.JSONException;
@@ -9,6 +10,7 @@ public class UserParser implements Parser<User>{
 
     private UserRepository repo;
 
+    @Inject
     public UserParser(UserRepository repo) {
 
         this.repo = repo;

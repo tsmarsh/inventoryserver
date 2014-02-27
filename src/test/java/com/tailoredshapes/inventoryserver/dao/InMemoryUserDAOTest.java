@@ -1,11 +1,22 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.tailoredshapes.inventoryserver.model.User;
+import com.tailoredshapes.inventoryserver.utils.KeyProvider;
+import com.tailoredshapes.inventoryserver.utils.RSA;
+import com.tailoredshapes.inventoryserver.utils.TestAlgorithm;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+@RunWith(MockitoJUnitRunner.class)
 public class InMemoryUserDAOTest {
     Long testId = 1l;
     private byte[] testSerializedUser = new byte[0];
@@ -17,19 +28,33 @@ public class InMemoryUserDAOTest {
         }
     };
 
-    private Encoder encoder = new Encoder() {
+    private Encoder<TestAlgorithm> encoder = new Encoder() {
         @Override
         public Long encode(User user, byte[] bits) {
             return testId;
         }
     };
 
+    @Mock
+    private PublicKey publicKey;
+    @Mock private PrivateKey privateKey;
+
+    private KeyProvider<TestAlgorithm> keyProvider = new KeyProvider<TestAlgorithm>() {
+        @Override
+        public KeyPair generate() {
+            return new KeyPair(publicKey, privateKey);
+        }
+    };
+
     @Test
     public void shouldUpdateAnObject() {
-        InMemoryUserDAO dao = new InMemoryUserDAO(serialiser, encoder);
+        InMemoryUserDAO<RSA> dao = new InMemoryUserDAO(serialiser, encoder, keyProvider);
         User user = new User();
         User returnedUser = dao.create(user);
+
         assertEquals(testId, returnedUser.getId());
+        assertEquals(privateKey, returnedUser.getPrivateKey());
+        assertEquals(publicKey, returnedUser.getPublicKey());
 
         User updatedUser = new User().setId(testId).setName("Brian");
         dao.update(updatedUser);
@@ -43,7 +68,7 @@ public class InMemoryUserDAOTest {
 
     @Test
     public void shouldDeleteAnObject() {
-        InMemoryUserDAO dao = new InMemoryUserDAO(serialiser, encoder);
+        InMemoryUserDAO dao = new InMemoryUserDAO(serialiser, encoder, keyProvider);
         User user = new User();
         User returnedUser = dao.create(user);
         assertEquals(testId, returnedUser.getId());

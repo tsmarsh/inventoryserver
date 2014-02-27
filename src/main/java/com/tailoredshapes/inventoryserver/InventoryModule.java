@@ -16,8 +16,7 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryCategoryRe
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryInventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryMetricTypeRepository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserRepository;
-import com.tailoredshapes.inventoryserver.utils.InventoryParser;
-import com.tailoredshapes.inventoryserver.utils.Parser;
+import com.tailoredshapes.inventoryserver.utils.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -43,7 +42,7 @@ public class InventoryModule implements Module {
         binder.bind(new TypeLiteral<DAO<Inventory>>() {
         }).to(new TypeLiteral<InMemoryDAO<Inventory>>() {
         });
-        binder.bind(UserDAO.class).to(InMemoryUserDAO.class);
+        binder.bind(UserDAO.class).to(new TypeLiteral<InMemoryUserDAO<RSA>>(){});
         binder.bind(new TypeLiteral<DAO<Category>>() {
         }).to(new TypeLiteral<InMemoryDAO<Category>>() {
         });
@@ -62,8 +61,7 @@ public class InventoryModule implements Module {
         }).to(new TypeLiteral<JSONSerialiser<Category>>() {
         });
         binder.bind(new TypeLiteral<Serialiser<User>>() {
-        }).to(new TypeLiteral<JSONSerialiser<User>>() {
-        });
+        }).to(UserSerialiser.class);
         binder.bind(new TypeLiteral<Serialiser<Metric>>() {
         }).to(new TypeLiteral<JSONSerialiser<Metric>>() {
         });
@@ -85,6 +83,8 @@ public class InventoryModule implements Module {
         binder.bind(new TypeLiteral<MetricTypeRepository>() {
         }).to(InMemoryMetricTypeRepository.class);
         binder.bind(UserIdExtractor.class).to(UrlIdExtractor.class);
+        binder.bind(new TypeLiteral<Encoder<RSA>>(){}).to(RSAEncoder.class);
+        binder.bind(new TypeLiteral<KeyProvider<RSA>>(){}).to(RSAKeyProvider.class);
     }
 
     @Provides

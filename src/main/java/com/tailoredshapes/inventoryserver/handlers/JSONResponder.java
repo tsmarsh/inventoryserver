@@ -2,15 +2,16 @@ package com.tailoredshapes.inventoryserver.handlers;
 
 import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.dao.JSONSerialiser;
+import com.tailoredshapes.inventoryserver.dao.Serialiser;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 public class JSONResponder<T> implements Responder<T> {
-    private final JSONSerialiser<T> serialiser;
+    private final Serialiser<T> serialiser;
 
     @Inject
-    public JSONResponder(JSONSerialiser<T> serialiser) {
+    public JSONResponder(Serialiser<T> serialiser) {
         this.serialiser = serialiser;
     }
 

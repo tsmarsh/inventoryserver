@@ -1,13 +1,14 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.tailoredshapes.inventoryserver.model.User;
+import com.tailoredshapes.inventoryserver.utils.RSA;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 import java.security.SignatureException;
 
-public class RSAEncoder implements Encoder {
+public class RSAEncoder implements Encoder<RSA> {
 
     @Override
     public Long encode(User user, byte[] bits) {

@@ -2,83 +2,120 @@ package com.tailoredshapes.inventoryserver;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.TypeLiteral;
+import com.sun.net.httpserver.Headers;
+import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import com.tailoredshapes.inventoryserver.handlers.UserHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.mockito.Mock;
+import org.mockito.internal.matchers.Any;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import javax.xml.ws.spi.http.HttpHandler;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.intThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class InventoryServerTest {
 
-    private Injector injector = Guice.createInjector(new InventoryModule("0.0.0.0", 5555));
-    private HttpServer server;
-    private HttpClient httpClient = new HttpClient();
+    private Injector injector = Guice.createInjector(new InventoryModule("localhost", 6666));
+    private UserHandler handler;
+    @Mock
+    private HttpExchange exchange;
+    private OutputStream stringStream;
+    private Map<String, String> parameters;
+    private Headers headers;
 
     @Before
     public void setUp() throws Exception {
-        server = injector.getInstance(HttpServer.class);
-        server.start();
+        handler = injector.getInstance(UserHandler.class);
+        stringStream = new ByteArrayOutputStream();
+        parameters = new HashMap<>();
 
+        headers = new Headers();
+        when(exchange.getResponseBody()).thenReturn(stringStream);
+        when(exchange.getAttribute("parameters")).thenReturn(parameters);
+        when(exchange.getResponseHeaders()).thenReturn(headers);
     }
 
     @Test
     public void testCanCRUDAUser() throws Exception {
+
+
         //CREATE
-        PostMethod postMethod = new PostMethod("http://localhost:5555/users");
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", "Archer");
+        parameters.put("user", jsonObject.toString());
 
-        RequestEntity entity = new StringRequestEntity(jsonObject.toString());
-        postMethod.setRequestEntity(entity);
-        int responseCode = httpClient.executeMethod(postMethod);
-        assertEquals(302, responseCode);
-        String location = postMethod.getResponseHeader("location").getValue();
-        assertNotNull(location);
-        JSONObject putResponseObject = new JSONObject(new String(postMethod.getResponseBody()));
+        when(exchange.getRequestMethod()).thenReturn("post");
+        handler.handle(exchange);
+        verify(exchange).sendResponseHeaders(eq(302), anyInt());
+        assertTrue(headers.containsKey("location"));
+        String location = headers.get("location").get(0);
+
+        JSONObject putResponseObject = new JSONObject(stringStream.toString());
         assertEquals("Archer", putResponseObject.getString("name"));
         assertNotNull(putResponseObject.getLong("id"));
         assertNotNull(putResponseObject.getString("publicKey"));
-        assertNull(putResponseObject.getString("privateKey"));
+        assertFalse(putResponseObject.has("privateKey"));
 
 
-        //READ
-        GetMethod getMethod = new GetMethod(location);
-        responseCode = httpClient.executeMethod(getMethod);
-        assertEquals(200, responseCode);
-        JSONObject getResponseObject = new JSONObject(new String(postMethod.getResponseBody()));
-        assertEquals("Archer", getResponseObject.getString("name"));
-        assertEquals(putResponseObject.getLong("id"), getResponseObject.getLong("id"));
-        assertEquals(putResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
-
-        //UPDATE / DELETE
-        postMethod = new PostMethod(location);
-        putResponseObject.put("name", "Cassie");
-        RequestEntity postEntity = new StringRequestEntity(jsonObject.toString());
-        postMethod.setRequestEntity(postEntity);
-        responseCode = httpClient.executeMethod(postMethod);
-        assertEquals(302, responseCode);
-        location = postMethod.getResponseHeader("location").getValue();
-        assertNotNull(location);
-
-        JSONObject postResponseObject = new JSONObject(new String(postMethod.getResponseBody()));
-        assertEquals("Cassie", getResponseObject.getString("name"));
-        assertNotSame(postResponseObject.getLong("id"), getResponseObject.getLong("id"));
-        assertEquals(postResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
-
-        //READ
-        getMethod = new GetMethod(location);
-        responseCode = httpClient.executeMethod(getMethod);
-        assertEquals(200, responseCode);
-        getResponseObject = new JSONObject(new String(postMethod.getResponseBody()));
-        assertEquals("Cassie", getResponseObject.getString("name"));
-        assertEquals(putResponseObject.getLong("id"), getResponseObject.getLong("id"));
-        assertEquals(putResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
+//        //READ
+//        GetMethod getMethod = new GetMethod(location);
+//        responseCode = httpClient.executeMethod(getMethod);
+//        assertEquals(200, responseCode);
+//        JSONObject getResponseObject = new JSONObject(new String(postMethod.getResponseBody()));
+//        assertEquals("Archer", getResponseObject.getString("name"));
+//        assertEquals(putResponseObject.getLong("id"), getResponseObject.getLong("id"));
+//        assertEquals(putResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
+//
+//
+//        //UPDATE / DELETE
+//        postMethod = new PostMethod(location);
+//        putResponseObject.put("name", "Cassie");
+//        RequestEntity postEntity = new StringRequestEntity(jsonObject.toString());
+//        postMethod.setRequestEntity(postEntity);
+//        responseCode = httpClient.executeMethod(postMethod);
+//        assertEquals(302, responseCode);
+//        location = postMethod.getResponseHeader("location").getValue();
+//        assertNotNull(location);
+//
+//        JSONObject postResponseObject = new JSONObject(new String(postMethod.getResponseBody()));
+//        assertEquals("Cassie", getResponseObject.getString("name"));
+//        assertNotSame(postResponseObject.getLong("id"), getResponseObject.getLong("id"));
+//        assertEquals(postResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
+//
+//
+//        //READ
+//        getMethod = new GetMethod(location);
+//        responseCode = httpClient.executeMethod(getMethod);
+//        assertEquals(200, responseCode);
+//        getResponseObject = new JSONObject(new String(postMethod.getResponseBody()));
+//        assertEquals("Cassie", getResponseObject.getString("name"));
+//        assertEquals(putResponseObject.getLong("id"), getResponseObject.getLong("id"));
+//        assertEquals(putResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
     }
+
 }

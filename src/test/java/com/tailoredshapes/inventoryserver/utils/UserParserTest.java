@@ -19,13 +19,16 @@ public class UserParserTest {
     InMemoryUserDAO dao;
     User savedUser;
     UserRepository repo;
+    private KeyProvider keyprovider;
 
     @Before
     public void setUp() throws Exception {
         existingUser = new UserBuilder().id(555l).name("Cassie").build();
         serializer = new JSONSerialiser<>();
         encoder = new RSAEncoder();
-        dao = new InMemoryUserDAO(serializer, encoder);
+        keyprovider = new RSAKeyProvider();
+
+        dao = new InMemoryUserDAO(serializer, encoder, keyprovider);
         savedUser = dao.create(existingUser);
         repo = new InMemoryUserRepository(dao);
     }
