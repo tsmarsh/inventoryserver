@@ -19,26 +19,11 @@ public class InMemoryUserRepositoryTest {
     Long testId = 1l;
     private byte[] testSerializedUser = new byte[0];
 
-    private Serialiser<User> serialiser = new Serialiser<User>() {
-        @Override
-        public byte[] serialise(User object) {
-            return testSerializedUser;
-        }
-    };
+    private Serialiser<User> serialiser = object -> testSerializedUser;
 
-    private Encoder<TestAlgorithm> encoder = new Encoder() {
-        @Override
-        public Long encode(User user, byte[] bits) {
-            return testId;
-        }
-    };
+    private Encoder<TestAlgorithm> encoder = (user, bits) -> testId;
 
-    private KeyProvider<TestAlgorithm> keyprovider = new KeyProvider<TestAlgorithm>() {
-        @Override
-        public KeyPair generate() {
-            return new KeyPair(null, null);
-        }
-    };
+    private KeyProvider<TestAlgorithm> keyprovider = () -> new KeyPair(null, null);
 
     private UserDAO dao;
     private User storedUser;

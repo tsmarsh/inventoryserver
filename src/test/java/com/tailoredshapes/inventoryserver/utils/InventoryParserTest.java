@@ -28,44 +28,32 @@ public class InventoryParserTest {
 
     @Before
     public void init() {
-        userRepository = new UserRepository() {
-            @Override
-            public User findById(long user_id) {
-                if (user_id == 1l) {
-                    return testUser;
-                }
-                return null;
+        userRepository = user_id -> {
+            if (user_id == 1l) {
+                return testUser;
             }
+            return null;
         };
 
-        categoryRepository = new CategoryRepository() {
-            @Override
-            public Category findByFullname(User user, String categoryFullName) {
-                if (categoryFullName.equals("com.tailoredshapes")) {
-                    return testCategory;
-                }
-                return null;
+        categoryRepository = (user2, categoryFullName) -> {
+            if (categoryFullName.equals("com.tailoredshapes")) {
+                return testCategory;
             }
+            return null;
         };
 
-        inventoryRepository = new InventoryRepository() {
-            @Override
-            public Inventory findById(User user, Long id) {
-                if (id == 666l) {
-                    return testParentInventory;
-                }
-                return null;
+        inventoryRepository = (user1, id) -> {
+            if (id == 666l) {
+                return testParentInventory;
             }
+            return null;
         };
 
-        metricTypeRepository = new MetricTypeRepository() {
-            @Override
-            public MetricType findByName(User user, String name) {
-                if (name.equals("string")) {
-                    return testType;
-                }
-                return null;
+        metricTypeRepository = (user, name) -> {
+            if (name.equals("string")) {
+                return testType;
             }
+            return null;
         };
     }
 

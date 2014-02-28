@@ -15,19 +15,9 @@ public class InMemoryDAOTest {
     private byte[] testSerializedModel = new byte[0];
     private Long testId = -1l;
 
-    private Serialiser<TestModel> serialiser = new Serialiser<TestModel>() {
-        @Override
-        public byte[] serialise(TestModel object) {
-            return testSerializedModel;
-        }
-    };
+    private Serialiser<TestModel> serialiser = object -> testSerializedModel;
 
-    private Encoder encoder = new Encoder() {
-        @Override
-        public Long encode(User user, byte[] bits) {
-            return testId;
-        }
-    };
+    private Encoder encoder = (user, bits) -> testId;
 
     @Before
     public void setUp() {

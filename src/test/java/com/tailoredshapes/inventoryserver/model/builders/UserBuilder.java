@@ -14,7 +14,7 @@ public class UserBuilder {
 
     public UserBuilder() {
         user = new User();
-        KeyPairGenerator rsa1024 = null;
+        KeyPairGenerator rsa1024;
         try {
             rsa1024 = KeyPairGenerator.getInstance("RSA");
             rsa1024.initialize(1024);

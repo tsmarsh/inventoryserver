@@ -8,15 +8,11 @@ import static org.junit.Assert.assertEquals;
 
 public class JSONSerialiserTest {
 
-    Serialiser<TestModel> serialiser = new Serialiser<TestModel>() {
-
-        @Override
-        public byte[] serialise(TestModel object) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("value", object.getValue());
-            jsonObject.put("id", object.getId());
-            return jsonObject.toString().getBytes();
-        }
+    Serialiser<TestModel> serialiser = object -> {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("value", object.getValue());
+        jsonObject.put("id", object.getId());
+        return jsonObject.toString().getBytes();
     };
 
     @Test

@@ -18,7 +18,7 @@ public class RSAKeyProvider implements KeyProvider<RSA> {
 
     @Override
     public KeyPair generate() {
-        KeyPairGenerator keyGen = null;
+        KeyPairGenerator keyGen;
         try {
             keyGen = KeyPairGenerator.getInstance(RSA);
             keyGen.initialize(keysize);

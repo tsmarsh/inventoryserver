@@ -21,31 +21,16 @@ public class InMemoryUserDAOTest {
     Long testId = 1l;
     private byte[] testSerializedUser = new byte[0];
 
-    private Serialiser<User> serialiser = new Serialiser<User>() {
-        @Override
-        public byte[] serialise(User object) {
-            return testSerializedUser;
-        }
-    };
+    private Serialiser<User> serialiser = object -> testSerializedUser;
 
-    private Encoder<TestAlgorithm> encoder = new Encoder() {
-        @Override
-        public Long encode(User user, byte[] bits) {
-            return testId;
-        }
-    };
+    private Encoder<TestAlgorithm> encoder = (user, bits) -> testId;
 
     @Mock
     private PublicKey publicKey;
     @Mock
     private PrivateKey privateKey;
 
-    private KeyProvider<TestAlgorithm> keyProvider = new KeyProvider<TestAlgorithm>() {
-        @Override
-        public KeyPair generate() {
-            return new KeyPair(publicKey, privateKey);
-        }
-    };
+    private KeyProvider<TestAlgorithm> keyProvider = () -> new KeyPair(publicKey, privateKey);
 
     @Test
     public void shouldUpdateAnObject() {
