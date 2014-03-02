@@ -8,13 +8,13 @@ import com.tailoredshapes.inventoryserver.utils.KeyProvider;
 import java.security.KeyPair;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public class InMemoryUserDAO<R extends Algorithm> implements UserDAO {
     private final Serialiser<User> serialiser;
     private final Encoder encoder;
     private KeyProvider<R> keyProvider;
     private final Map<Long, User> db = new HashMap<>();
-    private UserDAO dao;
 
     @Inject
     public InMemoryUserDAO(Serialiser<User> serialiser, Encoder<R> encoder, KeyProvider<R> provider) {

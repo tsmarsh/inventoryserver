@@ -18,20 +18,28 @@ public class UrlIdExtractorTest {
     @Mock
     HttpExchange exchange;
 
-    @Before
-    public void setUp() throws Exception {
+
+    @Test
+    public void testExtract() throws Exception {
         String path = "http://localhost:80/555/inventory/666";
 
         URI uri = new URI(path);
         when(exchange.getRequestURI()).thenReturn(uri);
 
-
-    }
-
-    @Test
-    public void testExtract() throws Exception {
         UrlIdExtractor urlIdExtractor = new UrlIdExtractor();
         Long extract = urlIdExtractor.extract(exchange);
         assertEquals(new Long(555l), extract);
+    }
+
+    @Test
+    public void testExtractNegativeId() throws Exception {
+        String path = "http://localhost:80/-555/inventory/666";
+
+        URI uri = new URI(path);
+        when(exchange.getRequestURI()).thenReturn(uri);
+
+        UrlIdExtractor urlIdExtractor = new UrlIdExtractor();
+        Long extract = urlIdExtractor.extract(exchange);
+        assertEquals(new Long(-555l), extract);
     }
 }

@@ -4,7 +4,6 @@ public class Metric implements Idable<Metric> {
     private Long id;
     private String value;
     private MetricType type;
-    private Inventory inventory;
 
     public Long getId() {
         return id;
@@ -30,15 +29,6 @@ public class Metric implements Idable<Metric> {
 
     public Metric setType(MetricType type) {
         this.type = type;
-        return this;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public Metric setInventory(Inventory inventory) {
-        this.inventory = inventory;
         return this;
     }
 }

@@ -1,12 +1,13 @@
 package com.tailoredshapes.inventoryserver.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Inventory implements Idable<Inventory> {
     private Long id;
     private User user;
     private Category category;
-    private List<Metric> metrics;
+    private List<Metric> metrics = new ArrayList<>();
     private Inventory parent;
 
     public Long getId() {

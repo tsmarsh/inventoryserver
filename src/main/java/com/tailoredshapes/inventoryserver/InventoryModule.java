@@ -37,57 +37,74 @@ public class InventoryModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        binder.bind(HttpHandler.class).to(InventoryHandler.class);
+        binder.bind(HttpHandler.class)
+                .to(InventoryHandler.class);
         binder.bind(Encoder.class).to(RSAEncoder.class);
-        binder.bind(new TypeLiteral<DAO<Inventory>>() {
-        }).to(new TypeLiteral<InMemoryDAO<Inventory>>() {
-        }).in(Singleton.class);
-        binder.bind(UserDAO.class).to(new TypeLiteral<InMemoryUserDAO<RSA>>() {
-        }).in(Singleton.class);
-        binder.bind(new TypeLiteral<DAO<Category>>() {
-        }).to(new TypeLiteral<InMemoryDAO<Category>>() {
-        }).in(Singleton.class);
-        binder.bind(new TypeLiteral<DAO<Metric>>() {
-        }).to(new TypeLiteral<InMemoryDAO<Metric>>() {
-        }).in(Singleton.class);
-        binder.bind(new TypeLiteral<DAO<MetricType>>() {
-        }).to(new TypeLiteral<InMemoryDAO<MetricType>>() {
-        }).in(Singleton.class);
-        binder.bind(new TypeLiteral<Parser<Inventory>>() {
-        }).to(InventoryParser.class);
-        binder.bind(new TypeLiteral<Serialiser<Inventory>>() {
-        }).to(new TypeLiteral<JSONSerialiser<Inventory>>() {
-        });
-        binder.bind(new TypeLiteral<Serialiser<Category>>() {
-        }).to(new TypeLiteral<JSONSerialiser<Category>>() {
-        });
-        binder.bind(new TypeLiteral<Serialiser<User>>() {
-        }).to(UserSerialiser.class);
-        binder.bind(new TypeLiteral<Serialiser<Metric>>() {
-        }).to(new TypeLiteral<JSONSerialiser<Metric>>() {
-        });
-        binder.bind(new TypeLiteral<Serialiser<MetricType>>() {
-        }).to(new TypeLiteral<JSONSerialiser<MetricType>>() {
-        });
-        binder.bind(new TypeLiteral<Responder<Inventory>>() {
-        }).to(new TypeLiteral<JSONResponder<Inventory>>() {
-        });
-        binder.bind(new TypeLiteral<Responder<User>>() {
-        }).to(new TypeLiteral<JSONResponder<User>>() {
-        });
-        binder.bind(new TypeLiteral<InventoryRepository>() {
-        }).to(InMemoryInventoryRepository.class);
-        binder.bind(new TypeLiteral<CategoryRepository>() {
-        }).to(InMemoryCategoryRepository.class);
-        binder.bind(new TypeLiteral<UserRepository>() {
-        }).to(InMemoryUserRepository.class);
-        binder.bind(new TypeLiteral<MetricTypeRepository>() {
-        }).to(InMemoryMetricTypeRepository.class);
-        binder.bind(UserIdExtractor.class).to(UrlIdExtractor.class);
-        binder.bind(new TypeLiteral<Encoder<RSA>>() {
-        }).to(RSAEncoder.class);
-        binder.bind(new TypeLiteral<KeyProvider<RSA>>() {
-        }).to(RSAKeyProvider.class);
+
+        binder.bind(new TypeLiteral<DAO<Inventory>>() {})
+                .to(new TypeLiteral<InMemoryDAO<Inventory>>() {})
+                .in(Singleton.class);
+
+        binder.bind(UserDAO.class)
+                .to(new TypeLiteral<InMemoryUserDAO<RSA>>() {})
+                .in(Singleton.class);
+
+        binder.bind(new TypeLiteral<DAO<Category>>() {})
+                .to(new TypeLiteral<InMemoryDAO<Category>>() {})
+                .in(Singleton.class);
+
+        binder.bind(new TypeLiteral<DAO<Metric>>() {})
+                .to(new TypeLiteral<InMemoryDAO<Metric>>() {})
+                .in(Singleton.class);
+
+        binder.bind(new TypeLiteral<DAO<MetricType>>() {})
+                .to(new TypeLiteral<InMemoryDAO<MetricType>>() {})
+                .in(Singleton.class);
+
+        binder.bind(new TypeLiteral<Parser<Inventory>>() {})
+                .to(InventoryParser.class);
+
+        binder.bind(new TypeLiteral<Serialiser<Inventory>>() {})
+                .to(InventorySerialiser.class);
+
+        binder.bind(new TypeLiteral<Serialiser<Category>>() {})
+                .to(new TypeLiteral<JSONSerialiser<Category>>() {});
+
+        binder.bind(new TypeLiteral<Serialiser<User>>() {})
+                .to(UserSerialiser.class);
+
+        binder.bind(new TypeLiteral<Serialiser<Metric>>() {})
+                .to(new TypeLiteral<JSONSerialiser<Metric>>() {});
+
+        binder.bind(new TypeLiteral<Serialiser<MetricType>>() {})
+                .to(new TypeLiteral<JSONSerialiser<MetricType>>() {});
+
+        binder.bind(new TypeLiteral<Responder<Inventory>>() {})
+                .to(new TypeLiteral<JSONResponder<Inventory>>() {});
+
+        binder.bind(new TypeLiteral<Responder<User>>() {})
+                .to(new TypeLiteral<JSONResponder<User>>() {});
+
+        binder.bind(InventoryRepository.class)
+                .to(InMemoryInventoryRepository.class);
+
+        binder.bind(new TypeLiteral<CategoryRepository>() {})
+                .to(InMemoryCategoryRepository.class);
+
+        binder.bind(new TypeLiteral<UserRepository>() {})
+                .to(InMemoryUserRepository.class);
+
+        binder.bind(new TypeLiteral<MetricTypeRepository>() {})
+                .to(InMemoryMetricTypeRepository.class);
+
+        binder.bind(UserIdExtractor.class)
+                .to(UrlIdExtractor.class);
+
+        binder.bind(new TypeLiteral<Encoder<RSA>>() {})
+                .to(RSAEncoder.class);
+
+        binder.bind(new TypeLiteral<KeyProvider<RSA>>() {})
+                .to(RSAKeyProvider.class);
     }
 
     @Provides
@@ -139,6 +156,13 @@ public class InventoryModule implements Module {
                                                    @Named("host") String host,
                                                    @Named("port") Integer port) {
         return new UserUrlBuilder(protocol, host, port);
+    }
+
+    @Provides
+    public UrlBuilder<Inventory> inventoryUrlBuilderProvider(@Named("protocol") String protocol,
+                                                   @Named("host") String host,
+                                                   @Named("port") Integer port) {
+        return new InventoryUrlBuilder(protocol, host, port);
     }
 
     @Provides

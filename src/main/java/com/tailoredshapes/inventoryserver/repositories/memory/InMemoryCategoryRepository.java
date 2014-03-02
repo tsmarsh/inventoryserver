@@ -20,11 +20,14 @@ public class InMemoryCategoryRepository implements CategoryRepository {
     @Override
     public Category findByFullname(User user, String categoryFullName) {
         Map<Long, Category> longCategoryMap = dao.db.get(user);
-        for (Category cat : longCategoryMap.values()) {
-            if (cat.getFullname().equals(categoryFullName)) {
-                return cat;
+
+        if (longCategoryMap != null) {
+            for (Category cat : longCategoryMap.values()) {
+                if (cat.getFullname().equals(categoryFullName)) {
+                    return cat;
+                }
             }
         }
-        return null;
+        return new Category().setFullname(categoryFullName);
     }
 }
