@@ -21,39 +21,48 @@ public class InventoryHandler implements HttpHandler {
     private final DAO<Inventory> dao;
     private final Parser<Inventory> inventoryParser;
     private UrlBuilder<Inventory> urlBuilder;
+    private IdExtractor inventoryUrlExtractor;
 
     @Inject
     public InventoryHandler(Responder<Inventory> responder,
                             Authenticator authenticator,
                             DAO<Inventory> dao,
                             Parser<Inventory> parser,
-                            UrlBuilder<Inventory> urlBuilder) {
+                            UrlBuilder<Inventory> urlBuilder,
+                            IdExtractor<Inventory> inventoryUrlExtractor
+                            ) {
         this.responder = responder;
         this.authenticator = authenticator;
         this.dao = dao;
         inventoryParser = parser;
         this.urlBuilder = urlBuilder;
+        this.inventoryUrlExtractor = inventoryUrlExtractor;
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         User user = authenticator.authenticate(httpExchange);
 
-        @SuppressWarnings("unchecked")
-        Map<String, Object> parameters = (Map<String, Object>) httpExchange.getAttribute("parameters");
-        String jsonString = (String) parameters.get("inventory");
-
-        Inventory inventory = inventoryParser.parse(jsonString);
         String response;
 
+        Inventory inventory = null;
+
         try (OutputStream responseBody = httpExchange.getResponseBody()) {
+
             switch (HttpMethod.valueOf(httpExchange.getRequestMethod())) {
                 case get:
+                    inventory = new Inventory().setId(inventoryUrlExtractor.extract(httpExchange));
                     inventory = dao.read(user, inventory);
                     response = responder.respond(inventory, responseBody);
                     httpExchange.sendResponseHeaders(200, response.length());
                     break;
                 case post:
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> parameters = (Map<String, Object>) httpExchange.getAttribute("parameters");
+                    String jsonString = (String) parameters.get("inventory");
+
+                    inventory = inventoryParser.parse(jsonString);
+
                     if(inventory.getId() == null){
                         inventory = dao.create(user, inventory);
                     } else{

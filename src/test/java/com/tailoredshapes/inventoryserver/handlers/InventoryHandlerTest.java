@@ -51,6 +51,8 @@ public class InventoryHandlerTest{
     private OutputStream stringStream;
     private Map<String, String> parameters;
     private Headers headers;
+    private JSONObject createResponseObject;
+    private String location;
 
     @Test
     public void testCanCreateAnInventory() throws Exception {
@@ -81,30 +83,33 @@ public class InventoryHandlerTest{
         handler.handle(createExchange);
         verify(createExchange).sendResponseHeaders(eq(302), anyInt());
         assertTrue(headers.containsKey("location"));
-        String location = headers.get("location").get(0);
+        location = headers.get("location").get(0);
 
-        JSONObject putResponseObject = new JSONObject(stringStream.toString());
-        assertEquals("com.tailoredshapes.test", putResponseObject.getString("category"));
-        assertEquals(userUrlBuilder.build(user), putResponseObject.getString("user"));
-        assertEquals(0, putResponseObject.getJSONArray("metrics").length());
-        assertFalse(putResponseObject.has("parent"));
-        assertNotNull(putResponseObject.getLong("id"));
+        createResponseObject = new JSONObject(stringStream.toString());
+        assertEquals("com.tailoredshapes.test", createResponseObject.getString("category"));
+        assertEquals(userUrlBuilder.build(user), createResponseObject.getString("user"));
+        assertEquals(0, createResponseObject.getJSONArray("metrics").length());
+        assertFalse(createResponseObject.has("parent"));
+        assertNotNull(createResponseObject.getLong("id"));
 
+        //READ
+
+        stringStream = new ByteArrayOutputStream();
+
+        when(readExchange1.getRequestMethod()).thenReturn("get");
+        when(readExchange1.getResponseBody()).thenReturn(stringStream);
+        when(readExchange1.getRequestURI()).thenReturn(new URI(location));
+
+        handler.handle(readExchange1);
+        verify(readExchange1).sendResponseHeaders(eq(200), anyInt());
+
+        JSONObject getResponseObject = new JSONObject(stringStream.toString());
+        assertEquals(createResponseObject.getLong("id"), getResponseObject.getLong("id"));
+        assertEquals(createResponseObject.getString("category"), getResponseObject.getString("category"));
+        assertEquals(createResponseObject.getJSONArray("metrics").length(), getResponseObject.getJSONArray("metrics").length());
+        assertEquals(createResponseObject.getString("user"), getResponseObject.getString("user"));
+    }
     //        //READ
-//        stringStream = new ByteArrayOutputStream();
-//        parameters.put("user", putResponseObject.toString());
-//        when(readExchange1.getRequestMethod()).thenReturn("get");
-//        when(readExchange1.getAttribute("parameters")).thenReturn(parameters);
-//        when(readExchange1.getResponseBody()).thenReturn(stringStream);
-//
-//        handler.handle(readExchange1);
-//        verify(readExchange1).sendResponseHeaders(eq(200), anyInt());
-//
-//        JSONObject getResponseObject = new JSONObject(stringStream.toString());
-//        assertEquals("Archer", getResponseObject.getString("name"));
-//        assertEquals(putResponseObject.getLong("id"), getResponseObject.getLong("id"));
-//        assertEquals(putResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
-//        assertFalse(putResponseObject.has("privateKey"));
 
 
 //        //UPDATE / DELETE
@@ -147,6 +152,6 @@ public class InventoryHandlerTest{
 //        assertEquals(postResponseObject.getLong("id"), getResponseObject2.getLong("id"));
 //        assertEquals(postResponseObject.getString("publicKey"), getResponseObject2.getString("publicKey"));
 //        assertFalse(postResponseObject.has("privateKey"));
-    }
+//    }
 
 }

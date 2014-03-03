@@ -1,12 +1,13 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
+import com.tailoredshapes.inventoryserver.model.User;
 
 import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UrlIdExtractor implements IdExtractor {
+public class UrlIdExtractor implements IdExtractor<User> {
 
     private final Pattern userIdPattern = Pattern.compile("^/(-?\\d+)/.*$");
 

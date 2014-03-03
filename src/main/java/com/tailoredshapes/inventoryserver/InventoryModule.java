@@ -97,8 +97,11 @@ public class InventoryModule implements Module {
         binder.bind(new TypeLiteral<MetricTypeRepository>() {})
                 .to(InMemoryMetricTypeRepository.class);
 
-        binder.bind(IdExtractor.class)
+        binder.bind(new TypeLiteral<IdExtractor<User>>(){})
                 .to(UrlIdExtractor.class);
+
+        binder.bind(new TypeLiteral<IdExtractor<Inventory>>(){})
+                .to(InventoryIdExtractor.class);
 
         binder.bind(new TypeLiteral<Encoder<RSA>>() {})
                 .to(RSAEncoder.class);

@@ -10,7 +10,7 @@ public class Authenticator {
     private final IdExtractor userIdExtractor;
 
     @Inject
-    public Authenticator(UserRepository userRepository, IdExtractor userIdExtractor) {
+    public Authenticator(UserRepository userRepository, IdExtractor<User> userIdExtractor) {
         this.userRepository = userRepository;
         this.userIdExtractor = userIdExtractor;
     }
