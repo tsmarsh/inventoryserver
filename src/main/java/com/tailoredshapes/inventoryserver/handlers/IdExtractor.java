@@ -2,7 +2,7 @@ package com.tailoredshapes.inventoryserver.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
 
-public interface UserIdExtractor {
+public interface IdExtractor {
     Long extract(HttpExchange exchange);
 }
 

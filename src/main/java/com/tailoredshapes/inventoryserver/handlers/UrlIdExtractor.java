@@ -6,7 +6,7 @@ import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UrlIdExtractor implements UserIdExtractor {
+public class UrlIdExtractor implements IdExtractor {
 
     private final Pattern userIdPattern = Pattern.compile("^/(-?\\d+)/.*$");
 

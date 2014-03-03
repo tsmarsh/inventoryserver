@@ -7,10 +7,10 @@ import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 
 public class Authenticator {
     private final UserRepository userRepository;
-    private final UserIdExtractor userIdExtractor;
+    private final IdExtractor userIdExtractor;
 
     @Inject
-    public Authenticator(UserRepository userRepository, UserIdExtractor userIdExtractor) {
+    public Authenticator(UserRepository userRepository, IdExtractor userIdExtractor) {
         this.userRepository = userRepository;
         this.userIdExtractor = userIdExtractor;
     }

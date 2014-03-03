@@ -26,7 +26,7 @@ public class AuthenticatorTest {
     private UserRepository userRepository;
 
     @Mock
-    private UserIdExtractor userIdExtractor;
+    private IdExtractor userIdExtractor;
 
     private User testUser;
     private UserDAO dao;
