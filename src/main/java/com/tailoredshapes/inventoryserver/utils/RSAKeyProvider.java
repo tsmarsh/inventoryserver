@@ -9,7 +9,6 @@ import java.security.NoSuchAlgorithmException;
 public class RSAKeyProvider implements KeyProvider<RSA> {
 
     private final int keysize;
-    private final String RSA = "RSA";
 
     @Inject
     public RSAKeyProvider() {
@@ -20,6 +19,7 @@ public class RSAKeyProvider implements KeyProvider<RSA> {
     public KeyPair generate() {
         KeyPairGenerator keyGen;
         try {
+            String RSA = "RSA";
             keyGen = KeyPairGenerator.getInstance(RSA);
             keyGen.initialize(keysize);
             return keyGen.genKeyPair();

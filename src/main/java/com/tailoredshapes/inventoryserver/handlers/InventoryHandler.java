@@ -41,11 +41,9 @@ public class InventoryHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        User user = authenticator.authenticate(httpExchange);
-
         String response;
 
-        Inventory inventory = null;
+        Inventory inventory;
 
         try (OutputStream responseBody = httpExchange.getResponseBody()) {
 

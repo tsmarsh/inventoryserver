@@ -46,7 +46,7 @@ public class InventoryParser implements Parser<Inventory> {
         Inventory inventory = new Inventory();
         JSONObject jo = new JSONObject(s);
 
-        long user_id = 0;
+        long user_id;
         try {
             user_id = userIdExtractor.extract(new URL(jo.getString("user")).getPath());
         } catch (MalformedURLException e) {
@@ -69,7 +69,7 @@ public class InventoryParser implements Parser<Inventory> {
                 parent_id = inventoryIdExtractor.extract(new URL(jo.getString("parent")).getPath());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-                new RuntimeException(e);
+                throw new RuntimeException(e);
             }
             inventory.setParent(inventoryRepository.findById(inventory.getUser(), parent_id));
         }
