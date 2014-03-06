@@ -1,10 +1,18 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.tailoredshapes.inventoryserver.InventoryModule;
 import com.tailoredshapes.inventoryserver.dao.*;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
+import com.tailoredshapes.inventoryserver.serialisers.InventorySerialiser;
+import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
+import com.tailoredshapes.inventoryserver.utils.RSA;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,24 +20,21 @@ import static org.junit.Assert.assertEquals;
 
 public class InMemoryInventoryRepositoryTest {
 
-
-    private Serialiser<Inventory> serialiser;
-    private Encoder encoder;
-    private InMemoryDAO<Inventory> inventoryDAO;
+    private DAO<Inventory> inventoryDAO;
+    private InMemoryInventoryRepository repo;
 
     @Before
     public void setUp() throws Exception {
-        serialiser = new JSONSerialiser<>();
-        encoder = new RSAEncoder();
-        inventoryDAO = new InMemoryDAO<>(serialiser, encoder);
+        Injector injector = Guice.createInjector(new InventoryModule("localhost", 5555));
+        repo = injector.getInstance(new Key<InMemoryInventoryRepository<RSA>>(){});
+        inventoryDAO = injector.getInstance(new Key<DAO<Inventory>>(){});
     }
 
     @Test
     public void testFindById() throws Exception {
-        User user = new UserBuilder().build();
+        User user = new UserBuilder().id(null).build();
         Inventory inventory = new InventoryBuilder().user(user).build();
-        InMemoryInventoryRepository repo = new InMemoryInventoryRepository(inventoryDAO);
-        Inventory savedInventory = inventoryDAO.create(user, inventory);
+        Inventory savedInventory = inventoryDAO.create(inventory);
         Inventory byId = repo.findById(user, savedInventory.getId());
         assertEquals(savedInventory, byId);
     }

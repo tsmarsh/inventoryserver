@@ -1,35 +1,40 @@
 package com.tailoredshapes.inventoryserver.dao;
 
-import com.tailoredshapes.inventoryserver.model.User;
+import com.google.inject.Inject;
+import com.tailoredshapes.inventoryserver.model.Keyed;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.utils.RSA;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.Signature;
-import java.security.SignatureException;
+import java.security.*;
 
-public class RSAEncoder implements Encoder<RSA> {
+
+public class RSAEncoder<T extends Keyed> implements Encoder<T, RSA> {
+
+    private Serialiser<T> serialiser;
+    private ByteArrayToLong shrinker;
+
+    @Inject
+    public RSAEncoder(Serialiser<T> serialiser, ByteArrayToLong shrinker) {
+        this.serialiser = serialiser;
+        this.shrinker = shrinker;
+    }
 
     @Override
-    public Long encode(User user, byte[] bits) {
-
+    public Long encode(T object) {
 
         Signature signature;
         try {
             signature = Signature.getInstance("SHA256withRSA");
-            signature.initSign(user.getPrivateKey());
-            signature.update(bits);
-            byte[] sign = signature.sign();
-            long value = 0;
-
-            for (int i = 0; i < 8; i++) {
-                value += ((long) sign[i] & 0xffL) << (8 * i);
-            }
-            return value;
+            signature.initSign(object.getPrivateKey());
+            signature.update(serialiser.serialise(object));
+            return shrinker.shrink(signature.sign());
 
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
             e.printStackTrace();
         }
         return 0l;
     }
+
+
 }
+

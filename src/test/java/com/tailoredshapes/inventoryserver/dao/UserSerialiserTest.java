@@ -2,6 +2,7 @@ package com.tailoredshapes.inventoryserver.dao;
 
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
+import com.tailoredshapes.inventoryserver.serialisers.UserSerialiser;
 import org.json.JSONObject;
 import org.junit.Test;
 

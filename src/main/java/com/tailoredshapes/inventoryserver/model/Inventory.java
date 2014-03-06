@@ -1,9 +1,10 @@
 package com.tailoredshapes.inventoryserver.model;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inventory implements Idable<Inventory> {
+public class Inventory implements Idable<Inventory>, Keyed {
     private Long id;
     private User user;
     private Category category;
@@ -53,5 +54,10 @@ public class Inventory implements Idable<Inventory> {
     public Inventory setParent(Inventory parent) {
         this.parent = parent;
         return this;
+    }
+
+    @Override
+    public PrivateKey getPrivateKey() {
+        return user.getPrivateKey();
     }
 }

@@ -6,19 +6,20 @@ import com.tailoredshapes.inventoryserver.dao.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
+import com.tailoredshapes.inventoryserver.utils.Algorithm;
 
-public class InMemoryInventoryRepository implements InventoryRepository {
+public class InMemoryInventoryRepository<R extends Algorithm> implements InventoryRepository {
 
     private final DAO<Inventory> dao;
 
     @Inject
-    public InMemoryInventoryRepository(InMemoryDAO<Inventory> inventoryDAO) {
+    public InMemoryInventoryRepository(InMemoryDAO<Inventory, R> inventoryDAO) {
 
         this.dao = inventoryDAO;
     }
 
     @Override
     public Inventory findById(User user, Long id) {
-        return dao.read(user, new Inventory().setId(id));
+        return dao.read(new Inventory().setId(id));
     }
 }

@@ -21,7 +21,7 @@ public class UrlIdExtractorTest {
 
     @Test
     public void testExtract() throws Exception {
-        String path = "http://localhost:80/555/inventory/666";
+        String path = "http://localhost:80/users/555/inventories/666";
 
         URI uri = new URI(path);
         when(exchange.getRequestURI()).thenReturn(uri);
@@ -33,7 +33,7 @@ public class UrlIdExtractorTest {
 
     @Test
     public void testExtractNegativeId() throws Exception {
-        String path = "http://localhost:80/-555/inventory/666";
+        String path = "http://localhost:80/users/-555/inventories/666";
 
         URI uri = new URI(path);
         when(exchange.getRequestURI()).thenReturn(uri);

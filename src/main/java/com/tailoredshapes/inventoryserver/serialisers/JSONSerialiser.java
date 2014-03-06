@@ -1,4 +1,4 @@
-package com.tailoredshapes.inventoryserver.dao;
+package com.tailoredshapes.inventoryserver.serialisers;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.Version;

@@ -1,4 +1,4 @@
-package com.tailoredshapes.inventoryserver.dao;
+package com.tailoredshapes.inventoryserver.serialisers;
 
 import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.handlers.UrlBuilder;

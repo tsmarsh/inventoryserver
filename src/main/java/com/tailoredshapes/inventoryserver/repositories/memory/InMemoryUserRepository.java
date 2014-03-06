@@ -1,16 +1,16 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
 import com.google.inject.Inject;
-import com.tailoredshapes.inventoryserver.dao.UserDAO;
+import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 
 public class InMemoryUserRepository implements UserRepository {
 
-    private final UserDAO dao;
+    private final DAO<User> dao;
 
     @Inject
-    public InMemoryUserRepository(UserDAO dao) {
+    public InMemoryUserRepository(DAO<User> dao) {
         this.dao = dao;
     }
 

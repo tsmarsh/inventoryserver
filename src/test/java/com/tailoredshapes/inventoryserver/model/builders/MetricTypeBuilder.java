@@ -3,7 +3,7 @@ package com.tailoredshapes.inventoryserver.model.builders;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 
 public class MetricTypeBuilder {
-    private Long id = 888l;
+    private Long id = null;
     private String name = "test";
 
     public MetricTypeBuilder id(Long id) {

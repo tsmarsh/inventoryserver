@@ -5,6 +5,8 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserRepository;
+import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +17,8 @@ import static org.junit.Assert.assertEquals;
 public class UserParserTest {
     User existingUser;
     Serialiser<User> serializer;
-    Encoder encoder;
-    InMemoryUserDAO dao;
+    Encoder<User, RSA> encoder;
+    DAO<User> dao;
     User savedUser;
     UserRepository repo;
     private KeyProvider keyprovider;
@@ -25,10 +27,10 @@ public class UserParserTest {
     public void setUp() throws Exception {
         existingUser = new UserBuilder().id(555l).name("Cassie").build();
         serializer = new JSONSerialiser<>();
-        encoder = new RSAEncoder();
+        encoder = new RSAEncoder<>(serializer, new ByteArrayToLong());
         keyprovider = new RSAKeyProvider();
 
-        dao = new InMemoryUserDAO(serializer, encoder, keyprovider);
+        dao = new InMemoryChildFreeDAO<>(encoder);
         savedUser = dao.create(existingUser);
         repo = new InMemoryUserRepository(dao);
     }

@@ -21,4 +21,12 @@ public class MetricType implements Idable<MetricType> {
         this.name = name;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "MetricType{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

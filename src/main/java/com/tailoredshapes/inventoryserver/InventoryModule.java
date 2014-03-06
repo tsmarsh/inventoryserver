@@ -16,6 +16,7 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryCategoryRe
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryInventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryMetricTypeRepository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserRepository;
+import com.tailoredshapes.inventoryserver.serialisers.*;
 import com.tailoredshapes.inventoryserver.utils.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -39,26 +40,35 @@ public class InventoryModule implements Module {
     public void configure(Binder binder) {
         binder.bind(HttpHandler.class)
                 .to(InventoryHandler.class);
-        binder.bind(Encoder.class).to(RSAEncoder.class);
 
         binder.bind(new TypeLiteral<DAO<Inventory>>() {})
-                .to(new TypeLiteral<InMemoryDAO<Inventory>>() {})
+                .to(new TypeLiteral<InMemoryDAO<Inventory, RSA>>() {});
+
+        binder.bind(new TypeLiteral<InMemoryDAO<Inventory, RSA>>() {})
+                .to(new TypeLiteral<InMemoryInventoryDAO<RSA>>() {})
                 .in(Singleton.class);
 
-        binder.bind(UserDAO.class)
+        binder.bind(new TypeLiteral<DAO<User>>(){})
                 .to(new TypeLiteral<InMemoryUserDAO<RSA>>() {})
                 .in(Singleton.class);
 
+
         binder.bind(new TypeLiteral<DAO<Category>>() {})
-                .to(new TypeLiteral<InMemoryDAO<Category>>() {})
+                .to(new TypeLiteral<InMemoryDAO<Category, SHA>>() {});
+
+        binder.bind(new TypeLiteral<InMemoryDAO<Category, SHA>>() {})
+                .to(new TypeLiteral<InMemoryChildFreeDAO<Category, SHA>>() {})
                 .in(Singleton.class);
 
         binder.bind(new TypeLiteral<DAO<Metric>>() {})
-                .to(new TypeLiteral<InMemoryDAO<Metric>>() {})
+                .to(new TypeLiteral<InMemoryMetricDAO<SHA>>() {})
                 .in(Singleton.class);
 
         binder.bind(new TypeLiteral<DAO<MetricType>>() {})
-                .to(new TypeLiteral<InMemoryDAO<MetricType>>() {})
+                .to(new TypeLiteral<InMemoryDAO<MetricType, SHA>>() {});
+
+        binder.bind(new TypeLiteral<InMemoryDAO<MetricType, SHA>>() {})
+                .to(new TypeLiteral<InMemoryChildFreeDAO<MetricType, SHA>>() {})
                 .in(Singleton.class);
 
         binder.bind(new TypeLiteral<Parser<Inventory>>() {})
@@ -74,7 +84,7 @@ public class InventoryModule implements Module {
                 .to(UserSerialiser.class);
 
         binder.bind(new TypeLiteral<Serialiser<Metric>>() {})
-                .to(new TypeLiteral<JSONSerialiser<Metric>>() {});
+                .to(MetricSeriliser.class);
 
         binder.bind(new TypeLiteral<Serialiser<MetricType>>() {})
                 .to(new TypeLiteral<JSONSerialiser<MetricType>>() {});
@@ -86,16 +96,16 @@ public class InventoryModule implements Module {
                 .to(new TypeLiteral<JSONResponder<User>>() {});
 
         binder.bind(InventoryRepository.class)
-                .to(InMemoryInventoryRepository.class);
+                .to(new TypeLiteral<InMemoryInventoryRepository<RSA>>(){});
 
         binder.bind(new TypeLiteral<CategoryRepository>() {})
-                .to(InMemoryCategoryRepository.class);
+                .to(new TypeLiteral<InMemoryCategoryRepository<SHA>>(){});
 
         binder.bind(new TypeLiteral<UserRepository>() {})
                 .to(InMemoryUserRepository.class);
 
         binder.bind(new TypeLiteral<MetricTypeRepository>() {})
-                .to(InMemoryMetricTypeRepository.class);
+                .to(new TypeLiteral<InMemoryMetricTypeRepository<SHA>>(){});
 
         binder.bind(new TypeLiteral<IdExtractor<User>>(){})
                 .to(UrlIdExtractor.class);
@@ -103,8 +113,20 @@ public class InventoryModule implements Module {
         binder.bind(new TypeLiteral<IdExtractor<Inventory>>(){})
                 .to(InventoryIdExtractor.class);
 
-        binder.bind(new TypeLiteral<Encoder<RSA>>() {})
-                .to(RSAEncoder.class);
+        binder.bind(new TypeLiteral<Encoder<User, RSA>>() {})
+                .to(new TypeLiteral<RSAEncoder<User>>(){});
+
+        binder.bind(new TypeLiteral<Encoder<Inventory, RSA>>() {})
+                .to(new TypeLiteral<RSAEncoder<Inventory>>(){});
+
+        binder.bind(new TypeLiteral<Encoder<Metric, SHA>>() {})
+                .to(new TypeLiteral<SHAEncoder<Metric>>(){});
+
+        binder.bind(new TypeLiteral<Encoder<MetricType, SHA>>() {})
+                .to(new TypeLiteral<SHAEncoder<MetricType>>(){});
+
+        binder.bind(new TypeLiteral<Encoder<Category, SHA>>() {})
+                .to(new TypeLiteral<SHAEncoder<Category>>(){});
 
         binder.bind(new TypeLiteral<KeyProvider<RSA>>() {})
                 .to(RSAKeyProvider.class);

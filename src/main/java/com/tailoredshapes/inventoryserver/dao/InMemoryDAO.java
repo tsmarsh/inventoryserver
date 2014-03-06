@@ -2,69 +2,67 @@ package com.tailoredshapes.inventoryserver.dao;
 
 import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Idable;
-import com.tailoredshapes.inventoryserver.model.User;
+import com.tailoredshapes.inventoryserver.utils.Algorithm;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryDAO<T extends Idable<T>> implements DAO<T> {
+public abstract class InMemoryDAO<T extends Idable<T>, R extends Algorithm> implements DAO<T> {
 
-    public final Map<User, Map<Long, T>> db;
-    private final Serialiser<T> serialiser;
-    private final Encoder encoder;
+    public final Map<Long, T> db;
+    private final Encoder<T, R> encoder;
+
+    public abstract T saveChildren(T object);
+
+    protected <Z extends Idable<Z>> void upsert(Z object, DAO<Z> dao){
+        if(object != null){
+            if(null == object.getId()){
+                dao.create(object);
+            } else{
+                dao.update(object);
+            }
+        }
+    }
 
     @Inject
-    public InMemoryDAO(Serialiser<T> serialiser, Encoder encoder) {
-        this.serialiser = serialiser;
+    public InMemoryDAO(Encoder<T, R> encoder) {
         this.encoder = encoder;
         db = new HashMap<>();
     }
 
-    private Map<Long, T> getUserMap(User user) {
-        Map<Long, T> usermap = db.get(user);
-        if (null == usermap) {
-            usermap = new HashMap<>();
-            db.put(user, usermap);
-        }
-
-        return usermap;
-    }
-
     @Override
-    public T create(User user, T object) {
-        Map<Long, T> usermap = getUserMap(user);
-        byte[] bits = serialiser.serialise(object);
+    public T create(T object) {
+        object = saveChildren(object);
 
-        Long sig = encoder.encode(user, bits);
+        Long sig = encoder.encode(object);
         object.setId(sig);
-        usermap.put(sig, object);
+        db.put(sig, object);
         return object;
     }
 
     @Override
-    public T read(User user, T object) {
-        Map<Long, T> usermap = getUserMap(user);
-        return usermap.get(object.getId());
+    public T read(T object) {
+        return db.get(object.getId());
     }
 
     @Override
-    public T update(User user, T object) {
-        Map<Long, T> usermap = getUserMap(user);
-        if (!usermap.containsKey(object.getId())) {
+    public T update(T object) {
+
+        if (!db.containsKey(object.getId())) {
             throw new RuntimeException("Object does not exist");
         }
-        byte[] bits = serialiser.serialise(object);
-        Long sig = encoder.encode(user, bits);
+        object = saveChildren(object);
+        Long sig = encoder.encode(object);
         object.setId(sig);
-        usermap.put(sig, object);
+        db.put(sig, object);
         return object;
     }
 
     @Override
-    public T delete(User user, T object) {
-        Map<Long, T> usermap = getUserMap(user);
-        T oldObject = usermap.get(object.getId());
-        usermap.remove(object.getId());
-        return oldObject;
+    public T delete(T object) {
+        object = db.get(object.getId());
+        db.remove(object.getId());
+        return object;
     }
 }
+

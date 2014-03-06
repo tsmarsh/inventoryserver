@@ -1,7 +1,7 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
 import com.google.inject.Inject;
-import com.tailoredshapes.inventoryserver.dao.Serialiser;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 
 import java.io.IOException;
 import java.io.OutputStream;

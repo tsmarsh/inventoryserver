@@ -4,6 +4,6 @@ import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.model.User;
 
 public interface MetricTypeRepository {
-    MetricType findByName(User user, String name);
+    MetricType findByName(String name);
 }
 

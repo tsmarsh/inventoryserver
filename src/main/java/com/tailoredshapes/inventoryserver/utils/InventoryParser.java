@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.utils;
 
+import com.tailoredshapes.inventoryserver.handlers.IdExtractor;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.User;
@@ -11,6 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +23,22 @@ public class InventoryParser implements Parser<Inventory> {
     private final CategoryRepository categoryRepository;
     private final InventoryRepository inventoryRepository;
     private final MetricTypeRepository metricTypeRepository;
+    private IdExtractor<User> userIdExtractor;
+    private IdExtractor<Inventory> inventoryIdExtractor;
 
     @Inject
-    public InventoryParser(UserRepository userRepository, CategoryRepository categoryRepository, InventoryRepository inventoryRepository, MetricTypeRepository metricTypeRepository) {
+    public InventoryParser(UserRepository userRepository,
+                           CategoryRepository categoryRepository,
+                           InventoryRepository inventoryRepository,
+                           MetricTypeRepository metricTypeRepository,
+                           IdExtractor<User> userIdExtractor,
+                           IdExtractor<Inventory> inventoryIdExtractor) {
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.inventoryRepository = inventoryRepository;
         this.metricTypeRepository = metricTypeRepository;
+        this.userIdExtractor = userIdExtractor;
+        this.inventoryIdExtractor = inventoryIdExtractor;
     }
 
     @Override
@@ -34,19 +46,31 @@ public class InventoryParser implements Parser<Inventory> {
         Inventory inventory = new Inventory();
         JSONObject jo = new JSONObject(s);
 
-        long user_id = jo.getLong("user_id");
+        long user_id = 0;
+        try {
+            user_id = userIdExtractor.extract(new URL(jo.getString("user")).getPath());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
         inventory.setUser(userRepository.findById(user_id));
 
         String categoryFullName = jo.getString("category");
-        inventory.setCategory(categoryRepository.findByFullname(inventory.getUser(), categoryFullName));
+        inventory.setCategory(categoryRepository.findByFullname(categoryFullName));
 
         if (jo.has("id")) {
             inventory.setId(jo.getLong("id"));
         }
 
 
-        if (jo.has("parent_id")) {
-            long parent_id = jo.getLong("parent_id");
+        if (jo.has("parent")) {
+            long parent_id = 0;
+            try {
+                parent_id = inventoryIdExtractor.extract(new URL(jo.getString("parent")).getPath());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                new RuntimeException(e);
+            }
             inventory.setParent(inventoryRepository.findById(inventory.getUser(), parent_id));
         }
 
@@ -65,7 +89,7 @@ public class InventoryParser implements Parser<Inventory> {
             JSONObject jsonObject = jsonMetrics.getJSONObject(i);
             metrics.add(new Metric()
                     .setValue(jsonObject.getString("value"))
-                    .setType(metricTypeRepository.findByName(user, jsonObject.getString("type"))));
+                    .setType(metricTypeRepository.findByName(jsonObject.getString("type"))));
 
         }
         return metrics;

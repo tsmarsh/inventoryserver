@@ -1,10 +1,10 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
+import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Encoder;
-import com.tailoredshapes.inventoryserver.dao.InMemoryUserDAO;
-import com.tailoredshapes.inventoryserver.dao.Serialiser;
-import com.tailoredshapes.inventoryserver.dao.UserDAO;
+import com.tailoredshapes.inventoryserver.dao.InMemoryChildFreeDAO;
 import com.tailoredshapes.inventoryserver.model.User;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.utils.KeyProvider;
 import com.tailoredshapes.inventoryserver.utils.TestAlgorithm;
 import org.junit.Before;
@@ -21,16 +21,16 @@ public class InMemoryUserRepositoryTest {
 
     private Serialiser<User> serialiser = object -> testSerializedUser;
 
-    private Encoder<TestAlgorithm> encoder = (user, bits) -> testId;
+    private Encoder<User,TestAlgorithm> encoder = (user) -> testId;
 
     private KeyProvider<TestAlgorithm> keyprovider = () -> new KeyPair(null, null);
 
-    private UserDAO dao;
+    protected DAO<User> dao;
     private User storedUser;
 
     @Before
     public void setUp() throws Exception {
-        dao = new InMemoryUserDAO(serialiser, encoder, keyprovider);
+        dao = new InMemoryChildFreeDAO<>(encoder);
         storedUser = dao.create(new User());
 
     }

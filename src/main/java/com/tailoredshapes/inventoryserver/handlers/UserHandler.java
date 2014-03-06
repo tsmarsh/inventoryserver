@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.tailoredshapes.inventoryserver.dao.UserDAO;
+import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.utils.UserParser;
 
@@ -15,13 +15,13 @@ import java.util.Map;
 
 public class UserHandler implements HttpHandler {
 
-    private final UserDAO dao;
+    private final DAO<User> dao;
     private final Responder<User> responder;
     private UrlBuilder<User> urlBuilder;
     private UserParser userParser;
 
     @Inject
-    public UserHandler(UserDAO dao, Responder<User> responder, UrlBuilder<User> urlBuilder, UserParser userParser) {
+    public UserHandler(DAO<User> dao, Responder<User> responder, UrlBuilder<User> urlBuilder, UserParser userParser) {
         this.dao = dao;
         this.responder = responder;
         this.urlBuilder = urlBuilder;

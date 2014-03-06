@@ -52,7 +52,7 @@ public class InventoryHandler implements HttpHandler {
             switch (HttpMethod.valueOf(httpExchange.getRequestMethod())) {
                 case get:
                     inventory = new Inventory().setId(inventoryUrlExtractor.extract(httpExchange));
-                    inventory = dao.read(user, inventory);
+                    inventory = dao.read(inventory);
                     response = responder.respond(inventory, responseBody);
                     httpExchange.sendResponseHeaders(200, response.length());
                     break;
@@ -64,9 +64,9 @@ public class InventoryHandler implements HttpHandler {
                     inventory = inventoryParser.parse(jsonString);
 
                     if(inventory.getId() == null){
-                        inventory = dao.create(user, inventory);
+                        inventory = dao.create(inventory);
                     } else{
-                        inventory = dao.update(user, inventory);
+                        inventory = dao.update(inventory);
                     }
 
                     response = responder.respond(inventory, responseBody);

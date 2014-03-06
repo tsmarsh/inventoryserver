@@ -2,29 +2,30 @@ package com.tailoredshapes.inventoryserver.repositories.memory;
 
 import com.tailoredshapes.inventoryserver.dao.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.MetricType;
-import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
+import com.tailoredshapes.inventoryserver.utils.Algorithm;
 
 import javax.inject.Inject;
 import java.util.Map;
 
-public class InMemoryMetricTypeRepository implements MetricTypeRepository {
+public class InMemoryMetricTypeRepository<R extends Algorithm> implements MetricTypeRepository {
 
-    private final InMemoryDAO<MetricType> dao;
+    private final InMemoryDAO<MetricType, R> dao;
 
     @Inject
-    public InMemoryMetricTypeRepository(InMemoryDAO<MetricType> dao) {
+    public InMemoryMetricTypeRepository(InMemoryDAO<MetricType, R> dao) {
         this.dao = dao;
     }
 
     @Override
-    public MetricType findByName(User user, String name) {
-        Map<Long, MetricType> longMetricTypeMap = dao.db.get(user);
-        for (MetricType type : longMetricTypeMap.values()) {
+    public MetricType findByName(String name) {
+
+        for (MetricType type : dao.db.values()) {
             if (type.getName().equals(name)) {
                 return type;
             }
         }
-        return null;
+
+        return new MetricType().setName(name);
     }
 }

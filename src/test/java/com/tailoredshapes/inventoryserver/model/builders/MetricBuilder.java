@@ -4,7 +4,7 @@ import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 
 public class MetricBuilder {
-    private Long id = 141211l;
+    private Long id = null;
     private String value = "value";
     private MetricType type;
 

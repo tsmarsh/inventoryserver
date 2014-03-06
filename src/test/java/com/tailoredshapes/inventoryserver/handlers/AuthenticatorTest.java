@@ -6,7 +6,10 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserRepository;
+import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.utils.KeyProvider;
+import com.tailoredshapes.inventoryserver.utils.RSA;
 import com.tailoredshapes.inventoryserver.utils.RSAKeyProvider;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +32,7 @@ public class AuthenticatorTest {
     private IdExtractor userIdExtractor;
 
     private User testUser;
-    private UserDAO dao;
+    private DAO<User> dao;
     private Serialiser<User> serialiser;
     private Encoder encoder;
     private KeyProvider keyprovider;
@@ -38,10 +41,10 @@ public class AuthenticatorTest {
     public void setUp() throws Exception {
         testUser = new UserBuilder().build();
         serialiser = new JSONSerialiser<>();
-        encoder = new RSAEncoder();
+        encoder = new RSAEncoder(serialiser, new ByteArrayToLong());
         keyprovider = new RSAKeyProvider();
 
-        dao = new InMemoryUserDAO(serialiser, encoder, keyprovider);
+        dao = new InMemoryChildFreeDAO<User, RSA>(encoder);
         testUser = dao.create(testUser);
         when(userIdExtractor.extract(testExchange)).thenReturn(testUser.getId());
 

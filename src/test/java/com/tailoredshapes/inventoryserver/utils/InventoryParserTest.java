@@ -1,90 +1,85 @@
 package com.tailoredshapes.inventoryserver.utils;
 
-import com.tailoredshapes.inventoryserver.model.Category;
-import com.tailoredshapes.inventoryserver.model.Inventory;
-import com.tailoredshapes.inventoryserver.model.MetricType;
-import com.tailoredshapes.inventoryserver.model.User;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.sun.net.httpserver.HttpExchange;
+import com.tailoredshapes.inventoryserver.InventoryModule;
+import com.tailoredshapes.inventoryserver.dao.DAO;
+import com.tailoredshapes.inventoryserver.handlers.IdExtractor;
+import com.tailoredshapes.inventoryserver.model.*;
+import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
+import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
+import com.tailoredshapes.inventoryserver.model.builders.MetricTypeBuilder;
+import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
 public class InventoryParserTest {
 
-    private UserRepository userRepository;
-    private CategoryRepository categoryRepository;
-    private InventoryRepository inventoryRepository;
-    private MetricTypeRepository metricTypeRepository;
-
-    private User testUser = new User();
-    private Category testCategory = new Category();
-    private Inventory testParentInventory = new Inventory();
-    private MetricType testType = new MetricType();
+    private Injector injector = Guice.createInjector(new InventoryModule("localhost", 6666));
+    private InventoryParser parser;
+    private User testUser;
+    private Serialiser<Inventory> serialiser;
 
 
     @Before
     public void init() {
-        userRepository = user_id -> {
-            if (user_id == 1l) {
-                return testUser;
-            }
-            return null;
-        };
-
-        categoryRepository = (user2, categoryFullName) -> {
-            if (categoryFullName.equals("com.tailoredshapes")) {
-                return testCategory;
-            }
-            return null;
-        };
-
-        inventoryRepository = (user1, id) -> {
-            if (id == 666l) {
-                return testParentInventory;
-            }
-            return null;
-        };
-
-        metricTypeRepository = (user, name) -> {
-            if (name.equals("string")) {
-                return testType;
-            }
-            return null;
-        };
+        parser = injector.getInstance(InventoryParser.class);
+        DAO<User> userDAO = injector.getInstance(new Key<DAO<User>>() {});
+        testUser = userDAO.create(new UserBuilder().id(null).build());
+        serialiser = injector.getInstance(new Key<Serialiser<Inventory>>() {});
     }
 
     @Test
     public void shouldParseASimpleInventory() throws Exception {
-        InventoryParser parser = new InventoryParser(userRepository, categoryRepository, inventoryRepository, metricTypeRepository);
-        String inventoryJSON = "{user_id: 1, category: \"com.tailoredshapes\"}";
+        Inventory inventory = new InventoryBuilder().user(testUser).build();
 
-        Inventory inv = parser.parse(inventoryJSON);
-        assertEquals(inv.getCategory(), testCategory);
-        assertEquals(inv.getUser(), testUser);
+        Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));
+        assertEquals(inventory.getCategory().getFullname(), inv.getCategory().getFullname());
+        assertEquals(testUser, inv.getUser());
     }
 
     @Test
     public void shouldParseAnInventoryWithParent() throws Exception {
-        InventoryParser parser = new InventoryParser(userRepository, categoryRepository, inventoryRepository, metricTypeRepository);
-        String inventoryJSON = "{user_id: 1, category: \"com.tailoredshapes\", parent_id: 666}";
+        Inventory parent = new InventoryBuilder().user(testUser).build();
+        DAO<Inventory> dao = injector.getInstance(new Key<DAO<Inventory>>() {});
+        parent = dao.create(parent);
 
-        Inventory inv = parser.parse(inventoryJSON);
-        assertEquals(inv.getParent(), testParentInventory);
+        Inventory inventory = new InventoryBuilder().user(testUser).parent(parent).build();
+
+        Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));
+
+        assertEquals(parent, inv.getParent());
     }
 
     @Test
     public void shouldParseAnInventoryWithMetrics() throws Exception {
-        InventoryParser parser = new InventoryParser(userRepository, categoryRepository, inventoryRepository, metricTypeRepository);
-        String inventoryJSON = "{user_id: 1, category: \"com.tailoredshapes\", metrics: [{type: \"string\", value: \"Cassie\"}, {type: \"string\", value: \"Archer\"}]}";
+        List<Metric> metrics = new ArrayList<>(2);
+        MetricType testType = new MetricTypeBuilder().build();
+        Metric metric1 = new MetricBuilder().type(testType).value("Cassie").build();
+        Metric metric2 = new MetricBuilder().type(testType).value("Archer").build();
+        metrics.add(metric1);
+        metrics.add(metric2);
 
-        Inventory inv = parser.parse(inventoryJSON);
+        Inventory inventory = new InventoryBuilder().user(testUser).metrics(metrics).build();
+
+
+        Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));
+
         assertEquals(inv.getMetrics().get(0).getValue(), "Cassie");
-        assertEquals(inv.getMetrics().get(0).getType(), testType);
+        assertEquals(inv.getMetrics().get(0).getType().getName(), testType.getName());
         assertEquals(inv.getMetrics().get(1).getValue(), "Archer");
-        assertEquals(inv.getMetrics().get(1).getType(), testType);
+        assertEquals(inv.getMetrics().get(1).getType().getName(), testType.getName());
     }
 }

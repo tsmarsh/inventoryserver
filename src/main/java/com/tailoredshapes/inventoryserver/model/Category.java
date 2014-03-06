@@ -45,4 +45,14 @@ public class Category implements Idable<Category> {
         this.fullname = fullname;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", parent=" + parent +
+                '}';
+    }
 }
