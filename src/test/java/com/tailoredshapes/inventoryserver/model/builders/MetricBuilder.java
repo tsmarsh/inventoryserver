@@ -12,22 +12,22 @@ public class MetricBuilder {
         type = new MetricTypeBuilder().build();
     }
 
-    public MetricBuilder id(Long id){
+    public MetricBuilder id(Long id) {
         this.id = id;
         return this;
     }
 
-    public MetricBuilder value(String value){
+    public MetricBuilder value(String value) {
         this.value = value;
         return this;
     }
 
-    public MetricBuilder type(MetricType type){
+    public MetricBuilder type(MetricType type) {
         this.type = type;
         return this;
     }
 
-    public Metric build(){
+    public Metric build() {
         return new Metric()
                 .setId(id)
                 .setValue(value)

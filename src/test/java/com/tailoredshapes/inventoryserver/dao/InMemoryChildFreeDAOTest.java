@@ -1,19 +1,10 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.tailoredshapes.inventoryserver.model.TestModel;
-import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
-import com.tailoredshapes.inventoryserver.utils.KeyProvider;
-import com.tailoredshapes.inventoryserver.utils.RSA;
 import com.tailoredshapes.inventoryserver.utils.TestAlgorithm;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

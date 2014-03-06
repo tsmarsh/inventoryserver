@@ -30,7 +30,7 @@ public class InventoryHandler implements HttpHandler {
                             Parser<Inventory> parser,
                             UrlBuilder<Inventory> urlBuilder,
                             IdExtractor<Inventory> inventoryUrlExtractor
-                            ) {
+    ) {
         this.responder = responder;
         this.authenticator = authenticator;
         this.dao = dao;
@@ -63,9 +63,9 @@ public class InventoryHandler implements HttpHandler {
 
                     inventory = inventoryParser.parse(jsonString);
 
-                    if(inventory.getId() == null){
+                    if (inventory.getId() == null) {
                         inventory = dao.create(inventory);
-                    } else{
+                    } else {
                         inventory = dao.update(inventory);
                     }
 

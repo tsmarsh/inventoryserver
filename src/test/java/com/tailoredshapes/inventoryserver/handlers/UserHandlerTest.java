@@ -5,7 +5,6 @@ import com.google.inject.Injector;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.tailoredshapes.inventoryserver.InventoryModule;
-import com.tailoredshapes.inventoryserver.handlers.UserHandler;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;

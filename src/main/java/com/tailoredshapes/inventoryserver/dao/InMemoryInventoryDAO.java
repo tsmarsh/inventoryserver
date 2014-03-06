@@ -1,7 +1,10 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.google.inject.Inject;
-import com.tailoredshapes.inventoryserver.model.*;
+import com.tailoredshapes.inventoryserver.model.Category;
+import com.tailoredshapes.inventoryserver.model.Inventory;
+import com.tailoredshapes.inventoryserver.model.Metric;
+import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.utils.Algorithm;
 
 public class InMemoryInventoryDAO<R extends Algorithm> extends InMemoryDAO<Inventory, R> {
@@ -26,7 +29,7 @@ public class InMemoryInventoryDAO<R extends Algorithm> extends InMemoryDAO<Inven
         upsert(object.getUser(), userDAO);
         upsert(object.getParent(), this);
         upsert(object.getCategory(), categoryDAO);
-        for(Metric metric : object.getMetrics()){
+        for (Metric metric : object.getMetrics()) {
             upsert(metric, metricDAO);
         }
         return object;

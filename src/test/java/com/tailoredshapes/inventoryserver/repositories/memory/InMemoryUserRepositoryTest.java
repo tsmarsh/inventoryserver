@@ -21,7 +21,7 @@ public class InMemoryUserRepositoryTest {
 
     private Serialiser<User> serialiser = object -> testSerializedUser;
 
-    private Encoder<User,TestAlgorithm> encoder = (user) -> testId;
+    private Encoder<User, TestAlgorithm> encoder = (user) -> testId;
 
     private KeyProvider<TestAlgorithm> keyprovider = () -> new KeyPair(null, null);
 

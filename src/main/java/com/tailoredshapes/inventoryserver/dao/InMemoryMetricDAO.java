@@ -1,12 +1,11 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.google.inject.Inject;
-import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.utils.Algorithm;
 
-public class InMemoryMetricDAO<R extends Algorithm> extends InMemoryDAO<Metric, R>{
+public class InMemoryMetricDAO<R extends Algorithm> extends InMemoryDAO<Metric, R> {
 
     private DAO<MetricType> dao;
 

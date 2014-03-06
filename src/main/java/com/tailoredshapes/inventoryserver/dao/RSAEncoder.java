@@ -5,7 +5,10 @@ import com.tailoredshapes.inventoryserver.model.Keyed;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.utils.RSA;
 
-import java.security.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
+import java.security.SignatureException;
 
 
 public class RSAEncoder<T extends Keyed> implements Encoder<T, RSA> {

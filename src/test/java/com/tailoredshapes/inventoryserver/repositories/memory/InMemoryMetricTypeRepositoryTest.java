@@ -20,7 +20,7 @@ public class InMemoryMetricTypeRepositoryTest {
     public void testFindByName() throws Exception {
         MetricType type = new MetricTypeBuilder().build();
         DAO<MetricType> metricTypeDAO = injector.getInstance(new Key<DAO<MetricType>>() {});
-        InMemoryMetricTypeRepository repo = injector.getInstance(new Key<InMemoryMetricTypeRepository<SHA>>(){});
+        InMemoryMetricTypeRepository repo = injector.getInstance(new Key<InMemoryMetricTypeRepository<SHA>>() {});
         MetricType metricType = metricTypeDAO.create(type);
         MetricType byId = repo.findByName(metricType.getName());
         assertEquals(metricType, byId);

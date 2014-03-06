@@ -6,7 +6,7 @@ import com.tailoredshapes.inventoryserver.model.Inventory;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class InventoryIdExtractor implements IdExtractor<Inventory>{
+public class InventoryIdExtractor implements IdExtractor<Inventory> {
 
     private final Pattern userIdPattern = Pattern.compile("^/users/-?\\d+/inventories/(-?\\d+)");
 
@@ -20,7 +20,7 @@ public class InventoryIdExtractor implements IdExtractor<Inventory>{
     @Override
     public Long extract(String path) {
         Matcher matcher = userIdPattern.matcher(path);
-        if(matcher.matches()){
+        if (matcher.matches()) {
             return Long.parseLong(matcher.group(1));
         }
         throw new RuntimeException("Invalid URL: " + path);

@@ -4,14 +4,11 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.tailoredshapes.inventoryserver.InventoryModule;
-import com.tailoredshapes.inventoryserver.dao.*;
+import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
-import com.tailoredshapes.inventoryserver.serialisers.InventorySerialiser;
-import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
-import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.utils.RSA;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +23,8 @@ public class InMemoryInventoryRepositoryTest {
     @Before
     public void setUp() throws Exception {
         Injector injector = Guice.createInjector(new InventoryModule("localhost", 5555));
-        repo = injector.getInstance(new Key<InMemoryInventoryRepository<RSA>>(){});
-        inventoryDAO = injector.getInstance(new Key<DAO<Inventory>>(){});
+        repo = injector.getInstance(new Key<InMemoryInventoryRepository<RSA>>() {});
+        inventoryDAO = injector.getInstance(new Key<DAO<Inventory>>() {});
     }
 
     @Test

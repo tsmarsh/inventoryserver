@@ -1,7 +1,5 @@
 package com.tailoredshapes.inventoryserver.dao;
 
-import com.tailoredshapes.inventoryserver.model.User;
-
 public interface DAO<T> {
     T create(T object);
 

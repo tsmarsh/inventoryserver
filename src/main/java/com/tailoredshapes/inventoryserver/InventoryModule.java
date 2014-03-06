@@ -48,7 +48,7 @@ public class InventoryModule implements Module {
                 .to(new TypeLiteral<InMemoryInventoryDAO<RSA>>() {})
                 .in(Singleton.class);
 
-        binder.bind(new TypeLiteral<DAO<User>>(){})
+        binder.bind(new TypeLiteral<DAO<User>>() {})
                 .to(new TypeLiteral<InMemoryUserDAO<RSA>>() {})
                 .in(Singleton.class);
 
@@ -96,37 +96,37 @@ public class InventoryModule implements Module {
                 .to(new TypeLiteral<JSONResponder<User>>() {});
 
         binder.bind(InventoryRepository.class)
-                .to(new TypeLiteral<InMemoryInventoryRepository<RSA>>(){});
+                .to(new TypeLiteral<InMemoryInventoryRepository<RSA>>() {});
 
         binder.bind(new TypeLiteral<CategoryRepository>() {})
-                .to(new TypeLiteral<InMemoryCategoryRepository<SHA>>(){});
+                .to(new TypeLiteral<InMemoryCategoryRepository<SHA>>() {});
 
         binder.bind(new TypeLiteral<UserRepository>() {})
                 .to(InMemoryUserRepository.class);
 
         binder.bind(new TypeLiteral<MetricTypeRepository>() {})
-                .to(new TypeLiteral<InMemoryMetricTypeRepository<SHA>>(){});
+                .to(new TypeLiteral<InMemoryMetricTypeRepository<SHA>>() {});
 
-        binder.bind(new TypeLiteral<IdExtractor<User>>(){})
+        binder.bind(new TypeLiteral<IdExtractor<User>>() {})
                 .to(UrlIdExtractor.class);
 
-        binder.bind(new TypeLiteral<IdExtractor<Inventory>>(){})
+        binder.bind(new TypeLiteral<IdExtractor<Inventory>>() {})
                 .to(InventoryIdExtractor.class);
 
         binder.bind(new TypeLiteral<Encoder<User, RSA>>() {})
-                .to(new TypeLiteral<RSAEncoder<User>>(){});
+                .to(new TypeLiteral<RSAEncoder<User>>() {});
 
         binder.bind(new TypeLiteral<Encoder<Inventory, RSA>>() {})
-                .to(new TypeLiteral<RSAEncoder<Inventory>>(){});
+                .to(new TypeLiteral<RSAEncoder<Inventory>>() {});
 
         binder.bind(new TypeLiteral<Encoder<Metric, SHA>>() {})
-                .to(new TypeLiteral<SHAEncoder<Metric>>(){});
+                .to(new TypeLiteral<SHAEncoder<Metric>>() {});
 
         binder.bind(new TypeLiteral<Encoder<MetricType, SHA>>() {})
-                .to(new TypeLiteral<SHAEncoder<MetricType>>(){});
+                .to(new TypeLiteral<SHAEncoder<MetricType>>() {});
 
         binder.bind(new TypeLiteral<Encoder<Category, SHA>>() {})
-                .to(new TypeLiteral<SHAEncoder<Category>>(){});
+                .to(new TypeLiteral<SHAEncoder<Category>>() {});
 
         binder.bind(new TypeLiteral<KeyProvider<RSA>>() {})
                 .to(RSAKeyProvider.class);
@@ -185,8 +185,8 @@ public class InventoryModule implements Module {
 
     @Provides
     public UrlBuilder<Inventory> inventoryUrlBuilderProvider(@Named("protocol") String protocol,
-                                                   @Named("host") String host,
-                                                   @Named("port") Integer port) {
+                                                             @Named("host") String host,
+                                                             @Named("port") Integer port) {
         return new InventoryUrlBuilder(protocol, host, port);
     }
 

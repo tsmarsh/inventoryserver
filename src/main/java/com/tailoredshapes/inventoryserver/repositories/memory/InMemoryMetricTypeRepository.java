@@ -6,7 +6,6 @@ import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
 import com.tailoredshapes.inventoryserver.utils.Algorithm;
 
 import javax.inject.Inject;
-import java.util.Map;
 
 public class InMemoryMetricTypeRepository<R extends Algorithm> implements MetricTypeRepository {
 

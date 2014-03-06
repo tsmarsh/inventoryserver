@@ -19,7 +19,7 @@ public class InMemoryUserDAO<R extends Algorithm> extends InMemoryDAO<User, R> {
 
     @Override
     public User saveChildren(User object) {
-        if(object.getId() == null){
+        if (object.getId() == null) {
             KeyPair keys = keyProvider.generate();
             object.setPrivateKey(keys.getPrivate());
             object.setPublicKey(keys.getPublic());

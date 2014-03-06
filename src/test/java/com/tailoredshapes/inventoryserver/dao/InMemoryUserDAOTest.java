@@ -1,10 +1,6 @@
 package com.tailoredshapes.inventoryserver.dao;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.tailoredshapes.inventoryserver.InventoryModule;
 import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.serialisers.UserSerialiser;
 import com.tailoredshapes.inventoryserver.utils.KeyProvider;

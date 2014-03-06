@@ -7,12 +7,12 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.tailoredshapes.inventoryserver.InventoryModule;
 import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -33,15 +33,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class InventoryHandlerTest{
+public class InventoryHandlerTest {
 
     private Injector injector = Guice.createInjector(new InventoryModule("localhost", 6666));
     private InventoryHandler handler;
     @Mock
     private HttpExchange createExchange;
 
-    private DAO<User> userDAO = injector.getInstance(new Key<DAO<User>>(){});
-    private Serialiser<Metric> metricSerialiser = injector.getInstance(new Key<Serialiser<Metric>>(){});
+    private DAO<User> userDAO = injector.getInstance(new Key<DAO<User>>() {});
+    private Serialiser<Metric> metricSerialiser = injector.getInstance(new Key<Serialiser<Metric>>() {});
 
     @Mock
     HttpExchange readExchange1;

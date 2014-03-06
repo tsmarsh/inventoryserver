@@ -1,7 +1,7 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
-import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
 import com.tailoredshapes.inventoryserver.model.TestModel;
+import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
 import org.json.JSONObject;
 import org.junit.Test;
 

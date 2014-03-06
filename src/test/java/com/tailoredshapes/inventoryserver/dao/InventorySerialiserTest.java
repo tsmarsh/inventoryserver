@@ -43,7 +43,6 @@ public class InventorySerialiserTest {
     }
 
 
-
     @Test
     public void testSerialiseACompeteInventory() throws Exception {
         Inventory inventory = new InventoryBuilder().id(777777777777777l)

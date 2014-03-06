@@ -1,8 +1,6 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.tailoredshapes.inventoryserver.model.TestModel;
-import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.utils.TestAlgorithm;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,13 +14,13 @@ public class InMemoryDAOTest {
     private Long testId = -1l;
 
     private Encoder<TestModel, TestAlgorithm> encoder = (testModel) -> testId;
-    private InMemoryDAO<TestModel,TestAlgorithm> dao;
+    private InMemoryDAO<TestModel, TestAlgorithm> dao;
 
     @Before
     public void setUp() {
         testModel = new TestModel();
         testModel.setValue("Twifty");
-        dao = new InMemoryDAO<TestModel, TestAlgorithm>(encoder){
+        dao = new InMemoryDAO<TestModel, TestAlgorithm>(encoder) {
             @Override
             public TestModel saveChildren(TestModel object) {
                 return object;

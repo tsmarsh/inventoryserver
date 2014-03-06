@@ -7,7 +7,6 @@ import com.sun.net.httpserver.HttpServer;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.Category;
-import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.utils.SHA;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,8 +31,8 @@ public class InventoryModuleTest {
 
     @Test
     public void testShouldReturnTheSameDAORegardlessOfInterface() throws Exception {
-        DAO<Category> dao1 = injector.getInstance(new Key<DAO<Category>>(){});
-        DAO<Category> dao2 = injector.getInstance(new Key<InMemoryDAO<Category, SHA>>(){});
+        DAO<Category> dao1 = injector.getInstance(new Key<DAO<Category>>() {});
+        DAO<Category> dao2 = injector.getInstance(new Key<InMemoryDAO<Category, SHA>>() {});
 
         assertEquals(dao1, dao2);
     }

@@ -14,11 +14,11 @@ public abstract class InMemoryDAO<T extends Idable<T>, R extends Algorithm> impl
 
     public abstract T saveChildren(T object);
 
-    protected <Z extends Idable<Z>> void upsert(Z object, DAO<Z> dao){
-        if(object != null){
-            if(null == object.getId()){
+    protected <Z extends Idable<Z>> void upsert(Z object, DAO<Z> dao) {
+        if (object != null) {
+            if (null == object.getId()) {
                 dao.create(object);
-            } else{
+            } else {
                 dao.update(object);
             }
         }
