@@ -1,11 +1,15 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
-import com.tailoredshapes.inventoryserver.dao.*;
+import com.tailoredshapes.inventoryserver.dao.memory.InMemoryChildFreeDAO;
+import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
+import com.tailoredshapes.inventoryserver.encoders.ByteArrayToLong;
+import com.tailoredshapes.inventoryserver.encoders.Encoder;
+import com.tailoredshapes.inventoryserver.encoders.SHAEncoder;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.builders.CategoryBuilder;
 import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
-import com.tailoredshapes.inventoryserver.utils.SHA;
+import com.tailoredshapes.inventoryserver.security.SHA;
 import org.junit.Before;
 import org.junit.Test;
 

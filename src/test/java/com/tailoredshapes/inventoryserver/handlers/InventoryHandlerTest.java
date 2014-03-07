@@ -13,6 +13,7 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
+import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;

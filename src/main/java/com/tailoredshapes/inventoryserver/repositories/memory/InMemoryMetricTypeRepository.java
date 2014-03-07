@@ -1,9 +1,9 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
-import com.tailoredshapes.inventoryserver.dao.InMemoryDAO;
+import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
-import com.tailoredshapes.inventoryserver.utils.Algorithm;
+import com.tailoredshapes.inventoryserver.security.Algorithm;
 
 import javax.inject.Inject;
 

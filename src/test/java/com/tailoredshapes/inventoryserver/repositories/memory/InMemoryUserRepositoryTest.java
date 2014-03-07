@@ -1,12 +1,12 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
 import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.dao.Encoder;
-import com.tailoredshapes.inventoryserver.dao.InMemoryChildFreeDAO;
+import com.tailoredshapes.inventoryserver.encoders.Encoder;
+import com.tailoredshapes.inventoryserver.dao.memory.InMemoryChildFreeDAO;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
-import com.tailoredshapes.inventoryserver.utils.KeyProvider;
-import com.tailoredshapes.inventoryserver.utils.TestAlgorithm;
+import com.tailoredshapes.inventoryserver.security.KeyProvider;
+import com.tailoredshapes.inventoryserver.security.TestAlgorithm;
 import org.junit.Before;
 import org.junit.Test;
 

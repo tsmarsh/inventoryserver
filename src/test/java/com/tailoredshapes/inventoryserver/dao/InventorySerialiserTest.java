@@ -1,8 +1,8 @@
 package com.tailoredshapes.inventoryserver.dao;
 
-import com.tailoredshapes.inventoryserver.handlers.InventoryUrlBuilder;
-import com.tailoredshapes.inventoryserver.handlers.UrlBuilder;
-import com.tailoredshapes.inventoryserver.handlers.UserUrlBuilder;
+import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
+import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
+import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;

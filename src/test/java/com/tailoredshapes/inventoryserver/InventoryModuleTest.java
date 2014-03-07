@@ -5,9 +5,9 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.sun.net.httpserver.HttpServer;
 import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.dao.InMemoryDAO;
+import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.Category;
-import com.tailoredshapes.inventoryserver.utils.SHA;
+import com.tailoredshapes.inventoryserver.security.SHA;
 import org.junit.Before;
 import org.junit.Test;
 

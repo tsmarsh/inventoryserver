@@ -1,5 +1,7 @@
 package com.tailoredshapes.inventoryserver.dao;
 
+import com.tailoredshapes.inventoryserver.encoders.ByteArrayToLong;
+import com.tailoredshapes.inventoryserver.encoders.RSAEncoder;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.serialisers.UserSerialiser;

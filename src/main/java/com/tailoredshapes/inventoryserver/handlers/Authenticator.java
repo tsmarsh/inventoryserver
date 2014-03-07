@@ -2,6 +2,7 @@ package com.tailoredshapes.inventoryserver.handlers;
 
 import com.google.inject.Inject;
 import com.sun.net.httpserver.HttpExchange;
+import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 

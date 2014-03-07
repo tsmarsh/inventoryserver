@@ -2,6 +2,7 @@ package com.tailoredshapes.inventoryserver.handlers;
 
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
+import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

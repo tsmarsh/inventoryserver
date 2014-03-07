@@ -5,8 +5,10 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.tailoredshapes.inventoryserver.dao.DAO;
+import com.tailoredshapes.inventoryserver.handlers.responders.Responder;
 import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.utils.UserParser;
+import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
+import com.tailoredshapes.inventoryserver.parsers.UserParser;
 
 import java.io.IOException;
 import java.io.OutputStream;

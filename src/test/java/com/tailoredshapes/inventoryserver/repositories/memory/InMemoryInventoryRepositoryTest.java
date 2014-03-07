@@ -9,7 +9,7 @@ import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
-import com.tailoredshapes.inventoryserver.utils.RSA;
+import com.tailoredshapes.inventoryserver.security.RSA;
 import org.junit.Before;
 import org.junit.Test;
 
