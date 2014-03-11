@@ -5,13 +5,16 @@ import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.tailoredshapes.inventoryserver.dao.*;
-import com.tailoredshapes.inventoryserver.dao.memory.*;
-import com.tailoredshapes.inventoryserver.encoders.*;
+import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
+import com.tailoredshapes.inventoryserver.encoders.Encoder;
+import com.tailoredshapes.inventoryserver.encoders.RSAEncoder;
+import com.tailoredshapes.inventoryserver.encoders.SHAEncoder;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.extractors.InventoryIdExtractor;
 import com.tailoredshapes.inventoryserver.extractors.UrlIdExtractor;
 import com.tailoredshapes.inventoryserver.filters.ParameterFilter;
-import com.tailoredshapes.inventoryserver.handlers.*;
+import com.tailoredshapes.inventoryserver.handlers.InventoryHandler;
+import com.tailoredshapes.inventoryserver.handlers.UserHandler;
 import com.tailoredshapes.inventoryserver.handlers.responders.JSONResponder;
 import com.tailoredshapes.inventoryserver.handlers.responders.Responder;
 import com.tailoredshapes.inventoryserver.model.*;
@@ -25,11 +28,14 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryCategoryRe
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryInventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryMetricTypeRepository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserRepository;
+import com.tailoredshapes.inventoryserver.security.KeyProvider;
+import com.tailoredshapes.inventoryserver.security.RSA;
+import com.tailoredshapes.inventoryserver.security.RSAKeyProvider;
+import com.tailoredshapes.inventoryserver.security.SHA;
 import com.tailoredshapes.inventoryserver.serialisers.*;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
-import com.tailoredshapes.inventoryserver.security.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -147,20 +153,20 @@ public class InventoryModule implements Module {
         binder.bind(new TypeLiteral<KeyProvider<RSA>>() {})
                 .to(RSAKeyProvider.class);
 
-        binder.bind(new TypeLiteral<Saver<User>>(){})
+        binder.bind(new TypeLiteral<Saver<User>>() {})
                 .to(new TypeLiteral<UserSaver<RSA>>() {});
 
-        binder.bind(new TypeLiteral<Saver<Inventory>>(){})
+        binder.bind(new TypeLiteral<Saver<Inventory>>() {})
                 .to(InventorySaver.class);
 
-        binder.bind(new TypeLiteral<Saver<Category>>(){})
+        binder.bind(new TypeLiteral<Saver<Category>>() {})
                 .to(new TypeLiteral<ChildFreeSaver<Category>>() {});
 
-        binder.bind(new TypeLiteral<Saver<Metric>>(){})
+        binder.bind(new TypeLiteral<Saver<Metric>>() {})
                 .to(MetricSaver.class);
 
-        binder.bind(new TypeLiteral<Saver<MetricType>>(){})
-                .to(new TypeLiteral<ChildFreeSaver<MetricType>>(){});
+        binder.bind(new TypeLiteral<Saver<MetricType>>() {})
+                .to(new TypeLiteral<ChildFreeSaver<MetricType>>() {});
     }
 
     @Provides

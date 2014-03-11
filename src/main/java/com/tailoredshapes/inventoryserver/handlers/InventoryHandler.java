@@ -8,8 +8,8 @@ import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.handlers.responders.Responder;
 import com.tailoredshapes.inventoryserver.model.Inventory;
-import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
+import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 
 import java.io.IOException;
 import java.io.OutputStream;

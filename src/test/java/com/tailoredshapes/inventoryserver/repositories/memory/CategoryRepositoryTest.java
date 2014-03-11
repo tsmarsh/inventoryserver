@@ -9,13 +9,14 @@ import org.junit.Test;
 
 import static com.tailoredshapes.inventoryserver.GuiceTest.injector;
 import static org.junit.Assert.assertEquals;
-public class CategoryRepositoryTest{
+
+public class CategoryRepositoryTest {
 
 
     @Test
     public void testFindByName() throws Exception {
         Category category = new CategoryBuilder().build();
-        DAO<Category> dao = injector.getInstance(new Key<DAO<Category>>(){});
+        DAO<Category> dao = injector.getInstance(new Key<DAO<Category>>() {});
         CategoryRepository repo = injector.getInstance(CategoryRepository.class);
         Category savedCategory = dao.create(category);
         Category byId = repo.findByFullname(savedCategory.getFullname());

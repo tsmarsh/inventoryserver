@@ -1,6 +1,5 @@
 package com.tailoredshapes.inventoryserver.handlers.responders;
 
-import com.tailoredshapes.inventoryserver.handlers.responders.JSONResponder;
 import com.tailoredshapes.inventoryserver.model.TestModel;
 import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
 import org.json.JSONObject;

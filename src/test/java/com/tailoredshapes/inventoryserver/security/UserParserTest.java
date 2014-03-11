@@ -4,11 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.tailoredshapes.inventoryserver.InventoryModule;
-import com.tailoredshapes.inventoryserver.dao.*;
-import com.tailoredshapes.inventoryserver.dao.ChildFreeSaver;
-import com.tailoredshapes.inventoryserver.encoders.ByteArrayToLong;
-import com.tailoredshapes.inventoryserver.encoders.Encoder;
-import com.tailoredshapes.inventoryserver.encoders.RSAEncoder;
+import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.parsers.UserParser;
@@ -37,7 +33,7 @@ public class UserParserTest {
         existingUser = new UserBuilder().id(555l).name("Cassie").build();
         serializer = new JSONSerialiser<>();
 
-        dao = injector.getInstance(new Key<DAO<User>>(){});
+        dao = injector.getInstance(new Key<DAO<User>>() {});
         savedUser = dao.create(existingUser);
         repo = new InMemoryUserRepository(dao);
     }

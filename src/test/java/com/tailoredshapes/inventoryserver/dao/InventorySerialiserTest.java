@@ -1,8 +1,5 @@
 package com.tailoredshapes.inventoryserver.dao;
 
-import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
-import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
-import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
@@ -14,6 +11,9 @@ import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.serialisers.InventorySerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
+import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
+import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
+import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;

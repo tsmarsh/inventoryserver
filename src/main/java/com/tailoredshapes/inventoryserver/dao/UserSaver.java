@@ -1,10 +1,7 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.google.inject.Inject;
-import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
-import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.security.Algorithm;
 import com.tailoredshapes.inventoryserver.security.KeyProvider;
 
 import java.security.KeyPair;

@@ -1,16 +1,12 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.google.inject.Inject;
-import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
-import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.security.Algorithm;
 
-public class InventorySaver extends Saver<Inventory>{
+public class InventorySaver extends Saver<Inventory> {
 
     private final DAO<User> userDAO;
     private DAO<Inventory> inventoryDAO;

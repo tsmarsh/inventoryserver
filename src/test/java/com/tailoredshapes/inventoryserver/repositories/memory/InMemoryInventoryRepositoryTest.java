@@ -1,9 +1,6 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.google.inject.Key;
-import com.tailoredshapes.inventoryserver.InventoryModule;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
@@ -13,8 +10,8 @@ import com.tailoredshapes.inventoryserver.security.RSA;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 import static com.tailoredshapes.inventoryserver.GuiceTest.injector;
+import static org.junit.Assert.assertEquals;
 
 public class InMemoryInventoryRepositoryTest {
 

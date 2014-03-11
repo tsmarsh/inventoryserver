@@ -2,8 +2,8 @@ package com.tailoredshapes.inventoryserver.encoders;
 
 import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Keyed;
-import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.security.RSA;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
