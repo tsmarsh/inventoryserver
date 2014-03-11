@@ -12,7 +12,7 @@ public class InventorySerialiser implements Serialiser<Inventory> {
 
     private final UrlBuilder<Inventory> inventoryUrlBuilder;
     private final UrlBuilder<User> userUrlBuilder;
-    private Serialiser<Metric> metricSerializer;
+    private final Serialiser<Metric> metricSerializer;
 
     @Inject
     public InventorySerialiser(UrlBuilder<Inventory> inventoryUrlBuilder, UrlBuilder<User> userUrlBuilder, Serialiser<Metric> metricSerializer) {

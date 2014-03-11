@@ -22,8 +22,8 @@ public class InventoryHandler implements HttpHandler {
     private final Authenticator authenticator;
     private final DAO<Inventory> dao;
     private final Parser<Inventory> inventoryParser;
-    private UrlBuilder<Inventory> urlBuilder;
-    private IdExtractor inventoryUrlExtractor;
+    private final UrlBuilder<Inventory> urlBuilder;
+    private final IdExtractor inventoryUrlExtractor;
 
     @Inject
     public InventoryHandler(Responder<Inventory> responder,

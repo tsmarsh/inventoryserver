@@ -19,8 +19,8 @@ public class UserHandler implements HttpHandler {
 
     private final DAO<User> dao;
     private final Responder<User> responder;
-    private UrlBuilder<User> urlBuilder;
-    private UserParser userParser;
+    private final UrlBuilder<User> urlBuilder;
+    private final UserParser userParser;
 
     @Inject
     public UserHandler(DAO<User> dao, Responder<User> responder, UrlBuilder<User> urlBuilder, UserParser userParser) {

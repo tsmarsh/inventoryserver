@@ -9,8 +9,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class SHAEncoder<T> implements Encoder<T, SHA> {
 
-    private Serialiser<T> serialiser;
-    private ByteArrayToLong shrinker;
+    private final Serialiser<T> serialiser;
+    private final ByteArrayToLong shrinker;
 
     @Inject
     public SHAEncoder(Serialiser<T> serialiser, ByteArrayToLong shrinker) {

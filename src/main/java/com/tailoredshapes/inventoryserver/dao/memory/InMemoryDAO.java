@@ -14,7 +14,7 @@ public class InMemoryDAO<T extends Idable<T>, R extends Algorithm> implements DA
 
     public final Map<Long, T> db;
     private final Encoder<T, R> encoder;
-    private Saver<T> saver;
+    private final Saver<T> saver;
 
     @Inject
     public InMemoryDAO(Encoder<T, R> encoder, Saver<T> saver) {

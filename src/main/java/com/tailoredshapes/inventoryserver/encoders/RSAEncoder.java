@@ -13,8 +13,8 @@ import java.security.SignatureException;
 
 public class RSAEncoder<T extends Keyed> implements Encoder<T, RSA> {
 
-    private Serialiser<T> serialiser;
-    private ByteArrayToLong shrinker;
+    private final Serialiser<T> serialiser;
+    private final ByteArrayToLong shrinker;
 
     @Inject
     public RSAEncoder(Serialiser<T> serialiser, ByteArrayToLong shrinker) {

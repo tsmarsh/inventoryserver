@@ -10,9 +10,9 @@ import org.hibernate.SessionFactory;
 
 public abstract class HibernateDAO<T extends Idable<T>> implements DAO<T> {
     private TypeLiteral<T> type;
-    private SessionFactory factory;
+    private final SessionFactory factory;
     private final Class<? super T> rawType;
-    private Saver<T> saver;
+    private final Saver<T> saver;
 
     @Inject
     public HibernateDAO(TypeLiteral<T> type, SessionFactory factory, Saver<T> saver) {

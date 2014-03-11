@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 public class UserParser implements Parser<User> {
 
-    private UserRepository repo;
+    private final UserRepository repo;
 
     @Inject
     public UserParser(UserRepository repo) {

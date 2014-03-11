@@ -6,7 +6,7 @@ import com.tailoredshapes.inventoryserver.model.MetricType;
 
 public class MetricSaver extends Saver<Metric> {
 
-    private DAO<MetricType> dao;
+    private final DAO<MetricType> dao;
 
     @Inject
     public MetricSaver(DAO<MetricType> dao) {

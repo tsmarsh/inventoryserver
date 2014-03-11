@@ -23,8 +23,8 @@ public class InventoryParser implements Parser<Inventory> {
     private final CategoryRepository categoryRepository;
     private final InventoryRepository inventoryRepository;
     private final MetricTypeRepository metricTypeRepository;
-    private IdExtractor<User> userIdExtractor;
-    private IdExtractor<Inventory> inventoryIdExtractor;
+    private final IdExtractor<User> userIdExtractor;
+    private final IdExtractor<Inventory> inventoryIdExtractor;
 
     @Inject
     public InventoryParser(UserRepository userRepository,
@@ -64,7 +64,7 @@ public class InventoryParser implements Parser<Inventory> {
 
 
         if (jo.has("parent")) {
-            long parent_id = 0;
+            long parent_id;
             try {
                 parent_id = inventoryIdExtractor.extract(new URL(jo.getString("parent")).getPath());
             } catch (MalformedURLException e) {

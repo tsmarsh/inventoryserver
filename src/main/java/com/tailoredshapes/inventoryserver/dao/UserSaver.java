@@ -8,7 +8,7 @@ import java.security.KeyPair;
 
 public class UserSaver<R> extends Saver<User> {
 
-    private KeyProvider<R> keyProvider;
+    private final KeyProvider<R> keyProvider;
 
     @Inject
     public UserSaver(KeyProvider<R> keyProvider) {

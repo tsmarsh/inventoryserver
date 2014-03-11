@@ -9,9 +9,9 @@ import java.net.URL;
 public class UserUrlBuilder implements UrlBuilder<User> {
 
 
-    private String protocol;
-    private String host;
-    private int port;
+    private final String protocol;
+    private final String host;
+    private final int port;
 
     @Inject
     public UserUrlBuilder(String protocol, String host, int port) {
