@@ -1,6 +1,7 @@
-package com.tailoredshapes.inventoryserver.dao.memory;
+package com.tailoredshapes.inventoryserver.dao;
 
 import com.google.inject.Inject;
+import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
@@ -8,13 +9,12 @@ import com.tailoredshapes.inventoryserver.security.KeyProvider;
 
 import java.security.KeyPair;
 
-public class InMemoryUserDAO<R extends Algorithm> extends InMemoryDAO<User, R> {
+public class UserSaver<R> extends Saver<User> {
 
     private KeyProvider<R> keyProvider;
 
     @Inject
-    public InMemoryUserDAO(Encoder<User, R> encoder, KeyProvider<R> keyProvider) {
-        super(encoder);
+    public UserSaver(KeyProvider<R> keyProvider) {
         this.keyProvider = keyProvider;
     }
 

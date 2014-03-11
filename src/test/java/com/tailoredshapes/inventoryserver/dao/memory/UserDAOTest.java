@@ -1,6 +1,9 @@
 package com.tailoredshapes.inventoryserver.dao.memory;
 
-import com.tailoredshapes.inventoryserver.dao.memory.InMemoryUserDAO;
+import com.google.inject.Key;
+import com.tailoredshapes.inventoryserver.GuiceTest;
+import com.tailoredshapes.inventoryserver.dao.DAO;
+import com.tailoredshapes.inventoryserver.dao.UserSaver;
 import com.tailoredshapes.inventoryserver.encoders.ByteArrayToLong;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.encoders.RSAEncoder;
@@ -14,13 +17,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-public class InMemoryUserDAOTest {
+public class UserDAOTest extends GuiceTest {
+
     @Test
     public void testSaveChildren() throws Exception {
-        Serialiser<User> serialiser = new UserSerialiser();
-        Encoder<User, RSA> encoder = new RSAEncoder<>(serialiser, new ByteArrayToLong());
-        KeyProvider<RSA> keyprovider = new RSAKeyProvider();
-        InMemoryUserDAO<RSA> dao = new InMemoryUserDAO<>(encoder, keyprovider);
+        DAO<User> dao = injector.getInstance(new Key<DAO<User>>(){});
         User user = new User().setName("Archer");
         User savedUser = dao.create(user);
         assertNotNull(savedUser.getId());

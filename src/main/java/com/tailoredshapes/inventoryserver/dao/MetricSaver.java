@@ -1,19 +1,19 @@
-package com.tailoredshapes.inventoryserver.dao.memory;
+package com.tailoredshapes.inventoryserver.dao;
 
 import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.dao.DAO;
+import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
 
-public class InMemoryMetricDAO<R extends Algorithm> extends InMemoryDAO<Metric, R> {
+public class MetricSaver extends Saver<Metric> {
 
     private DAO<MetricType> dao;
 
     @Inject
-    public InMemoryMetricDAO(DAO<MetricType> dao, Encoder<Metric, R> encoder) {
-        super(encoder);
+    public MetricSaver(DAO<MetricType> dao) {
         this.dao = dao;
     }
 

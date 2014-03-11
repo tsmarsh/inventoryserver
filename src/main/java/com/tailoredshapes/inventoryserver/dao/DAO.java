@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 public interface DAO<T> {
+
     T create(T object);
 
     T read(T object);

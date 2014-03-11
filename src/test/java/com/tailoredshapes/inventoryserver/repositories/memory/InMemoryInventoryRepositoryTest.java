@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static com.tailoredshapes.inventoryserver.GuiceTest.injector;
 
 public class InMemoryInventoryRepositoryTest {
 
@@ -22,7 +23,6 @@ public class InMemoryInventoryRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        Injector injector = Guice.createInjector(new InventoryModule("localhost", 5555));
         repo = injector.getInstance(new Key<InMemoryInventoryRepository<RSA>>() {});
         inventoryDAO = injector.getInstance(new Key<DAO<Inventory>>() {});
     }

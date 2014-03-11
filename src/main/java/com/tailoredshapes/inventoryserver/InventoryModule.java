@@ -57,11 +57,14 @@ public class InventoryModule implements Module {
                 .to(new TypeLiteral<InMemoryDAO<Inventory, RSA>>() {});
 
         binder.bind(new TypeLiteral<InMemoryDAO<Inventory, RSA>>() {})
-                .to(new TypeLiteral<InMemoryInventoryDAO<RSA>>() {})
                 .in(Singleton.class);
 
+
         binder.bind(new TypeLiteral<DAO<User>>() {})
-                .to(new TypeLiteral<InMemoryUserDAO<RSA>>() {})
+                .to(new TypeLiteral<InMemoryDAO<User, RSA>>() {});
+
+
+        binder.bind(new TypeLiteral<InMemoryDAO<User, RSA>>() {})
                 .in(Singleton.class);
 
 
@@ -69,18 +72,19 @@ public class InventoryModule implements Module {
                 .to(new TypeLiteral<InMemoryDAO<Category, SHA>>() {});
 
         binder.bind(new TypeLiteral<InMemoryDAO<Category, SHA>>() {})
-                .to(new TypeLiteral<InMemoryChildFreeDAO<Category, SHA>>() {})
                 .in(Singleton.class);
 
+
         binder.bind(new TypeLiteral<DAO<Metric>>() {})
-                .to(new TypeLiteral<InMemoryMetricDAO<SHA>>() {})
+                .to(new TypeLiteral<InMemoryDAO<Metric, SHA>>() {});
+
+        binder.bind(new TypeLiteral<InMemoryDAO<Metric, SHA>>() {})
                 .in(Singleton.class);
 
         binder.bind(new TypeLiteral<DAO<MetricType>>() {})
                 .to(new TypeLiteral<InMemoryDAO<MetricType, SHA>>() {});
 
         binder.bind(new TypeLiteral<InMemoryDAO<MetricType, SHA>>() {})
-                .to(new TypeLiteral<InMemoryChildFreeDAO<MetricType, SHA>>() {})
                 .in(Singleton.class);
 
         binder.bind(new TypeLiteral<Parser<Inventory>>() {})
@@ -142,6 +146,21 @@ public class InventoryModule implements Module {
 
         binder.bind(new TypeLiteral<KeyProvider<RSA>>() {})
                 .to(RSAKeyProvider.class);
+
+        binder.bind(new TypeLiteral<Saver<User>>(){})
+                .to(new TypeLiteral<UserSaver<RSA>>() {});
+
+        binder.bind(new TypeLiteral<Saver<Inventory>>(){})
+                .to(InventorySaver.class);
+
+        binder.bind(new TypeLiteral<Saver<Category>>(){})
+                .to(new TypeLiteral<ChildFreeSaver<Category>>() {});
+
+        binder.bind(new TypeLiteral<Saver<Metric>>(){})
+                .to(MetricSaver.class);
+
+        binder.bind(new TypeLiteral<Saver<MetricType>>(){})
+                .to(new TypeLiteral<ChildFreeSaver<MetricType>>(){});
     }
 
     @Provides

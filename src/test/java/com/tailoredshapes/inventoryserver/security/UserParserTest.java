@@ -1,7 +1,11 @@
 package com.tailoredshapes.inventoryserver.security;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.tailoredshapes.inventoryserver.InventoryModule;
 import com.tailoredshapes.inventoryserver.dao.*;
-import com.tailoredshapes.inventoryserver.dao.memory.InMemoryChildFreeDAO;
+import com.tailoredshapes.inventoryserver.dao.ChildFreeSaver;
 import com.tailoredshapes.inventoryserver.encoders.ByteArrayToLong;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.encoders.RSAEncoder;
@@ -20,22 +24,20 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class UserParserTest {
+    Injector injector = Guice.createInjector(new InventoryModule("localhost", 5555));
     User existingUser;
     Serialiser<User> serializer;
-    Encoder<User, RSA> encoder;
     DAO<User> dao;
     User savedUser;
     UserRepository repo;
-    private KeyProvider keyprovider;
 
     @Before
     public void setUp() throws Exception {
+        UserParser instance = injector.getInstance(UserParser.class);
         existingUser = new UserBuilder().id(555l).name("Cassie").build();
         serializer = new JSONSerialiser<>();
-        encoder = new RSAEncoder<>(serializer, new ByteArrayToLong());
-        keyprovider = new RSAKeyProvider();
 
-        dao = new InMemoryChildFreeDAO<>(encoder);
+        dao = injector.getInstance(new Key<DAO<User>>(){});
         savedUser = dao.create(existingUser);
         repo = new InMemoryUserRepository(dao);
     }

@@ -2,7 +2,6 @@ package com.tailoredshapes.inventoryserver.repositories.memory;
 
 import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
@@ -13,7 +12,7 @@ public class InMemoryInventoryRepository<R extends Algorithm> implements Invento
     private final DAO<Inventory> dao;
 
     @Inject
-    public InMemoryInventoryRepository(InMemoryDAO<Inventory, R> inventoryDAO) {
+    public InMemoryInventoryRepository(DAO<Inventory> inventoryDAO) {
 
         this.dao = inventoryDAO;
     }

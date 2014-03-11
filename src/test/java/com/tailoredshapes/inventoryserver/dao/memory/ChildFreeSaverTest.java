@@ -1,7 +1,7 @@
 package com.tailoredshapes.inventoryserver.dao.memory;
 
-import com.tailoredshapes.inventoryserver.dao.memory.InMemoryChildFreeDAO;
-import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
+import com.tailoredshapes.inventoryserver.dao.ChildFreeSaver;
+import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.TestModel;
 import com.tailoredshapes.inventoryserver.security.TestAlgorithm;
@@ -13,16 +13,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(MockitoJUnitRunner.class)
-public class InMemoryChildFreeDAOTest {
+public class ChildFreeSaverTest {
     Long testId = 1l;
 
     private TestModel model;
 
     private Encoder<TestModel, TestAlgorithm> encoder = (model) -> testId;
+    private Saver<TestModel> saver = new ChildFreeSaver<>();
 
     @Test
     public void shouldUpdateAnObject() {
-        InMemoryDAO<TestModel, TestAlgorithm> dao = new InMemoryChildFreeDAO<>(encoder);
+        InMemoryDAO<TestModel, TestAlgorithm> dao = new InMemoryDAO<>(encoder, saver);
         model = new TestModel().setValue("twifty");
         TestModel returnedTestModel = dao.create(model);
 
@@ -40,7 +41,7 @@ public class InMemoryChildFreeDAOTest {
 
     @Test
     public void shouldDeleteAnObject() {
-        InMemoryDAO<TestModel, TestAlgorithm> dao = new InMemoryChildFreeDAO<>(encoder);
+        InMemoryDAO<TestModel, TestAlgorithm> dao = new InMemoryDAO<>(encoder, saver);
         model = new TestModel().setValue("twifty");
         TestModel returnedTestModel = dao.create(model);
 
