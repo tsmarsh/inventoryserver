@@ -1,11 +1,9 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
-import com.tailoredshapes.inventoryserver.InventoryModule;
+import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
@@ -36,13 +34,12 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class InventoryHandlerTest {
 
-    private Injector injector = Guice.createInjector(new InventoryModule("localhost", 6666));
     private InventoryHandler handler;
     @Mock
     private HttpExchange createExchange;
 
-    private DAO<User> userDAO = injector.getInstance(new Key<DAO<User>>() {});
-    private Serialiser<Metric> metricSerialiser = injector.getInstance(new Key<Serialiser<Metric>>() {});
+    private DAO<User> userDAO = GuiceTest.injector.getInstance(new Key<DAO<User>>() {});
+    private Serialiser<Metric> metricSerialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Metric>>() {});
 
     @Mock
     HttpExchange readExchange1;
@@ -64,9 +61,9 @@ public class InventoryHandlerTest {
         URI uri = new URI(String.format("http://localhost:80/users/%s/inventories", user.getId()));
 
         //CREATE
-        handler = injector.getInstance(InventoryHandler.class);
-        UrlBuilder<User> userUrlBuilder = injector.getInstance(new Key<UrlBuilder<User>>() {});
-        UrlBuilder<Inventory> inventoryUrlBuilder = injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
+        handler = GuiceTest.injector.getInstance(InventoryHandler.class);
+        UrlBuilder<User> userUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<User>>() {});
+        UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
 
         stringStream = new ByteArrayOutputStream();
         parameters = new HashMap<>();

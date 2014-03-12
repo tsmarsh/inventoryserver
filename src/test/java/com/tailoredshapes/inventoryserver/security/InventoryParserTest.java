@@ -1,9 +1,7 @@
 package com.tailoredshapes.inventoryserver.security;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.google.inject.Key;
-import com.tailoredshapes.inventoryserver.InventoryModule;
+import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
@@ -25,7 +23,6 @@ import static junit.framework.Assert.assertEquals;
 
 public class InventoryParserTest {
 
-    private Injector injector = Guice.createInjector(new InventoryModule("localhost", 6666));
     private InventoryParser parser;
     private User testUser;
     private Serialiser<Inventory> serialiser;
@@ -33,10 +30,10 @@ public class InventoryParserTest {
 
     @Before
     public void init() {
-        parser = injector.getInstance(InventoryParser.class);
-        DAO<User> userDAO = injector.getInstance(new Key<DAO<User>>() {});
+        parser = GuiceTest.injector.getInstance(InventoryParser.class);
+        DAO<User> userDAO = GuiceTest.injector.getInstance(new Key<DAO<User>>() {});
         testUser = userDAO.create(new UserBuilder().id(null).build());
-        serialiser = injector.getInstance(new Key<Serialiser<Inventory>>() {});
+        serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory>>() {});
     }
 
     @Test
@@ -51,7 +48,7 @@ public class InventoryParserTest {
     @Test
     public void shouldParseAnInventoryWithParent() throws Exception {
         Inventory parent = new InventoryBuilder().user(testUser).build();
-        DAO<Inventory> dao = injector.getInstance(new Key<DAO<Inventory>>() {});
+        DAO<Inventory> dao = GuiceTest.injector.getInstance(new Key<DAO<Inventory>>() {});
         parent = dao.create(parent);
 
         Inventory inventory = new InventoryBuilder().user(testUser).parent(parent).build();

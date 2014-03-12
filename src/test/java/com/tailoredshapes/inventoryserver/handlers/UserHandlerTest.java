@@ -1,10 +1,8 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
-import com.tailoredshapes.inventoryserver.InventoryModule;
+import com.tailoredshapes.inventoryserver.GuiceTest;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +23,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class UserHandlerTest {
 
-    private Injector injector = Guice.createInjector(new InventoryModule("localhost", 6666));
     private UserHandler handler;
     @Mock
     private HttpExchange exchange;
@@ -44,7 +41,7 @@ public class UserHandlerTest {
     @Test
     public void testCanCRUDAUser() throws Exception {
         //CREATE
-        handler = injector.getInstance(UserHandler.class);
+        handler = GuiceTest.injector.getInstance(UserHandler.class);
         stringStream = new ByteArrayOutputStream();
         parameters = new HashMap<>();
 

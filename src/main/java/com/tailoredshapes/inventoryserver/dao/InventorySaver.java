@@ -9,9 +9,9 @@ import com.tailoredshapes.inventoryserver.model.User;
 public class InventorySaver extends Saver<Inventory> {
 
     private final DAO<User> userDAO;
-    private DAO<Inventory> inventoryDAO;
+    private final DAO<Inventory> inventoryDAO;
     private final DAO<Metric> metricDAO;
-    private DAO<Category> categoryDAO;
+    private final DAO<Category> categoryDAO;
 
     @Inject
     public InventorySaver(DAO<User> userDAO,

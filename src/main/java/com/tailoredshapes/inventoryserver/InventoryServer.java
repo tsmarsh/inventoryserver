@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class InventoryServer {
     public static void main(String... args) throws IOException {
-        Injector injector = Guice.createInjector(new InventoryModule("0.0.0.0", 5555));
+        Injector injector = Guice.createInjector(new InventoryServerModule("0.0.0.0", 5555));
         HttpServer server = injector.getInstance(HttpServer.class);
 
         server.start();

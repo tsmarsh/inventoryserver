@@ -16,23 +16,16 @@ import static org.junit.Assert.assertNotNull;
 
 public class InventoryModuleTest {
 
-    private Injector injector;
-
-    @Before
-    public void setUp() throws Exception {
-        injector = Guice.createInjector(new InventoryModule("0.0.0.0", 5555));
-    }
-
     @Test
     public void shouldCreateAServer() throws Exception {
-        HttpServer server = injector.getInstance(HttpServer.class);
+        HttpServer server = GuiceTest.injector.getInstance(HttpServer.class);
         assertNotNull(server);
     }
 
     @Test
     public void testShouldReturnTheSameDAORegardlessOfInterface() throws Exception {
-        DAO<Category> dao1 = injector.getInstance(new Key<DAO<Category>>() {});
-        DAO<Category> dao2 = injector.getInstance(new Key<InMemoryDAO<Category, SHA>>() {});
+        DAO<Category> dao1 = GuiceTest.injector.getInstance(new Key<DAO<Category>>() {});
+        DAO<Category> dao2 = GuiceTest.injector.getInstance(new Key<InMemoryDAO<Category, SHA>>() {});
 
         assertEquals(dao1, dao2);
     }

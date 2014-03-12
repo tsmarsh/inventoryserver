@@ -1,9 +1,7 @@
 package com.tailoredshapes.inventoryserver.security;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.google.inject.Key;
-import com.tailoredshapes.inventoryserver.InventoryModule;
+import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
@@ -20,7 +18,6 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class UserParserTest {
-    Injector injector = Guice.createInjector(new InventoryModule("localhost", 5555));
     User existingUser;
     Serialiser<User> serializer;
     DAO<User> dao;
@@ -29,11 +26,11 @@ public class UserParserTest {
 
     @Before
     public void setUp() throws Exception {
-        UserParser instance = injector.getInstance(UserParser.class);
+        UserParser instance = GuiceTest.injector.getInstance(UserParser.class);
         existingUser = new UserBuilder().id(555l).name("Cassie").build();
         serializer = new JSONSerialiser<>();
 
-        dao = injector.getInstance(new Key<DAO<User>>() {});
+        dao = GuiceTest.injector.getInstance(new Key<DAO<User>>() {});
         savedUser = dao.create(existingUser);
         repo = new InMemoryUserRepository(dao);
     }
