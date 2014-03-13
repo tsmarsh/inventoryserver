@@ -9,4 +9,10 @@ public class GuiceTest {
             new InMemoryModule(),
             new JSONModule(),
             new RSAModule());
+
+    public static Injector hibernateInjector = Guice.createInjector(
+            new InventoryServerModule("localhost", 5555),
+            new HibernateModule(),
+            new JSONModule(),
+            new RSAModule());
 }

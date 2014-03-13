@@ -5,10 +5,8 @@
 
 <hibernate-mapping package="com.tailoredshapes.inventoryserver.model">
     <class name="Metric">
-        <id name="id">
-            <generator class="uuid"/>
-        </id>
+        <id name="id"/>
         <property name="value"/>
-        <property name="type"/>
+        <many-to-one name="type"/>
     </class>
 </hibernate-mapping>

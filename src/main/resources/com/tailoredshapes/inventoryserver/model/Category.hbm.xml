@@ -5,11 +5,9 @@
 
 <hibernate-mapping package="com.tailoredshapes.inventoryserver.model">
     <class name="Category">
-        <id name="id">
-            <generator class="uuid"/>
-        </id>
+        <id name="id"/>
         <property name="name"/>
         <property name="fullname"/>
-        <property name="parent"/>
+        <many-to-one name="parent" />
     </class>
 </hibernate-mapping>

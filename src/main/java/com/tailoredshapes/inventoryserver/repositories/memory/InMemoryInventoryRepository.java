@@ -3,11 +3,10 @@ package com.tailoredshapes.inventoryserver.repositories.memory;
 import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
-import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
 
-public class InMemoryInventoryRepository<R extends Algorithm> implements InventoryRepository {
+public class InMemoryInventoryRepository implements InventoryRepository {
 
     private final DAO<Inventory> dao;
 
@@ -18,7 +17,7 @@ public class InMemoryInventoryRepository<R extends Algorithm> implements Invento
     }
 
     @Override
-    public Inventory findById(User user, Long id) {
+    public Inventory findById(Long id) {
         return dao.read(new Inventory().setId(id));
     }
 }

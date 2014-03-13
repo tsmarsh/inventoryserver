@@ -71,7 +71,7 @@ public class InventoryParser implements Parser<Inventory> {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
-            inventory.setParent(inventoryRepository.findById(inventory.getUser(), parent_id));
+            inventory.setParent(inventoryRepository.findById(parent_id));
         }
 
         if (jo.has("metrics")) {

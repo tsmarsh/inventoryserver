@@ -4,9 +4,10 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.tailoredshapes.inventoryserver.model">
-    <class name="Inventory">
-        <id name="id"/>
-        <many-to-one name="parent"/>
-        <many-to-one name="category"/>
+    <class name="User">
+        <id name="id" />
+        <property name="name"/>
+        <property name="privateKey"/>
+        <property name="publicKey" />
     </class>
 </hibernate-mapping>

@@ -66,31 +66,6 @@ public class InventoryServerModule implements Module {
                 .to(new TypeLiteral<ChildFreeSaver<MetricType>>() {});
     }
 
-    @Provides
-    @Named("hibernate")
-    public Properties getHibernateProperties() throws IOException {
-        InputStream in = getClass().getResourceAsStream("hibernate.properties");
-        Properties properties = new Properties();
-        properties.load(in);
-        return properties;
-    }
-
-    @Provides
-    @Singleton
-    public Configuration hibernateConfigurationProvider(@Named("hibernate") Properties properties) {
-        Configuration cfg = new Configuration();
-        getClass().getResourceAsStream("hibernate.properties");
-        cfg.setProperties(properties);
-        cfg.addPackage("com.tailoredshapes.inventoryserver.model");
-        return cfg;
-    }
-
-    @Provides
-    @Singleton
-    public SessionFactory sessionFactoryProvider(Configuration cfg) {
-        return cfg.buildSessionFactory();
-    }
-
 
     @Provides
     @Named("host")

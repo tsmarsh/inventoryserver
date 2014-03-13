@@ -57,7 +57,7 @@ public class InMemoryModule implements Module{
 
 
         binder.bind(InventoryRepository.class)
-                .to(new TypeLiteral<InMemoryInventoryRepository<RSA>>() {});
+                .to(new TypeLiteral<InMemoryInventoryRepository>() {});
 
         binder.bind(new TypeLiteral<CategoryRepository>() {})
                 .to(new TypeLiteral<InMemoryCategoryRepository<SHA>>() {});

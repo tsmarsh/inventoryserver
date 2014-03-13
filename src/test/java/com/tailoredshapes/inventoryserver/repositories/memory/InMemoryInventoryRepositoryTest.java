@@ -6,7 +6,6 @@ import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
-import com.tailoredshapes.inventoryserver.security.RSA;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +19,7 @@ public class InMemoryInventoryRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        repo = injector.getInstance(new Key<InMemoryInventoryRepository<RSA>>() {});
+        repo = injector.getInstance(new Key<InMemoryInventoryRepository>() {});
         inventoryDAO = injector.getInstance(new Key<DAO<Inventory>>() {});
     }
 
@@ -29,7 +28,7 @@ public class InMemoryInventoryRepositoryTest {
         User user = new UserBuilder().id(null).build();
         Inventory inventory = new InventoryBuilder().user(user).build();
         Inventory savedInventory = inventoryDAO.create(inventory);
-        Inventory byId = repo.findById(user, savedInventory.getId());
+        Inventory byId = repo.findById(savedInventory.getId());
         assertEquals(savedInventory, byId);
     }
 }
