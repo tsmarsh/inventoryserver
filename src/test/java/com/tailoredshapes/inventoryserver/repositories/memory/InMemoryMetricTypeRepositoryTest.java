@@ -4,6 +4,7 @@ import com.google.inject.Key;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.model.builders.MetricTypeBuilder;
+import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
 import com.tailoredshapes.inventoryserver.security.SHA;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class InMemoryMetricTypeRepositoryTest {
     public void testFindByName() throws Exception {
         MetricType type = new MetricTypeBuilder().build();
         DAO<MetricType> metricTypeDAO = injector.getInstance(new Key<DAO<MetricType>>() {});
-        InMemoryMetricTypeRepository repo = injector.getInstance(new Key<InMemoryMetricTypeRepository<SHA>>() {});
+        MetricTypeRepository repo = injector.getInstance(MetricTypeRepository.class);
         MetricType metricType = metricTypeDAO.create(type);
         MetricType byId = repo.findByName(metricType.getName());
         assertEquals(metricType, byId);

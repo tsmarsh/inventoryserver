@@ -30,4 +30,19 @@ public class HibernateCategoryRepositoryTest {
 
         transaction.rollback();
     }
+
+    @Test
+    public void testMissByName() throws Exception {
+        SessionFactory sessionFactory = hibernateInjector.getInstance(SessionFactory.class);
+        Session currentSession = sessionFactory.getCurrentSession();
+        Transaction transaction = currentSession.beginTransaction();
+
+
+        CategoryRepository repo = hibernateInjector.getInstance(CategoryRepository.class);
+
+        Category byId = repo.findByFullname("brian");
+        assertEquals("brian", byId.getFullname());
+
+        transaction.rollback();
+    }
 }

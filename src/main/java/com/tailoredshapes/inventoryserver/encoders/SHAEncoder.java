@@ -22,7 +22,7 @@ public class SHAEncoder<T> implements Encoder<T, SHA> {
     public Long encode(T object) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA1");
-            shrinker.shrink(digest.digest(serialiser.serialise(object)));
+            return shrinker.shrink(digest.digest(serialiser.serialise(object)));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
