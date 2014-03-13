@@ -36,7 +36,6 @@ public class HibernateInventoryRepositoryTest {
     @Test
     public void testFindById() throws Exception {
         session = sessionFactory.getCurrentSession();
-        Map<String,ClassMetadata> allClassMetadata = sessionFactory.getAllClassMetadata();
 
         Transaction transaction = session.beginTransaction();
         User user = new UserBuilder().id(null).build();
