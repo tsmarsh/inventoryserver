@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.model;
 
-public class Metric implements Idable<Metric> {
+public class Metric implements Idable<Metric>, Cloneable {
     private Long id;
     private String value;
     private MetricType type;
@@ -30,5 +30,10 @@ public class Metric implements Idable<Metric> {
     public Metric setType(MetricType type) {
         this.type = type;
         return this;
+    }
+
+    @Override
+    protected Metric clone() throws CloneNotSupportedException {
+        return (Metric) super.clone();
     }
 }

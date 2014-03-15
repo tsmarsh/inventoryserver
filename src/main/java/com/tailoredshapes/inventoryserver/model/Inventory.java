@@ -4,7 +4,7 @@ import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inventory implements Idable<Inventory> {
+public class Inventory implements Idable<Inventory>, Cloneable {
     private Long id;
     private Category category;
     private List<Metric> metrics = new ArrayList<>();
@@ -44,5 +44,10 @@ public class Inventory implements Idable<Inventory> {
     public Inventory setParent(Inventory parent) {
         this.parent = parent;
         return this;
+    }
+
+    @Override
+    protected Inventory clone() throws CloneNotSupportedException {
+        return (Inventory) super.clone();
     }
 }

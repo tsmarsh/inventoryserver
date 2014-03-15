@@ -4,7 +4,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Map;
 
-public class User implements Idable<User>, Keyed {
+public class User implements Idable<User>, Keyed, Cloneable {
     private Long id;
     private String name;
     private PrivateKey privateKey;
@@ -54,5 +54,10 @@ public class User implements Idable<User>, Keyed {
     public User setInventories(Map<Long, Inventory> inventories) {
         this.inventories = inventories;
         return this;
+    }
+
+    @Override
+    public User clone() throws CloneNotSupportedException {
+        return (User) super.clone();
     }
 }
