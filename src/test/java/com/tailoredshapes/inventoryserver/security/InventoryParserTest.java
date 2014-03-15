@@ -24,7 +24,6 @@ import static junit.framework.Assert.assertEquals;
 public class InventoryParserTest {
 
     private InventoryParser parser;
-    private User testUser;
     private Serialiser<Inventory> serialiser;
 
 
@@ -32,26 +31,24 @@ public class InventoryParserTest {
     public void init() {
         parser = GuiceTest.injector.getInstance(InventoryParser.class);
         DAO<User> userDAO = GuiceTest.injector.getInstance(new Key<DAO<User>>() {});
-        testUser = userDAO.create(new UserBuilder().id(null).build());
         serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory>>() {});
     }
 
     @Test
     public void shouldParseASimpleInventory() throws Exception {
-        Inventory inventory = new InventoryBuilder().user(testUser).build();
+        Inventory inventory = new InventoryBuilder().build();
 
         Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));
         assertEquals(inventory.getCategory().getFullname(), inv.getCategory().getFullname());
-        assertEquals(testUser, inv.getUser());
     }
 
     @Test
     public void shouldParseAnInventoryWithParent() throws Exception {
-        Inventory parent = new InventoryBuilder().user(testUser).build();
+        Inventory parent = new InventoryBuilder().build();
         DAO<Inventory> dao = GuiceTest.injector.getInstance(new Key<DAO<Inventory>>() {});
         parent = dao.create(parent);
 
-        Inventory inventory = new InventoryBuilder().user(testUser).parent(parent).build();
+        Inventory inventory = new InventoryBuilder().parent(parent).build();
 
         Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));
 
@@ -67,7 +64,7 @@ public class InventoryParserTest {
         metrics.add(metric1);
         metrics.add(metric2);
 
-        Inventory inventory = new InventoryBuilder().user(testUser).metrics(metrics).build();
+        Inventory inventory = new InventoryBuilder().metrics(metrics).build();
 
 
         Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));

@@ -25,8 +25,7 @@ public class InMemoryInventoryRepositoryTest {
 
     @Test
     public void testFindById() throws Exception {
-        User user = new UserBuilder().id(null).build();
-        Inventory inventory = new InventoryBuilder().user(user).build();
+        Inventory inventory = new InventoryBuilder().build();
         Inventory savedInventory = inventoryDAO.create(inventory);
         Inventory byId = repo.findById(savedInventory.getId());
         assertEquals(savedInventory, byId);

@@ -22,9 +22,9 @@ public class InMemoryModule implements Module{
     @Override
     public void configure(Binder binder) {
         binder.bind(new TypeLiteral<DAO<Inventory>>() {})
-                .to(new TypeLiteral<InMemoryDAO<Inventory, RSA>>() {});
+                .to(new TypeLiteral<InMemoryDAO<Inventory, SHA>>() {});
 
-        binder.bind(new TypeLiteral<InMemoryDAO<Inventory, RSA>>() {})
+        binder.bind(new TypeLiteral<InMemoryDAO<Inventory, SHA>>() {})
                 .in(Singleton.class);
 
 

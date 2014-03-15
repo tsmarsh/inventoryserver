@@ -26,7 +26,6 @@ import static org.junit.Assert.assertFalse;
 public class InventorySerialiserTest {
 
     private Inventory parent;
-    private User user;
     private Category build;
     private UrlBuilder<Inventory> inventoryUrlBuilder;
     private UrlBuilder<User> userUrlBuilder;
@@ -34,8 +33,7 @@ public class InventorySerialiserTest {
 
     @Before
     public void setUp() throws Exception {
-        user = new UserBuilder().id(49295122l).build();
-        parent = new InventoryBuilder().id(-111111111111l).user(user).build();
+        parent = new InventoryBuilder().id(-111111111111l).build();
         build = new CategoryBuilder().fullname("archer.face").build();
         inventoryUrlBuilder = new InventoryUrlBuilder("http", "tailoredshapes.com", 3333);
         userUrlBuilder = new UserUrlBuilder("https", "tailoredshapes.com", 80);
@@ -46,7 +44,6 @@ public class InventorySerialiserTest {
     @Test
     public void testSerialiseACompeteInventory() throws Exception {
         Inventory inventory = new InventoryBuilder().id(777777777777777l)
-                .user(user)
                 .category(build)
                 .parent(parent).build();
 
@@ -55,14 +52,12 @@ public class InventorySerialiserTest {
         assertEquals(inventory.getId().longValue(), jsonObject.getLong("id"));
         assertEquals(build.getFullname(), jsonObject.getString("category"));
         assertEquals(inventoryUrlBuilder.build(parent), jsonObject.getString("parent"));
-        assertEquals(userUrlBuilder.build(user), jsonObject.getString("user"));
         assertEquals(0, jsonObject.getJSONArray("metrics").length());
     }
 
     @Test
     public void testSerialiseAnOrphanedInventory() throws Exception {
         Inventory inventory = new InventoryBuilder().id(777777777777777l)
-                .user(user)
                 .category(build).build();
 
         InventorySerialiser inventorySerialiser = new InventorySerialiser(inventoryUrlBuilder, userUrlBuilder, metricSerialiser);
@@ -70,14 +65,12 @@ public class InventorySerialiserTest {
         assertEquals(inventory.getId().longValue(), jsonObject.getLong("id"));
         assertEquals(build.getFullname(), jsonObject.getString("category"));
         assertFalse(jsonObject.has("parent"));
-        assertEquals(userUrlBuilder.build(user), jsonObject.getString("user"));
         assertEquals(0, jsonObject.getJSONArray("metrics").length());
     }
 
     @Test
     public void testSerialiseAnInventoryWithMetrics() throws Exception {
         Inventory inventory = new InventoryBuilder().id(777777777777777l)
-                .user(user)
                 .category(build)
                 .metrics(new ArrayList<Metric>() {{
                     add(new MetricBuilder().id(1l).build());
@@ -90,7 +83,6 @@ public class InventorySerialiserTest {
         assertEquals(inventory.getId().longValue(), jsonObject.getLong("id"));
         assertEquals(build.getFullname(), jsonObject.getString("category"));
         assertEquals(inventoryUrlBuilder.build(parent), jsonObject.getString("parent"));
-        assertEquals(userUrlBuilder.build(user), jsonObject.getString("user"));
         assertEquals(2, jsonObject.getJSONArray("metrics").length());
         assertEquals(1l, jsonObject.getJSONArray("metrics").getJSONObject(0).getLong("id"));
         assertEquals(2l, jsonObject.getJSONArray("metrics").getJSONObject(1).getLong("id"));

@@ -4,9 +4,8 @@ import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inventory implements Idable<Inventory>, Keyed {
+public class Inventory implements Idable<Inventory> {
     private Long id;
-    private User user;
     private Category category;
     private List<Metric> metrics = new ArrayList<>();
     private Inventory parent;
@@ -17,15 +16,6 @@ public class Inventory implements Idable<Inventory>, Keyed {
 
     public Inventory setId(Long id) {
         this.id = id;
-        return this;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Inventory setUser(User user) {
-        this.user = user;
         return this;
     }
 
@@ -54,10 +44,5 @@ public class Inventory implements Idable<Inventory>, Keyed {
     public Inventory setParent(Inventory parent) {
         this.parent = parent;
         return this;
-    }
-
-    @Override
-    public PrivateKey getPrivateKey() {
-        return user.getPrivateKey();
     }
 }

@@ -37,7 +37,5 @@ public class RSAEncoder<T extends Keyed> implements Encoder<T, RSA> {
         }
         return 0l;
     }
-
-
 }
 

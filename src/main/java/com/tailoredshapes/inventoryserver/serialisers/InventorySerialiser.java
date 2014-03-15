@@ -27,7 +27,6 @@ public class InventorySerialiser implements Serialiser<Inventory> {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", object.getId());
         jsonObject.put("category", object.getCategory().getFullname());
-        jsonObject.put("user", userUrlBuilder.build(object.getUser()));
         JSONArray metrics = new JSONArray();
         for (Metric metric : object.getMetrics()) {
             metrics.put(new JSONObject(new String(metricSerializer.serialise(metric))));

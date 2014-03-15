@@ -1,9 +1,10 @@
 package com.tailoredshapes.inventoryserver.model;
 
-public class Category implements Idable<Category> {
+public class Category implements Idable<Category>, Cloneable {
     private Long id;
     private String name;
     private String fullname;
+    private Category parent;
 
     public Category() {
     }
@@ -16,8 +17,6 @@ public class Category implements Idable<Category> {
         this.parent = parent;
         return this;
     }
-
-    private Category parent;
 
     public Long getId() {
         return id;
@@ -55,4 +54,5 @@ public class Category implements Idable<Category> {
                 ", parent=" + parent +
                 '}';
     }
+
 }

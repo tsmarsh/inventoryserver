@@ -2,12 +2,14 @@ package com.tailoredshapes.inventoryserver.model;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Map;
 
 public class User implements Idable<User>, Keyed {
     private Long id;
     private String name;
     private PrivateKey privateKey;
     private PublicKey publicKey;
+    private Map<Long, Inventory> inventories;
 
     public Long getId() {
         return id;
@@ -42,6 +44,15 @@ public class User implements Idable<User>, Keyed {
 
     public User setPublicKey(PublicKey publicKey) {
         this.publicKey = publicKey;
+        return this;
+    }
+
+    public Map<Long, Inventory> getInventories() {
+        return this.inventories;
+    }
+
+    public User setInventories(Map<Long, Inventory> inventories) {
+        this.inventories = inventories;
         return this;
     }
 }

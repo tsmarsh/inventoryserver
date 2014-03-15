@@ -26,7 +26,6 @@ public class InventorySaver extends Saver<Inventory> {
 
     @Override
     public Inventory saveChildren(Inventory object) {
-        upsert(object.getUser(), userDAO);
         upsert(object.getParent(), inventoryDAO);
         upsert(object.getCategory(), categoryDAO);
         for (Metric metric : object.getMetrics()) {

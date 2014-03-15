@@ -18,8 +18,8 @@ public class RSAModule implements Module {
         binder.bind(new TypeLiteral<Encoder<User, RSA>>() {})
                 .to(new TypeLiteral<RSAEncoder<User>>() {});
 
-        binder.bind(new TypeLiteral<Encoder<Inventory, RSA>>() {})
-                .to(new TypeLiteral<RSAEncoder<Inventory>>() {});
+        binder.bind(new TypeLiteral<Encoder<Inventory, SHA>>() {})
+                .to(new TypeLiteral<SHAEncoder<Inventory>>() {});
 
         binder.bind(new TypeLiteral<Encoder<Metric, SHA>>() {})
                 .to(new TypeLiteral<SHAEncoder<Metric>>() {});

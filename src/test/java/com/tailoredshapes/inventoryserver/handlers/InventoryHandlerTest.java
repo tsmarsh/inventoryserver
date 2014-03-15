@@ -87,7 +87,6 @@ public class InventoryHandlerTest {
 
         createResponseObject = new JSONObject(stringStream.toString());
         assertEquals("com.tailoredshapes.test", createResponseObject.getString("category"));
-        assertEquals(userUrlBuilder.build(user), createResponseObject.getString("user"));
         assertEquals(0, createResponseObject.getJSONArray("metrics").length());
         assertFalse(createResponseObject.has("parent"));
         assertNotNull(createResponseObject.getLong("id"));
@@ -107,7 +106,6 @@ public class InventoryHandlerTest {
         assertEquals(createResponseObject.getLong("id"), getResponseObject.getLong("id"));
         assertEquals(createResponseObject.getString("category"), getResponseObject.getString("category"));
         assertEquals(createResponseObject.getJSONArray("metrics").length(), getResponseObject.getJSONArray("metrics").length());
-        assertEquals(createResponseObject.getString("user"), getResponseObject.getString("user"));
 
         //Update
 
@@ -136,7 +134,6 @@ public class InventoryHandlerTest {
 
         JSONObject updateResponseObject = new JSONObject(stringStream.toString());
         assertEquals("com.tailoredshapes.test", updateResponseObject.getString("category"));
-        assertEquals(userUrlBuilder.build(user), updateResponseObject.getString("user"));
         assertEquals(1, updateResponseObject.getJSONArray("metrics").length());
         assertFalse(updateResponseObject.has("parent"));
         assertNotNull(updateResponseObject.getLong("id"));

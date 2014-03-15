@@ -11,7 +11,6 @@ import java.util.List;
 public class InventoryBuilder {
 
     Long id = null;
-    User user = null;
     Category category;
     List<Metric> metrics;
     Inventory parent = null;
@@ -24,11 +23,6 @@ public class InventoryBuilder {
 
     public InventoryBuilder id(Long id) {
         this.id = id;
-        return this;
-    }
-
-    public InventoryBuilder user(User user) {
-        this.user = user;
         return this;
     }
 
@@ -50,7 +44,6 @@ public class InventoryBuilder {
     public Inventory build() {
         return new Inventory()
                 .setId(id)
-                .setUser(user)
                 .setMetrics(metrics)
                 .setCategory(category)
                 .setParent(parent);

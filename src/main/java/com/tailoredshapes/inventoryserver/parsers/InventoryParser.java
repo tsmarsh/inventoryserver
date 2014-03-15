@@ -19,25 +19,19 @@ import java.util.List;
 
 public class InventoryParser implements Parser<Inventory> {
 
-    private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final InventoryRepository inventoryRepository;
     private final MetricTypeRepository metricTypeRepository;
-    private final IdExtractor<User> userIdExtractor;
     private final IdExtractor<Inventory> inventoryIdExtractor;
 
     @Inject
-    public InventoryParser(UserRepository userRepository,
-                           CategoryRepository categoryRepository,
+    public InventoryParser(CategoryRepository categoryRepository,
                            InventoryRepository inventoryRepository,
                            MetricTypeRepository metricTypeRepository,
-                           IdExtractor<User> userIdExtractor,
                            IdExtractor<Inventory> inventoryIdExtractor) {
-        this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.inventoryRepository = inventoryRepository;
         this.metricTypeRepository = metricTypeRepository;
-        this.userIdExtractor = userIdExtractor;
         this.inventoryIdExtractor = inventoryIdExtractor;
     }
 
@@ -45,15 +39,6 @@ public class InventoryParser implements Parser<Inventory> {
     public Inventory parse(String s) {
         Inventory inventory = new Inventory();
         JSONObject jo = new JSONObject(s);
-
-        long user_id;
-        try {
-            user_id = userIdExtractor.extract(new URL(jo.getString("user")).getPath());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        inventory.setUser(userRepository.findById(user_id));
 
         String categoryFullName = jo.getString("category");
         inventory.setCategory(categoryRepository.findByFullname(categoryFullName));
@@ -76,13 +61,13 @@ public class InventoryParser implements Parser<Inventory> {
 
         if (jo.has("metrics")) {
             JSONArray jsonMetrics = jo.getJSONArray("metrics");
-            inventory.setMetrics(parseMetrics(inventory.getUser(), jsonMetrics));
+            inventory.setMetrics(parseMetrics(jsonMetrics));
         }
 
         return inventory;
     }
 
-    List<Metric> parseMetrics(User user, JSONArray jsonMetrics) {
+    List<Metric> parseMetrics(JSONArray jsonMetrics) {
 
         List<Metric> metrics = new ArrayList<>(jsonMetrics.length());
         for (int i = 0; i < jsonMetrics.length(); i++) {

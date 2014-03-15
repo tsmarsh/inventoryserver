@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 public class HibernateDAO<T extends Idable<T>, R extends Algorithm> implements DAO<T> {
+    private TypeLiteral<T> type;
     private final SessionFactory factory;
     private final Class<? super T> rawType;
     private final Saver<T> saver;

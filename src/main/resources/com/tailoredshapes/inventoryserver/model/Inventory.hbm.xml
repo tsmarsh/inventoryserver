@@ -8,5 +8,9 @@
         <id name="id"/>
         <many-to-one name="parent"/>
         <many-to-one name="category"/>
+        <bag name="metrics">
+            <key column="id"/>
+            <many-to-many class="Metric" />
+        </bag>
     </class>
 </hibernate-mapping>

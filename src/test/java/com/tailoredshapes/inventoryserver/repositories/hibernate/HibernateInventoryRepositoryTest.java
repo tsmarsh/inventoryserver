@@ -38,8 +38,7 @@ public class HibernateInventoryRepositoryTest {
         session = sessionFactory.getCurrentSession();
 
         Transaction transaction = session.beginTransaction();
-        User user = new UserBuilder().id(null).build();
-        Inventory inventory = new InventoryBuilder().user(user).build();
+        Inventory inventory = new InventoryBuilder().build();
         Inventory savedInventory = inventoryDAO.create(inventory);
         Inventory byId = repo.findById(savedInventory.getId());
         assertEquals(savedInventory, byId);

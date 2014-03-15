@@ -28,9 +28,9 @@ public class HibernateModule implements Module{
     @Override
     public void configure(Binder binder) {
         binder.bind(new TypeLiteral<DAO<Inventory>>() {})
-                .to(new TypeLiteral<HibernateDAO<Inventory, RSA>>() {});
+                .to(new TypeLiteral<HibernateDAO<Inventory, SHA>>() {});
 
-        binder.bind(new TypeLiteral<HibernateDAO<Inventory, RSA>>() {})
+        binder.bind(new TypeLiteral<HibernateDAO<Inventory, SHA>>() {})
                 .in(Singleton.class);
 
 

@@ -17,6 +17,6 @@ public class InventoryUrlBuilder implements UrlBuilder<Inventory> {
 
     @Override
     public String build(Inventory inventory) {
-        return String.format("%s://%s:%s/users/%s/inventories/%s", protocol, host, port, inventory.getUser().getId(), inventory.getId());
+        return String.format("%s://%s:%s/inventories/%s", protocol, host, port, inventory.getId());
     }
 }

@@ -12,13 +12,11 @@ import static org.junit.Assert.assertEquals;
 public class InventoryUrlBuilderTest {
     @Test
     public void testShouldReturnTheCorrectUrlForAnInventory() throws Exception {
-        User user = new UserBuilder().id(-110584l).build();
         Inventory inventory = new InventoryBuilder()
-                .id(141211l)
-                .user(user).build();
+                .id(141211l).build();
 
         InventoryUrlBuilder inventoryUrlBuilder = new InventoryUrlBuilder("http", "test.domain", 80);
         String url = inventoryUrlBuilder.build(inventory);
-        assertEquals(String.format("http://test.domain:80/users/%s/inventories/%s", user.getId(), inventory.getId()), url);
+        assertEquals(String.format("http://test.domain:80/inventories/%s", inventory.getId()), url);
     }
 }
