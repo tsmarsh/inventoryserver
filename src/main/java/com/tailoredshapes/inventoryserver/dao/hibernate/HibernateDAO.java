@@ -10,8 +10,10 @@ import com.tailoredshapes.inventoryserver.security.Algorithm;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class HibernateDAO<T extends Idable<T> & Cloneable, R extends Algorithm> implements DAO<T> {
-    private TypeLiteral<T> type;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+
+public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> implements DAO<T> {
     private final SessionFactory factory;
     private final Class<? super T> rawType;
     private final Saver<T> saver;
@@ -47,13 +49,14 @@ public class HibernateDAO<T extends Idable<T> & Cloneable, R extends Algorithm> 
     @Override
     public T update(T object) {
         Session currentSession = factory.getCurrentSession();
-        object = saver.saveChildren(object);
+        T clone = cloneObjectForUpdate(object);
+        clone = saver.saveChildren(clone);
 
-        Long sig = encoder.encode(object);
-        object.setId(sig);
+        Long sig = encoder.encode(clone);
+        clone.setId(sig);
 
-        currentSession.saveOrUpdate(object);
-        return object;
+        currentSession.save(clone);
+        return clone;
     }
 
     @Override
@@ -62,5 +65,15 @@ public class HibernateDAO<T extends Idable<T> & Cloneable, R extends Algorithm> 
         object = (T) currentSession.get(rawType, object.getId());
         currentSession.delete(object);
         return object;
+    }
+
+    private T cloneObjectForUpdate(T object) {
+        T clone = null;
+        try {
+            clone = (T) object.getClass().getMethod("clone").invoke(object);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return clone;
     }
 }

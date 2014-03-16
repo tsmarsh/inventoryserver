@@ -3,6 +3,8 @@ package com.tailoredshapes.inventoryserver.handlers;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.tailoredshapes.inventoryserver.GuiceTest;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,9 +42,24 @@ public class UserHandlerTest {
     private Headers headers;
 
     @Test
-    public void testCanCRUDAUser() throws Exception {
-        //CREATE
+    public void testCanCRUDAUserInMemory() throws Exception {
         handler = GuiceTest.injector.getInstance(UserHandler.class);
+        testCanCRUDAUser(handler);
+    }
+
+    @Test
+    public void testCanCRUDAUserInHibernate() throws Exception {
+        SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
+        Transaction transaction = instance.getCurrentSession().beginTransaction();
+        handler = GuiceTest.hibernateInjector.getInstance(UserHandler.class);
+        testCanCRUDAUser(handler);
+        transaction.rollback();
+        instance.getCurrentSession().close();
+    }
+
+    private void testCanCRUDAUser(UserHandler handler) throws Exception {
+        //CREATE
+
         stringStream = new ByteArrayOutputStream();
         parameters = new HashMap<>();
 
@@ -60,35 +78,36 @@ public class UserHandlerTest {
         assertTrue(headers.containsKey("location"));
         String location = headers.get("location").get(0);
 
-        JSONObject putResponseObject = new JSONObject(stringStream.toString());
-        assertEquals("Archer", putResponseObject.getString("name"));
-        assertNotNull(putResponseObject.getLong("id"));
-        assertNotNull(putResponseObject.getString("publicKey"));
-        assertFalse(putResponseObject.has("privateKey"));
+        JSONObject createResponseObject = new JSONObject(stringStream.toString());
+        assertEquals("Archer", createResponseObject.getString("name"));
+        assertNotNull(createResponseObject.getLong("id"));
+        assertNotNull(createResponseObject.getString("publicKey"));
+        assertFalse(createResponseObject.has("privateKey"));
 
 
         //READ
         stringStream = new ByteArrayOutputStream();
-        parameters.put("user", putResponseObject.toString());
+        parameters.put("user", createResponseObject.toString());
         when(readExchange1.getRequestMethod()).thenReturn("get");
         when(readExchange1.getAttribute("parameters")).thenReturn(parameters);
         when(readExchange1.getResponseBody()).thenReturn(stringStream);
+        when(readExchange1.getRequestURI()).thenReturn(new URI(location));
 
         handler.handle(readExchange1);
         verify(readExchange1).sendResponseHeaders(eq(200), anyInt());
 
-        JSONObject getResponseObject = new JSONObject(stringStream.toString());
-        assertEquals("Archer", getResponseObject.getString("name"));
-        assertEquals(putResponseObject.getLong("id"), getResponseObject.getLong("id"));
-        assertEquals(putResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
-        assertFalse(putResponseObject.has("privateKey"));
+        JSONObject readCreateResponseObject = new JSONObject(stringStream.toString());
+        assertEquals("Archer", readCreateResponseObject.getString("name"));
+        assertEquals(createResponseObject.getLong("id"), readCreateResponseObject.getLong("id"));
+        assertEquals(createResponseObject.getString("publicKey"), readCreateResponseObject.getString("publicKey"));
+        assertFalse(createResponseObject.has("privateKey"));
 
 
         //UPDATE / DELETE
         stringStream = new ByteArrayOutputStream();
         headers = new Headers();
-        putResponseObject.put("name", "Cassie");
-        parameters.put("user", putResponseObject.toString());
+        createResponseObject.put("name", "Cassie");
+        parameters.put("user", createResponseObject.toString());
 
         when(updateExchange.getRequestMethod()).thenReturn("post");
         when(updateExchange.getAttribute("parameters")).thenReturn(parameters);
@@ -98,32 +117,33 @@ public class UserHandlerTest {
         handler.handle(updateExchange);
         verify(updateExchange).sendResponseHeaders(eq(302), anyInt());
 
-        String location2 = headers.get("location").get(0);
-        assertNotNull(location2);
-        assertNotSame(location, location2);
+        String updatedLocation = headers.get("location").get(0);
+        assertNotNull(updatedLocation);
+        assertNotSame(location, updatedLocation);
 
 
-        JSONObject postResponseObject = new JSONObject(stringStream.toString());
-        assertEquals("Cassie", postResponseObject.getString("name"));
-        assertNotSame(postResponseObject.getLong("id"), getResponseObject.getLong("id"));
-        assertEquals(postResponseObject.getString("publicKey"), getResponseObject.getString("publicKey"));
+        JSONObject updateResponseObject = new JSONObject(stringStream.toString());
+        assertEquals("Cassie", updateResponseObject.getString("name"));
+        assertNotSame(updateResponseObject.getLong("id"), readCreateResponseObject.getLong("id"));
+        assertEquals(updateResponseObject.getString("publicKey"), readCreateResponseObject.getString("publicKey"));
 
         //Read
 
         stringStream = new ByteArrayOutputStream();
-        parameters.put("user", putResponseObject.toString());
+        parameters.put("user", createResponseObject.toString());
         when(readExchange2.getRequestMethod()).thenReturn("get");
         when(readExchange2.getAttribute("parameters")).thenReturn(parameters);
         when(readExchange2.getResponseBody()).thenReturn(stringStream);
+        when(readExchange2.getRequestURI()).thenReturn(new URI(updatedLocation));
 
         handler.handle(readExchange2);
         verify(readExchange2).sendResponseHeaders(eq(200), anyInt());
 
-        JSONObject getResponseObject2 = new JSONObject(stringStream.toString());
-        assertEquals("Cassie", getResponseObject2.getString("name"));
-        assertEquals(postResponseObject.getLong("id"), getResponseObject2.getLong("id"));
-        assertEquals(postResponseObject.getString("publicKey"), getResponseObject2.getString("publicKey"));
-        assertFalse(postResponseObject.has("privateKey"));
+        JSONObject readUpdateResponseObject = new JSONObject(stringStream.toString());
+        assertEquals("Cassie", readUpdateResponseObject.getString("name"));
+        assertEquals(updateResponseObject.getLong("id"), readUpdateResponseObject.getLong("id"));
+        assertEquals(updateResponseObject.getString("publicKey"), readUpdateResponseObject.getString("publicKey"));
+        assertFalse(updateResponseObject.has("privateKey"));
     }
 
 }
