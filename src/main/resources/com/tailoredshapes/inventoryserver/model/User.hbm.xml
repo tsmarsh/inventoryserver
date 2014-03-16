@@ -9,10 +9,11 @@
         <property name="name"/>
         <property name="privateKey"/>
         <property name="publicKey" />
-        <map name="inventories">
-            <key column="id"/>
-            <index column="inventory_id" type="java.lang.Long"/>
-            <many-to-many class="Inventory"/>
-        </map>
+        <set name="inventories" table="user_inventories">
+            <key column="user_id"/>
+            <many-to-many class="Inventory">
+                <column name="inventory_id"/>
+            </many-to-many>
+        </set>
     </class>
 </hibernate-mapping>

@@ -2,6 +2,7 @@ package com.tailoredshapes.inventoryserver.model;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Collection;
 import java.util.Map;
 
 public class User implements Idable<User>, Keyed, Cloneable {
@@ -9,7 +10,7 @@ public class User implements Idable<User>, Keyed, Cloneable {
     private String name;
     private PrivateKey privateKey;
     private PublicKey publicKey;
-    private Map<Long, Inventory> inventories;
+    private Collection<Inventory> inventories;
 
     public Long getId() {
         return id;
@@ -47,11 +48,11 @@ public class User implements Idable<User>, Keyed, Cloneable {
         return this;
     }
 
-    public Map<Long, Inventory> getInventories() {
+    public Collection<Inventory> getInventories() {
         return this.inventories;
     }
 
-    public User setInventories(Map<Long, Inventory> inventories) {
+    public User setInventories(Collection inventories) {
         this.inventories = inventories;
         return this;
     }

@@ -1,14 +1,19 @@
 package com.tailoredshapes.inventoryserver.model.builders;
 
+import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 
 import java.security.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 public class UserBuilder {
 
     private final User user;
     Long id = 555l;
     String name = "Archer";
+    Collection<Inventory> inventoryMap = Collections.emptySet();
     PrivateKey privateKey;
     PublicKey publicKey;
 
@@ -46,7 +51,12 @@ public class UserBuilder {
         return this;
     }
 
+    public UserBuilder inventories(Collection inventoryMap){
+        this.inventoryMap = inventoryMap;
+        return this;
+    }
+
     public User build() {
-        return user.setId(id).setName(name).setPrivateKey(privateKey).setPublicKey(publicKey);
+        return user.setId(id).setName(name).setPrivateKey(privateKey).setPublicKey(publicKey).setInventories(inventoryMap);
     }
 }
