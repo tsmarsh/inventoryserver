@@ -5,8 +5,10 @@ import com.google.inject.Key;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.handlers.UserHandler;
+import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
+import com.tailoredshapes.inventoryserver.model.builders.CategoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.parsers.UserParser;
@@ -19,12 +21,12 @@ import org.hibernate.Transaction;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.internal.matchers.IsCollectionContaining;
 
 import java.util.*;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.junit.matchers.JUnitMatchers.hasItems;
 
 public class UserParserTest {
 
@@ -81,13 +83,72 @@ public class UserParserTest {
 
         String userJsonString = new String(serializer.serialise(savedUser));
 
+
         UserParser userParser = injector.getInstance(UserParser.class);
 
         User parsedUser = userParser.parse(userJsonString);
 
         assertEquals("Archer", parsedUser.getName());
-        assertTrue(parsedUser.getInventories().contains(inventory));
+        assertTrue(parsedUser.getInventories().iterator().next().equals(inventory));
         assertArrayEquals(savedUser.getPrivateKey().getEncoded(), parsedUser.getPrivateKey().getEncoded());
         assertArrayEquals(savedUser.getPublicKey().getEncoded(), parsedUser.getPublicKey().getEncoded());
+    }
+
+
+    @Test
+    public void testParseUpdatedUserInMemory() throws Exception {
+        testParseUpdatedUser(GuiceTest.injector, () -> {});
+    }
+
+    @Test
+    public void testParseUpdatedUserHibernate() throws Exception {
+        SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
+        Transaction transaction = instance.getCurrentSession().beginTransaction();
+        testParseUpdatedUser(GuiceTest.hibernateInjector, () -> {
+            instance.getCurrentSession().flush();
+        });
+        transaction.rollback();
+        instance.getCurrentSession().close();
+    }
+
+    public void testParseUpdatedUser(Injector injector, Runnable transactionCompleter) throws Exception {
+        Inventory inventory = new InventoryBuilder().id(null).build();
+        Set<Inventory> inventories = new HashSet<>();
+        inventories.add(inventory);
+
+        User existingUser = new UserBuilder().id(null).name("Cassie").inventories(inventories).build();
+        DAO<User> userDAO = injector.getInstance(new Key<DAO<User>>() {});
+
+        User savedUser = userDAO.create(existingUser);
+
+        transactionCompleter.run();
+
+        User clone = savedUser.clone();
+
+        Category fullname = new CategoryBuilder().name(null).fullname("another.test").build();
+
+        Inventory newInventory = new InventoryBuilder().id(null).category(fullname).build();
+        clone.setName("Archer");
+
+        Set<Inventory> inventorySet = new HashSet<>();
+        inventorySet.add(inventory);
+        inventorySet.add(newInventory);
+
+        clone.setInventories(inventorySet);
+
+        assertFalse(savedUser.hashCode() == clone.hashCode());
+
+        Serialiser<User> serializer = injector.getInstance(new Key<Serialiser<User>>() {});
+
+        String userJsonString = new String(serializer.serialise(clone));
+
+        UserParser userParser = injector.getInstance(UserParser.class);
+
+        User parsedUser = userParser.parse(userJsonString);
+
+        assertEquals("Archer", parsedUser.getName());
+        assertThat(parsedUser.getInventories(), hasItems(newInventory, inventory));
+        assertArrayEquals(clone.getPrivateKey().getEncoded(), parsedUser.getPrivateKey().getEncoded());
+        assertArrayEquals(clone.getPublicKey().getEncoded(), parsedUser.getPublicKey().getEncoded());
     }
 }

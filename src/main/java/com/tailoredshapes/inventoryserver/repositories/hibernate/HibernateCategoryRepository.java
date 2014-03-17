@@ -28,5 +28,12 @@ public class HibernateCategoryRepository implements CategoryRepository {
         }
         return matches.get(0);
     }
+
+    @Override
+    public boolean exists(String categoryFullName) {
+        Session currentSession = sessionFactory.getCurrentSession();
+        List<Category> matches = currentSession.createCriteria(Category.class).add(Restrictions.eq("fullname", categoryFullName)).list();
+        return !matches.isEmpty();
+    }
 }
 

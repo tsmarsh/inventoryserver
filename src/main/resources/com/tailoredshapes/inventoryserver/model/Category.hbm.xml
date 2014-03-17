@@ -8,6 +8,6 @@
         <id name="id"/>
         <property name="name"/>
         <property name="fullname"/>
-        <many-to-one name="parent" />
+        <many-to-one name="parent" cascade="all"/>
     </class>
 </hibernate-mapping>

@@ -36,6 +36,7 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
         object.setId(sig);
 
         currentSession.save(object);
+
         return object;
     }
 

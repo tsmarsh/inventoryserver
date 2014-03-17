@@ -1,7 +1,7 @@
 package com.tailoredshapes.inventoryserver.encoders;
 
 public class ByteArrayToLong {
-    public Long shrink(byte[] sign) {
+    public static Long shrink(byte[] sign) {
         long value = 0;
 
         for (int i = 0; i < 8; i++) {

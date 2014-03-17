@@ -6,9 +6,9 @@
 <hibernate-mapping package="com.tailoredshapes.inventoryserver.model">
     <class name="Inventory">
         <id name="id"/>
-        <many-to-one name="parent"/>
-        <many-to-one name="category"/>
-        <bag name="metrics">
+        <many-to-one name="parent" cascade="all"/>
+        <many-to-one name="category" cascade="all"/>
+        <bag name="metrics" cascade="all">
             <key column="id"/>
             <many-to-many class="Metric" />
         </bag>

@@ -34,4 +34,24 @@ public class MetricType implements Idable<MetricType>, Cloneable {
     protected MetricType clone() throws CloneNotSupportedException {
         return (MetricType) super.clone();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MetricType)) return false;
+
+        MetricType that = (MetricType) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (!name.equals(that.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + name.hashCode();
+        return result;
+    }
 }

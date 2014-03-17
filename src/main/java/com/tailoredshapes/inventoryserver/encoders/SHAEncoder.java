@@ -10,19 +10,17 @@ import java.security.NoSuchAlgorithmException;
 public class SHAEncoder<T> implements Encoder<T, SHA> {
 
     private final Serialiser<T> serialiser;
-    private final ByteArrayToLong shrinker;
 
     @Inject
-    public SHAEncoder(Serialiser<T> serialiser, ByteArrayToLong shrinker) {
+    public SHAEncoder(Serialiser<T> serialiser) {
         this.serialiser = serialiser;
-        this.shrinker = shrinker;
     }
 
     @Override
     public Long encode(T object) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA1");
-            return shrinker.shrink(digest.digest(serialiser.serialise(object)));
+            return ByteArrayToLong.shrink(digest.digest(serialiser.serialise(object)));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

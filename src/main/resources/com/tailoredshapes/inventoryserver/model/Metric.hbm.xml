@@ -7,6 +7,6 @@
     <class name="Metric">
         <id name="id"/>
         <property name="value"/>
-        <many-to-one name="type"/>
+        <many-to-one name="type" cascade="all"/>
     </class>
 </hibernate-mapping>

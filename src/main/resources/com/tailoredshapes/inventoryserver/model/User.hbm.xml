@@ -9,7 +9,7 @@
         <property name="name"/>
         <property name="privateKey"/>
         <property name="publicKey" />
-        <set name="inventories" table="user_inventories">
+        <set name="inventories" table="user_inventories" cascade="all">
             <key column="user_id"/>
             <many-to-many class="Inventory">
                 <column name="inventory_id"/>

@@ -14,12 +14,10 @@ import java.security.SignatureException;
 public class RSAEncoder<T extends Keyed> implements Encoder<T, RSA> {
 
     private final Serialiser<T> serialiser;
-    private final ByteArrayToLong shrinker;
 
     @Inject
-    public RSAEncoder(Serialiser<T> serialiser, ByteArrayToLong shrinker) {
+    public RSAEncoder(Serialiser<T> serialiser) {
         this.serialiser = serialiser;
-        this.shrinker = shrinker;
     }
 
     @Override
@@ -30,7 +28,7 @@ public class RSAEncoder<T extends Keyed> implements Encoder<T, RSA> {
             signature = Signature.getInstance("SHA256withRSA");
             signature.initSign(object.getPrivateKey());
             signature.update(serialiser.serialise(object));
-            return shrinker.shrink(signature.sign());
+            return ByteArrayToLong.shrink(signature.sign());
 
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
             e.printStackTrace();

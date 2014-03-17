@@ -41,6 +41,7 @@ public class InventoryParser implements Parser<Inventory> {
         JSONObject jo = new JSONObject(s);
 
         String categoryFullName = jo.getString("category");
+
         inventory.setCategory(categoryRepository.findByFullname(categoryFullName));
 
         if (jo.has("id")) {

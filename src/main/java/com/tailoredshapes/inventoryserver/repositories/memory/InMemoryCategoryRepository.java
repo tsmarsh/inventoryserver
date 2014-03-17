@@ -25,4 +25,15 @@ public class InMemoryCategoryRepository<R extends Algorithm> implements Category
 
         return new Category().setFullname(categoryFullName);
     }
+
+    @Override
+    public boolean exists(String categoryFullName) {
+        for (Category cat : dao.db.values()) {
+            if (cat.getFullname().equals(categoryFullName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

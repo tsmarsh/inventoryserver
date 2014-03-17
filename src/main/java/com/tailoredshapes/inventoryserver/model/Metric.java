@@ -36,4 +36,26 @@ public class Metric implements Idable<Metric>, Cloneable {
     protected Metric clone() throws CloneNotSupportedException {
         return (Metric) super.clone();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Metric)) return false;
+
+        Metric metric = (Metric) o;
+
+        if (id != null ? !id.equals(metric.id) : metric.id != null) return false;
+        if (!type.equals(metric.type)) return false;
+        if (!value.equals(metric.value)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + value.hashCode();
+        result = 31 * result + type.hashCode();
+        return result;
+    }
 }

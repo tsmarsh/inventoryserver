@@ -15,6 +15,7 @@ public class SHAEncoderTest {
 
         SHAEncoder<MetricType> instance = GuiceTest.injector.getInstance(new Key<SHAEncoder<MetricType>>() {});
         Long encode = instance.encode(metricType);
-        assertNotSame(0l, encode); //This is a rubbish test
+
+        assertNotSame(30582808516010022l, encode); //This is a fragile test
     }
 }
