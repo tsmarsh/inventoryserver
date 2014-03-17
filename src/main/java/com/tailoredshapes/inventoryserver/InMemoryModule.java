@@ -18,7 +18,7 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserReposi
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.security.SHA;
 
-public class InMemoryModule implements Module{
+public class InMemoryModule implements Module {
     @Override
     public void configure(Binder binder) {
         binder.bind(new TypeLiteral<DAO<Inventory>>() {})

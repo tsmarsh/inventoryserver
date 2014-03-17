@@ -10,7 +10,6 @@ import com.tailoredshapes.inventoryserver.security.Algorithm;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 
 public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> implements DAO<T> {

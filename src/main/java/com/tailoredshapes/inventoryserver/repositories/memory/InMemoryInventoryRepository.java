@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
-import com.tailoredshapes.inventoryserver.security.Algorithm;
 
 public class InMemoryInventoryRepository implements InventoryRepository {
 

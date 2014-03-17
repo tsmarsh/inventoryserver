@@ -11,7 +11,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.Test;
 
-import static com.tailoredshapes.inventoryserver.GuiceTest.injector;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

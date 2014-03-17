@@ -4,8 +4,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
 
 public class User implements Idable<User>, Keyed, Cloneable {
     private Long id;

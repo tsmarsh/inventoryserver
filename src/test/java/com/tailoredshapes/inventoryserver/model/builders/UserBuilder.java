@@ -6,7 +6,6 @@ import com.tailoredshapes.inventoryserver.model.User;
 import java.security.*;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Map;
 
 public class UserBuilder {
 
@@ -51,7 +50,7 @@ public class UserBuilder {
         return this;
     }
 
-    public UserBuilder inventories(Collection inventoryMap){
+    public UserBuilder inventories(Collection inventoryMap) {
         this.inventoryMap = inventoryMap;
         return this;
     }

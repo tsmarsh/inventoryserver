@@ -25,7 +25,7 @@ public class UserSerialiser implements Serialiser<User> {
         jsonObject.put("publicKey", Base64.encode(user.getPublicKey().getEncoded()));
 
         JSONArray inventories = new JSONArray();
-        for(Inventory inventory : user.getInventories()){
+        for (Inventory inventory : user.getInventories()) {
             inventories.put(new JSONObject(new String(inventorySerialiser.serialise(inventory))));
         }
 

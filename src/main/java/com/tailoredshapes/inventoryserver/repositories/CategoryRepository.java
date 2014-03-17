@@ -4,6 +4,7 @@ import com.tailoredshapes.inventoryserver.model.Category;
 
 public interface CategoryRepository {
     Category findByFullname(String categoryFullName);
-    boolean  exists(String categoryFullName);
+
+    boolean exists(String categoryFullName);
 }
 

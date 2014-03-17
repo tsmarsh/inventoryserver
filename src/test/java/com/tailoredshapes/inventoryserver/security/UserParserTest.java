@@ -4,7 +4,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.handlers.UserHandler;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
@@ -12,18 +11,14 @@ import com.tailoredshapes.inventoryserver.model.builders.CategoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.parsers.UserParser;
-import com.tailoredshapes.inventoryserver.repositories.UserRepository;
-import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserRepository;
-import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.json.JSONObject;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.internal.matchers.IsCollectionContaining;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.hasItems;

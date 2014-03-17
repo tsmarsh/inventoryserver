@@ -5,7 +5,6 @@ import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.model.builders.MetricTypeBuilder;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
-import com.tailoredshapes.inventoryserver.security.SHA;
 import org.junit.Test;
 
 import static com.tailoredshapes.inventoryserver.GuiceTest.injector;

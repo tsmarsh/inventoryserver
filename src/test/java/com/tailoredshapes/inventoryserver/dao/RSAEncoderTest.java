@@ -2,11 +2,9 @@ package com.tailoredshapes.inventoryserver.dao;
 
 import com.google.inject.Key;
 import com.tailoredshapes.inventoryserver.GuiceTest;
-import com.tailoredshapes.inventoryserver.encoders.ByteArrayToLong;
 import com.tailoredshapes.inventoryserver.encoders.RSAEncoder;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
-import com.tailoredshapes.inventoryserver.serialisers.UserSerialiser;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +28,7 @@ public class RSAEncoderTest {
 
     @Test
     public void testShouldNotReturnNull() throws Exception {
-        RSAEncoder<User> rsaEncoder = GuiceTest.injector.getInstance(new Key<RSAEncoder<User>>(){});
+        RSAEncoder<User> rsaEncoder = GuiceTest.injector.getInstance(new Key<RSAEncoder<User>>() {});
 
         Long encode = rsaEncoder.encode(user);
 
@@ -39,7 +37,7 @@ public class RSAEncoderTest {
 
     @Test
     public void testShouldEncodeBitsConsistently() {
-        RSAEncoder<User> rsaEncoder = GuiceTest.injector.getInstance(new Key<RSAEncoder<User>>(){});
+        RSAEncoder<User> rsaEncoder = GuiceTest.injector.getInstance(new Key<RSAEncoder<User>>() {});
 
         Long encode = rsaEncoder.encode(user);
         Long encode2 = rsaEncoder.encode(user);
@@ -49,7 +47,7 @@ public class RSAEncoderTest {
 
     @Test
     public void testShouldProvideDifferentValuesForDifferentValues() throws Exception {
-        RSAEncoder<User> rsaEncoder = GuiceTest.injector.getInstance(new Key<RSAEncoder<User>>(){});
+        RSAEncoder<User> rsaEncoder = GuiceTest.injector.getInstance(new Key<RSAEncoder<User>>() {});
 
         Long encode = rsaEncoder.encode(user);
         user.setName("Cassie");

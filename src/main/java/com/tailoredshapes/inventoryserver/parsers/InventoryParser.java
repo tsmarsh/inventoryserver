@@ -3,11 +3,9 @@ package com.tailoredshapes.inventoryserver.parsers;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
-import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
-import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

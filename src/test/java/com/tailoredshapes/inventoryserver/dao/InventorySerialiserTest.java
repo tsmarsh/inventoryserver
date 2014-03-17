@@ -7,7 +7,6 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.CategoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
-import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.serialisers.InventorySerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;

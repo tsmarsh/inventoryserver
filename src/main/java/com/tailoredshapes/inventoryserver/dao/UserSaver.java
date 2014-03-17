@@ -25,7 +25,7 @@ public class UserSaver<R> extends Saver<User> {
             object.setPrivateKey(keys.getPrivate());
             object.setPublicKey(keys.getPublic());
         }
-        for(Inventory inventory : object.getInventories()){
+        for (Inventory inventory : object.getInventories()) {
             upsert(inventory, inventoryDAO);
         }
         return object;

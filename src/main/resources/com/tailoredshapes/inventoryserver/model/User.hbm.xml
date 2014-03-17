@@ -5,10 +5,10 @@
 
 <hibernate-mapping package="com.tailoredshapes.inventoryserver.model">
     <class name="User">
-        <id name="id" />
+        <id name="id"/>
         <property name="name"/>
         <property name="privateKey"/>
-        <property name="publicKey" />
+        <property name="publicKey"/>
         <set name="inventories" table="user_inventories" cascade="all">
             <key column="user_id"/>
             <many-to-many class="Inventory">

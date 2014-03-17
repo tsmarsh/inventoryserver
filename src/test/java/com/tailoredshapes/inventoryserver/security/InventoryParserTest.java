@@ -10,7 +10,6 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricTypeBuilder;
-import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import org.junit.Before;

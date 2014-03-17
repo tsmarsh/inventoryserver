@@ -3,7 +3,6 @@ package com.tailoredshapes.inventoryserver.repositories.hibernate;
 import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
-import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -23,10 +22,10 @@ public class HibernateMetricTypeRepository implements MetricTypeRepository {
     public MetricType findByName(String name) {
         Session currentSession = sessionFactory.getCurrentSession();
         List<MetricType> metrics = currentSession.createCriteria(MetricType.class)
-                                     .add(Restrictions.eq("name", name))
-                                     .list();
+                .add(Restrictions.eq("name", name))
+                .list();
 
-        if(metrics.isEmpty()){
+        if (metrics.isEmpty()) {
             return new MetricType().setName(name);
         }
 

@@ -1,14 +1,11 @@
 package com.tailoredshapes.inventoryserver;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.sun.net.httpserver.HttpServer;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.security.SHA;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -57,7 +57,7 @@ public class Category implements Idable<Category>, Cloneable {
 
     @Override
     protected Category clone() throws CloneNotSupportedException {
-       return (Category) super.clone();
+        return (Category) super.clone();
     }
 
     @Override

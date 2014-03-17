@@ -23,7 +23,7 @@ public class HibernateCategoryRepository implements CategoryRepository {
     public Category findByFullname(String categoryFullName) {
         Session currentSession = sessionFactory.getCurrentSession();
         List<Category> matches = currentSession.createCriteria(Category.class).add(Restrictions.eq("fullname", categoryFullName)).list();
-        if(matches.isEmpty()){
+        if (matches.isEmpty()) {
             return new Category().setFullname(categoryFullName);
         }
         return matches.get(0);

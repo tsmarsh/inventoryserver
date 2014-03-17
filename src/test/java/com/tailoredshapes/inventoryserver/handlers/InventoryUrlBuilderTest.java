@@ -1,9 +1,7 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
 import com.tailoredshapes.inventoryserver.model.Inventory;
-import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
-import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import org.junit.Test;
 

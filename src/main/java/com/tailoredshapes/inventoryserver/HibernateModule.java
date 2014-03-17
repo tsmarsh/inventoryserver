@@ -9,13 +9,11 @@ import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateCategoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateInventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateMetricTypeRepository;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateUserRepository;
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.security.SHA;
-
-import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateInventoryRepository;
-
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -24,7 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class HibernateModule implements Module{
+public class HibernateModule implements Module {
     @Override
     public void configure(Binder binder) {
         binder.bind(new TypeLiteral<DAO<Inventory>>() {})

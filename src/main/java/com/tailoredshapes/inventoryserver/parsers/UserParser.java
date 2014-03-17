@@ -3,7 +3,6 @@ package com.tailoredshapes.inventoryserver.parsers;
 import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,9 +36,9 @@ public class UserParser implements Parser<User> {
 
         Set<Inventory> inventorySet = new HashSet<>();
 
-        if(jsonUser.has("inventories")){
+        if (jsonUser.has("inventories")) {
             JSONArray inventories = jsonUser.getJSONArray("inventories");
-            for(int i = 0; i < inventories.length(); i++){
+            for (int i = 0; i < inventories.length(); i++) {
                 inventorySet.add(inventoryParser.parse(inventories.getJSONObject(i).toString()));
             }
         }

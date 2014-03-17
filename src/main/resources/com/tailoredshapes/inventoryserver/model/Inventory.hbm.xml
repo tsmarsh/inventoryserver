@@ -10,7 +10,7 @@
         <many-to-one name="category" cascade="all"/>
         <bag name="metrics" cascade="all">
             <key column="id"/>
-            <many-to-many class="Metric" />
+            <many-to-many class="Metric"/>
         </bag>
     </class>
 </hibernate-mapping>

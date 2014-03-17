@@ -1,6 +1,5 @@
 package com.tailoredshapes.inventoryserver.model;
 
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,8 +60,8 @@ public class Inventory implements Idable<Inventory>, Cloneable {
         if (!category.equals(inventory.category)) return false;
         if (id != null ? !id.equals(inventory.id) : inventory.id != null) return false;
 
-        for(Metric metric : metrics){
-            if(!inventory.getMetrics().contains(metric)){
+        for (Metric metric : metrics) {
+            if (!inventory.getMetrics().contains(metric)) {
                 return false;
             }
         }
@@ -76,7 +75,7 @@ public class Inventory implements Idable<Inventory>, Cloneable {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + category.hashCode();
-        for(Metric metric : metrics){
+        for (Metric metric : metrics) {
             result = 31 * result + metric.hashCode();
         }
         result = 31 * result + (parent != null ? parent.hashCode() : 0);

@@ -3,8 +3,8 @@ package com.tailoredshapes.inventoryserver.model;
 import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 
 public class MetricTest {
     @Test
