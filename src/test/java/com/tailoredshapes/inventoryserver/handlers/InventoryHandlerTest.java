@@ -44,7 +44,6 @@ public class InventoryHandlerTest {
     HttpExchange readExchange2;
 
 
-
     @Test
     public void testCanCreateAnInventory() throws Exception {
         InventoryHandler handler;
@@ -58,7 +57,7 @@ public class InventoryHandlerTest {
 
         scope.enter();
 
-        try{
+        try {
             User user = new UserBuilder().build();
 
             scope.seed(User.class, user);
@@ -148,7 +147,7 @@ public class InventoryHandlerTest {
             assertFalse(updateResponseObject.has("parent"));
             assertNotNull(updateResponseObject.getLong("id"));
 
-        }finally{
+        } finally {
             scope.exit();
         }
     }

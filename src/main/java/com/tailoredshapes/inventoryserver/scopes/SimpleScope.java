@@ -1,24 +1,19 @@
 package com.tailoredshapes.inventoryserver.scopes;
 
-import static com.google.common.base.Preconditions.checkState;
 import com.google.common.collect.Maps;
 import com.google.inject.Key;
-import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkState;
 
 public class SimpleScope implements Scope {
 
     private static final Provider<Object> SEEDED_KEY_PROVIDER =
-            new Provider<Object>() {
-                public Object get() {
-                    return null;
-                }
-            };
+            () -> null;
 
     private final ThreadLocal<Map<Key<?>, Object>> values = new ThreadLocal<>();
 
@@ -33,7 +28,7 @@ public class SimpleScope implements Scope {
     }
 
     public <T> void seed(Key<T> key, T value) {
-        Map<Key<?>, Object> scopedObjects = getScopedObjectMap(key);
+        Map<Key<?>, Object> scopedObjects = getScopedObjectMap();
         checkState(!scopedObjects.containsKey(key), "A value for the key %s was " +
                 "already seeded in this scope. Old value: %s New value: %s", key,
                 scopedObjects.get(key), value);
@@ -45,22 +40,20 @@ public class SimpleScope implements Scope {
     }
 
     public <T> Provider<T> scope(final Key<T> key, final Provider<T> unscoped) {
-        return new Provider<T>() {
-            public T get() {
-                Map<Key<?>, Object> scopedObjects = getScopedObjectMap(key);
+        return () -> {
+            Map<Key<?>, Object> scopedObjects = getScopedObjectMap();
 
-                @SuppressWarnings("unchecked")
-                T current = (T) scopedObjects.get(key);
-                if (current == null && !scopedObjects.containsKey(key)) {
-                    current = unscoped.get();
-                    scopedObjects.put(key, current);
-                }
-                return current;
+            @SuppressWarnings("unchecked")
+            T current = (T) scopedObjects.get(key);
+            if (current == null && !scopedObjects.containsKey(key)) {
+                current = unscoped.get();
+                scopedObjects.put(key, current);
             }
+            return current;
         };
     }
 
-    private <T> Map<Key<?>, Object> getScopedObjectMap(Key<T> key) {
+    private <T> Map<Key<?>, Object> getScopedObjectMap() {
         Map<Key<?>, Object> scopedObjects = values.get();
         if (scopedObjects == null) {
             return new HashMap<>();

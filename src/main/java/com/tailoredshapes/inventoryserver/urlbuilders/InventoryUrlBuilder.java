@@ -6,7 +6,7 @@ import com.tailoredshapes.inventoryserver.model.User;
 
 public class InventoryUrlBuilder implements UrlBuilder<Inventory> {
 
-    private User currentUser;
+    private final User currentUser;
     private final String protocol;
     private final String host;
     private final Integer port;

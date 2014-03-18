@@ -46,7 +46,7 @@ public class InventoryParserTest {
     public void shouldParseAnInventoryWithParent() throws Exception {
         SimpleScope scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
-        try{
+        try {
             scope.seed(User.class, new UserBuilder().build());
 
             parser = GuiceTest.injector.getInstance(InventoryParser.class);
@@ -61,7 +61,7 @@ public class InventoryParserTest {
             Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));
 
             assertEquals(parent, inv.getParent());
-        }finally {
+        } finally {
             scope.exit();
         }
     }

@@ -1,6 +1,9 @@
 package com.tailoredshapes.inventoryserver;
 
-import com.google.inject.*;
+import com.google.inject.Binder;
+import com.google.inject.Module;
+import com.google.inject.Provides;
+import com.google.inject.TypeLiteral;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;

@@ -7,7 +7,6 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
-import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import org.junit.Test;
 
@@ -22,13 +21,13 @@ public class InventoryUrlBuilderTest {
 
         SimpleScope scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
-        try{
+        try {
             scope.seed(User.class, user);
             UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
             String url = inventoryUrlBuilder.build(inventory);
             assertEquals("http://localhost:5555/users/51284/inventories/141211", url);
 
-        }finally {
+        } finally {
             scope.exit();
         }
     }
