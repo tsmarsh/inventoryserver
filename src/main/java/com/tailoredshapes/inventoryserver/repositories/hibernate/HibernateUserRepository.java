@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 
 public class HibernateUserRepository implements UserRepository {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Inject
     public HibernateUserRepository(SessionFactory sessionFactory) {

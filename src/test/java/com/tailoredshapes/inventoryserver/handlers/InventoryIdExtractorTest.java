@@ -20,7 +20,7 @@ public class InventoryIdExtractorTest {
 
     @Test
     public void testExtract() throws Exception {
-        URI uri = new URI("http://testdomain.com:80/inventories/666");
+        URI uri = new URI("http://testdomain.com:80/users/-333/inventories/666");
         when(exchange.getRequestURI()).thenReturn(uri);
         InventoryIdExtractor inventoryIdExtractor = new InventoryIdExtractor();
         Long extract = inventoryIdExtractor.extract(exchange);
@@ -29,7 +29,7 @@ public class InventoryIdExtractorTest {
 
     @Test
     public void testExtractWithNegativeId() throws Exception {
-        URI uri = new URI("http://testdomain.com:80/inventories/-666");
+        URI uri = new URI("http://testdomain.com:80/users/333/inventories/-666");
         when(exchange.getRequestURI()).thenReturn(uri);
         InventoryIdExtractor inventoryIdExtractor = new InventoryIdExtractor();
         Long extract = inventoryIdExtractor.extract(exchange);

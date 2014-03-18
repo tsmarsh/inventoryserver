@@ -11,7 +11,7 @@ import java.util.List;
 
 public class HibernateMetricTypeRepository implements MetricTypeRepository {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Inject
     public HibernateMetricTypeRepository(SessionFactory sessionFactory) {

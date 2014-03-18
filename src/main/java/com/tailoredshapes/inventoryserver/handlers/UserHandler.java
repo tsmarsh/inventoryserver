@@ -22,7 +22,7 @@ public class UserHandler implements HttpHandler {
     private final Responder<User> responder;
     private final UrlBuilder<User> urlBuilder;
     private final UserParser userParser;
-    private IdExtractor<User> extractor;
+    private final IdExtractor<User> extractor;
 
     @Inject
     public UserHandler(DAO<User> dao, Responder<User> responder, UrlBuilder<User> urlBuilder, UserParser userParser, IdExtractor<User> extractor) {

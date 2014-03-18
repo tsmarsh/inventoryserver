@@ -10,6 +10,7 @@ import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
+import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import org.json.JSONArray;
@@ -33,14 +34,8 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InventoryHandlerTest {
-
-    private InventoryHandler handler;
     @Mock
     private HttpExchange createExchange;
-
-    private DAO<User> userDAO = GuiceTest.injector.getInstance(new Key<DAO<User>>() {});
-    private Serialiser<Metric> metricSerialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Metric>>() {});
-
     @Mock
     HttpExchange readExchange1;
     @Mock
@@ -48,94 +43,113 @@ public class InventoryHandlerTest {
     @Mock
     HttpExchange readExchange2;
 
-    private OutputStream stringStream;
-    private Map<String, String> parameters;
-    private Headers headers;
-    private JSONObject createResponseObject;
-    private String location;
+
 
     @Test
     public void testCanCreateAnInventory() throws Exception {
+        InventoryHandler handler;
+        OutputStream stringStream;
+        Map<String, String> parameters;
+        Headers headers;
+        JSONObject createResponseObject;
+        String location;
 
-        User user = userDAO.create(new UserBuilder().build());
-        URI uri = new URI(String.format("http://localhost:80/users/%s/inventories", user.getId()));
+        SimpleScope scope = GuiceTest.injector.getInstance(SimpleScope.class);
 
-        //CREATE
-        handler = GuiceTest.injector.getInstance(InventoryHandler.class);
-        UrlBuilder<User> userUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<User>>() {});
-        UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
+        scope.enter();
 
-        stringStream = new ByteArrayOutputStream();
-        parameters = new HashMap<>();
+        try{
+            User user = new UserBuilder().build();
 
-        headers = new Headers();
-        when(createExchange.getResponseBody()).thenReturn(stringStream);
-        when(createExchange.getAttribute("parameters")).thenReturn(parameters);
-        when(createExchange.getResponseHeaders()).thenReturn(headers);
-        when(createExchange.getRequestURI()).thenReturn(uri);
+            scope.seed(User.class, user);
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("category", "com.tailoredshapes.test");
-        jsonObject.put("user", userUrlBuilder.build(user));
-        parameters.put("inventory", jsonObject.toString());
+            DAO<User> userDAO = GuiceTest.injector.getInstance(new Key<DAO<User>>() {});
+            Serialiser<Metric> metricSerialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Metric>>() {});
 
-        when(createExchange.getRequestMethod()).thenReturn("post");
-        handler.handle(createExchange);
-        verify(createExchange).sendResponseHeaders(eq(302), anyInt());
-        assertTrue(headers.containsKey("location"));
-        location = headers.get("location").get(0);
+            user = userDAO.create(user);
 
-        createResponseObject = new JSONObject(stringStream.toString());
-        assertEquals("com.tailoredshapes.test", createResponseObject.getString("category"));
-        assertEquals(0, createResponseObject.getJSONArray("metrics").length());
-        assertFalse(createResponseObject.has("parent"));
-        assertNotNull(createResponseObject.getLong("id"));
+            URI uri = new URI(String.format("http://localhost:80/users/%s/inventories", user.getId()));
 
-        //READ
+            //CREATE
+            handler = GuiceTest.injector.getInstance(InventoryHandler.class);
+            UrlBuilder<User> userUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<User>>() {});
+            UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
 
-        stringStream = new ByteArrayOutputStream();
+            stringStream = new ByteArrayOutputStream();
+            parameters = new HashMap<>();
 
-        when(readExchange1.getRequestMethod()).thenReturn("get");
-        when(readExchange1.getResponseBody()).thenReturn(stringStream);
-        when(readExchange1.getRequestURI()).thenReturn(new URI(location));
+            headers = new Headers();
+            when(createExchange.getResponseBody()).thenReturn(stringStream);
+            when(createExchange.getAttribute("parameters")).thenReturn(parameters);
+            when(createExchange.getResponseHeaders()).thenReturn(headers);
+            when(createExchange.getRequestURI()).thenReturn(uri);
 
-        handler.handle(readExchange1);
-        verify(readExchange1).sendResponseHeaders(eq(200), anyInt());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("category", "com.tailoredshapes.test");
+            jsonObject.put("user", userUrlBuilder.build(user));
+            parameters.put("inventory", jsonObject.toString());
 
-        JSONObject getResponseObject = new JSONObject(stringStream.toString());
-        assertEquals(createResponseObject.getLong("id"), getResponseObject.getLong("id"));
-        assertEquals(createResponseObject.getString("category"), getResponseObject.getString("category"));
-        assertEquals(createResponseObject.getJSONArray("metrics").length(), getResponseObject.getJSONArray("metrics").length());
+            when(createExchange.getRequestMethod()).thenReturn("post");
+            handler.handle(createExchange);
+            verify(createExchange).sendResponseHeaders(eq(302), anyInt());
+            assertTrue(headers.containsKey("location"));
+            location = headers.get("location").get(0);
 
-        //Update
+            createResponseObject = new JSONObject(stringStream.toString());
+            assertEquals("com.tailoredshapes.test", createResponseObject.getString("category"));
+            assertEquals(0, createResponseObject.getJSONArray("metrics").length());
+            assertFalse(createResponseObject.has("parent"));
+            assertNotNull(createResponseObject.getLong("id"));
 
-        stringStream = new ByteArrayOutputStream();
-        parameters = new HashMap<>();
+            //READ
 
-        headers = new Headers();
-        when(updateExchange.getResponseBody()).thenReturn(stringStream);
-        when(updateExchange.getAttribute("parameters")).thenReturn(parameters);
-        when(updateExchange.getResponseHeaders()).thenReturn(headers);
-        when(updateExchange.getRequestURI()).thenReturn(new URI(location));
+            stringStream = new ByteArrayOutputStream();
 
-        JSONObject updatedObject = new JSONObject(getResponseObject.toString());
-        JSONArray metrics = updatedObject.getJSONArray("metrics");
-        Metric metric = new MetricBuilder().id(null).build();
-        JSONObject metricJson = new JSONObject(new String(metricSerialiser.serialise(metric)));
-        metrics.put(metricJson);
+            when(readExchange1.getRequestMethod()).thenReturn("get");
+            when(readExchange1.getResponseBody()).thenReturn(stringStream);
+            when(readExchange1.getRequestURI()).thenReturn(new URI(location));
 
-        parameters.put("inventory", updatedObject.toString());
+            handler.handle(readExchange1);
+            verify(readExchange1).sendResponseHeaders(eq(200), anyInt());
 
-        when(updateExchange.getRequestMethod()).thenReturn("post");
-        handler.handle(updateExchange);
-        verify(updateExchange).sendResponseHeaders(eq(302), anyInt());
-        assertTrue(headers.containsKey("location"));
-        assertNotSame(location, headers.get("location").get(0));
+            JSONObject getResponseObject = new JSONObject(stringStream.toString());
+            assertEquals(createResponseObject.getLong("id"), getResponseObject.getLong("id"));
+            assertEquals(createResponseObject.getString("category"), getResponseObject.getString("category"));
+            assertEquals(createResponseObject.getJSONArray("metrics").length(), getResponseObject.getJSONArray("metrics").length());
 
-        JSONObject updateResponseObject = new JSONObject(stringStream.toString());
-        assertEquals("com.tailoredshapes.test", updateResponseObject.getString("category"));
-        assertEquals(1, updateResponseObject.getJSONArray("metrics").length());
-        assertFalse(updateResponseObject.has("parent"));
-        assertNotNull(updateResponseObject.getLong("id"));
+            //Update
+
+            stringStream = new ByteArrayOutputStream();
+            parameters = new HashMap<>();
+
+            headers = new Headers();
+            when(updateExchange.getResponseBody()).thenReturn(stringStream);
+            when(updateExchange.getAttribute("parameters")).thenReturn(parameters);
+            when(updateExchange.getResponseHeaders()).thenReturn(headers);
+            when(updateExchange.getRequestURI()).thenReturn(new URI(location));
+
+            JSONObject updatedObject = new JSONObject(getResponseObject.toString());
+            JSONArray metrics = updatedObject.getJSONArray("metrics");
+            Metric metric = new MetricBuilder().id(null).build();
+            JSONObject metricJson = new JSONObject(new String(metricSerialiser.serialise(metric)));
+            metrics.put(metricJson);
+
+            parameters.put("inventory", updatedObject.toString());
+
+            when(updateExchange.getRequestMethod()).thenReturn("post");
+            handler.handle(updateExchange);
+            verify(updateExchange).sendResponseHeaders(eq(302), anyInt());
+            assertTrue(headers.containsKey("location"));
+            assertNotSame(location, headers.get("location").get(0));
+
+            JSONObject updateResponseObject = new JSONObject(stringStream.toString());
+            assertEquals("com.tailoredshapes.test", updateResponseObject.getString("category"));
+            assertEquals(1, updateResponseObject.getJSONArray("metrics").length());
+            assertFalse(updateResponseObject.has("parent"));
+            assertNotNull(updateResponseObject.getLong("id"));
+
+        }finally{
+            scope.exit();
+        }
     }
 }

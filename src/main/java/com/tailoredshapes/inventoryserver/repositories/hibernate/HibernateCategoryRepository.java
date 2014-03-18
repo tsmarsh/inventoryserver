@@ -11,7 +11,7 @@ import java.util.List;
 
 public class HibernateCategoryRepository implements CategoryRepository {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Inject
     public HibernateCategoryRepository(SessionFactory sessionFactory) {

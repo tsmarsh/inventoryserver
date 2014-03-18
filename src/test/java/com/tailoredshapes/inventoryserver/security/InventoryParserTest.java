@@ -10,7 +10,9 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricTypeBuilder;
+import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
+import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +31,6 @@ public class InventoryParserTest {
     @Before
     public void init() {
         parser = GuiceTest.injector.getInstance(InventoryParser.class);
-        DAO<User> userDAO = GuiceTest.injector.getInstance(new Key<DAO<User>>() {});
         serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory>>() {});
     }
 
@@ -43,15 +44,26 @@ public class InventoryParserTest {
 
     @Test
     public void shouldParseAnInventoryWithParent() throws Exception {
-        Inventory parent = new InventoryBuilder().build();
-        DAO<Inventory> dao = GuiceTest.injector.getInstance(new Key<DAO<Inventory>>() {});
-        parent = dao.create(parent);
+        SimpleScope scope = GuiceTest.injector.getInstance(SimpleScope.class);
+        scope.enter();
+        try{
+            scope.seed(User.class, new UserBuilder().build());
 
-        Inventory inventory = new InventoryBuilder().parent(parent).build();
+            parser = GuiceTest.injector.getInstance(InventoryParser.class);
+            serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory>>() {});
+            DAO<Inventory> dao = GuiceTest.injector.getInstance(new Key<DAO<Inventory>>() {});
 
-        Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));
+            Inventory parent = new InventoryBuilder().build();
+            parent = dao.create(parent);
 
-        assertEquals(parent, inv.getParent());
+            Inventory inventory = new InventoryBuilder().parent(parent).build();
+
+            Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));
+
+            assertEquals(parent, inv.getParent());
+        }finally {
+            scope.exit();
+        }
     }
 
     @Test

@@ -7,6 +7,7 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.CategoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
+import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.serialisers.InventorySerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.JSONSerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
@@ -32,9 +33,10 @@ public class InventorySerialiserTest {
 
     @Before
     public void setUp() throws Exception {
+        User user = new UserBuilder().id(51284l).build();
         parent = new InventoryBuilder().id(-111111111111l).build();
         build = new CategoryBuilder().fullname("archer.face").build();
-        inventoryUrlBuilder = new InventoryUrlBuilder("http", "tailoredshapes.com", 3333);
+        inventoryUrlBuilder = new InventoryUrlBuilder(user, "http", "tailoredshapes.com", 3333);
         userUrlBuilder = new UserUrlBuilder("https", "tailoredshapes.com", 80);
         metricSerialiser = new JSONSerialiser<>();
     }

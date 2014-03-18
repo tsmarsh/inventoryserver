@@ -10,7 +10,7 @@ import javax.inject.Inject;
 
 public class UserSerialiser implements Serialiser<User> {
 
-    private Serialiser<Inventory> inventorySerialiser;
+    private final Serialiser<Inventory> inventorySerialiser;
 
     @Inject
     public UserSerialiser(Serialiser<Inventory> inventorySerialiser) {

@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 
 public class HibernateInventoryRepository implements InventoryRepository {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Inject
     public HibernateInventoryRepository(SessionFactory sessionFactory) {

@@ -10,7 +10,7 @@ import java.security.KeyPair;
 public class UserSaver<R> extends Saver<User> {
 
     private final KeyProvider<R> keyProvider;
-    private DAO<Inventory> inventoryDAO;
+    private final DAO<Inventory> inventoryDAO;
 
     @Inject
     public UserSaver(KeyProvider<R> keyProvider, DAO<Inventory> inventoryDAO) {

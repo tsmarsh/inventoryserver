@@ -43,9 +43,8 @@ public class MetricType implements Idable<MetricType>, Cloneable {
         MetricType that = (MetricType) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (!name.equals(that.name)) return false;
+        return name.equals(that.name);
 
-        return true;
     }
 
     @Override

@@ -70,9 +70,8 @@ public class Category implements Idable<Category>, Cloneable {
         if (!fullname.equals(category.fullname)) return false;
         if (id != null ? !id.equals(category.id) : category.id != null) return false;
         if (name != null ? !name.equals(category.name) : category.name != null) return false;
-        if (parent != null ? !parent.equals(category.parent) : category.parent != null) return false;
+        return !(parent != null ? !parent.equals(category.parent) : category.parent != null);
 
-        return true;
     }
 
     @Override

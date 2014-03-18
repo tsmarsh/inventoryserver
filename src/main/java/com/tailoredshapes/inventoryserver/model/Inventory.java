@@ -66,9 +66,8 @@ public class Inventory implements Idable<Inventory>, Cloneable {
             }
         }
 
-        if (parent != null ? !parent.equals(inventory.parent) : inventory.parent != null) return false;
+        return !(parent != null ? !parent.equals(inventory.parent) : inventory.parent != null);
 
-        return true;
     }
 
     @Override

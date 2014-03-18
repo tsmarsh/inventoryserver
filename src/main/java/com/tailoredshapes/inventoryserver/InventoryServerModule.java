@@ -1,9 +1,6 @@
 package com.tailoredshapes.inventoryserver;
 
-import com.google.inject.Binder;
-import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.TypeLiteral;
+import com.google.inject.*;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -17,6 +14,7 @@ import com.tailoredshapes.inventoryserver.handlers.UserHandler;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
+import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
@@ -63,6 +61,13 @@ public class InventoryServerModule implements Module {
 
         binder.bind(new TypeLiteral<Saver<MetricType>>() {})
                 .to(new TypeLiteral<ChildFreeSaver<MetricType>>() {});
+
+        SimpleScope batchScope = new SimpleScope();
+
+        binder.bind(SimpleScope.class)
+                .toInstance(batchScope);
+
+        binder.bind(User.class).toProvider(SimpleScope.<User>seededKeyProvider()).in(batchScope);
     }
 
 
@@ -94,8 +99,9 @@ public class InventoryServerModule implements Module {
     @Provides
     public UrlBuilder<Inventory> inventoryUrlBuilderProvider(@Named("protocol") String protocol,
                                                              @Named("host") String host,
-                                                             @Named("port") Integer port) {
-        return new InventoryUrlBuilder(protocol, host, port);
+                                                             @Named("port") Integer port,
+                                                             User currentUser) {
+        return new InventoryUrlBuilder(currentUser, protocol, host, port);
     }
 
     @Provides

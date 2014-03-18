@@ -13,7 +13,7 @@ import java.util.Set;
 public class UserParser implements Parser<User> {
 
     private final UserRepository repo;
-    private InventoryParser inventoryParser;
+    private final InventoryParser inventoryParser;
 
 
     @Inject

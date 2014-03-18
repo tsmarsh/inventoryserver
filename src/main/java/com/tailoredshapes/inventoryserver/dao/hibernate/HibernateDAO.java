@@ -16,7 +16,7 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
     private final SessionFactory factory;
     private final Class<? super T> rawType;
     private final Saver<T> saver;
-    private Encoder<T, R> encoder;
+    private final Encoder<T, R> encoder;
 
     @Inject
     public HibernateDAO(TypeLiteral<T> type, SessionFactory factory, Saver<T> saver, Encoder<T, R> encoder) {
