@@ -11,21 +11,19 @@ import org.json.JSONObject;
 public class InventorySerialiser implements Serialiser<Inventory> {
 
     private final UrlBuilder<Inventory> inventoryUrlBuilder;
-    private final UrlBuilder<User> userUrlBuilder;
     private final Serialiser<Metric> metricSerializer;
 
     @Inject
-    public InventorySerialiser(UrlBuilder<Inventory> inventoryUrlBuilder, UrlBuilder<User> userUrlBuilder, Serialiser<Metric> metricSerializer) {
+    public InventorySerialiser(UrlBuilder<Inventory> inventoryUrlBuilder, Serialiser<Metric> metricSerializer) {
 
         this.inventoryUrlBuilder = inventoryUrlBuilder;
-        this.userUrlBuilder = userUrlBuilder;
         this.metricSerializer = metricSerializer;
     }
 
     @Override
     public byte[] serialise(Inventory object) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", object.getId());
+        jsonObject.put("id", inventoryUrlBuilder.build(object));
         jsonObject.put("category", object.getCategory().getFullname());
         JSONArray metrics = new JSONArray();
         for (Metric metric : object.getMetrics()) {
