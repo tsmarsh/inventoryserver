@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
+import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -43,9 +44,13 @@ public class InventoryHandlerTest {
     @Mock
     HttpExchange readExchange2;
 
-
     @Test
-    public void testCanCreateAnInventory() throws Exception {
+    public void testCanHandleInventoryRequestsInMemory() throws Exception {
+        testCanCreateAnInventory(GuiceTest.injector);
+    }
+
+
+    public void testCanCreateAnInventory(Injector injector) throws Exception {
         InventoryHandler handler;
         OutputStream stringStream;
         Map<String, String> parameters;
@@ -53,7 +58,7 @@ public class InventoryHandlerTest {
         JSONObject createResponseObject;
         String location;
 
-        SimpleScope scope = GuiceTest.injector.getInstance(SimpleScope.class);
+        SimpleScope scope = injector.getInstance(SimpleScope.class);
 
         scope.enter();
 
@@ -62,17 +67,17 @@ public class InventoryHandlerTest {
 
             scope.seed(User.class, user);
 
-            DAO<User> userDAO = GuiceTest.injector.getInstance(new Key<DAO<User>>() {});
-            Serialiser<Metric> metricSerialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Metric>>() {});
+            DAO<User> userDAO = injector.getInstance(new Key<DAO<User>>() {});
+            Serialiser<Metric> metricSerialiser = injector.getInstance(new Key<Serialiser<Metric>>() {});
 
             user = userDAO.create(user);
 
             URI uri = new URI(String.format("http://localhost:80/users/%s/inventories", user.getId()));
 
             //CREATE
-            handler = GuiceTest.injector.getInstance(InventoryHandler.class);
-            UrlBuilder<User> userUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<User>>() {});
-            UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
+            handler = injector.getInstance(InventoryHandler.class);
+            UrlBuilder<User> userUrlBuilder = injector.getInstance(new Key<UrlBuilder<User>>() {});
+            UrlBuilder<Inventory> inventoryUrlBuilder = injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
 
             stringStream = new ByteArrayOutputStream();
             parameters = new HashMap<>();
