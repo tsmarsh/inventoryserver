@@ -14,6 +14,8 @@ import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -49,6 +51,13 @@ public class InventoryHandlerTest {
         testCanCreateAnInventory(GuiceTest.injector);
     }
 
+    @Test
+    public void testCanHandleInventoryRequestsInHibernate() throws Exception {
+        SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
+        Transaction transaction = instance.getCurrentSession().beginTransaction();
+        testCanCreateAnInventory(GuiceTest.hibernateInjector);
+        transaction.rollback();
+    }
 
     public void testCanCreateAnInventory(Injector injector) throws Exception {
         InventoryHandler handler;

@@ -46,7 +46,7 @@ public class Inventory implements Idable<Inventory>, Cloneable {
     }
 
     @Override
-    protected Inventory clone() throws CloneNotSupportedException {
+    public Inventory clone() throws CloneNotSupportedException {
         return (Inventory) super.clone();
     }
 
