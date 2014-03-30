@@ -12,8 +12,12 @@ import static com.google.common.base.Preconditions.checkState;
 
 public class SimpleScope implements Scope {
 
-    private static final Provider<Object> SEEDED_KEY_PROVIDER =
-            () -> null;
+    private static final Provider<Object> SEEDED_KEY_PROVIDER = new Provider<Object>() {
+        @Override
+        public Object get() {
+            return null;
+        }
+    };
 
     private final ThreadLocal<Map<Key<?>, Object>> values = new ThreadLocal<>();
 
@@ -40,16 +44,19 @@ public class SimpleScope implements Scope {
     }
 
     public <T> Provider<T> scope(final Key<T> key, final Provider<T> unscoped) {
-        return () -> {
-            Map<Key<?>, Object> scopedObjects = getScopedObjectMap();
+        return new Provider<T>() {
+            @Override
+            public T get() {
+                Map<Key<?>, Object> scopedObjects = getScopedObjectMap();
 
-            @SuppressWarnings("unchecked")
-            T current = (T) scopedObjects.get(key);
-            if (current == null && !scopedObjects.containsKey(key)) {
-                current = unscoped.get();
-                scopedObjects.put(key, current);
+                @SuppressWarnings("unchecked")
+                T current = (T) scopedObjects.get(key);
+                if (current == null && !scopedObjects.containsKey(key)) {
+                    current = unscoped.get();
+                    scopedObjects.put(key, current);
+                }
+                return current;
             }
-            return current;
         };
     }
 

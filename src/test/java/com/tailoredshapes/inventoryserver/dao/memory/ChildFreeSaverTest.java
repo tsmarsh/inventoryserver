@@ -18,7 +18,13 @@ public class ChildFreeSaverTest {
 
     private TestModel model;
 
-    private Encoder<TestModel, TestAlgorithm> encoder = (model) -> testId;
+    private Encoder<TestModel, TestAlgorithm> encoder = new Encoder<TestModel, TestAlgorithm>() {
+        @Override
+        public Long encode(TestModel object) {
+            return testId;
+        }
+    };
+
     private Saver<TestModel> saver = new ChildFreeSaver<>();
 
     @Test

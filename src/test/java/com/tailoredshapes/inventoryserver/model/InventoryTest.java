@@ -24,7 +24,7 @@ public class InventoryTest {
         Inventory b = a.clone();
         Inventory c = b.clone().setId(666l);
         Inventory d = b.clone().setCategory(new CategoryBuilder().fullname("Archer").build());
-        Inventory e = b.clone().setMetrics(Collections.emptyList());
+        Inventory e = b.clone().setMetrics(Collections.<Metric>emptyList());
 
         assertTrue(a.equals(b));
         assertFalse(a.equals(c));
@@ -45,7 +45,7 @@ public class InventoryTest {
         Inventory b = a.clone();
         Inventory c = b.clone().setId(666l);
         Inventory d = b.clone().setCategory(new CategoryBuilder().fullname("Archer").build());
-        Inventory e = b.clone().setMetrics(Collections.emptyList());
+        Inventory e = b.clone().setMetrics(Collections.<Metric>emptyList());
 
         assertTrue(a.hashCode() == b.hashCode());
         assertFalse(a.hashCode() == c.hashCode());

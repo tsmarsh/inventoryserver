@@ -92,16 +92,25 @@ public class UserParserTest {
 
     @Test
     public void testParseUpdatedUserInMemory() throws Exception {
-        testParseUpdatedUser(GuiceTest.injector, () -> {});
+        testParseUpdatedUser(GuiceTest.injector, new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
     }
 
     @Test
     public void testParseUpdatedUserHibernate() throws Exception {
-        SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
+        final SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
         Transaction transaction = instance.getCurrentSession().beginTransaction();
-        testParseUpdatedUser(GuiceTest.hibernateInjector, () -> {
-            instance.getCurrentSession().flush();
+        testParseUpdatedUser(GuiceTest.hibernateInjector,new Runnable() {
+            @Override
+            public void run() {
+                instance.getCurrentSession().flush();
+            }
         });
+
         transaction.rollback();
         instance.getCurrentSession().close();
     }
