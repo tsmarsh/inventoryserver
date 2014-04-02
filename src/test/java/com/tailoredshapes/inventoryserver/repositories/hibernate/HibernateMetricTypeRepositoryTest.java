@@ -9,20 +9,24 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.Test;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
 import static com.tailoredshapes.inventoryserver.GuiceTest.hibernateInjector;
 import static org.junit.Assert.assertEquals;
 
 public class HibernateMetricTypeRepositoryTest {
     @Test
     public void testFindByName() throws Exception {
-        SessionFactory instance = hibernateInjector.getInstance(SessionFactory.class);
-        Session currentSession = instance.getCurrentSession();
-        Transaction transaction = currentSession.beginTransaction();
+        EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
 
         MetricType type = new MetricType().setName("Face");
         DAO<MetricType> metricTypeDAO = hibernateInjector.getInstance(new Key<DAO<MetricType>>() {});
         MetricTypeRepository repo = hibernateInjector.getInstance(MetricTypeRepository.class);
         MetricType metricType = metricTypeDAO.create(type);
+
         MetricType byId = repo.findByName(metricType.getName());
         assertEquals(metricType, byId);
 
@@ -31,9 +35,9 @@ public class HibernateMetricTypeRepositoryTest {
 
     @Test
     public void testMissByName() throws Exception {
-        SessionFactory instance = hibernateInjector.getInstance(SessionFactory.class);
-        Session currentSession = instance.getCurrentSession();
-        Transaction transaction = currentSession.beginTransaction();
+        EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
 
         MetricTypeRepository repo = hibernateInjector.getInstance(MetricTypeRepository.class);
 

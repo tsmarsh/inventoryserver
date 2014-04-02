@@ -11,6 +11,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.Test;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+import static com.tailoredshapes.inventoryserver.GuiceTest.hibernateInjector;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -23,8 +27,11 @@ public class CategoryRepositoryTest {
 
     @Test
     public void testFindByNameHibernate() throws Exception {
-        SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
-        Transaction transaction = instance.getCurrentSession().beginTransaction();
+        EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = manager.getTransaction();
+
+        transaction.begin();
+
         testFindByName(GuiceTest.hibernateInjector);
         transaction.rollback();
     }
@@ -46,8 +53,11 @@ public class CategoryRepositoryTest {
 
     @Test
     public void testExistsHibernate() throws Exception {
-        SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
-        Transaction transaction = instance.getCurrentSession().beginTransaction();
+        EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = manager.getTransaction();
+
+        transaction.begin();
+
         testExists(GuiceTest.hibernateInjector);
         transaction.rollback();
     }

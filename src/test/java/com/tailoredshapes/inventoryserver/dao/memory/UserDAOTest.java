@@ -1,12 +1,16 @@
 package com.tailoredshapes.inventoryserver.dao.memory;
 
 import com.google.inject.Key;
+import com.google.inject.persist.Transactional;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.Test;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -21,8 +25,9 @@ public class UserDAOTest extends GuiceTest {
 
     @Test
     public void testHibernate() throws Exception {
-        SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
-        Transaction transaction = instance.getCurrentSession().beginTransaction();
+        EntityManager instance = GuiceTest.hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = instance.getTransaction();
+        transaction.begin();
         DAO<User> dao = GuiceTest.hibernateInjector.getInstance(new Key<DAO<User>>() {});
         testSaveChildren(dao);
         transaction.rollback();

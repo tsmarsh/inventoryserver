@@ -6,18 +6,19 @@ import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import javax.persistence.EntityManager;
+
 public class HibernateUserRepository implements UserRepository {
 
-    private final SessionFactory sessionFactory;
+    private EntityManager manager;
 
     @Inject
-    public HibernateUserRepository(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public HibernateUserRepository(EntityManager manager) {
+        this.manager = manager;
     }
 
     @Override
     public User findById(long user_id) {
-        Session currentSession = sessionFactory.getCurrentSession();
-        return (User) currentSession.get(User.class, user_id);
+        return manager.find(User.class, user_id);
     }
 }

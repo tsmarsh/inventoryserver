@@ -57,7 +57,7 @@ public class InventoryServerModule implements Module {
                 .to(InventorySaver.class);
 
         binder.bind(new TypeLiteral<Saver<Category>>() {})
-                .to(new TypeLiteral<ChildFreeSaver<Category>>() {});
+                .to(CategorySaver.class);
 
         binder.bind(new TypeLiteral<Saver<Metric>>() {})
                 .to(MetricSaver.class);

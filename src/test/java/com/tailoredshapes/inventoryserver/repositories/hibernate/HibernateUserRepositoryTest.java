@@ -9,6 +9,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.Test;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
 import static com.tailoredshapes.inventoryserver.GuiceTest.hibernateInjector;
 import static org.junit.Assert.assertEquals;
 
@@ -16,9 +19,10 @@ public class HibernateUserRepositoryTest {
 
     @Test
     public void shouldFindUserById() throws Exception {
-        SessionFactory instance = hibernateInjector.getInstance(SessionFactory.class);
-        Session currentSession = instance.getCurrentSession();
-        Transaction transaction = currentSession.beginTransaction();
+        EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = manager.getTransaction();
+
+        transaction.begin();
 
         DAO<User> dao = hibernateInjector.getInstance(new Key<DAO<User>>() {});
         User storedUser = dao.create(new User());

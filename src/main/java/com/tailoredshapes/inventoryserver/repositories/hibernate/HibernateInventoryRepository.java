@@ -5,18 +5,21 @@ import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
 import org.hibernate.SessionFactory;
 
+import javax.persistence.EntityManager;
+
 public class HibernateInventoryRepository implements InventoryRepository {
 
-    private final SessionFactory sessionFactory;
+
+    private EntityManager manager;
 
     @Inject
-    public HibernateInventoryRepository(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public HibernateInventoryRepository(EntityManager manager) {
+        this.manager = manager;
     }
 
     @Override
     public Inventory findById(Long id) {
-        return (Inventory) sessionFactory.getCurrentSession().get(Inventory.class, id);
+        return manager.find(Inventory.class, id);
     }
 }
 

@@ -72,33 +72,4 @@ public class HibernateModule implements Module {
         binder.bind(new TypeLiteral<MetricTypeRepository>() {})
                 .to(new TypeLiteral<HibernateMetricTypeRepository>() {});
     }
-
-    @Provides
-    @Named("hibernate")
-    public Properties getHibernateProperties() throws IOException {
-        InputStream in = getClass().getResourceAsStream("/hibernate.properties");
-        Properties properties = new Properties();
-        properties.load(in);
-        return properties;
-    }
-
-    @Provides
-    @Singleton
-    public Configuration hibernateConfigurationProvider(@Named("hibernate") Properties properties) {
-        Configuration cfg = new Configuration();
-        getClass().getResourceAsStream("hibernate.properties");
-        cfg.setProperties(properties);
-        cfg.addResource("com/tailoredshapes/inventoryserver/model/User.hbm.xml");
-        cfg.addResource("com/tailoredshapes/inventoryserver/model/Category.hbm.xml");
-        cfg.addResource("com/tailoredshapes/inventoryserver/model/MetricType.hbm.xml");
-        cfg.addResource("com/tailoredshapes/inventoryserver/model/Metric.hbm.xml");
-        cfg.addResource("com/tailoredshapes/inventoryserver/model/Inventory.hbm.xml");
-        return cfg;
-    }
-
-    @Provides
-    @Singleton
-    public SessionFactory sessionFactoryProvider(Configuration cfg) {
-        return cfg.buildSessionFactory();
-    }
 }

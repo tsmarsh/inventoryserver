@@ -1,9 +1,22 @@
 package com.tailoredshapes.inventoryserver.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Category implements Idable<Category>, Cloneable {
+    @Id
     private Long id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String fullname;
+
+    @ManyToOne
     private Category parent;
 
     public Category() {

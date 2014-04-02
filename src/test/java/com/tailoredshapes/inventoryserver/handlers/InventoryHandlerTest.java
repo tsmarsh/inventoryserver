@@ -23,12 +23,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.tailoredshapes.inventoryserver.GuiceTest.hibernateInjector;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
@@ -53,8 +56,10 @@ public class InventoryHandlerTest {
 
     @Test
     public void testCanHandleInventoryRequestsInHibernate() throws Exception {
-        SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
-        Transaction transaction = instance.getCurrentSession().beginTransaction();
+        EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = manager.getTransaction();
+
+        transaction.begin();
         testCanCreateAnInventory(GuiceTest.hibernateInjector);
         transaction.rollback();
     }

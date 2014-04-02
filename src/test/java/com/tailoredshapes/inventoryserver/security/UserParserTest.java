@@ -17,9 +17,12 @@ import org.hibernate.Transaction;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.tailoredshapes.inventoryserver.GuiceTest.hibernateInjector;
 import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 
@@ -32,11 +35,13 @@ public class UserParserTest {
 
     @Test
     public void testParseNewUserHibernate() throws Exception {
-        SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
-        Transaction transaction = instance.getCurrentSession().beginTransaction();
+        EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = manager.getTransaction();
+
+        transaction.begin();
+
         testParseNewUser(GuiceTest.hibernateInjector);
         transaction.rollback();
-        instance.getCurrentSession().close();
     }
 
     public void testParseNewUser(Injector injector) throws Exception {
@@ -56,11 +61,12 @@ public class UserParserTest {
 
     @Test
     public void testParseExistingUserHibernate() throws Exception {
-        SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
-        Transaction transaction = instance.getCurrentSession().beginTransaction();
+        EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = manager.getTransaction();
+
+        transaction.begin();
         testParseExistingUser(GuiceTest.hibernateInjector);
         transaction.rollback();
-        instance.getCurrentSession().close();
     }
 
     public void testParseExistingUser(Injector injector) throws Exception {
@@ -84,7 +90,7 @@ public class UserParserTest {
         User parsedUser = userParser.parse(userJsonString);
 
         assertEquals("Archer", parsedUser.getName());
-        assertTrue(parsedUser.getInventories().iterator().next().equals(inventory));
+        assertTrue(parsedUser.getInventories().iterator().next().getId().equals(inventory.getId()));
         assertArrayEquals(savedUser.getPrivateKey().getEncoded(), parsedUser.getPrivateKey().getEncoded());
         assertArrayEquals(savedUser.getPublicKey().getEncoded(), parsedUser.getPublicKey().getEncoded());
     }
@@ -102,17 +108,19 @@ public class UserParserTest {
 
     @Test
     public void testParseUpdatedUserHibernate() throws Exception {
-        final SessionFactory instance = GuiceTest.hibernateInjector.getInstance(SessionFactory.class);
-        Transaction transaction = instance.getCurrentSession().beginTransaction();
+        final EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = manager.getTransaction();
+
+        transaction.begin();
+
         testParseUpdatedUser(GuiceTest.hibernateInjector,new Runnable() {
             @Override
             public void run() {
-                instance.getCurrentSession().flush();
+              manager.flush();
             }
         });
 
         transaction.rollback();
-        instance.getCurrentSession().close();
     }
 
     public void testParseUpdatedUser(Injector injector, Runnable transactionCompleter) throws Exception {

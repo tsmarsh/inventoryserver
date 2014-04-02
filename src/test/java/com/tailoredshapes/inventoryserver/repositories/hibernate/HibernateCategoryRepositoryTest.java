@@ -10,6 +10,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.Test;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
 import static com.tailoredshapes.inventoryserver.GuiceTest.hibernateInjector;
 import static org.junit.Assert.assertEquals;
 
@@ -17,14 +20,15 @@ public class HibernateCategoryRepositoryTest {
 
     @Test
     public void testFindByName() throws Exception {
-        SessionFactory sessionFactory = hibernateInjector.getInstance(SessionFactory.class);
-        Session currentSession = sessionFactory.getCurrentSession();
-        Transaction transaction = currentSession.beginTransaction();
+        EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
 
         Category category = new CategoryBuilder().build();
         DAO<Category> dao = hibernateInjector.getInstance(new Key<DAO<Category>>() {});
         CategoryRepository repo = hibernateInjector.getInstance(CategoryRepository.class);
         Category savedCategory = dao.create(category);
+
         Category byId = repo.findByFullname(savedCategory.getFullname());
         assertEquals(savedCategory, byId);
 
@@ -33,10 +37,9 @@ public class HibernateCategoryRepositoryTest {
 
     @Test
     public void testMissByName() throws Exception {
-        SessionFactory sessionFactory = hibernateInjector.getInstance(SessionFactory.class);
-        Session currentSession = sessionFactory.getCurrentSession();
-        Transaction transaction = currentSession.beginTransaction();
-
+        EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
+        EntityTransaction transaction = manager.getTransaction();
+        transaction.begin();
 
         CategoryRepository repo = hibernateInjector.getInstance(CategoryRepository.class);
 

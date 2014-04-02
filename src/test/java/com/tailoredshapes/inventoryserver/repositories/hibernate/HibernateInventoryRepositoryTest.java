@@ -11,31 +11,32 @@ import org.hibernate.Transaction;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
 import static com.tailoredshapes.inventoryserver.GuiceTest.hibernateInjector;
 import static org.junit.Assert.assertEquals;
 
 public class HibernateInventoryRepositoryTest {
     private DAO<Inventory> inventoryDAO;
     private InMemoryInventoryRepository repo;
-    private SessionFactory sessionFactory;
-    private Session session;
-
-    @Before
-    public void setUp() throws Exception {
-        repo = hibernateInjector.getInstance(new Key<InMemoryInventoryRepository>() {});
-        inventoryDAO = hibernateInjector.getInstance(new Key<DAO<Inventory>>() {});
-        sessionFactory = hibernateInjector.getInstance(SessionFactory.class);
-    }
 
     @Test
     public void testFindById() throws Exception {
-        session = sessionFactory.getCurrentSession();
+        repo = hibernateInjector.getInstance(new Key<InMemoryInventoryRepository>() {});
+        inventoryDAO = hibernateInjector.getInstance(new Key<DAO<Inventory>>() {});
+        EntityManager em = hibernateInjector.getInstance(EntityManager.class);
 
-        Transaction transaction = session.beginTransaction();
-        Inventory inventory = new InventoryBuilder().build();
-        Inventory savedInventory = inventoryDAO.create(inventory);
-        Inventory byId = repo.findById(savedInventory.getId());
-        assertEquals(savedInventory, byId);
-        transaction.rollback();
+        EntityTransaction transaction = em.getTransaction();
+        try{
+            transaction.begin();
+            Inventory inventory = new InventoryBuilder().build();
+            Inventory savedInventory = inventoryDAO.create(inventory);
+            Inventory byId = repo.findById(savedInventory.getId());
+            assertEquals(savedInventory, byId);
+        }finally {
+            transaction.rollback();
+        }
+
     }
 }

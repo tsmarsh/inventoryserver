@@ -8,17 +8,14 @@ import com.tailoredshapes.inventoryserver.model.User;
 
 public class InventorySaver extends Saver<Inventory> {
 
-    private final DAO<User> userDAO;
     private final DAO<Inventory> inventoryDAO;
     private final DAO<Metric> metricDAO;
     private final DAO<Category> categoryDAO;
 
     @Inject
-    public InventorySaver(DAO<User> userDAO,
-                          DAO<Inventory> inventoryDAO,
+    public InventorySaver(DAO<Inventory> inventoryDAO,
                           DAO<Metric> metricDAO,
                           DAO<Category> categoryDAO) {
-        this.userDAO = userDAO;
         this.inventoryDAO = inventoryDAO;
         this.metricDAO = metricDAO;
         this.categoryDAO = categoryDAO;

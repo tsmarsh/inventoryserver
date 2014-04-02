@@ -1,12 +1,23 @@
 package com.tailoredshapes.inventoryserver.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Inventory implements Idable<Inventory>, Cloneable {
+
+    @Id
     private Long id;
+
+    @ManyToOne(cascade = CascadeType.ALL,
+               optional = false)
     private Category category;
+
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Metric> metrics = new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Inventory parent;
 
     public Long getId() {
