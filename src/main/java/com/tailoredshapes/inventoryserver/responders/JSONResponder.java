@@ -1,11 +1,13 @@
-package com.tailoredshapes.inventoryserver.handlers.responders;
+package com.tailoredshapes.inventoryserver.responders;
 
 import com.google.inject.Inject;
+import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
+@RequestScoped
 public class JSONResponder<T> implements Responder<T> {
     private final Serialiser<T> serialiser;
 

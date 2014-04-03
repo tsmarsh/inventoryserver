@@ -4,28 +4,20 @@ import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
-import com.sun.net.httpserver.HttpContext;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
 import com.tailoredshapes.inventoryserver.dao.*;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.extractors.InventoryIdExtractor;
 import com.tailoredshapes.inventoryserver.extractors.UrlIdExtractor;
-import com.tailoredshapes.inventoryserver.filters.ParameterFilter;
-import com.tailoredshapes.inventoryserver.handlers.InventoryHandler;
-import com.tailoredshapes.inventoryserver.handlers.UserHandler;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
-import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
+import com.tailoredshapes.inventoryserver.parsers.UserParser;
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
 
 import javax.inject.Named;
-import java.io.IOException;
-import java.net.InetSocketAddress;
 
 public class InventoryServerModule implements Module {
     private final String host;
@@ -38,8 +30,9 @@ public class InventoryServerModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        binder.bind(HttpHandler.class)
-                .to(InventoryHandler.class);
+
+        binder.bind(new TypeLiteral<Parser<User>>(){})
+                .to(UserParser.class);
 
         binder.bind(new TypeLiteral<Parser<Inventory>>() {})
                 .to(InventoryParser.class);
@@ -65,12 +58,11 @@ public class InventoryServerModule implements Module {
         binder.bind(new TypeLiteral<Saver<MetricType>>() {})
                 .to(new TypeLiteral<ChildFreeSaver<MetricType>>() {});
 
-        SimpleScope batchScope = new SimpleScope();
+        binder.bind(new TypeLiteral<UrlBuilder<User>>(){})
+                .to(UserUrlBuilder.class);
 
-        binder.bind(SimpleScope.class)
-                .toInstance(batchScope);
-
-        binder.bind(User.class).toProvider(SimpleScope.<User>seededKeyProvider()).in(batchScope);
+        binder.bind(new TypeLiteral<UrlBuilder<Inventory>>(){})
+                .to(InventoryUrlBuilder.class);
     }
 
 
@@ -90,40 +82,5 @@ public class InventoryServerModule implements Module {
     @Named("protocol")
     public String protocolProvider() {
         return "http";
-    }
-
-    @Provides
-    public UrlBuilder<User> userUrlBuilderProvider(@Named("protocol") String protocol,
-                                                   @Named("host") String host,
-                                                   @Named("port") Integer port) {
-        return new UserUrlBuilder(protocol, host, port);
-    }
-
-    @Provides
-    public UrlBuilder<Inventory> inventoryUrlBuilderProvider(@Named("protocol") String protocol,
-                                                             @Named("host") String host,
-                                                             @Named("port") Integer port,
-                                                             User currentUser) {
-        return new InventoryUrlBuilder(currentUser, protocol, host, port);
-    }
-
-    @Provides
-    public HttpServer httpServerProvider(@Named("host") String host,
-                                         @Named("port") Integer port,
-                                         InventoryHandler handler,
-                                         UserHandler userHander,
-                                         ParameterFilter parameterFilter) {
-        try {
-            HttpServer httpServer = HttpServer.create(new InetSocketAddress(port), -1);
-            HttpContext inventoryContext = httpServer.createContext("/inventory", handler);
-            inventoryContext.getFilters().add(parameterFilter);
-            HttpContext userContext = httpServer.createContext("/user", userHander);
-            userContext.getFilters().add(parameterFilter);
-            return httpServer;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 }
