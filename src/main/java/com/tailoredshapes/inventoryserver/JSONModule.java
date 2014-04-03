@@ -21,7 +21,7 @@ public class JSONModule implements Module {
                 .to(UserSerialiser.class);
 
         binder.bind(new TypeLiteral<Serialiser<Metric>>() {})
-                .to(MetricSeriliser.class);
+                .to(MetricSerialiser.class);
 
         binder.bind(new TypeLiteral<Serialiser<MetricType>>() {})
                 .to(new TypeLiteral<JSONSerialiser<MetricType>>() {});

@@ -1,4 +1,4 @@
-package com.tailoredshapes.inventoryserver.handlers.responders;
+package com.tailoredshapes.inventoryserver.responders;
 
 import java.io.OutputStream;
 
