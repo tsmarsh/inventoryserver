@@ -14,7 +14,7 @@ import org.junit.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import static com.tailoredshapes.inventoryserver.GuiceTest.hibernateInjector;
+import static com.tailoredshapes.inventoryserver.HibernateTest.hibernateInjector;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -32,7 +32,7 @@ public class CategoryRepositoryTest {
 
         transaction.begin();
 
-        testFindByName(GuiceTest.hibernateInjector);
+        testFindByName(hibernateInjector);
         transaction.rollback();
     }
 
@@ -58,7 +58,7 @@ public class CategoryRepositoryTest {
 
         transaction.begin();
 
-        testExists(GuiceTest.hibernateInjector);
+        testExists(hibernateInjector);
         transaction.rollback();
     }
 

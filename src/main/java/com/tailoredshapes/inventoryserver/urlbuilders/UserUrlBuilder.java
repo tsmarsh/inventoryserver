@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.urlbuilders;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.tailoredshapes.inventoryserver.model.User;
 
 import java.net.MalformedURLException;
@@ -14,7 +15,9 @@ public class UserUrlBuilder implements UrlBuilder<User> {
     private final int port;
 
     @Inject
-    public UserUrlBuilder(String protocol, String host, int port) {
+    public UserUrlBuilder(@Named("protocol") String protocol,
+                          @Named("host") String host,
+                          @Named("port") int port) {
         this.protocol = protocol;
         this.host = host;
         this.port = port;
@@ -23,7 +26,10 @@ public class UserUrlBuilder implements UrlBuilder<User> {
     @Override
     public String build(User user) {
         try {
-            return new URL(protocol, host, port, String.format("/users/" + user.getId())).toString();
+
+            return user.getId() != null ?
+                    new URL(protocol, host, port, String.format("/users/" + user.getId())).toString()
+                    : null;
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }

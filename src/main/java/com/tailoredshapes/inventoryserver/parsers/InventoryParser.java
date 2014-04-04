@@ -43,7 +43,11 @@ public class InventoryParser implements Parser<Inventory> {
         inventory.setCategory(categoryRepository.findByFullname(categoryFullName));
 
         if (jo.has("id")) {
-            inventory.setId(jo.getLong("id"));
+            try {
+                inventory.setId(inventoryIdExtractor.extract(new URL(jo.getString("id")).getPath()));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
 
 

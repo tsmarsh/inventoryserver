@@ -12,7 +12,7 @@ import org.junit.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import static com.tailoredshapes.inventoryserver.GuiceTest.hibernateInjector;
+import static com.tailoredshapes.inventoryserver.HibernateTest.hibernateInjector;
 import static org.junit.Assert.assertEquals;
 
 public class HibernateMetricTypeRepositoryTest {

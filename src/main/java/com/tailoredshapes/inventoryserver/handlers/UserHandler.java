@@ -6,9 +6,9 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
-import com.tailoredshapes.inventoryserver.handlers.responders.Responder;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.parsers.UserParser;
+import com.tailoredshapes.inventoryserver.responders.Responder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 
 import java.io.IOException;

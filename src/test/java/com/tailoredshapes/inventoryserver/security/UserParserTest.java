@@ -10,11 +10,15 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.CategoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
+import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.parsers.UserParser;
+import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.json.JSONObject;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
@@ -22,25 +26,38 @@ import javax.persistence.EntityTransaction;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.tailoredshapes.inventoryserver.GuiceTest.hibernateInjector;
+import static com.tailoredshapes.inventoryserver.HibernateTest.hibernateInjector;
 import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 
 public class UserParserTest {
 
+    private SimpleScope scope;
+
+    @After
+    public void tearDown() throws Exception {
+        scope.exit();
+    }
+
     @Test
     public void testParseNewUserInMemory() throws Exception {
+        scope = GuiceTest.injector.getInstance(SimpleScope.class);
+        scope.enter();
+        scope.seed(User.class, new User().setId(141211l));
         testParseNewUser(GuiceTest.injector);
     }
 
     @Test
     public void testParseNewUserHibernate() throws Exception {
+        scope = hibernateInjector.getInstance(SimpleScope.class);
+        scope.enter();
+        scope.seed(User.class, new User().setId(141211l));
         EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = manager.getTransaction();
 
         transaction.begin();
 
-        testParseNewUser(GuiceTest.hibernateInjector);
+        testParseNewUser(hibernateInjector);
         transaction.rollback();
     }
 
@@ -56,16 +73,23 @@ public class UserParserTest {
 
     @Test
     public void testParseExistingUserInMemory() throws Exception {
+        scope = GuiceTest.injector.getInstance(SimpleScope.class);
+        scope.enter();
+        scope.seed(User.class, new User().setId(141211l));
         testParseExistingUser(GuiceTest.injector);
     }
 
     @Test
     public void testParseExistingUserHibernate() throws Exception {
+        scope = hibernateInjector.getInstance(SimpleScope.class);
+        scope.enter();
+        scope.seed(User.class, new User().setId(141211l));
+
         EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = manager.getTransaction();
 
         transaction.begin();
-        testParseExistingUser(GuiceTest.hibernateInjector);
+        testParseExistingUser(hibernateInjector);
         transaction.rollback();
     }
 
@@ -98,6 +122,9 @@ public class UserParserTest {
 
     @Test
     public void testParseUpdatedUserInMemory() throws Exception {
+        scope = GuiceTest.injector.getInstance(SimpleScope.class);
+        scope.enter();
+        scope.seed(User.class, new User().setId(141211l));
         testParseUpdatedUser(GuiceTest.injector, new Runnable() {
             @Override
             public void run() {
@@ -108,12 +135,16 @@ public class UserParserTest {
 
     @Test
     public void testParseUpdatedUserHibernate() throws Exception {
+        scope = hibernateInjector.getInstance(SimpleScope.class);
+        scope.enter();
+        scope.seed(User.class, new User().setId(141211l));
+
         final EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = manager.getTransaction();
 
         transaction.begin();
 
-        testParseUpdatedUser(GuiceTest.hibernateInjector,new Runnable() {
+        testParseUpdatedUser(hibernateInjector,new Runnable() {
             @Override
             public void run() {
               manager.flush();

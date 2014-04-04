@@ -2,27 +2,30 @@ package com.tailoredshapes.inventoryserver.scopes;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Key;
+import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkState;
 
 public class SimpleScope implements Scope {
 
-    private static final Provider<Object> SEEDED_KEY_PROVIDER = new Provider<Object>() {
-        @Override
-        public Object get() {
-            return null;
-        }
-    };
-
-    private final ThreadLocal<Map<Key<?>, Object>> values = new ThreadLocal<>();
+    private static final Provider<Object> SEEDED_KEY_PROVIDER =
+            new Provider<Object>() {
+                public Object get() {
+                    throw new IllegalStateException("If you got here then it means that" +
+                            " your code asked for scoped object which should have been" +
+                            " explicitly seeded in this scope by calling" +
+                            " SimpleScope.seed(), but was not.");
+                }
+            };
+    private final ThreadLocal<Map<Key<?>, Object>> values
+            = new ThreadLocal<Map<Key<?>, Object>>();
 
     public void enter() {
-        checkState(values.get() == null, "A scoping block is already in progress");
+        //checkState(values.get() == null, "A scoping block is already in progress");
         values.set(Maps.<Key<?>, Object>newHashMap());
     }
 
@@ -32,7 +35,7 @@ public class SimpleScope implements Scope {
     }
 
     public <T> void seed(Key<T> key, T value) {
-        Map<Key<?>, Object> scopedObjects = getScopedObjectMap();
+        Map<Key<?>, Object> scopedObjects = getScopedObjectMap(key);
         checkState(!scopedObjects.containsKey(key), "A value for the key %s was " +
                 "already seeded in this scope. Old value: %s New value: %s", key,
                 scopedObjects.get(key), value);
@@ -45,25 +48,30 @@ public class SimpleScope implements Scope {
 
     public <T> Provider<T> scope(final Key<T> key, final Provider<T> unscoped) {
         return new Provider<T>() {
-            @Override
             public T get() {
-                Map<Key<?>, Object> scopedObjects = getScopedObjectMap();
+                Map<Key<?>, Object> scopedObjects = getScopedObjectMap(key);
 
-                @SuppressWarnings("unchecked")
-                T current = (T) scopedObjects.get(key);
-                if (current == null && !scopedObjects.containsKey(key)) {
-                    current = unscoped.get();
-                    scopedObjects.put(key, current);
+                if(scopedObjects != null){
+                    @SuppressWarnings("unchecked")
+                    T current = (T) scopedObjects.get(key);
+                    if (current == null && !scopedObjects.containsKey(key)) {
+                        current = unscoped.get();
+                        scopedObjects.put(key, current);
+                    }
+                    return current;
+                } else{
+                    return (T) SEEDED_KEY_PROVIDER;
                 }
-                return current;
+
             }
         };
     }
 
-    private <T> Map<Key<?>, Object> getScopedObjectMap() {
+    private <T> Map<Key<?>, Object> getScopedObjectMap(Key<T> key) {
         Map<Key<?>, Object> scopedObjects = values.get();
         if (scopedObjects == null) {
-            return new HashMap<>();
+            throw new OutOfScopeException("Cannot access " + key
+                    + " outside of a scoping block");
         }
         return scopedObjects;
     }

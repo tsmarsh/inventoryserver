@@ -15,7 +15,7 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public User findById(long user_id) {
+    public User findById(Long user_id) {
         User user = new User().setId(user_id);
         return dao.read(user);
     }

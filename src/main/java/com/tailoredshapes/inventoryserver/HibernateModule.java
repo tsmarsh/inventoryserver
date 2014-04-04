@@ -4,10 +4,7 @@ import com.google.inject.*;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.hibernate.HibernateDAO;
 import com.tailoredshapes.inventoryserver.model.*;
-import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
-import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
-import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
-import com.tailoredshapes.inventoryserver.repositories.UserRepository;
+import com.tailoredshapes.inventoryserver.repositories.*;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateCategoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateInventoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateMetricTypeRepository;
@@ -59,14 +56,20 @@ public class HibernateModule implements Module {
         binder.bind(new TypeLiteral<HibernateDAO<MetricType, SHA>>() {})
                 .in(Singleton.class);
 
+        binder.bind(new TypeLiteral<Repository<Inventory>>() {})
+                .to(HibernateInventoryRepository.class);
+
 
         binder.bind(InventoryRepository.class)
-                .to(new TypeLiteral<HibernateInventoryRepository>() {});
+                .to(HibernateInventoryRepository.class);
 
         binder.bind(new TypeLiteral<CategoryRepository>() {})
                 .to(new TypeLiteral<HibernateCategoryRepository>() {});
 
-        binder.bind(new TypeLiteral<UserRepository>() {})
+        binder.bind(UserRepository.class)
+                .to(HibernateUserRepository.class);
+
+        binder.bind(new TypeLiteral<Repository<User>>() {})
                 .to(HibernateUserRepository.class);
 
         binder.bind(new TypeLiteral<MetricTypeRepository>() {})

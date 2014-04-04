@@ -8,27 +8,49 @@ import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class InventoryUrlBuilderTest {
+
+    private SimpleScope scope;
+
+
+    @Before
+    public void init() {
+        scope = GuiceTest.injector.getInstance(SimpleScope.class);
+        scope.enter();
+        final User user = new UserBuilder().id(51284l).build();
+        scope.seed(User.class, user);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        scope.exit();
+    }
+
     @Test
     public void testShouldReturnTheCorrectUrlForAnInventory() throws Exception {
-        User user = new UserBuilder().id(51284l).build();
         Inventory inventory = new InventoryBuilder()
                 .id(141211l).build();
 
-        SimpleScope scope = GuiceTest.injector.getInstance(SimpleScope.class);
-        scope.enter();
-        try {
-            scope.seed(User.class, user);
-            UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
-            String url = inventoryUrlBuilder.build(inventory);
-            assertEquals("http://localhost:5555/users/51284/inventories/141211", url);
+        UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
+        String url = inventoryUrlBuilder.build(inventory);
+        assertEquals("http://localhost:5555/users/51284/inventories/141211", url);
+    }
 
-        } finally {
-            scope.exit();
-        }
+    @Test
+    public void testShouldReturnNullIfIdNotSet() throws Exception {
+
+        Inventory inventory = new InventoryBuilder()
+                .id(null).build();
+        UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
+        String url = inventoryUrlBuilder.build(inventory);
+        assertNull( url);
+
     }
 }

@@ -3,9 +3,9 @@ package com.tailoredshapes.inventoryserver;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
-import com.tailoredshapes.inventoryserver.handlers.responders.JSONResponder;
-import com.tailoredshapes.inventoryserver.handlers.responders.Responder;
 import com.tailoredshapes.inventoryserver.model.*;
+import com.tailoredshapes.inventoryserver.responders.JSONResponder;
+import com.tailoredshapes.inventoryserver.responders.Responder;
 import com.tailoredshapes.inventoryserver.serialisers.*;
 
 public class JSONModule implements Module {

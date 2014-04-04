@@ -1,9 +1,14 @@
 package com.tailoredshapes.inventoryserver.urlbuilders;
 
 import com.google.inject.Inject;
+import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 
+import javax.annotation.Nullable;
+import javax.inject.Named;
+
+@RequestScoped
 public class InventoryUrlBuilder implements UrlBuilder<Inventory> {
 
     private final User currentUser;
@@ -12,7 +17,10 @@ public class InventoryUrlBuilder implements UrlBuilder<Inventory> {
     private final Integer port;
 
     @Inject
-    public InventoryUrlBuilder(User currentUser, String protocol, String host, Integer port) {
+    public InventoryUrlBuilder(@Nullable User currentUser,
+                               @Named("protocol") String protocol,
+                               @Named("host") String host,
+                               @Named("port") Integer port) {
         this.currentUser = currentUser;
 
         this.protocol = protocol;
@@ -22,6 +30,9 @@ public class InventoryUrlBuilder implements UrlBuilder<Inventory> {
 
     @Override
     public String build(Inventory inventory) {
-        return String.format("%s://%s:%s/users/%s/inventories/%s", protocol, host, port, currentUser.getId(), inventory.getId());
+        return inventory.getId() != null ?
+            String.format("%s://%s:%s/users/%s/inventories/%s", protocol, host, port, currentUser.getId(), inventory.getId())
+            : null;
+
     }
 }

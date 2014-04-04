@@ -2,8 +2,8 @@ package com.tailoredshapes.inventoryserver;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
+import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.dao.*;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.extractors.InventoryIdExtractor;
@@ -16,8 +16,6 @@ import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
-
-import javax.inject.Named;
 
 public class InventoryServerModule implements Module {
     private final String host;
@@ -61,26 +59,19 @@ public class InventoryServerModule implements Module {
         binder.bind(new TypeLiteral<UrlBuilder<User>>(){})
                 .to(UserUrlBuilder.class);
 
-        binder.bind(new TypeLiteral<UrlBuilder<Inventory>>(){})
+        binder.bind(new TypeLiteral<UrlBuilder<Inventory>>() {})
                 .to(InventoryUrlBuilder.class);
-    }
 
+        binder.bind(String.class)
+                .annotatedWith(Names.named("host"))
+                .toInstance(host);
 
-    @Provides
-    @Named("host")
-    public String hostProvider() {
-        return host;
-    }
+        binder.bind(Integer.class)
+                .annotatedWith(Names.named("port"))
+                .toInstance(port);
 
-    @Provides
-    @Named("port")
-    public Integer portProvider() {
-        return port;
-    }
-
-    @Provides
-    @Named("protocol")
-    public String protocolProvider() {
-        return "http";
+        binder.bind(String.class)
+                .annotatedWith(Names.named("protocol"))
+                .toInstance("http");
     }
 }

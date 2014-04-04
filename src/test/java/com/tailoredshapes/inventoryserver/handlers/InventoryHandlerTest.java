@@ -31,7 +31,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.tailoredshapes.inventoryserver.GuiceTest.hibernateInjector;
+import static com.tailoredshapes.inventoryserver.HibernateTest.hibernateInjector;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
@@ -60,7 +60,7 @@ public class InventoryHandlerTest {
         EntityTransaction transaction = manager.getTransaction();
 
         transaction.begin();
-        testCanCreateAnInventory(GuiceTest.hibernateInjector);
+        testCanCreateAnInventory(hibernateInjector);
         transaction.rollback();
     }
 
@@ -117,7 +117,7 @@ public class InventoryHandlerTest {
             assertEquals("com.tailoredshapes.test", createResponseObject.getString("category"));
             assertEquals(0, createResponseObject.getJSONArray("metrics").length());
             assertFalse(createResponseObject.has("parent"));
-            assertNotNull(createResponseObject.getLong("id"));
+            assertNotNull(createResponseObject.getString("id"));
 
             //READ
 
@@ -131,7 +131,7 @@ public class InventoryHandlerTest {
             verify(readExchange1).sendResponseHeaders(eq(200), anyInt());
 
             JSONObject getResponseObject = new JSONObject(stringStream.toString());
-            assertEquals(createResponseObject.getLong("id"), getResponseObject.getLong("id"));
+            assertEquals(createResponseObject.getString("id"), getResponseObject.getString("id"));
             assertEquals(createResponseObject.getString("category"), getResponseObject.getString("category"));
             assertEquals(createResponseObject.getJSONArray("metrics").length(), getResponseObject.getJSONArray("metrics").length());
 
@@ -164,7 +164,7 @@ public class InventoryHandlerTest {
             assertEquals("com.tailoredshapes.test", updateResponseObject.getString("category"));
             assertEquals(1, updateResponseObject.getJSONArray("metrics").length());
             assertFalse(updateResponseObject.has("parent"));
-            assertNotNull(updateResponseObject.getLong("id"));
+            assertNotNull(updateResponseObject.getString("id"));
 
         } finally {
             scope.exit();

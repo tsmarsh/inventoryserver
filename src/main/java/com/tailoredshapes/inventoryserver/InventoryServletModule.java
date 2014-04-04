@@ -1,11 +1,8 @@
 package com.tailoredshapes.inventoryserver;
 
 import com.google.inject.Key;
-import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.ServletModule;
 import com.tailoredshapes.inventoryserver.filters.TFilter;
-import com.tailoredshapes.inventoryserver.filters.TransactionFilter;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.servlets.Pestlet;

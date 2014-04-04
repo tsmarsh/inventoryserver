@@ -1,10 +1,13 @@
 package com.tailoredshapes.inventoryserver.dao;
 
+import com.google.inject.Guice;
 import com.google.inject.Key;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.encoders.RSAEncoder;
 import com.tailoredshapes.inventoryserver.model.User;
+import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +19,7 @@ import static org.junit.Assert.*;
 public class RSAEncoderTest {
 
     User user;
-    Serialiser<User> serialiser;
+    private SimpleScope scope;
 
     @Before
     public void setUp() throws Exception {
@@ -24,6 +27,14 @@ public class RSAEncoderTest {
         rsa1024.initialize(1024);
         KeyPair keyPair = rsa1024.generateKeyPair();
         user = new User().setId(1412l).setName("Archer").setPrivateKey(keyPair.getPrivate()).setPublicKey(keyPair.getPublic());
+        scope = GuiceTest.injector.getInstance(SimpleScope.class);
+        scope.enter();
+        scope.seed(User.class, user);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        scope.exit();
     }
 
     @Test
