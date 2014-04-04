@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.servlets;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -59,21 +60,17 @@ public class PestletTest {
         parameters.add(new BasicNameValuePair("user", userJsonObject.toString()));
         userPost.setEntity(new UrlEncodedFormEntity(parameters));
         HttpResponse userReponse = httpClient.execute(userPost);
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        userReponse.getEntity().writeTo(byteArrayOutputStream);
-        String content = new String(byteArrayOutputStream.toByteArray());
-
-        JSONObject user = new JSONObject(content);
+        Header location = userReponse.getFirstHeader("Location");
+        String userUrl = location.getValue();
 
 
         //CREATE
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("category", "com.tailoredshapes.test");
-        jsonObject.put("user", user.getString("id"));
+        jsonObject.put("user", userUrl);
 
-        HttpPost httpPost = new HttpPost(new URI(String.format("%s/inventories", user.getString("id"))));
+        HttpPost httpPost = new HttpPost(new URI(String.format("%s/inventories", userUrl)));
         parameters = new ArrayList<>();
         parameters.add(new BasicNameValuePair("inventory", jsonObject.toString()));
         httpPost.setEntity(new UrlEncodedFormEntity(parameters));
@@ -81,32 +78,24 @@ public class PestletTest {
 
         HttpResponse response = httpClient.execute(httpPost);
         assertEquals(302, response.getStatusLine().getStatusCode());
-        assertTrue(response.containsHeader("location"));
-
-
-        JSONObject createResponseObject = new JSONObject(response.getEntity().getContent());
-
-        assertEquals(response.getFirstHeader("location"), createResponseObject.getString("id"));
-        assertEquals("com.tailoredshapes.test", createResponseObject.getString("category"));
-        assertEquals(0, createResponseObject.getJSONArray("metrics").length());
-        assertFalse(createResponseObject.has("parent"));
-        assertNotNull(createResponseObject.getLong("id"));
+        assertTrue(response.containsHeader("Location"));
+        String inventoryLocation = response.getFirstHeader("Location").getValue();
 
         //READ
 
-        HttpGet httpGet = new HttpGet(new URI(createResponseObject.getString("id")));
+        HttpGet httpGet = new HttpGet(new URI(inventoryLocation));
         HttpResponse readResponse = httpClient.execute(httpGet);
 
         assertEquals(200, readResponse.getStatusLine().getStatusCode());
 
         JSONObject getResponseObject = new JSONObject(readResponse.getEntity().getContent());
-        assertEquals(createResponseObject.getLong("id"), getResponseObject.getLong("id"));
-        assertEquals(createResponseObject.getString("category"), getResponseObject.getString("category"));
-        assertEquals(createResponseObject.getJSONArray("metrics").length(), getResponseObject.getJSONArray("metrics").length());
+        assertEquals(inventoryLocation, getResponseObject.getLong("id"));
+        assertEquals("com.tailoredshapes.test", getResponseObject.getString("category"));
+        assertEquals(0, getResponseObject.getJSONArray("metrics").length());
 
         //Update
         parameters = new ArrayList<>();
-        HttpPost updatePost = new HttpPost(new URI(createResponseObject.getString("id")));
+        HttpPost updatePost = new HttpPost(new URI(inventoryLocation));
 
         JSONObject updatedObject = new JSONObject(getResponseObject.toString());
         JSONArray metrics = updatedObject.getJSONArray("metrics");
@@ -123,14 +112,22 @@ public class PestletTest {
 
         HttpResponse updateResponse = httpClient.execute(updatePost);
         assertEquals(302, readResponse.getStatusLine().getStatusCode());
-        assertTrue(updateResponse.containsHeader("location"));
-        assertNotSame(createResponseObject.getString("id"), updateResponse.getFirstHeader("location"));
+        assertTrue(updateResponse.containsHeader("Location"));
+        String updateLocation = updateResponse.getFirstHeader("Location").getValue();
+        assertNotSame(inventoryLocation, updateLocation);
 
-        JSONObject updateResponseObject = new JSONObject(updateResponse.getEntity().getContent());
-        assertEquals("com.tailoredshapes.test", updateResponseObject.getString("category"));
-        assertEquals(1, updateResponseObject.getJSONArray("metrics").length());
-        assertFalse(updateResponseObject.has("parent"));
-        assertNotNull(updateResponseObject.getLong("id"));
+
+        //READ
+
+        HttpGet updateGet = new HttpGet(new URI(updateLocation));
+        HttpResponse updatedResponse = httpClient.execute(updateGet);
+
+        assertEquals(200, updatedResponse.getStatusLine().getStatusCode());
+
+        JSONObject updatedResponseObject = new JSONObject(updatedResponse.getEntity().getContent());
+        assertEquals(inventoryLocation, updatedResponseObject.getLong("id"));
+        assertEquals("com.tailoredshapes.test", updatedResponseObject.getString("category"));
+        assertEquals(1, updatedResponseObject.getJSONArray("metrics").length());
     }
 }
 

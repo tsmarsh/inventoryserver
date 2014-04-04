@@ -22,7 +22,8 @@ public class InventoryIdExtractor implements IdExtractor<Inventory> {
         Matcher matcher = userIdPattern.matcher(path);
         if (matcher.matches()) {
             return Long.parseLong(matcher.group(1));
+        }else{
+            return null;
         }
-        throw new RuntimeException("Invalid URL: " + path);
     }
 }

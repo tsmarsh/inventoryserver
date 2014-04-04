@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.google.inject.Key;
+import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.Inventory;
@@ -40,7 +41,7 @@ public class InventorySerialiserTest {
         SimpleScope scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
         try {
-            scope.seed(User.class, user);
+            scope.seed(Key.get(User.class, Names.named("current_user")), user);
 
             InventorySerialiser inventorySerialiser = GuiceTest.injector.getInstance(InventorySerialiser.class);
             UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
@@ -64,7 +65,7 @@ public class InventorySerialiserTest {
         SimpleScope scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
         try {
-            scope.seed(User.class, user);
+            scope.seed(Key.get(User.class, Names.named("current_user")), user);
 
             Inventory inventory = new InventoryBuilder().id(777777777777777l)
                     .category(build)

@@ -23,7 +23,7 @@ public class GuiceTest {
                     SimpleScope requestScope = new SimpleScope();
                     binder.bindScope(RequestScoped.class, requestScope);
                     binder.bind(SimpleScope.class).toInstance(requestScope);
-                    binder.bind(User.class)
+                    binder.bind(User.class).annotatedWith(Names.named("current_user"))
                             .toProvider(SimpleScope.<User>seededKeyProvider())
                             .in(RequestScoped.class);
                 }

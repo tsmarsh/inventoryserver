@@ -1,6 +1,8 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.tailoredshapes.inventoryserver.GuiceTest;
@@ -69,7 +71,7 @@ public class UserHandlerTest {
         try {
             User user = new UserBuilder().build();
 
-            scope.seed(User.class, user);
+            scope.seed(Key.get(User.class, Names.named("current_user")), user);
             handler = inj.getInstance(UserHandler.class);
             //CREATE
 

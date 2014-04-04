@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.handlers;
 
 import com.google.inject.Key;
+import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
@@ -25,7 +26,7 @@ public class InventoryUrlBuilderTest {
         scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
         final User user = new UserBuilder().id(51284l).build();
-        scope.seed(User.class, user);
+        scope.seed(Key.get(User.class, Names.named("current_user")), user);
     }
 
     @After

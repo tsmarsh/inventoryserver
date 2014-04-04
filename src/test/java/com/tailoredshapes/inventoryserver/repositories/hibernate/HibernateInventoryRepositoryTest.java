@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
 import com.google.inject.Key;
+import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
@@ -31,7 +32,7 @@ public class HibernateInventoryRepositoryTest {
     public void setUp() throws Exception {
         scope = hibernateInjector.getInstance(SimpleScope.class);
         scope.enter();
-        scope.seed(User.class, new User());
+        scope.seed(Key.get(User.class, Names.named("current_user")), new User());
     }
 
     @After

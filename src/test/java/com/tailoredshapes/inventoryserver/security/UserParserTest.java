@@ -2,6 +2,7 @@ package com.tailoredshapes.inventoryserver.security;
 
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Category;
@@ -43,7 +44,7 @@ public class UserParserTest {
     public void testParseNewUserInMemory() throws Exception {
         scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
-        scope.seed(User.class, new User().setId(141211l));
+        scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
         testParseNewUser(GuiceTest.injector);
     }
 
@@ -51,7 +52,7 @@ public class UserParserTest {
     public void testParseNewUserHibernate() throws Exception {
         scope = hibernateInjector.getInstance(SimpleScope.class);
         scope.enter();
-        scope.seed(User.class, new User().setId(141211l));
+        scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
         EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = manager.getTransaction();
 
@@ -75,7 +76,9 @@ public class UserParserTest {
     public void testParseExistingUserInMemory() throws Exception {
         scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
-        scope.seed(User.class, new User().setId(141211l));
+        scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
+
+
         testParseExistingUser(GuiceTest.injector);
     }
 
@@ -83,7 +86,7 @@ public class UserParserTest {
     public void testParseExistingUserHibernate() throws Exception {
         scope = hibernateInjector.getInstance(SimpleScope.class);
         scope.enter();
-        scope.seed(User.class, new User().setId(141211l));
+        scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
 
         EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = manager.getTransaction();
@@ -124,7 +127,7 @@ public class UserParserTest {
     public void testParseUpdatedUserInMemory() throws Exception {
         scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
-        scope.seed(User.class, new User().setId(141211l));
+        scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
         testParseUpdatedUser(GuiceTest.injector, new Runnable() {
             @Override
             public void run() {
@@ -137,7 +140,7 @@ public class UserParserTest {
     public void testParseUpdatedUserHibernate() throws Exception {
         scope = hibernateInjector.getInstance(SimpleScope.class);
         scope.enter();
-        scope.seed(User.class, new User().setId(141211l));
+        scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
 
         final EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = manager.getTransaction();

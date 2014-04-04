@@ -23,7 +23,8 @@ public class UrlIdExtractor implements IdExtractor<User> {
         Matcher matcher = userIdPattern.matcher(path);
         if (matcher.matches()) {
             return Long.parseLong(matcher.group(1));
+        }else{
+            return null;
         }
-        throw new RuntimeException("Invalid uri: " + path);
     }
 }

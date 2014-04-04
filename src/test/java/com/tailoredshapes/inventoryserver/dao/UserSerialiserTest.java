@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.google.inject.Key;
+import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
@@ -35,7 +36,7 @@ public class UserSerialiserTest {
         user = new UserBuilder().inventories(inventories).build();
         scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
-        scope.seed(User.class, user);
+        scope.seed(Key.get(User.class, Names.named("current_user")), user);
     }
 
     @After

@@ -20,13 +20,15 @@ public class TFilter<T> implements Filter{
     Parser<T> parser;
     IdExtractor<T> extractor;
     Repository<T> repository;
+    private Class type;
     String parameterName;
 
     @Inject
-    public TFilter(Parser<T> parser, IdExtractor<T> extractor, Repository<T> repository, String parameterName) {
+    public TFilter(Parser<T> parser, IdExtractor<T> extractor, Repository<T> repository, Class type, String parameterName) {
         this.parser = parser;
         this.extractor = extractor;
         this.repository = repository;
+        this.type = type;
         this.parameterName = parameterName;
     }
 
@@ -34,19 +36,21 @@ public class TFilter<T> implements Filter{
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        T currentUser;
+        T t = null;
         if(httpRequest.getParameterMap().containsKey(parameterName)){
-            String userJson = httpRequest.getParameter(parameterName);
-            currentUser = parser.parse(userJson);
+            String tJson = httpRequest.getParameter(parameterName);
+            t = parser.parse(tJson);
         }else{
-            Long extract = extractor.extract(((HttpServletRequest) request).getPathInfo());
-            currentUser = repository.findById(extract);
+            Long extract = extractor.extract(((HttpServletRequest) request).getRequestURI());
+            if(extract != null){
+                t = repository.findById(extract);
+            }
         }
 
         httpRequest.setAttribute(
-                Key.get(User.class,
+                Key.get(type,
                         Names.named("current_" + parameterName)).toString(),
-                        currentUser);
+                        t);
         chain.doFilter(request, response);
     }
 

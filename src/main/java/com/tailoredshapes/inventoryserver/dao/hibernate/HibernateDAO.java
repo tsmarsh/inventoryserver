@@ -34,7 +34,6 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
         Long sig = encoder.encode(object);
         object.setId(sig);
 
-        System.out.println("Creating: " + object.toString());
         manager.persist(object);
 
         return object;
@@ -54,7 +53,6 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
         Long sig = encoder.encode(clone);
         clone.setId(sig);
 
-        System.out.println("Updating: " + clone.toString());
         manager.persist(clone);
         return clone;
     }

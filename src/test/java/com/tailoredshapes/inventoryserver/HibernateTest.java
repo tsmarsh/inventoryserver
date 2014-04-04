@@ -4,6 +4,7 @@ import com.google.inject.Binder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.name.Names;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 import com.google.inject.servlet.RequestScoped;
@@ -28,6 +29,7 @@ public class HibernateTest {
                         binder.bindScope(RequestScoped.class, requestScope);
                         binder.bind(SimpleScope.class).toInstance(requestScope);
                         binder.bind(User.class)
+                                .annotatedWith(Names.named("current_user"))
                                 .toProvider(SimpleScope.<User>seededKeyProvider())
                                 .in(RequestScoped.class);
                     }

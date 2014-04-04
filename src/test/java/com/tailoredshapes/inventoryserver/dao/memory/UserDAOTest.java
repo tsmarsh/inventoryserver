@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.dao.memory;
 
 import com.google.inject.Key;
+import com.google.inject.name.Names;
 import com.google.inject.persist.Transactional;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.HibernateTest;
@@ -34,7 +35,7 @@ public class UserDAOTest extends GuiceTest {
         user = new User().setName("Archer");
         scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
-        scope.seed(User.class, user);
+        scope.seed(Key.get(User.class, Names.named("current_user")), user);
     }
 
     @After
@@ -52,7 +53,7 @@ public class UserDAOTest extends GuiceTest {
         user = new User().setName("Archer");
         scope = HibernateTest.hibernateInjector.getInstance(SimpleScope.class);
         scope.enter();
-        scope.seed(User.class, user);
+        scope.seed(Key.get(User.class, Names.named("current_user")), user);
 
         EntityManager instance = HibernateTest.hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = instance.getTransaction();

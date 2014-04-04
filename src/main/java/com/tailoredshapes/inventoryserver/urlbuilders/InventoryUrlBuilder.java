@@ -17,7 +17,7 @@ public class InventoryUrlBuilder implements UrlBuilder<Inventory> {
     private final Integer port;
 
     @Inject
-    public InventoryUrlBuilder(@Nullable User currentUser,
+    public InventoryUrlBuilder(@Named("current_user") User currentUser,
                                @Named("protocol") String protocol,
                                @Named("host") String host,
                                @Named("port") Integer port) {
