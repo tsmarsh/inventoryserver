@@ -56,8 +56,7 @@ public class Metric implements Idable<Metric>, Cloneable {
 
         Metric metric = (Metric) o;
 
-        if (id != null ? !id.equals(metric.id) : metric.id != null) return false;
-        return type.equals(metric.type) && value.equals(metric.value);
+        return !(id != null ? !id.equals(metric.id) : metric.id != null) && type.equals(metric.type) && value.equals(metric.value);
 
     }
 

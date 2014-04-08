@@ -7,12 +7,11 @@ import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.Idable;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class InMemoryDAO<T extends Idable<T>, R extends Algorithm> implements DAO<T> {
 
-    public final Map<Long, T> db;
+    private final Map<Long, T> db;
     private final Encoder<T, R> encoder;
     private final Saver<T> saver;
 

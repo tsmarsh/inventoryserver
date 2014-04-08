@@ -3,14 +3,13 @@ package com.tailoredshapes.inventoryserver.repositories.hibernate;
 import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
-import org.hibernate.SessionFactory;
 
 import javax.persistence.EntityManager;
 
 public class HibernateInventoryRepository implements InventoryRepository {
 
 
-    private EntityManager manager;
+    private final EntityManager manager;
 
     @Inject
     public HibernateInventoryRepository(EntityManager manager) {

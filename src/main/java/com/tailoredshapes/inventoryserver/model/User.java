@@ -68,7 +68,7 @@ public class User implements Idable<User>, Keyed, Cloneable {
         return this.inventories;
     }
 
-    public User setInventories(Collection inventories) {
+    public User setInventories(Collection<Inventory> inventories) {
         this.inventories = inventories;
         return this;
     }
@@ -87,10 +87,8 @@ public class User implements Idable<User>, Keyed, Cloneable {
 
         if (!id.equals(user.id)) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
-        if (privateKey != null ? !Arrays.equals(privateKey.getEncoded(), user.privateKey.getEncoded()) : user.privateKey != null) return false;
-        if (publicKey != null ? !Arrays.equals(publicKey.getEncoded(), user.publicKey.getEncoded()) : user.publicKey != null) return false;
+        return !(privateKey != null ? !Arrays.equals(privateKey.getEncoded(), user.privateKey.getEncoded()) : user.privateKey != null) && !(publicKey != null ? !Arrays.equals(publicKey.getEncoded(), user.publicKey.getEncoded()) : user.publicKey != null);
 
-        return true;
     }
 
     @Override

@@ -18,7 +18,6 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserReposi
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.security.SHA;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

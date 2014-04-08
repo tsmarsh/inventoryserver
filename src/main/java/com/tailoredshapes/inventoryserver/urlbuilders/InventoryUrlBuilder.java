@@ -5,7 +5,6 @@ import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 
-import javax.annotation.Nullable;
 import javax.inject.Named;
 
 @RequestScoped

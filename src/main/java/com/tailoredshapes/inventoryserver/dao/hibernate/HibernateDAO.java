@@ -9,14 +9,13 @@ import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.Idable;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
-import org.hibernate.exception.ConstraintViolationException;
 
 import javax.persistence.EntityManager;
 import java.lang.reflect.InvocationTargetException;
 
 public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> implements DAO<T> {
     private final Class<? super T> rawType;
-    private EntityManager manager;
+    private final EntityManager manager;
     private final Saver<T> saver;
     private final Encoder<T, R> encoder;
 

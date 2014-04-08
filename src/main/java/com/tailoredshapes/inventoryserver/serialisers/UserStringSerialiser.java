@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 public class UserStringSerialiser implements Serialiser<User, String> {
 
-    private UrlBuilder<User> urlBuilder;
+    private final UrlBuilder<User> urlBuilder;
     private final Serialiser<Inventory, String> inventorySerialiser;
 
     @Inject

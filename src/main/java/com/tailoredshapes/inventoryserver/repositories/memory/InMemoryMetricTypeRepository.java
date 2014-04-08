@@ -1,6 +1,5 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
-import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
@@ -10,7 +9,7 @@ import java.util.Map;
 
 public class InMemoryMetricTypeRepository<R extends Algorithm> implements MetricTypeRepository {
 
-    private Map<Long, MetricType> db;
+    private final Map<Long, MetricType> db;
 
     @Inject
     public InMemoryMetricTypeRepository(Map<Long, MetricType> db) {

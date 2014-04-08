@@ -5,10 +5,8 @@ import com.google.inject.Key;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
-import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
-import org.json.JSONObject;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +15,11 @@ import java.io.IOException;
 @Singleton
 public class TFilter<T> implements Filter{
 
-    Parser<T> parser;
-    IdExtractor<T> extractor;
-    Repository<T> repository;
-    private Class type;
-    String parameterName;
+    private final Parser<T> parser;
+    private final IdExtractor<T> extractor;
+    private final Repository<T> repository;
+    private final Class type;
+    private final String parameterName;
 
     @Inject
     public TFilter(Parser<T> parser, IdExtractor<T> extractor, Repository<T> repository, Class type, String parameterName) {

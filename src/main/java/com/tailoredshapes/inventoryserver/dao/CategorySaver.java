@@ -9,8 +9,8 @@ import java.util.Arrays;
 
 public class CategorySaver extends Saver<Category> {
 
-    private DAO<Category> categoryDAO;
-    private CategoryRepository categoryRepository;
+    private final DAO<Category> categoryDAO;
+    private final CategoryRepository categoryRepository;
 
     @Inject
     public CategorySaver(DAO<Category> categoryDAO, CategoryRepository categoryRepository) {

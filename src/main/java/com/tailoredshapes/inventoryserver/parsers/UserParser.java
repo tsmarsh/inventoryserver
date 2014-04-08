@@ -17,7 +17,7 @@ public class UserParser implements Parser<User> {
 
     private final UserRepository repo;
     private final InventoryParser inventoryParser;
-    private IdExtractor<User> idExtractor;
+    private final IdExtractor<User> idExtractor;
 
 
     @Inject

@@ -3,21 +3,17 @@ package com.tailoredshapes.inventoryserver.repositories.hibernate;
 import com.google.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.List;
 
 public class HibernateCategoryRepository implements CategoryRepository {
 
 
-    private EntityManager manager;
+    private final EntityManager manager;
 
     @Inject
     public HibernateCategoryRepository(EntityManager manager) {

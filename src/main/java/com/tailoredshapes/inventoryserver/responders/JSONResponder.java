@@ -25,6 +25,6 @@ public class JSONResponder<T> implements Responder<T> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new String(serialise);
+        return serialise;
     }
 }

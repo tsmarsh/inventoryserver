@@ -1,13 +1,10 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
 import com.google.inject.Inject;
-import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class InMemoryCategoryRepository<R extends Algorithm> implements CategoryRepository {
