@@ -15,7 +15,7 @@ public class MetricSaver extends Saver<Metric> {
 
     @Override
     public Metric saveChildren(Metric object) {
-        upsert(object.getType(), dao);
+        object.setType(upsert(object.getType(), dao));
         return object;
     }
 }

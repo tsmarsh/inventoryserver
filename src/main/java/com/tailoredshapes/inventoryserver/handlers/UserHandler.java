@@ -13,6 +13,8 @@ import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Map;
 
 
@@ -39,7 +41,7 @@ public class UserHandler implements HttpHandler {
         User user;
 
 
-        try (OutputStream responseBody = httpExchange.getResponseBody()) {
+        try (Writer responseBody = new OutputStreamWriter(httpExchange.getResponseBody())) {
             switch (HttpMethod.valueOf(httpExchange.getRequestMethod())) {
                 case get:
                     user = new User().setId(extractor.extract(httpExchange));

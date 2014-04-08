@@ -6,6 +6,9 @@ import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InventorySaver extends Saver<Inventory> {
 
     private final DAO<Inventory> inventoryDAO;
@@ -23,11 +26,15 @@ public class InventorySaver extends Saver<Inventory> {
 
     @Override
     public Inventory saveChildren(Inventory object) {
-        upsert(object.getParent(), inventoryDAO);
-        upsert(object.getCategory(), categoryDAO);
+        object.setParent(upsert(object.getParent(), inventoryDAO));
+        object.setCategory(upsert(object.getCategory(), categoryDAO));
+        List<Metric> savedMetrics = new ArrayList<>();
+
         for (Metric metric : object.getMetrics()) {
-            upsert(metric, metricDAO);
+            savedMetrics.add(upsert(metric, metricDAO));
         }
+
+        object.setMetrics(savedMetrics);
         return object;
     }
 }

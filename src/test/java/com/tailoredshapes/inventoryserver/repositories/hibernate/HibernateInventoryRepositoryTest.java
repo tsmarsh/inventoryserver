@@ -50,6 +50,8 @@ public class HibernateInventoryRepositoryTest {
             transaction.begin();
             Inventory inventory = new InventoryBuilder().build();
             Inventory savedInventory = inventoryDAO.create(inventory);
+            em.flush();
+            em.clear();
             Inventory byId = repo.findById(savedInventory.getId());
             assertEquals(savedInventory, byId);
         }finally {

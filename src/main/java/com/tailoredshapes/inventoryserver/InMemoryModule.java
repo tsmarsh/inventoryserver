@@ -18,42 +18,37 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserReposi
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.security.SHA;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class InMemoryModule implements Module {
     @Override
     public void configure(Binder binder) {
+
+        binder.bind(new TypeLiteral<Map<Long, User>>(){}).to(new TypeLiteral<ConcurrentHashMap<Long, User>>(){}).in(Singleton.class);
+        binder.bind(new TypeLiteral<Map<Long, Inventory>>(){}).to(new TypeLiteral<ConcurrentHashMap<Long, Inventory>>(){}).in(Singleton.class);
+        binder.bind(new TypeLiteral<Map<Long, Metric>>(){}).to(new TypeLiteral<ConcurrentHashMap<Long, Metric>>(){}).in(Singleton.class);
+        binder.bind(new TypeLiteral<Map<Long, MetricType>>(){}).to(new TypeLiteral<ConcurrentHashMap<Long, MetricType>>(){}).in(Singleton.class);
+        binder.bind(new TypeLiteral<Map<Long, Category>>(){}).to(new TypeLiteral<ConcurrentHashMap<Long, Category>>(){}).in(Singleton.class);
+
         binder.bind(new TypeLiteral<DAO<Inventory>>() {})
                 .to(new TypeLiteral<InMemoryDAO<Inventory, SHA>>() {});
-
-        binder.bind(new TypeLiteral<InMemoryDAO<Inventory, SHA>>() {})
-                .in(Singleton.class);
-
 
         binder.bind(new TypeLiteral<DAO<User>>() {})
                 .to(new TypeLiteral<InMemoryDAO<User, RSA>>() {});
 
 
-        binder.bind(new TypeLiteral<InMemoryDAO<User, RSA>>() {})
-                .in(Singleton.class);
-
-
         binder.bind(new TypeLiteral<DAO<Category>>() {})
                 .to(new TypeLiteral<InMemoryDAO<Category, SHA>>() {});
-
-        binder.bind(new TypeLiteral<InMemoryDAO<Category, SHA>>() {})
-                .in(Singleton.class);
 
 
         binder.bind(new TypeLiteral<DAO<Metric>>() {})
                 .to(new TypeLiteral<InMemoryDAO<Metric, SHA>>() {});
 
-        binder.bind(new TypeLiteral<InMemoryDAO<Metric, SHA>>() {})
-                .in(Singleton.class);
-
         binder.bind(new TypeLiteral<DAO<MetricType>>() {})
                 .to(new TypeLiteral<InMemoryDAO<MetricType, SHA>>() {});
 
-        binder.bind(new TypeLiteral<InMemoryDAO<MetricType, SHA>>() {})
-                .in(Singleton.class);
 
 
         binder.bind(InventoryRepository.class)

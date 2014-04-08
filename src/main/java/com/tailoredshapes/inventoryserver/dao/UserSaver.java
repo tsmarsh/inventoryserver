@@ -6,6 +6,8 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.security.KeyProvider;
 
 import java.security.KeyPair;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserSaver<R> extends Saver<User> {
 
@@ -25,9 +27,13 @@ public class UserSaver<R> extends Saver<User> {
             object.setPrivateKey(keys.getPrivate());
             object.setPublicKey(keys.getPublic());
         }
+
+        List<Inventory> savedInventories = new ArrayList<>();
         for (Inventory inventory : object.getInventories()) {
-            upsert(inventory, inventoryDAO);
+            savedInventories.add(upsert(inventory, inventoryDAO));
         }
+
+        object.setInventories(savedInventories);
         return object;
     }
 }

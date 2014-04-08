@@ -23,6 +23,11 @@ import com.tailoredshapes.inventoryserver.servlets.Pestlet;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 
 import javax.inject.Named;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class InventoryServletModule extends ServletModule {
     @Override
@@ -30,14 +35,27 @@ public class InventoryServletModule extends ServletModule {
         install(new JpaPersistModule("inventory_server"));
         filter("/*").through(PersistFilter.class);
 
-        serveRegex("/users/?-?\\d+/inventories[/-?\\d+]?").with(new Key<Pestlet<Inventory>>() {});
-        filterRegex("/users/?-?\\d+/inventories[/-?\\d+]?").through(new Key<TFilter<User>>() {});
-        filterRegex("/users/?-?\\d+/inventories[/-?\\d+]?").through(new Key<TFilter<Inventory>>(){});
+        serveRegex("/users/?-?\\d+/inventories(/-?\\d+)?").with(new Key<Pestlet<Inventory>>() {});
+        filterRegex("/users/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<User>>() {});
+        filterRegex("/users/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<Inventory>>() {});
 
-        serveRegex("/users(/-?\\d+)?$").with(new Key<Pestlet<User>>(){});
+        serveRegex("/users(/-?\\d+)?$").with(new Key<Pestlet<User>>() {});
         filterRegex("/users(/-?\\d+)?$").through(new Key<TFilter<User>>() {});
 
+        serve("/*").with(new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                super.doGet(req, resp);
+                resp.sendError(404, "Cannot serve: " + req.getPathInfo());
 
+            }
+
+            @Override
+            protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                super.doPost(req, resp);
+                resp.sendError(404, "Cannot serve: " + req.getPathInfo());
+            }
+        });
         bind(Key.get(User.class, Names.named("current_user"))).to(User.class).in(ServletScopes.REQUEST);
         bind(Key.get(Inventory.class, Names.named("current_inventory"))).to(Inventory.class).in(ServletScopes.REQUEST);
     }

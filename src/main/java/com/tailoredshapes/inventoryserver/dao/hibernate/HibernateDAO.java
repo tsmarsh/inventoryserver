@@ -1,14 +1,15 @@
 package com.tailoredshapes.inventoryserver.dao.hibernate;
 
 import com.google.inject.Inject;
+import com.google.inject.persist.Transactional;
+
 import com.google.inject.TypeLiteral;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.Idable;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 
 import javax.persistence.EntityManager;
 import java.lang.reflect.InvocationTargetException;
@@ -28,33 +29,55 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
     }
 
     @Override
+    @Transactional
     public T create(T object) {
         object = saver.saveChildren(object);
 
         Long sig = encoder.encode(object);
+
         object.setId(sig);
-
-        manager.persist(object);
-
-        return object;
+        T read = read(object);
+        if (read == null) {
+            manager.persist(object);
+            manager.flush();
+            return object;
+        } else {
+            return read;
+        }
     }
 
     @Override
+    @Transactional
     public T read(T object) {
-
         return (T) manager.find(rawType, object.getId());
     }
 
     @Override
+    @Transactional
     public T update(T object) {
+        T result;
         T clone = cloneObjectForUpdate(object);
         clone = saver.saveChildren(clone);
 
         Long sig = encoder.encode(clone);
-        clone.setId(sig);
-
-        manager.persist(clone);
-        return clone;
+        if (!sig.equals(object.getId())) {
+            clone.setId(sig);
+            T read = read(clone);
+            if (read == null) {
+                manager.persist(clone);
+                try{
+                    manager.flush();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                result = clone;
+            } else {
+                result = read;
+            }
+        }else{
+            result = object;
+        }
+        return result;
     }
 
     @Override

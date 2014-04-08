@@ -9,13 +9,13 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 
-public class UserSerialiser implements Serialiser<User> {
+public class UserSerialiser implements Serialiser<User, byte[]> {
 
     private UrlBuilder<User> urlBuilder;
-    private final Serialiser<Inventory> inventorySerialiser;
+    private final Serialiser<Inventory, String> inventorySerialiser;
 
     @Inject
-    public UserSerialiser(UrlBuilder<User> urlBuilder, Serialiser<Inventory> inventorySerialiser) {
+    public UserSerialiser(UrlBuilder<User> urlBuilder, Serialiser<Inventory, String> inventorySerialiser) {
         this.urlBuilder = urlBuilder;
         this.inventorySerialiser = inventorySerialiser;
     }
@@ -29,7 +29,7 @@ public class UserSerialiser implements Serialiser<User> {
 
         JSONArray inventories = new JSONArray();
         for (Inventory inventory : user.getInventories()) {
-            inventories.put(new JSONObject(new String(inventorySerialiser.serialise(inventory))));
+            inventories.put(new JSONObject(inventorySerialiser.serialise(inventory)));
         }
 
         jsonObject.put("inventories", inventories);
@@ -37,3 +37,5 @@ public class UserSerialiser implements Serialiser<User> {
         return jsonObject.toString().getBytes();
     }
 }
+
+

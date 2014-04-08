@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
 import com.google.inject.Key;
+import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
@@ -25,7 +26,7 @@ public class InMemoryInventoryRepositoryTest {
     public void setUp() throws Exception {
         scope = injector.getInstance(SimpleScope.class);
         scope.enter();
-        scope.seed(User.class, new User());
+        scope.seed(Key.get(User.class, Names.named("current_user")), new User());
 
         inventoryDAO = injector.getInstance(new Key<DAO<Inventory>>() {});
         repo = injector.getInstance(new Key<InMemoryInventoryRepository>() {});

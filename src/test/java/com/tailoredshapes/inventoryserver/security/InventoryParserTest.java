@@ -26,7 +26,7 @@ import static junit.framework.Assert.assertEquals;
 public class InventoryParserTest {
 
     private InventoryParser parser;
-    private Serialiser<Inventory> serialiser;
+    private Serialiser<Inventory, String> serialiser;
     private SimpleScope scope;
 
 
@@ -36,7 +36,7 @@ public class InventoryParserTest {
         scope.enter();
         scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
         parser = GuiceTest.injector.getInstance(InventoryParser.class);
-        serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory>>() {});
+        serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
     }
 
     @After
@@ -48,7 +48,7 @@ public class InventoryParserTest {
     public void shouldParseASimpleInventory() throws Exception {
         Inventory inventory = new InventoryBuilder().build();
 
-        Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));
+        Inventory inv = parser.parse(serialiser.serialise(inventory));
         assertEquals(inventory.getCategory().getFullname(), inv.getCategory().getFullname());
     }
 
@@ -57,7 +57,7 @@ public class InventoryParserTest {
 
 
         parser = GuiceTest.injector.getInstance(InventoryParser.class);
-        serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory>>() {});
+        serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
         DAO<Inventory> dao = GuiceTest.injector.getInstance(new Key<DAO<Inventory>>() {});
 
         Inventory parent = new InventoryBuilder().build();
@@ -65,7 +65,7 @@ public class InventoryParserTest {
 
         Inventory inventory = new InventoryBuilder().parent(parent).build();
 
-        Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));
+        Inventory inv = parser.parse(serialiser.serialise(inventory));
 
         assertEquals(parent, inv.getParent());
 

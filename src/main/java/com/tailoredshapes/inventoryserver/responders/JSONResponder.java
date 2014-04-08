@@ -5,22 +5,23 @@ import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.Writer;
 
 @RequestScoped
 public class JSONResponder<T> implements Responder<T> {
-    private final Serialiser<T> serialiser;
+    private final Serialiser<T, String> serialiser;
 
     @Inject
-    public JSONResponder(Serialiser<T> serialiser) {
+    public JSONResponder(Serialiser<T, String> serialiser) {
         this.serialiser = serialiser;
     }
 
     @Override
-    public String respond(T object, OutputStream responseBody) {
-        byte[] serialise = serialiser.serialise(object);
+    public String respond(T object, Writer writer) {
+        String serialise = serialiser.serialise(object);
         try {
-            responseBody.write(serialise);
+            writer.write(serialise);
+            writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

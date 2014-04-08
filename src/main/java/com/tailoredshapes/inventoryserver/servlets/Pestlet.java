@@ -3,17 +3,16 @@ package com.tailoredshapes.inventoryserver.servlets;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.inject.servlet.RequestScoped;
+import com.google.inject.persist.Transactional;
 import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.responders.Responder;
 import com.tailoredshapes.inventoryserver.model.Idable;
+import com.tailoredshapes.inventoryserver.responders.Responder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
 import java.io.IOException;
 
 @Singleton
@@ -34,11 +33,14 @@ public class Pestlet<T extends Idable<T>> extends HttpServlet {
     }
 
     @Override
+    @Transactional
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        responder.get().respond(provider.get(), resp.getOutputStream());
+        responder.get().respond(provider.get(), resp.getWriter());
+        resp.getWriter().close();
     }
 
     @Override
+    @Transactional
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         T t = provider.get();
         if (t.getId() == null) {
@@ -47,7 +49,8 @@ public class Pestlet<T extends Idable<T>> extends HttpServlet {
             t = dao.get().update(t);
         }
 
-        responder.get().respond(t, resp.getOutputStream());
         resp.sendRedirect(urlBuilder.get().build(t));
+        responder.get().respond(t, resp.getWriter());
+        resp.getWriter().close();
     }
 }

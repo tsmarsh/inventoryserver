@@ -13,6 +13,7 @@ import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Map;
 
 
@@ -53,7 +54,7 @@ public class InventoryHandler implements HttpHandler {
                 case get:
                     inventory = new Inventory().setId(inventoryUrlExtractor.extract(httpExchange));
                     inventory = dao.read(inventory);
-                    response = responder.respond(inventory, responseBody);
+                    response = responder.respond(inventory, new OutputStreamWriter(responseBody));
                     httpExchange.sendResponseHeaders(200, response.length());
                     break;
                 case post:
@@ -69,7 +70,7 @@ public class InventoryHandler implements HttpHandler {
                         inventory = dao.update(inventory);
                     }
 
-                    response = responder.respond(inventory, responseBody);
+                    response = responder.respond(inventory, new OutputStreamWriter(responseBody));
                     Headers responseHeaders = httpExchange.getResponseHeaders();
                     responseHeaders.add("location", urlBuilder.build(inventory));
                     httpExchange.sendResponseHeaders(302, response.length());

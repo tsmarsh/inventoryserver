@@ -107,9 +107,9 @@ public class UserParserTest {
         User savedUser = userDAO.create(existingUser);
         savedUser.setName("Archer");
 
-        Serialiser<User> serializer = injector.getInstance(new Key<Serialiser<User>>() {});
+        Serialiser<User, String> serializer = injector.getInstance(new Key<Serialiser<User, String>>() {});
 
-        String userJsonString = new String(serializer.serialise(savedUser));
+        String userJsonString = serializer.serialise(savedUser);
 
 
         UserParser userParser = injector.getInstance(UserParser.class);
@@ -184,9 +184,9 @@ public class UserParserTest {
 
         assertFalse(savedUser.hashCode() == clone.hashCode());
 
-        Serialiser<User> serializer = injector.getInstance(new Key<Serialiser<User>>() {});
+        Serialiser<User, String> serializer = injector.getInstance(new Key<Serialiser<User, String>>() {});
 
-        String userJsonString = new String(serializer.serialise(clone));
+        String userJsonString = serializer.serialise(clone);
 
         UserParser userParser = injector.getInstance(UserParser.class);
 

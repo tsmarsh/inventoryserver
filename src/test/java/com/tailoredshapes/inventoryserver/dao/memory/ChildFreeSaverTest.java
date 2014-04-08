@@ -9,6 +9,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -29,7 +32,8 @@ public class ChildFreeSaverTest {
 
     @Test
     public void shouldUpdateAnObject() {
-        InMemoryDAO<TestModel, TestAlgorithm> dao = new InMemoryDAO<>(encoder, saver);
+        Map<Long, TestModel> db = new HashMap<>();
+        InMemoryDAO<TestModel, TestAlgorithm> dao = new InMemoryDAO<>(db, encoder, saver);
         model = new TestModel().setValue("twifty");
         TestModel returnedTestModel = dao.create(model);
 
@@ -47,7 +51,8 @@ public class ChildFreeSaverTest {
 
     @Test
     public void shouldDeleteAnObject() {
-        InMemoryDAO<TestModel, TestAlgorithm> dao = new InMemoryDAO<>(encoder, saver);
+        Map<Long, TestModel> db = new HashMap<>();
+        InMemoryDAO<TestModel, TestAlgorithm> dao = new InMemoryDAO<>(db, encoder, saver);
         model = new TestModel().setValue("twifty");
         TestModel returnedTestModel = dao.create(model);
 

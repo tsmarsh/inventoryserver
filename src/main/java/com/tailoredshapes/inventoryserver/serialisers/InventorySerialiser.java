@@ -8,13 +8,13 @@ import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class InventorySerialiser implements Serialiser<Inventory> {
+public class InventorySerialiser implements Serialiser<Inventory, byte[]> {
 
     private final UrlBuilder<Inventory> inventoryUrlBuilder;
-    private final Serialiser<Metric> metricSerializer;
+    private final Serialiser<Metric, String> metricSerializer;
 
     @Inject
-    public InventorySerialiser(UrlBuilder<Inventory> inventoryUrlBuilder, Serialiser<Metric> metricSerializer) {
+    public InventorySerialiser(UrlBuilder<Inventory> inventoryUrlBuilder, Serialiser<Metric, String> metricSerializer) {
 
         this.inventoryUrlBuilder = inventoryUrlBuilder;
         this.metricSerializer = metricSerializer;
@@ -27,7 +27,7 @@ public class InventorySerialiser implements Serialiser<Inventory> {
         jsonObject.put("category", object.getCategory().getFullname());
         JSONArray metrics = new JSONArray();
         for (Metric metric : object.getMetrics()) {
-            metrics.put(new JSONObject(new String(metricSerializer.serialise(metric))));
+            metrics.put(new JSONObject(metricSerializer.serialise(metric)));
         }
 
         jsonObject.put("metrics", metrics);
@@ -38,3 +38,4 @@ public class InventorySerialiser implements Serialiser<Inventory> {
         return jsonObject.toString().getBytes();
     }
 }
+

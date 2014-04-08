@@ -3,7 +3,7 @@ package com.tailoredshapes.inventoryserver.serialisers;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import org.json.JSONObject;
 
-public class MetricSerialiser implements Serialiser<Metric> {
+public class MetricSerialiser implements Serialiser<Metric, byte[]> {
 
     @Override
     public byte[] serialise(Metric object) {
@@ -14,3 +14,4 @@ public class MetricSerialiser implements Serialiser<Metric> {
         return jsonObject.toString().getBytes();
     }
 }
+

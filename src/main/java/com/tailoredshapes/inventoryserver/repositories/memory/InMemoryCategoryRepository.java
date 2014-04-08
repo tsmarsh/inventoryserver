@@ -1,23 +1,27 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
 import com.google.inject.Inject;
+import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class InMemoryCategoryRepository<R extends Algorithm> implements CategoryRepository {
 
-    private final InMemoryDAO<Category, R> dao;
+    private final Map<Long, Category> db;
 
     @Inject
-    public InMemoryCategoryRepository(InMemoryDAO<Category, R> dao) {
-        this.dao = dao;
+    public InMemoryCategoryRepository(Map<Long, Category> db) {
+        this.db = db;
     }
 
     @Override
     public Category findByFullname(String categoryFullName) {
-        for (Category cat : dao.db.values()) {
+        for (Category cat : db.values()) {
             if (cat.getFullname().equals(categoryFullName)) {
                 return cat;
             }
@@ -28,7 +32,7 @@ public class InMemoryCategoryRepository<R extends Algorithm> implements Category
 
     @Override
     public boolean exists(String categoryFullName) {
-        for (Category cat : dao.db.values()) {
+        for (Category cat : db.values()) {
             if (cat.getFullname().equals(categoryFullName)) {
                 return true;
             }

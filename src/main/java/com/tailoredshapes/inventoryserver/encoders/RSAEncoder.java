@@ -13,10 +13,10 @@ import java.security.SignatureException;
 
 public class RSAEncoder<T extends Keyed> implements Encoder<T, RSA> {
 
-    private final Serialiser<T> serialiser;
+    private final Serialiser<T, byte[]> serialiser;
 
     @Inject
-    public RSAEncoder(Serialiser<T> serialiser) {
+    public RSAEncoder(Serialiser<T, byte[]> serialiser) {
         this.serialiser = serialiser;
     }
 

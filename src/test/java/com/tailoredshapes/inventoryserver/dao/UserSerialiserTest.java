@@ -10,14 +10,12 @@ import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.serialisers.UserSerialiser;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.util.Base64;
 import java.util.HashSet;
 
 import static org.junit.Assert.*;
@@ -52,7 +50,8 @@ public class UserSerialiserTest {
 
         assertEquals(urlBuilder.build(user), jsonObject.getString("id"));
         assertEquals(user.getName(), jsonObject.getString("name"));
-        assertArrayEquals(user.getPublicKey().getEncoded(), Base64.getDecoder().decode(jsonObject.getString("publicKey")));
+
+        assertArrayEquals(user.getPublicKey().getEncoded(), Base64.decodeBase64(jsonObject.getString("publicKey")));
         assertFalse(jsonObject.has("privateKey"));
         assertTrue(jsonObject.has("inventories"));
         assertEquals(1, jsonObject.getJSONArray("inventories").length());

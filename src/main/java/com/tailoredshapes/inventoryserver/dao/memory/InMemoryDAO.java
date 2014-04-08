@@ -17,10 +17,10 @@ public class InMemoryDAO<T extends Idable<T>, R extends Algorithm> implements DA
     private final Saver<T> saver;
 
     @Inject
-    public InMemoryDAO(Encoder<T, R> encoder, Saver<T> saver) {
+    public InMemoryDAO(Map<Long, T> db, Encoder<T, R> encoder, Saver<T> saver) {
         this.encoder = encoder;
         this.saver = saver;
-        db = new HashMap<>();
+        this.db = db;
     }
 
     @Override

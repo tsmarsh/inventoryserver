@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -85,10 +86,9 @@ public class User implements Idable<User>, Keyed, Cloneable {
         User user = (User) o;
 
         if (!id.equals(user.id)) return false;
-        if (inventories != null ? !inventories.equals(user.inventories) : user.inventories != null) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
-        if (privateKey != null ? !privateKey.equals(user.privateKey) : user.privateKey != null) return false;
-        if (publicKey != null ? !publicKey.equals(user.publicKey) : user.publicKey != null) return false;
+        if (privateKey != null ? !Arrays.equals(privateKey.getEncoded(), user.privateKey.getEncoded()) : user.privateKey != null) return false;
+        if (publicKey != null ? !Arrays.equals(publicKey.getEncoded(), user.publicKey.getEncoded()) : user.publicKey != null) return false;
 
         return true;
     }
@@ -97,9 +97,8 @@ public class User implements Idable<User>, Keyed, Cloneable {
     public int hashCode() {
         int result = id.hashCode();
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (privateKey != null ? privateKey.hashCode() : 0);
-        result = 31 * result + (publicKey != null ? publicKey.hashCode() : 0);
-        result = 31 * result + (inventories != null ? inventories.hashCode() : 0);
+        result = 31 * result + (privateKey != null ? Arrays.hashCode(privateKey.getEncoded()) : 0);
+        result = 31 * result + (publicKey != null ? Arrays.hashCode(publicKey.getEncoded()) : 0);
         return result;
     }
 

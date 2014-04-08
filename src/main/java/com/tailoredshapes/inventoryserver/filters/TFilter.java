@@ -44,6 +44,9 @@ public class TFilter<T> implements Filter{
             Long extract = extractor.extract(((HttpServletRequest) request).getRequestURI());
             if(extract != null){
                 t = repository.findById(extract);
+                if(t == null){
+                    throw new RuntimeException(String.format("No %s with id %d", type, extract));
+                }
             }
         }
 

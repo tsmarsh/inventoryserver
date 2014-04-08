@@ -83,7 +83,7 @@ public class InventoryHandlerTest {
             scope.seed(Key.get(User.class, Names.named("current_user")), user);
 
             DAO<User> userDAO = injector.getInstance(new Key<DAO<User>>() {});
-            Serialiser<Metric> metricSerialiser = injector.getInstance(new Key<Serialiser<Metric>>() {});
+            Serialiser<Metric, String> metricSerialiser = injector.getInstance(new Key<Serialiser<Metric, String>>() {});
 
             user = userDAO.create(user);
 
@@ -150,7 +150,7 @@ public class InventoryHandlerTest {
             JSONObject updatedObject = new JSONObject(getResponseObject.toString());
             JSONArray metrics = updatedObject.getJSONArray("metrics");
             Metric metric = new MetricBuilder().id(null).build();
-            JSONObject metricJson = new JSONObject(new String(metricSerialiser.serialise(metric)));
+            JSONObject metricJson = new JSONObject(metricSerialiser.serialise(metric));
             metrics.put(metricJson);
 
             parameters.put("inventory", updatedObject.toString());

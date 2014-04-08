@@ -6,20 +6,21 @@ import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
 
 import javax.inject.Inject;
+import java.util.Map;
 
 public class InMemoryMetricTypeRepository<R extends Algorithm> implements MetricTypeRepository {
 
-    private final InMemoryDAO<MetricType, R> dao;
+    private Map<Long, MetricType> db;
 
     @Inject
-    public InMemoryMetricTypeRepository(InMemoryDAO<MetricType, R> dao) {
-        this.dao = dao;
+    public InMemoryMetricTypeRepository(Map<Long, MetricType> db) {
+        this.db = db;
     }
 
     @Override
     public MetricType findByName(String name) {
 
-        for (MetricType type : dao.db.values()) {
+        for (MetricType type : db.values()) {
             if (type.getName().equals(name)) {
                 return type;
             }

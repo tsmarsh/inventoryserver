@@ -6,11 +6,12 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.json.JSONString;
 
 import java.io.IOException;
 import java.security.Key;
 
-public class JSONSerialiser<T> implements Serialiser<T> {
+public class JSONSerialiser<T> implements Serialiser<T, byte[]> {
 
     private final ObjectMapper mapper;
 
@@ -37,3 +38,4 @@ public class JSONSerialiser<T> implements Serialiser<T> {
         return new byte[0];
     }
 }
+

@@ -46,6 +46,7 @@ public class UserRepositoryTest {
             public void run() {
 
                 manager.flush();
+                manager.clear();
             }
         });
         transaction.rollback();
