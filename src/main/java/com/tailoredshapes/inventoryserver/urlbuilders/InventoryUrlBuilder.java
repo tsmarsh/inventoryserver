@@ -30,8 +30,8 @@ public class InventoryUrlBuilder implements UrlBuilder<Inventory> {
     @Override
     public String build(Inventory inventory) {
         return inventory.getId() != null ?
-            String.format("%s://%s:%s/users/%s/inventories/%s", protocol, host, port, currentUser.getId(), inventory.getId())
-            : null;
+                String.format("%s://%s:%s/users/%s/inventories/%s", protocol, host, port, currentUser.getId(), inventory.getId())
+                : null;
 
     }
 }

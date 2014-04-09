@@ -4,9 +4,6 @@ import com.google.inject.Key;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;

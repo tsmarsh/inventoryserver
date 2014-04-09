@@ -7,8 +7,6 @@ import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.builders.CategoryBuilder;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;

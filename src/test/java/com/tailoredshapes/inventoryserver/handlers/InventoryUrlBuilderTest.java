@@ -51,7 +51,7 @@ public class InventoryUrlBuilderTest {
                 .id(null).build();
         UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
         String url = inventoryUrlBuilder.build(inventory);
-        assertNull( url);
+        assertNull(url);
 
     }
 }

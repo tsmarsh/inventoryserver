@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static com.tailoredshapes.inventoryserver.GuiceTest.injector;
-import static com.tailoredshapes.inventoryserver.HibernateTest.hibernateInjector;
 import static org.junit.Assert.assertEquals;
 
 public class InMemoryInventoryRepositoryTest {
@@ -36,6 +35,7 @@ public class InMemoryInventoryRepositoryTest {
     public void tearDown() throws Exception {
         scope.exit();
     }
+
     @Test
     public void testFindById() throws Exception {
         Inventory inventory = new InventoryBuilder().build();

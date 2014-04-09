@@ -1,13 +1,11 @@
 package com.tailoredshapes.inventoryserver.dao;
 
-import com.google.inject.Guice;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.encoders.RSAEncoder;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
-import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

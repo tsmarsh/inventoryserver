@@ -22,7 +22,7 @@ public class InventoryIdExtractor implements IdExtractor<Inventory> {
         Matcher matcher = userIdPattern.matcher(path);
         if (matcher.matches()) {
             return Long.parseLong(matcher.group(1));
-        }else{
+        } else {
             return null;
         }
     }

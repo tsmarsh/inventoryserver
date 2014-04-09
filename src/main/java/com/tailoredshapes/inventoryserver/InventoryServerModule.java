@@ -29,7 +29,7 @@ public class InventoryServerModule implements Module {
     @Override
     public void configure(Binder binder) {
 
-        binder.bind(new TypeLiteral<Parser<User>>(){})
+        binder.bind(new TypeLiteral<Parser<User>>() {})
                 .to(UserParser.class);
 
         binder.bind(new TypeLiteral<Parser<Inventory>>() {})
@@ -56,7 +56,7 @@ public class InventoryServerModule implements Module {
         binder.bind(new TypeLiteral<Saver<MetricType>>() {})
                 .to(new TypeLiteral<ChildFreeSaver<MetricType>>() {});
 
-        binder.bind(new TypeLiteral<UrlBuilder<User>>(){})
+        binder.bind(new TypeLiteral<UrlBuilder<User>>() {})
                 .to(UserUrlBuilder.class);
 
         binder.bind(new TypeLiteral<UrlBuilder<Inventory>>() {})

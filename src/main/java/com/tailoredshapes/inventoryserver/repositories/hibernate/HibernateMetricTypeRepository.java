@@ -26,9 +26,9 @@ public class HibernateMetricTypeRepository implements MetricTypeRepository {
         cq.where(cb.equal(root.get("name"), name));
 
         MetricType type;
-        try{
+        try {
             type = manager.createQuery(cq).getSingleResult();
-        }catch (Exception e){
+        } catch (Exception e) {
             type = new MetricType().setName(name);
         }
         return type;

@@ -10,7 +10,8 @@ public abstract class Saver<T> {
             } else {
                 return dao.update(object);
             }
-        }return null;
+        }
+        return null;
     }
 
     public abstract T saveChildren(T object);

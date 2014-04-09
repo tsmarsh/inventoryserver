@@ -1,9 +1,8 @@
 package com.tailoredshapes.inventoryserver.dao.hibernate;
 
 import com.google.inject.Inject;
-import com.google.inject.persist.Transactional;
-
 import com.google.inject.TypeLiteral;
+import com.google.inject.persist.Transactional;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
@@ -64,16 +63,16 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
             T read = read(clone);
             if (read == null) {
                 manager.persist(clone);
-                try{
+                try {
                     manager.flush();
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 result = clone;
             } else {
                 result = read;
             }
-        }else{
+        } else {
             result = object;
         }
         return result;

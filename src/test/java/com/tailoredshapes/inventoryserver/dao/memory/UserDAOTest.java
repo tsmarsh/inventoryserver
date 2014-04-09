@@ -2,25 +2,17 @@ package com.tailoredshapes.inventoryserver.dao.memory;
 
 import com.google.inject.Key;
 import com.google.inject.name.Names;
-import com.google.inject.persist.Transactional;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.HibernateTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
-import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-
-import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -42,6 +34,7 @@ public class UserDAOTest extends GuiceTest {
     public void tearDown() throws Exception {
         scope.exit();
     }
+
     @Test
     public void testInMemory() throws Exception {
         DAO<User> dao = GuiceTest.injector.getInstance(new Key<DAO<User>>() {});

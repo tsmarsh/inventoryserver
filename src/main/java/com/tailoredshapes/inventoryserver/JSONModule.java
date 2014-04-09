@@ -21,7 +21,7 @@ public class JSONModule implements Module {
                 .to(new TypeLiteral<JSONSerialiser<Category>>() {});
 
         binder.bind(new TypeLiteral<Serialiser<Category, String>>() {})
-                .to(new TypeLiteral<JSONStringSerialiser<Category>>(){});
+                .to(new TypeLiteral<JSONStringSerialiser<Category>>() {});
 
         binder.bind(new TypeLiteral<Serialiser<User, byte[]>>() {})
                 .to(UserSerialiser.class);
@@ -39,7 +39,7 @@ public class JSONModule implements Module {
                 .to(new TypeLiteral<JSONSerialiser<MetricType>>() {});
 
         binder.bind(new TypeLiteral<Serialiser<MetricType, String>>() {})
-                .to(new TypeLiteral<JSONStringSerialiser<MetricType>>(){});
+                .to(new TypeLiteral<JSONStringSerialiser<MetricType>>() {});
 
         binder.bind(new TypeLiteral<Responder<Inventory>>() {})
                 .to(new TypeLiteral<JSONResponder<Inventory>>() {});

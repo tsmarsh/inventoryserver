@@ -11,15 +11,11 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.CategoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
-import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.parsers.UserParser;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.json.JSONObject;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
@@ -147,10 +143,10 @@ public class UserParserTest {
 
         transaction.begin();
 
-        testParseUpdatedUser(hibernateInjector,new Runnable() {
+        testParseUpdatedUser(hibernateInjector, new Runnable() {
             @Override
             public void run() {
-              manager.flush();
+                manager.flush();
             }
         });
 

@@ -41,25 +41,25 @@ public class InventoryServletModule extends ServletModule {
 
     @Provides
     @Singleton
-    public Pestlet<Inventory> providePestletInventory(@Named("current_inventory") Provider<Inventory> provider, Provider<Responder<Inventory>> responder, Provider<DAO<Inventory>> dao, Provider<UrlBuilder<Inventory>> urlBuilder){
+    public Pestlet<Inventory> providePestletInventory(@Named("current_inventory") Provider<Inventory> provider, Provider<Responder<Inventory>> responder, Provider<DAO<Inventory>> dao, Provider<UrlBuilder<Inventory>> urlBuilder) {
         return new Pestlet<>(provider, responder, dao, urlBuilder);
     }
 
     @Provides
     @Singleton
-    public Pestlet<User> providePestletUser(@Named("current_user") Provider<User> provider, Provider<Responder<User>> responder, Provider<DAO<User>> dao, Provider<UrlBuilder<User>> urlBuilder){
+    public Pestlet<User> providePestletUser(@Named("current_user") Provider<User> provider, Provider<Responder<User>> responder, Provider<DAO<User>> dao, Provider<UrlBuilder<User>> urlBuilder) {
         return new Pestlet<>(provider, responder, dao, urlBuilder);
     }
 
     @Provides
     @Singleton
-    public TFilter<User> providesUserFilter(Parser<User> parser, IdExtractor<User> idExtractor, Repository<User> repository){
+    public TFilter<User> providesUserFilter(Parser<User> parser, IdExtractor<User> idExtractor, Repository<User> repository) {
         return new TFilter<>(parser, idExtractor, repository, User.class, "user");
     }
 
     @Provides
     @Singleton
-    public TFilter<Inventory> providesInventoryFilter(Parser<Inventory> parser, IdExtractor<Inventory> idExtractor, Repository<Inventory> repository){
+    public TFilter<Inventory> providesInventoryFilter(Parser<Inventory> parser, IdExtractor<Inventory> idExtractor, Repository<Inventory> repository) {
         return new TFilter<>(parser, idExtractor, repository, Inventory.class, "inventory");
     }
 }

@@ -11,7 +11,7 @@ public class Inventory implements Idable<Inventory>, Cloneable {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL,
-               optional = false)
+            optional = false)
     private Category category;
 
     @ManyToMany(cascade = CascadeType.ALL)

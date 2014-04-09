@@ -31,9 +31,9 @@ public class HibernateCategoryRepository implements CategoryRepository {
         TypedQuery<Category> query = manager.createQuery(cq);
 
         Category cat;
-        try{
+        try {
             cat = query.getSingleResult();
-        }catch(Exception e){
+        } catch (Exception e) {
             cat = new Category().setFullname(categoryFullName);
         }
         return cat;

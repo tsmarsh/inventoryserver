@@ -2,16 +2,12 @@ package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
 import com.google.inject.Key;
 import com.google.inject.name.Names;
-import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryInventoryRepository;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,6 +35,7 @@ public class HibernateInventoryRepositoryTest {
     public void tearDown() throws Exception {
         scope.exit();
     }
+
     @Test
     public void testFindById() throws Exception {
         repo = hibernateInjector.getInstance(new Key<InMemoryInventoryRepository>() {});
@@ -46,7 +43,7 @@ public class HibernateInventoryRepositoryTest {
         EntityManager em = hibernateInjector.getInstance(EntityManager.class);
 
         EntityTransaction transaction = em.getTransaction();
-        try{
+        try {
             transaction.begin();
             Inventory inventory = new InventoryBuilder().build();
             Inventory savedInventory = inventoryDAO.create(inventory);
@@ -54,7 +51,7 @@ public class HibernateInventoryRepositoryTest {
             em.clear();
             Inventory byId = repo.findById(savedInventory.getId());
             assertEquals(savedInventory, byId);
-        }finally {
+        } finally {
             transaction.rollback();
         }
 

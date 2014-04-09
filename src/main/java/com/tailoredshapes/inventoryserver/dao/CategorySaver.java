@@ -20,11 +20,11 @@ public class CategorySaver extends Saver<Category> {
 
     @Override
     public Category saveChildren(Category object) {
-        if(null == object.getName()){
+        if (null == object.getName()) {
             String[] split = object.getFullname().split("\\.");
 
             object.setName(split[split.length - 1]);
-            if(split.length > 1){
+            if (split.length > 1) {
                 String[] strings = Arrays.copyOfRange(split, 1, split.length);
                 String parentCategory = StringUtils.join(strings, ".");
                 object.setParent(categoryRepository.findByFullname(parentCategory));

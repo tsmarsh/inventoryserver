@@ -2,16 +2,12 @@ package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
 import com.google.inject.Key;
 import com.google.inject.name.Names;
-import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.CategoryBuilder;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

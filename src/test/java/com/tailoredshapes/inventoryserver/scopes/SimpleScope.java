@@ -51,7 +51,7 @@ public class SimpleScope implements Scope {
             public T get() {
                 Map<Key<?>, Object> scopedObjects = getScopedObjectMap(key);
 
-                if(scopedObjects != null){
+                if (scopedObjects != null) {
                     @SuppressWarnings("unchecked")
                     T current = (T) scopedObjects.get(key);
                     if (current == null && !scopedObjects.containsKey(key)) {
@@ -59,7 +59,7 @@ public class SimpleScope implements Scope {
                         scopedObjects.put(key, current);
                     }
                     return current;
-                } else{
+                } else {
                     return (T) SEEDED_KEY_PROVIDER;
                 }
 

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Singleton
-public class TFilter<T> implements Filter{
+public class TFilter<T> implements Filter {
 
     private final Parser<T> parser;
     private final IdExtractor<T> extractor;
@@ -35,14 +35,14 @@ public class TFilter<T> implements Filter{
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
         T t = null;
-        if(httpRequest.getParameterMap().containsKey(parameterName)){
+        if (httpRequest.getParameterMap().containsKey(parameterName)) {
             String tJson = httpRequest.getParameter(parameterName);
             t = parser.parse(tJson);
-        }else{
+        } else {
             Long extract = extractor.extract(((HttpServletRequest) request).getRequestURI());
-            if(extract != null){
+            if (extract != null) {
                 t = repository.findById(extract);
-                if(t == null){
+                if (t == null) {
                     throw new RuntimeException(String.format("No %s with id %d", type, extract));
                 }
             }
@@ -51,7 +51,7 @@ public class TFilter<T> implements Filter{
         httpRequest.setAttribute(
                 Key.get(type,
                         Names.named("current_" + parameterName)).toString(),
-                        t);
+                t);
         chain.doFilter(request, response);
     }
 

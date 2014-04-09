@@ -25,11 +25,11 @@ public class InMemoryModule implements Module {
     @Override
     public void configure(Binder binder) {
 
-        binder.bind(new TypeLiteral<Map<Long, User>>(){}).to(new TypeLiteral<ConcurrentHashMap<Long, User>>(){}).in(Singleton.class);
-        binder.bind(new TypeLiteral<Map<Long, Inventory>>(){}).to(new TypeLiteral<ConcurrentHashMap<Long, Inventory>>(){}).in(Singleton.class);
-        binder.bind(new TypeLiteral<Map<Long, Metric>>(){}).to(new TypeLiteral<ConcurrentHashMap<Long, Metric>>(){}).in(Singleton.class);
-        binder.bind(new TypeLiteral<Map<Long, MetricType>>(){}).to(new TypeLiteral<ConcurrentHashMap<Long, MetricType>>(){}).in(Singleton.class);
-        binder.bind(new TypeLiteral<Map<Long, Category>>(){}).to(new TypeLiteral<ConcurrentHashMap<Long, Category>>(){}).in(Singleton.class);
+        binder.bind(new TypeLiteral<Map<Long, User>>() {}).to(new TypeLiteral<ConcurrentHashMap<Long, User>>() {}).in(Singleton.class);
+        binder.bind(new TypeLiteral<Map<Long, Inventory>>() {}).to(new TypeLiteral<ConcurrentHashMap<Long, Inventory>>() {}).in(Singleton.class);
+        binder.bind(new TypeLiteral<Map<Long, Metric>>() {}).to(new TypeLiteral<ConcurrentHashMap<Long, Metric>>() {}).in(Singleton.class);
+        binder.bind(new TypeLiteral<Map<Long, MetricType>>() {}).to(new TypeLiteral<ConcurrentHashMap<Long, MetricType>>() {}).in(Singleton.class);
+        binder.bind(new TypeLiteral<Map<Long, Category>>() {}).to(new TypeLiteral<ConcurrentHashMap<Long, Category>>() {}).in(Singleton.class);
 
         binder.bind(new TypeLiteral<DAO<Inventory>>() {})
                 .to(new TypeLiteral<InMemoryDAO<Inventory, SHA>>() {});
@@ -47,7 +47,6 @@ public class InMemoryModule implements Module {
 
         binder.bind(new TypeLiteral<DAO<MetricType>>() {})
                 .to(new TypeLiteral<InMemoryDAO<MetricType, SHA>>() {});
-
 
 
         binder.bind(InventoryRepository.class)
