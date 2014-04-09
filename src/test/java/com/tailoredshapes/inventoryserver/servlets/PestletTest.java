@@ -55,6 +55,7 @@ public class PestletTest {
 
         readSavedUser(httpClient, userUrl);
 
+        listSavedUser(httpClient, port);
 
         String inventoryLocation = createInventoryForUser(httpClient, userUrl);
 
@@ -90,6 +91,20 @@ public class PestletTest {
         JSONObject readUser = new JSONObject(userResponseString);
         assertEquals("Archer", readUser.getString("name"));
         assertNotNull(readUser.getString("publicKey"));
+    }
+
+    private void listSavedUser(CloseableHttpClient httpClient, int port) throws IOException {//READ USER
+        HttpGet userListGet = new HttpGet(String.format("http://localhost:%d/users", port));
+        HttpResponse response = httpClient.execute(userListGet);
+        String userListResponse = EntityUtils.toString(response.getEntity());
+        userListGet.releaseConnection();
+
+        JSONObject userList = new JSONObject(userListResponse);
+        JSONArray users = userList.getJSONArray("users");
+        assertEquals(1, users.length());
+        JSONObject archer = users.getJSONObject(0);
+        assertEquals("Archer", archer.getString("name"));
+        assertNotNull(archer.getString("publicKey"));
     }
 
     private String createInventoryForUser(CloseableHttpClient httpClient, String userUrl) throws URISyntaxException, IOException {List<NameValuePair> parameters;//CREATE

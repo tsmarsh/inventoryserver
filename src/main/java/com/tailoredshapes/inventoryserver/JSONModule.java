@@ -2,11 +2,15 @@ package com.tailoredshapes.inventoryserver;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
+import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.tailoredshapes.inventoryserver.model.*;
+import com.tailoredshapes.inventoryserver.responders.JSONListResponder;
 import com.tailoredshapes.inventoryserver.responders.JSONResponder;
 import com.tailoredshapes.inventoryserver.responders.Responder;
 import com.tailoredshapes.inventoryserver.serialisers.*;
+
+import java.util.Collection;
 
 public class JSONModule implements Module {
     @Override
@@ -46,5 +50,15 @@ public class JSONModule implements Module {
 
         binder.bind(new TypeLiteral<Responder<User>>() {})
                 .to(new TypeLiteral<JSONResponder<User>>() {});
+    }
+
+    @Provides
+    Responder<Collection<User>> userCollectionResponderProvider(Serialiser<User, String> serialiser) {
+        return new JSONListResponder<>(serialiser, "users");
+    }
+
+    @Provides
+    Responder<Collection<Inventory>> inventoryCollectionResponderProvider(Serialiser<Inventory, String> serialiser) {
+        return new JSONListResponder<>(serialiser, "inventories");
     }
 }

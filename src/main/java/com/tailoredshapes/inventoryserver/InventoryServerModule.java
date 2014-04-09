@@ -16,6 +16,9 @@ import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
+import com.tailoredshapes.inventoryserver.validators.InventoryValidator;
+import com.tailoredshapes.inventoryserver.validators.UserValidator;
+import com.tailoredshapes.inventoryserver.validators.Validator;
 
 public class InventoryServerModule implements Module {
     private final String host;
@@ -73,5 +76,11 @@ public class InventoryServerModule implements Module {
         binder.bind(String.class)
                 .annotatedWith(Names.named("protocol"))
                 .toInstance("http");
+
+        binder.bind(new TypeLiteral<Validator<User>>() {})
+                .to(UserValidator.class);
+
+        binder.bind(new TypeLiteral<Validator<Inventory>>() {})
+                .to(InventoryValidator.class);
     }
 }

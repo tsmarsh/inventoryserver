@@ -19,8 +19,10 @@ import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.responders.Responder;
 import com.tailoredshapes.inventoryserver.servlets.Pestlet;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
+import com.tailoredshapes.inventoryserver.validators.Validator;
 
 import javax.inject.Named;
+import java.util.Collection;
 
 public class InventoryServletModule extends ServletModule {
     @Override
@@ -41,14 +43,14 @@ public class InventoryServletModule extends ServletModule {
 
     @Provides
     @Singleton
-    public Pestlet<Inventory> providePestletInventory(@Named("current_inventory") Provider<Inventory> provider, Provider<Responder<Inventory>> responder, Provider<DAO<Inventory>> dao, Provider<UrlBuilder<Inventory>> urlBuilder) {
-        return new Pestlet<>(provider, responder, dao, urlBuilder);
+    public Pestlet<Inventory> providePestletInventory(@Named("current_inventory") Provider<Inventory> provider, Provider<Responder<Inventory>> responder, Provider<Responder<Collection<Inventory>>> collectionResponder, Provider<DAO<Inventory>> dao, Provider<UrlBuilder<Inventory>> urlBuilder, Provider<Repository<Inventory>> repository, Validator<Inventory> validator) {
+        return new Pestlet<>(provider, responder, collectionResponder, dao, urlBuilder, repository, validator);
     }
 
     @Provides
     @Singleton
-    public Pestlet<User> providePestletUser(@Named("current_user") Provider<User> provider, Provider<Responder<User>> responder, Provider<DAO<User>> dao, Provider<UrlBuilder<User>> urlBuilder) {
-        return new Pestlet<>(provider, responder, dao, urlBuilder);
+    public Pestlet<User> providePestletUser(@Named("current_user") Provider<User> provider, Provider<Responder<User>> responder, Provider<DAO<User>> dao, Provider<UrlBuilder<User>> urlBuilder, Provider<Responder<Collection<User>>> collectionResponder, Provider<Repository<User>> repository, Validator<User> validator) {
+        return new Pestlet<>(provider, responder, collectionResponder, dao, urlBuilder, repository, validator);
     }
 
     @Provides
