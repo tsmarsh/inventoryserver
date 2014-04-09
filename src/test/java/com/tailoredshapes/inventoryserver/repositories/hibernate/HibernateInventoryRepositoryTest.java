@@ -6,6 +6,7 @@ import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
+import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryInventoryRepository;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import org.junit.After;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 public class HibernateInventoryRepositoryTest {
     private DAO<Inventory> inventoryDAO;
-    private InMemoryInventoryRepository repo;
+    private Repository<Inventory> repo;
 
     private SimpleScope scope;
 
@@ -38,7 +39,7 @@ public class HibernateInventoryRepositoryTest {
 
     @Test
     public void testFindById() throws Exception {
-        repo = hibernateInjector.getInstance(new Key<InMemoryInventoryRepository>() {});
+        repo = hibernateInjector.getInstance(new Key<Repository<Inventory>>() {});
         inventoryDAO = hibernateInjector.getInstance(new Key<DAO<Inventory>>() {});
         EntityManager em = hibernateInjector.getInstance(EntityManager.class);
 
