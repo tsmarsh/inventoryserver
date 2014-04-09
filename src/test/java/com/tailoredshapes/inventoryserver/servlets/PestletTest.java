@@ -18,7 +18,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +51,21 @@ public class PestletTest {
     public void testCanCreateAnInventory(Integer port) throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
-        //CREATE USER
+        String userUrl = createUser(port, httpClient);
+
+        readSavedUser(httpClient, userUrl);
+
+
+        String inventoryLocation = createInventoryForUser(httpClient, userUrl);
+
+        JSONObject getResponseObject = readSavedInventory(httpClient, inventoryLocation);
+
+        String updateLocation = updateUsersInventory(httpClient, inventoryLocation, getResponseObject);
+
+        readUpdatedInventory(httpClient, updateLocation);
+    }
+
+    private String createUser(Integer port, CloseableHttpClient httpClient) throws URISyntaxException, IOException {//CREATE USER
 
         JSONObject userJsonObject = new JSONObject();
         userJsonObject.put("name", "Archer");
@@ -62,7 +78,10 @@ public class PestletTest {
         Header location = userReponse.getFirstHeader("Location");
         String userUrl = location.getValue();
 
-        //READ USER
+        return userUrl;
+    }
+
+    private void readSavedUser(CloseableHttpClient httpClient, String userUrl) throws IOException {//READ USER
         HttpGet userGet = new HttpGet(userUrl);
         HttpResponse response = httpClient.execute(userGet);
         String userResponseString = EntityUtils.toString(response.getEntity());
@@ -71,8 +90,9 @@ public class PestletTest {
         JSONObject readUser = new JSONObject(userResponseString);
         assertEquals("Archer", readUser.getString("name"));
         assertNotNull(readUser.getString("publicKey"));
+    }
 
-        //CREATE
+    private String createInventoryForUser(CloseableHttpClient httpClient, String userUrl) throws URISyntaxException, IOException {List<NameValuePair> parameters;//CREATE
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("category", "com.tailoredshapes.test");
@@ -89,9 +109,10 @@ public class PestletTest {
         String inventoryLocation = createInventoryResponse.getFirstHeader("Location").getValue();
 
         httpPost.releaseConnection();
+        return inventoryLocation;
+    }
 
-        //READ
-
+    private JSONObject readSavedInventory(CloseableHttpClient httpClient, String inventoryLocation) throws IOException, URISyntaxException {
         URI uri = new URI(inventoryLocation);
         assertTrue(uri.getPath().matches("/users/?-?\\d+/inventories(/-?\\d+)?"));
         HttpGet httpGet = new HttpGet(uri);
@@ -107,9 +128,12 @@ public class PestletTest {
         assertEquals(inventoryLocation, getResponseObject.getString("id"));
         assertEquals("com.tailoredshapes.test", getResponseObject.getString("category"));
         assertEquals(0, getResponseObject.getJSONArray("metrics").length());
+        return getResponseObject;
+    }
 
-
-        //Update
+    private String updateUsersInventory(CloseableHttpClient httpClient, String inventoryLocation, JSONObject getResponseObject) throws IOException, URISyntaxException {
+        List<NameValuePair> parameters;
+        URI uri = new URI(inventoryLocation);
         parameters = new ArrayList<>();
         HttpPost updatePost = new HttpPost(uri);
 
@@ -133,8 +157,10 @@ public class PestletTest {
         assertNotSame(inventoryLocation, updateLocation);
 
         updatePost.releaseConnection();
+        return updateLocation;
+    }
 
-        //READ
+    private void readUpdatedInventory(CloseableHttpClient httpClient, String updateLocation) throws URISyntaxException, IOException {//READ
 
         HttpGet updateGet = new HttpGet(new URI(updateLocation));
         HttpResponse updatedResponse = httpClient.execute(updateGet);
