@@ -47,7 +47,6 @@ public class Pestlet<T extends Idable<T>> extends HttpServlet {
     }
 
     @Override
-    @Transactional
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         T t = provider.get();
@@ -61,7 +60,6 @@ public class Pestlet<T extends Idable<T>> extends HttpServlet {
     }
 
     @Override
-    @Transactional
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         T t = provider.get();
         if (t.getId() == null) {

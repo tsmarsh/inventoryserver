@@ -12,6 +12,7 @@ import com.google.inject.servlet.ServletScopes;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.filters.TFilter;
+import com.tailoredshapes.inventoryserver.filters.TransactionFilter;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
@@ -29,6 +30,7 @@ public class InventoryServletModule extends ServletModule {
     protected void configureServlets() {
         install(new JpaPersistModule("inventory_server"));
         filter("/*").through(PersistFilter.class);
+        filter("/*").through(TransactionFilter.class);
 
         serveRegex("/users/?-?\\d+/inventories(/-?\\d+)?").with(new Key<Pestlet<Inventory>>() {});
         filterRegex("/users/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<User>>() {});

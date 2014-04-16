@@ -27,7 +27,6 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
     }
 
     @Override
-    @Transactional
     public T create(T object) {
         object = saver.saveChildren(object);
 
@@ -45,13 +44,11 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
     }
 
     @Override
-    @Transactional
     public T read(T object) {
         return (T) manager.find(rawType, object.getId());
     }
 
     @Override
-    @Transactional
     public T update(T object) {
         T result;
         T clone = cloneObjectForUpdate(object);
