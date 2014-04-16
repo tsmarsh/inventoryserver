@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.servlets;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;

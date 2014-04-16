@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.parsers;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;

@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.dao.memory;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;

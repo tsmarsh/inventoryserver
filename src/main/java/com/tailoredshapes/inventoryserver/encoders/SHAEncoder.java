@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.encoders;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.security.SHA;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 

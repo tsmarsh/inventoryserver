@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.dao.hibernate;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.persist.Transactional;
 import com.tailoredshapes.inventoryserver.dao.DAO;

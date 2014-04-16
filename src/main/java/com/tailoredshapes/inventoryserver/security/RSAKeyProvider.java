@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.security;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;

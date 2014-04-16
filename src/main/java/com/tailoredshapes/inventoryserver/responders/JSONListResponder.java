@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.responders;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import org.json.JSONArray;

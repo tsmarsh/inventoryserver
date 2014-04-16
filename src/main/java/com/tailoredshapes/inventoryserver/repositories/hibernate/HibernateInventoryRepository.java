@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import com.tailoredshapes.inventoryserver.model.Inventory;

@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.serialisers;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;

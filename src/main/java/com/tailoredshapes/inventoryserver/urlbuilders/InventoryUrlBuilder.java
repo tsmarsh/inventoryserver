@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.urlbuilders;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;

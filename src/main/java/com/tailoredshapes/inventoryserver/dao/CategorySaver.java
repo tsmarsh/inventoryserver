@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
 import org.apache.commons.lang.StringUtils;
