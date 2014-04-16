@@ -1,12 +1,12 @@
 package com.tailoredshapes.inventoryserver.dao.memory;
 
-import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.Idable;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
 
+import javax.inject.Inject;
 import java.util.Map;
 
 public class InMemoryDAO<T extends Idable<T>, R extends Algorithm> implements DAO<T> {

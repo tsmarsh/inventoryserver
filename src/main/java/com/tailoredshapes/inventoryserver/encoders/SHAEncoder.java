@@ -1,9 +1,9 @@
 package com.tailoredshapes.inventoryserver.encoders;
 
-import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.security.SHA;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 
+import javax.inject.Inject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

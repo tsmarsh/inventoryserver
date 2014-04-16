@@ -1,10 +1,10 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
-import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
 
+import javax.inject.Inject;
 import java.util.Map;
 
 public class InMemoryCategoryRepository<R extends Algorithm> implements CategoryRepository {

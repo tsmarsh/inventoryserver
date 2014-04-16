@@ -1,8 +1,9 @@
 package com.tailoredshapes.inventoryserver.dao;
 
-import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.MetricType;
+
+import javax.inject.Inject;
 
 public class MetricSaver extends Saver<Metric> {
 

@@ -1,9 +1,6 @@
 package com.tailoredshapes.inventoryserver.servlets;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
-import com.google.inject.persist.Transactional;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Idable;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
@@ -11,6 +8,8 @@ import com.tailoredshapes.inventoryserver.responders.Responder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.validators.Validator;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

@@ -1,16 +1,16 @@
 package com.tailoredshapes.inventoryserver.filters;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.servlet.*;
 import java.io.IOException;
 
 @Singleton
-public class TransactionFilter implements Filter{
+public class TransactionFilter implements Filter {
 
     private Provider<EntityManager> manager;
 
@@ -28,11 +28,10 @@ public class TransactionFilter implements Filter{
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         EntityTransaction transaction = manager.get().getTransaction();
         transaction.begin();
-        try{
+        try {
             filterChain.doFilter(servletRequest, servletResponse);
             transaction.commit();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             transaction.rollback();
         }
     }

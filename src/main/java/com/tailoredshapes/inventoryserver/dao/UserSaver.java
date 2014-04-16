@@ -1,10 +1,10 @@
 package com.tailoredshapes.inventoryserver.dao;
 
-import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.security.KeyProvider;
 
+import javax.inject.Inject;
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.List;

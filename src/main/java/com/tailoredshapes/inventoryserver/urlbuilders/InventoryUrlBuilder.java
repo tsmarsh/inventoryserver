@@ -1,10 +1,10 @@
 package com.tailoredshapes.inventoryserver.urlbuilders;
 
-import javax.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @RequestScoped

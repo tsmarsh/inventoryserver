@@ -1,14 +1,13 @@
 package com.tailoredshapes.inventoryserver.dao.hibernate;
 
-import javax.inject.Inject;
 import com.google.inject.TypeLiteral;
-import com.google.inject.persist.Transactional;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.Idable;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.lang.reflect.InvocationTargetException;
 

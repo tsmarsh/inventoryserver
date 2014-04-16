@@ -1,9 +1,9 @@
 package com.tailoredshapes.inventoryserver.responders;
 
-import javax.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.Writer;
 

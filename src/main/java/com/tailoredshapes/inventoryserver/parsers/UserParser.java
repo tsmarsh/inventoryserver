@@ -1,6 +1,5 @@
 package com.tailoredshapes.inventoryserver.parsers;
 
-import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
@@ -8,6 +7,7 @@ import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;

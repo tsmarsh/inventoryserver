@@ -1,13 +1,13 @@
 package com.tailoredshapes.inventoryserver.filters;
 
-import javax.inject.Inject;
 import com.google.inject.Key;
-import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;

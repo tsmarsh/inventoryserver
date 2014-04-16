@@ -1,10 +1,10 @@
 package com.tailoredshapes.inventoryserver.dao;
 
-import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
 import org.apache.commons.lang.StringUtils;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 
 public class CategorySaver extends Saver<Category> {

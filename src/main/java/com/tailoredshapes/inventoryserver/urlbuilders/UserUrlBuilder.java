@@ -1,9 +1,9 @@
 package com.tailoredshapes.inventoryserver.urlbuilders;
 
-import javax.inject.Inject;
 import com.google.inject.name.Named;
 import com.tailoredshapes.inventoryserver.model.User;
 
+import javax.inject.Inject;
 import java.net.MalformedURLException;
 import java.net.URL;
 

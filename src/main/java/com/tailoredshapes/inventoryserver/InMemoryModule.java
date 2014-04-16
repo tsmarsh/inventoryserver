@@ -2,7 +2,6 @@ package com.tailoredshapes.inventoryserver;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
@@ -18,6 +17,7 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserReposi
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.security.SHA;
 
+import javax.inject.Singleton;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

@@ -1,9 +1,9 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
-import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;

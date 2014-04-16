@@ -1,11 +1,12 @@
 package com.tailoredshapes.inventoryserver.serialisers;
 
-import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import javax.inject.Inject;
 
 public class InventoryStringSerialiser implements Serialiser<Inventory, String> {
 

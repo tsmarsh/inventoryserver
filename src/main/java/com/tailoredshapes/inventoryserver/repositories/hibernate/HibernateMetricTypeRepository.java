@@ -1,9 +1,9 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
-import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

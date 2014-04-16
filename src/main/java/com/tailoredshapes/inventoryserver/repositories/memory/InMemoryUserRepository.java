@@ -1,10 +1,10 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
-import javax.inject.Inject;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Map;
 

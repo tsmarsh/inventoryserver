@@ -3,7 +3,6 @@ package com.tailoredshapes.inventoryserver;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
-import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.google.inject.persist.PersistFilter;
 import com.google.inject.persist.jpa.JpaPersistModule;
@@ -23,6 +22,7 @@ import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.validators.Validator;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 import java.util.Collection;
 
 public class InventoryServletModule extends ServletModule {

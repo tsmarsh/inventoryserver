@@ -107,7 +107,8 @@ public class PestletTest {
         assertNotNull(archer.getString("publicKey"));
     }
 
-    private String createInventoryForUser(CloseableHttpClient httpClient, String userUrl) throws URISyntaxException, IOException {List<NameValuePair> parameters;//CREATE
+    private String createInventoryForUser(CloseableHttpClient httpClient, String userUrl) throws URISyntaxException, IOException {
+        List<NameValuePair> parameters;//CREATE
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("category", "com.tailoredshapes.test");

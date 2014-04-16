@@ -7,7 +7,6 @@ import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
-import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryInventoryRepository;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import org.junit.After;
 import org.junit.Before;

@@ -1,11 +1,11 @@
 package com.tailoredshapes.inventoryserver.responders;
 
-import javax.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
