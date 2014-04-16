@@ -80,8 +80,7 @@ public class Category implements Idable<Category>, Cloneable {
 
         Category category = (Category) o;
 
-        if (!fullname.equals(category.fullname)) return false;
-        return !(id != null ? !id.equals(category.id) : category.id != null) && !(name != null ? !name.equals(category.name) : category.name != null) && !(parent != null ? !parent.equals(category.parent) : category.parent != null);
+        return fullname.equals(category.fullname) && !(id != null ? !id.equals(category.id) : category.id != null) && !(name != null ? !name.equals(category.name) : category.name != null) && !(parent != null ? !parent.equals(category.parent) : category.parent != null);
 
     }
 

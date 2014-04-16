@@ -11,7 +11,7 @@ import java.util.Map;
 public class InMemoryInventoryRepository implements InventoryRepository {
 
     private final DAO<Inventory> dao;
-    private Map<Long, Inventory> db;
+    private final Map<Long, Inventory> db;
 
     @Inject
     public InMemoryInventoryRepository(DAO<Inventory> inventoryDAO, Map<Long, Inventory> db) {

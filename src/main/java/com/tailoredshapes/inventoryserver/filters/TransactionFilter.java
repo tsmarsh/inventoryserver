@@ -12,7 +12,7 @@ import java.io.IOException;
 @Singleton
 public class TransactionFilter implements Filter {
 
-    private Provider<EntityManager> manager;
+    private final Provider<EntityManager> manager;
 
     @Inject
     public TransactionFilter(Provider<EntityManager> manager) {

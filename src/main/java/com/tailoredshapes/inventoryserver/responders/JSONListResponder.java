@@ -14,7 +14,7 @@ import java.util.Collection;
 public class JSONListResponder<T> implements Responder<Collection<T>> {
 
     private final Serialiser<T, String> serialiser;
-    private String name;
+    private final String name;
 
     @Inject
     public JSONListResponder(Serialiser<T, String> serialiser, String name) {

@@ -11,7 +11,7 @@ import java.util.Map;
 public class InMemoryUserRepository implements UserRepository {
 
     private final DAO<User> dao;
-    private Map<Long, User> db;
+    private final Map<Long, User> db;
 
     @Inject
     public InMemoryUserRepository(DAO<User> dao, Map<Long, User> db) {

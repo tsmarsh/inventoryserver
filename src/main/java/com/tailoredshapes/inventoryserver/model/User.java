@@ -86,8 +86,7 @@ public class User implements Idable<User>, Keyed, Cloneable {
         User user = (User) o;
 
         if (!id.equals(user.id)) return false;
-        if (name != null ? !name.equals(user.name) : user.name != null) return false;
-        return !(privateKey != null ? !Arrays.equals(privateKey.getEncoded(), user.privateKey.getEncoded()) : user.privateKey != null) && !(publicKey != null ? !Arrays.equals(publicKey.getEncoded(), user.publicKey.getEncoded()) : user.publicKey != null);
+        return !(name != null ? !name.equals(user.name) : user.name != null) && !(privateKey != null ? !Arrays.equals(privateKey.getEncoded(), user.privateKey.getEncoded()) : user.privateKey != null) && !(publicKey != null ? !Arrays.equals(publicKey.getEncoded(), user.publicKey.getEncoded()) : user.publicKey != null);
 
     }
 
