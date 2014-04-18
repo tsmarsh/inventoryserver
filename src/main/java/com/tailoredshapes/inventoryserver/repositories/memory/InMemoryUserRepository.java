@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
 import com.tailoredshapes.inventoryserver.dao.DAO;
+import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 
@@ -28,5 +29,10 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public Collection<User> list() {
         return db.values();
+    }
+
+    @Override
+    public User save(User user) {
+        return user.getId() == null ? dao.create(user) : dao.update(user);
     }
 }

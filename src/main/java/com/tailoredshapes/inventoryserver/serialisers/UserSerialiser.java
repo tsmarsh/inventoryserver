@@ -11,19 +11,16 @@ import javax.inject.Inject;
 
 public class UserSerialiser implements Serialiser<User, byte[]> {
 
-    private final UrlBuilder<User> urlBuilder;
     private final Serialiser<Inventory, String> inventorySerialiser;
 
     @Inject
-    public UserSerialiser(UrlBuilder<User> urlBuilder, Serialiser<Inventory, String> inventorySerialiser) {
-        this.urlBuilder = urlBuilder;
+    public UserSerialiser(Serialiser<Inventory, String> inventorySerialiser) {
         this.inventorySerialiser = inventorySerialiser;
     }
 
     @Override
     public byte[] serialise(User user) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", urlBuilder.build(user));
         jsonObject.put("name", user.getName());
         jsonObject.put("publicKey", Base64.encode(user.getPublicKey().getEncoded()));
 

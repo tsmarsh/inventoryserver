@@ -6,13 +6,14 @@ import com.tailoredshapes.inventoryserver.model.User;
 import java.security.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class UserBuilder {
 
     private final User user;
     Long id = 555l;
     String name = "Archer";
-    Collection<Inventory> inventoryMap = Collections.emptySet();
+    Collection<Inventory> inventoryMap = new HashSet<Inventory>();
     PrivateKey privateKey;
     PublicKey publicKey;
 

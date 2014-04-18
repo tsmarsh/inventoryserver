@@ -23,7 +23,6 @@ public class InventorySerialiser implements Serialiser<Inventory, byte[]> {
     @Override
     public byte[] serialise(Inventory object) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", inventoryUrlBuilder.build(object));
         jsonObject.put("category", object.getCategory().getFullname());
         JSONArray metrics = new JSONArray();
         for (Metric metric : object.getMetrics()) {

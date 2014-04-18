@@ -6,4 +6,6 @@ public interface Repository<T> {
     T findById(Long extract);
 
     Collection<T> list();
+
+    T save(T t);
 }

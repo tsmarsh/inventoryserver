@@ -29,4 +29,9 @@ public class InMemoryInventoryRepository implements InventoryRepository {
     public Collection<Inventory> list() {
         return db.values();
     }
+
+    @Override
+    public Inventory save(Inventory inventory) {
+        return null;
+    }
 }

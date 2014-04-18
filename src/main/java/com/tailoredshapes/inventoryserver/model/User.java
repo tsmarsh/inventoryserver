@@ -9,6 +9,7 @@ import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 
 @Entity
 public class User implements Idable<User>, Keyed, Cloneable {
@@ -26,7 +27,7 @@ public class User implements Idable<User>, Keyed, Cloneable {
     private PublicKey publicKey;
 
     @ManyToMany
-    private Collection<Inventory> inventories = Collections.emptySet();
+    private Collection<Inventory> inventories = new HashSet<Inventory>();
 
     public Long getId() {
         return id;

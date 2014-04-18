@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
+import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.UserRepository;
 
@@ -14,10 +15,12 @@ import java.util.Collection;
 public class HibernateUserRepository implements UserRepository {
 
     private final EntityManager manager;
+    private DAO<User> dao;
 
     @Inject
-    public HibernateUserRepository(EntityManager manager) {
+    public HibernateUserRepository(EntityManager manager, DAO<User> dao) {
         this.manager = manager;
+        this.dao = dao;
     }
 
     @Override
@@ -34,5 +37,10 @@ public class HibernateUserRepository implements UserRepository {
         TypedQuery<User> query = manager.createQuery(all);
         return query.getResultList();
 
+    }
+
+    @Override
+    public User save(User user) {
+        return user.getId() == null ? dao.create(user) : dao.update(user);
     }
 }

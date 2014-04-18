@@ -22,10 +22,10 @@ public class JSONModule implements Module {
                 .to(InventoryStringSerialiser.class);
 
         binder.bind(new TypeLiteral<Serialiser<Category, byte[]>>() {})
-                .to(new TypeLiteral<JSONSerialiser<Category>>() {});
+                .to(new TypeLiteral<CategorySerialiser>() {});
 
         binder.bind(new TypeLiteral<Serialiser<Category, String>>() {})
-                .to(new TypeLiteral<JSONStringSerialiser<Category>>() {});
+                .to(new TypeLiteral<CategoryStringSerialiser>() {});
 
         binder.bind(new TypeLiteral<Serialiser<User, byte[]>>() {})
                 .to(UserSerialiser.class);
@@ -40,10 +40,10 @@ public class JSONModule implements Module {
                 .to(MetricStringSerialiser.class);
 
         binder.bind(new TypeLiteral<Serialiser<MetricType, byte[]>>() {})
-                .to(new TypeLiteral<JSONSerialiser<MetricType>>() {});
+                .to(new TypeLiteral<MetricTypeSerialiser>() {});
 
         binder.bind(new TypeLiteral<Serialiser<MetricType, String>>() {})
-                .to(new TypeLiteral<JSONStringSerialiser<MetricType>>() {});
+                .to(new TypeLiteral<MetricTypeStringSerialiser>() {});
 
         binder.bind(new TypeLiteral<Responder<Inventory>>() {})
                 .to(new TypeLiteral<JSONResponder<Inventory>>() {});
