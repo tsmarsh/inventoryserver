@@ -49,7 +49,6 @@ public class UserSerialiserTest {
         JSONObject jsonObject = new JSONObject(new String(userSerialiser.serialise(user)));
 
 
-        assertEquals(urlBuilder.build(user), jsonObject.getString("id"));
         assertEquals(user.getName(), jsonObject.getString("name"));
 
         assertArrayEquals(user.getPublicKey().getEncoded(), Base64.decodeBase64(jsonObject.getString("publicKey")));

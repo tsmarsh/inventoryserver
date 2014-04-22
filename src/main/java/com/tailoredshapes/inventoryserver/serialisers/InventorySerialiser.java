@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.serialisers;
 
+import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
@@ -10,13 +11,10 @@ import javax.inject.Inject;
 
 public class InventorySerialiser implements Serialiser<Inventory, byte[]> {
 
-    private final UrlBuilder<Inventory> inventoryUrlBuilder;
     private final Serialiser<Metric, String> metricSerializer;
 
     @Inject
-    public InventorySerialiser(UrlBuilder<Inventory> inventoryUrlBuilder, Serialiser<Metric, String> metricSerializer) {
-
-        this.inventoryUrlBuilder = inventoryUrlBuilder;
+    public InventorySerialiser(Serialiser<Metric, String> metricSerializer) {
         this.metricSerializer = metricSerializer;
     }
 
@@ -32,7 +30,7 @@ public class InventorySerialiser implements Serialiser<Inventory, byte[]> {
         jsonObject.put("metrics", metrics);
 
         if (null != object.getParent()) {
-            jsonObject.put("parent", inventoryUrlBuilder.build(object.getParent()));
+            jsonObject.put("parent", object.getParent().getId());
         }
         return jsonObject.toString().getBytes();
     }

@@ -6,6 +6,8 @@ import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.Idable;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -18,6 +20,7 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
     private final Saver<T> saver;
     private final Encoder<T, R> encoder;
 
+    private final Logger log = LoggerFactory.getLogger(HibernateDAO.class);
     @Inject
     public HibernateDAO(TypeLiteral<T> type, EntityManager manager, Saver<T> saver, Encoder<T, R> encoder) {
         this.manager = manager;
@@ -28,19 +31,26 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
 
     @Override
     public T create(T object) {
+        log.info("Creating: " + object);
         object = saver.saveChildren(object);
 
         Long sig = encoder.encode(object);
 
         object.setId(sig);
         T read = read(object);
+        T out;
         if (read == null) {
+            log.info("Saving new");
             manager.persist(object);
             manager.flush();
-            return object;
+            out = object;
         } else {
-            return read;
+            log.info("Found existing");
+            out = read;
         }
+
+        log.info("Created: " + out);
+        return out;
     }
 
     @Override
@@ -50,29 +60,34 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
 
     @Override
     public T update(T object) {
-        T result;
+        log.info(">> Updating: " + object);
         T clone = cloneObjectForUpdate(object);
         clone = saver.saveChildren(clone);
 
         Long sig = encoder.encode(clone);
+        T out;
         if (!sig.equals(object.getId())) {
             clone.setId(sig);
             T read = read(clone);
             if (read == null) {
+                log.info("Saving clone: " + clone);
                 manager.persist(clone);
                 try {
                     manager.flush();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                result = clone;
+                out = clone;
             } else {
-                result = read;
+                log.info("Already exists: " + read);
+                out = read;
             }
         } else {
-            result = object;
+            out = object;
         }
-        return result;
+
+        log.info("<< Updated: " +  out);
+        return out;
     }
 
     @Override

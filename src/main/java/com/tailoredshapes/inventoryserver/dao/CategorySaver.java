@@ -25,7 +25,7 @@ public class CategorySaver extends Saver<Category> {
 
             object.setName(split[split.length - 1]);
             if (split.length > 1) {
-                String[] strings = Arrays.copyOfRange(split, 1, split.length);
+                String[] strings = Arrays.copyOfRange(split, 0, split.length - 1);
                 String parentCategory = StringUtils.join(strings, ".");
                 object.setParent(categoryRepository.findByFullname(parentCategory));
             }

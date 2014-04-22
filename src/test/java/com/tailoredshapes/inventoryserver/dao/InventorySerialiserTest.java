@@ -51,9 +51,8 @@ public class InventorySerialiserTest {
 
 
             JSONObject jsonObject = new JSONObject(new String(inventorySerialiser.serialise(inventory)));
-            assertEquals(inventoryUrlBuilder.build(inventory), jsonObject.getString("id"));
             assertEquals(build.getFullname(), jsonObject.getString("category"));
-            assertEquals(inventoryUrlBuilder.build(parent), jsonObject.getString("parent"));
+            assertEquals(-111111111111l, jsonObject.getLong("parent"));
             assertEquals(0, jsonObject.getJSONArray("metrics").length());
         } finally {
             scope.exit();
@@ -79,9 +78,8 @@ public class InventorySerialiserTest {
             UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
 
             JSONObject jsonObject = new JSONObject(new String(inventorySerialiser.serialise(inventory)));
-            assertEquals(inventoryUrlBuilder.build(inventory), jsonObject.getString("id"));
             assertEquals(build.getFullname(), jsonObject.getString("category"));
-            assertEquals(inventoryUrlBuilder.build(parent), jsonObject.getString("parent"));
+            assertEquals(-111111111111l, jsonObject.getLong("parent"));
             assertEquals(2, jsonObject.getJSONArray("metrics").length());
             assertEquals(1l, jsonObject.getJSONArray("metrics").getJSONObject(0).getLong("id"));
             assertEquals(2l, jsonObject.getJSONArray("metrics").getJSONObject(1).getLong("id"));

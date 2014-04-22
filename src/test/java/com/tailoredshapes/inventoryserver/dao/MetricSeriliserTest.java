@@ -11,7 +11,6 @@ public class MetricSeriliserTest extends TestCase {
         Metric metric = new MetricBuilder().id(555l).build();
         MetricSerialiser metricSeriliser = new MetricSerialiser();
         JSONObject jsonObject = new JSONObject(new String(metricSeriliser.serialise(metric)));
-        assertEquals(metric.getId().longValue(), jsonObject.getLong("id"));
         assertEquals(metric.getValue(), jsonObject.getString("value"));
         assertEquals(metric.getType().getName(), jsonObject.getString("type"));
     }
