@@ -16,13 +16,13 @@ public class User implements Idable<User>, Keyed, Cloneable, ShallowCopy<User> {
     @Id
     private Long id;
 
-    @Column
+    @Column(updatable = false)
     private String name;
 
-    @Column(length = 1024)
+    @Column(length = 1024, updatable = false)
     private PrivateKey privateKey;
 
-    @Column(length = 1024)
+    @Column(length = 1024, updatable = false)
     private PublicKey publicKey;
 
     @ManyToMany

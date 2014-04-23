@@ -10,7 +10,7 @@ public class MetricType implements Idable<MetricType>, Cloneable, ShallowCopy<Me
     @Id
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String name;
 
     public Long getId() {

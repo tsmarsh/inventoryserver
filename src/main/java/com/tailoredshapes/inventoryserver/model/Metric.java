@@ -11,7 +11,7 @@ public class Metric implements Idable<Metric>, Cloneable, ShallowCopy<Metric> {
     @Id
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String value;
 
     @ManyToOne(optional = false)

@@ -10,10 +10,10 @@ public class Category implements Idable<Category>, Cloneable, ShallowCopy<Catego
     @Id
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String fullname;
 
     @ManyToOne
