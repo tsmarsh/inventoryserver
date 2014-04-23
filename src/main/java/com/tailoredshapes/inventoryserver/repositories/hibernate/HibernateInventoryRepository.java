@@ -18,8 +18,8 @@ public class HibernateInventoryRepository implements InventoryRepository {
 
     private final EntityManager manager;
     private final Provider<User> currentUser;
-    private DAO<Inventory> dao;
-    private Repository<User> userRepo;
+    private final DAO<Inventory> dao;
+    private final Repository<User> userRepo;
 
     @Inject
     public HibernateInventoryRepository(EntityManager manager, @Named("current_user") Provider<User> currentUser, DAO<Inventory> dao, Repository<User> userRepo) {

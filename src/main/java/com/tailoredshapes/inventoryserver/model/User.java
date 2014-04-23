@@ -8,7 +8,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 
 @Entity
@@ -27,7 +26,7 @@ public class User implements Idable<User>, Keyed, Cloneable, ShallowCopy<User> {
     private PublicKey publicKey;
 
     @ManyToMany
-    private Collection<Inventory> inventories = new HashSet<Inventory>();
+    private Collection<Inventory> inventories = new HashSet<>();
 
     public Long getId() {
         return id;

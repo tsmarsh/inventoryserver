@@ -3,7 +3,6 @@ package com.tailoredshapes.inventoryserver.serialisers;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

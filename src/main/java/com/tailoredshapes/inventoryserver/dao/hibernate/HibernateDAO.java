@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import java.lang.reflect.InvocationTargetException;
 
 @SuppressWarnings("unchecked")
 public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>, R extends Algorithm> implements DAO<T> {
