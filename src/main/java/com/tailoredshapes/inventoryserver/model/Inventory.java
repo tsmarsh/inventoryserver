@@ -10,14 +10,13 @@ public class Inventory implements Idable<Inventory>, Cloneable, ShallowCopy<Inve
     @Id
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL,
-            optional = false)
+    @ManyToOne(optional = false)
     private Category category;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<Metric> metrics = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Inventory parent;
 
     public Long getId() {
