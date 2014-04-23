@@ -44,6 +44,9 @@ public class HibernateCategoryRepositoryTest {
         CategoryRepository repo = hibernateInjector.getInstance(CategoryRepository.class);
         Category savedCategory = dao.create(category);
 
+        manager.flush();
+        manager.clear();
+
         Category byId = repo.findByFullname(savedCategory.getFullname());
         assertEquals(savedCategory, byId);
 
