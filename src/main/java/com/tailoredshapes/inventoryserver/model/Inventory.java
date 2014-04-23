@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Inventory implements Idable<Inventory>, Cloneable {
+public class Inventory implements Idable<Inventory>, Cloneable, ShallowCopy<Inventory> {
 
     @Id
     private Long id;
@@ -61,6 +61,8 @@ public class Inventory implements Idable<Inventory>, Cloneable {
         return (Inventory) super.clone();
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,5 +102,13 @@ public class Inventory implements Idable<Inventory>, Cloneable {
                 ", metrics=" + metrics +
                 ", parent=" + parent +
                 '}';
+    }
+
+    @Override
+    public Inventory shallowCopy() {
+        return new Inventory().setId(null)
+                            .setCategory(category)
+                            .setMetrics(metrics)
+                            .setParent(parent);
     }
 }

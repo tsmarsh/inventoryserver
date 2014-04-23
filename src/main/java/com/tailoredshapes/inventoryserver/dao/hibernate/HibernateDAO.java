@@ -5,6 +5,7 @@ import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.Idable;
+import com.tailoredshapes.inventoryserver.model.ShallowCopy;
 import com.tailoredshapes.inventoryserver.security.Algorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ import javax.persistence.EntityManager;
 import java.lang.reflect.InvocationTargetException;
 
 @SuppressWarnings("unchecked")
-public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> implements DAO<T> {
+public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>, R extends Algorithm> implements DAO<T> {
     private final Class<? super T> rawType;
     private final EntityManager manager;
     private final Saver<T> saver;
@@ -61,7 +62,7 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
     @Override
     public T update(T object) {
         log.info(">> Updating: " + object);
-        T clone = cloneObjectForUpdate(object);
+        T clone = object.shallowCopy();
         clone = saver.saveChildren(clone);
 
         Long sig = encoder.encode(clone);
@@ -95,15 +96,5 @@ public class HibernateDAO<T extends Cloneable & Idable<T>, R extends Algorithm> 
         object = (T) manager.find(rawType, object.getId());
         manager.remove(object);
         return object;
-    }
-
-    private T cloneObjectForUpdate(T object) {
-        T clone = null;
-        try {
-            clone = (T) object.getClass().getMethod("clone").invoke(object);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        return clone;
     }
 }

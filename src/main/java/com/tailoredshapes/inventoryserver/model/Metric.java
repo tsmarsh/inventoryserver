@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Metric implements Idable<Metric>, Cloneable {
+public class Metric implements Idable<Metric>, Cloneable, ShallowCopy<Metric> {
 
     @Id
     private Long id;
@@ -66,5 +66,10 @@ public class Metric implements Idable<Metric>, Cloneable {
         result = 31 * result + value.hashCode();
         result = 31 * result + type.hashCode();
         return result;
+    }
+
+    @Override
+    public Metric shallowCopy() {
+        return new Metric().setId(null).setType(type).setValue(value);
     }
 }

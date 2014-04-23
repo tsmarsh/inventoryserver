@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class MetricType implements Idable<MetricType>, Cloneable {
+public class MetricType implements Idable<MetricType>, Cloneable, ShallowCopy<MetricType> {
 
     @Id
     private Long id;
@@ -60,5 +60,10 @@ public class MetricType implements Idable<MetricType>, Cloneable {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + name.hashCode();
         return result;
+    }
+
+    @Override
+    public MetricType shallowCopy() {
+        return new MetricType().setName(name).setId(null);
     }
 }

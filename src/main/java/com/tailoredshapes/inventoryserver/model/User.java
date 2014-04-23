@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.HashSet;
 
 @Entity
-public class User implements Idable<User>, Keyed, Cloneable {
+public class User implements Idable<User>, Keyed, Cloneable, ShallowCopy<User> {
 
     @Id
     private Long id;
@@ -109,5 +109,13 @@ public class User implements Idable<User>, Keyed, Cloneable {
                 ", publicKey=" + publicKey +
                 ", inventories=" + inventories +
                 '}';
+    }
+
+    @Override
+    public User shallowCopy() {
+        return new User().setId(null)
+                .setPrivateKey(privateKey)
+                .setPublicKey(publicKey)
+                .setInventories(inventories);
     }
 }

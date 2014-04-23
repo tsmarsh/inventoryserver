@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Category implements Idable<Category>, Cloneable {
+public class Category implements Idable<Category>, Cloneable, ShallowCopy<Category> {
     @Id
     private Long id;
 
@@ -91,5 +91,14 @@ public class Category implements Idable<Category>, Cloneable {
         result = 31 * result + fullname.hashCode();
         result = 31 * result + (parent != null ? parent.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public Category shallowCopy() {
+        return new Category()
+                .setId(null)
+                .setName(name)
+                .setFullname(fullname)
+                .setParent(parent);
     }
 }
