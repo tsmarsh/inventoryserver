@@ -1,6 +1,9 @@
 package com.tailoredshapes.inventoryserver.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +64,6 @@ public class Inventory implements Idable<Inventory>, Cloneable, ShallowCopy<Inve
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,8 +108,8 @@ public class Inventory implements Idable<Inventory>, Cloneable, ShallowCopy<Inve
     @Override
     public Inventory shallowCopy() {
         return new Inventory().setId(null)
-                            .setCategory(category)
-                            .setMetrics(metrics)
-                            .setParent(parent);
+                .setCategory(category)
+                .setMetrics(metrics)
+                .setParent(parent);
     }
 }

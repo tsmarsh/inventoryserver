@@ -22,7 +22,6 @@ import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateUserIn
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.security.SHA;
 
-import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import java.util.function.Predicate;
 
@@ -63,44 +62,43 @@ public class HibernateModule implements Module {
                 .to(new TypeLiteral<HibernateRepository<Category>>() {});
 
         binder.bind(new TypeLiteral<Repository<User, EntityManager>>() {})
-                .to(new TypeLiteral<HibernateRepository<User>>(){});
+                .to(new TypeLiteral<HibernateRepository<User>>() {});
 
         binder.bind(new TypeLiteral<Repository<Metric, EntityManager>>() {})
-                .to(new TypeLiteral<HibernateRepository<Metric>>(){});
+                .to(new TypeLiteral<HibernateRepository<Metric>>() {});
 
         binder.bind(new TypeLiteral<Repository<MetricType, EntityManager>>() {})
                 .to(new TypeLiteral<HibernateRepository<MetricType>>() {});
 
-        binder.bind(new TypeLiteral<Predicate<Inventory>>(){})
+        binder.bind(new TypeLiteral<Predicate<Inventory>>() {})
                 .to(InventoryCategoryPredicate.class);
 
-        binder.bind(new TypeLiteral<FinderFactory<Category, String, EntityManager>>(){})
+        binder.bind(new TypeLiteral<FinderFactory<Category, String, EntityManager>>() {})
                 .to(HibernateFindByFullName.class);
 
-        binder.bind(new TypeLiteral<FinderFactory<MetricType, String, EntityManager>>(){})
+        binder.bind(new TypeLiteral<FinderFactory<MetricType, String, EntityManager>>() {})
                 .to(HibernateFindByName.class);
 
         binder.bind(new TypeLiteral<Parser<Inventory>>() {})
-                .to(new TypeLiteral<InventoryParser<EntityManager, EntityManager>>(){});
+                .to(new TypeLiteral<InventoryParser<EntityManager, EntityManager>>() {});
 
         binder.bind(new TypeLiteral<Saver<Category>>() {})
-                .to(new TypeLiteral<CategorySaver<EntityManager>>(){});
+                .to(new TypeLiteral<CategorySaver<EntityManager>>() {});
 
 
-
-        binder.bind(new TypeLiteral<Repository<Inventory, ?>>(){})
+        binder.bind(new TypeLiteral<Repository<Inventory, ?>>() {})
                 .to(new TypeLiteral<Repository<Inventory, EntityManager>>() {});
 
-        binder.bind(new TypeLiteral<Repository<User, ?>>(){})
+        binder.bind(new TypeLiteral<Repository<User, ?>>() {})
                 .to(new TypeLiteral<Repository<User, EntityManager>>() {});
 
-        binder.bind(new TypeLiteral<Repository<Category, ?>>(){})
+        binder.bind(new TypeLiteral<Repository<Category, ?>>() {})
                 .to(new TypeLiteral<Repository<Category, EntityManager>>() {});
 
-        binder.bind(new TypeLiteral<Repository<Metric, ?>>(){})
+        binder.bind(new TypeLiteral<Repository<Metric, ?>>() {})
                 .to(new TypeLiteral<Repository<Metric, EntityManager>>() {});
 
-        binder.bind(new TypeLiteral<Repository<MetricType, ?>>(){})
+        binder.bind(new TypeLiteral<Repository<MetricType, ?>>() {})
                 .to(new TypeLiteral<Repository<MetricType, EntityManager>>() {});
     }
 
@@ -109,7 +107,7 @@ public class HibernateModule implements Module {
                                                                             TypeLiteral<Inventory> type,
                                                                             @Named("current_user") com.google.inject.Provider<User> parent,
                                                                             DAO<Inventory> dao, Repository<User, ?> parentRepo,
-                                                                            Predicate<Inventory> filter){
+                                                                            Predicate<Inventory> filter) {
         return new HibernateUserInventoryRepository(manager, type, parent, dao, parentRepo, filter);
     }
 

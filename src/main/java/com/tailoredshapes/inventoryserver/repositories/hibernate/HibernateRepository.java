@@ -16,7 +16,7 @@ import javax.persistence.criteria.Root;
 import java.util.Collection;
 
 @RequestScoped
-public class HibernateRepository<T extends Idable<T>> implements Repository<T, EntityManager>{
+public class HibernateRepository<T extends Idable<T>> implements Repository<T, EntityManager> {
     private final EntityManager manager;
     private final DAO<T> dao;
     private Class<T> rawType;
@@ -25,6 +25,7 @@ public class HibernateRepository<T extends Idable<T>> implements Repository<T, E
     public HibernateRepository(EntityManager manager, TypeLiteral<T> type, DAO<T> dao) {
         this.manager = manager;
         this.dao = dao;
+        //noinspection unchecked,unchecked
         this.rawType = (Class<T>) type.getRawType();
     }
 
@@ -50,6 +51,7 @@ public class HibernateRepository<T extends Idable<T>> implements Repository<T, E
         Root<T> from = cq.from(rawType);
         CriteriaQuery<T> all = cq.select(from);
         TypedQuery<? super T> query = manager.createQuery(all);
+        //noinspection unchecked,unchecked
         return (Collection<T>) query.getResultList();
     }
 

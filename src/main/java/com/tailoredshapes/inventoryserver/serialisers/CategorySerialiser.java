@@ -9,7 +9,7 @@ public class CategorySerialiser implements Serialiser<Category, byte[]> {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", object.getName());
         jsonObject.put("fullname", object.getFullname());
-        if(object.getParent() != null){
+        if (object.getParent() != null) {
             jsonObject.put("parent", serialise(object.getParent()));
         }
         return jsonObject.toString().getBytes();

@@ -21,6 +21,7 @@ public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>, R ex
     private final Encoder<T, R> encoder;
 
     private final Logger log = LoggerFactory.getLogger(HibernateDAO.class);
+
     @Inject
     public HibernateDAO(TypeLiteral<T> type, EntityManager manager, Saver<T> saver, Encoder<T, R> encoder) {
         this.manager = manager;
@@ -86,7 +87,7 @@ public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>, R ex
             out = object;
         }
 
-        log.info("<< Updated: " +  out);
+        log.info("<< Updated: " + out);
         return out;
     }
 

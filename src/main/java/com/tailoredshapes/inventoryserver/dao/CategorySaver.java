@@ -17,7 +17,7 @@ public class CategorySaver<T> extends Saver<Category> {
     @Inject
     public CategorySaver(DAO<Category> categoryDAO,
                          Repository<Category, T> categoryRepository,
-                         FinderFactory<Category, String, T> fullNameFinderFactor){
+                         FinderFactory<Category, String, T> fullNameFinderFactor) {
         this.categoryDAO = categoryDAO;
         this.categoryRepository = categoryRepository;
         this.fullNameFinderFactor = fullNameFinderFactor;

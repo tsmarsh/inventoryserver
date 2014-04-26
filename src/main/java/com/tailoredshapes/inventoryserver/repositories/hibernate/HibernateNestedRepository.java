@@ -4,9 +4,6 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Idable;
-import com.tailoredshapes.inventoryserver.model.Inventory;
-import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.repositories.Finder;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 
 import javax.inject.Inject;

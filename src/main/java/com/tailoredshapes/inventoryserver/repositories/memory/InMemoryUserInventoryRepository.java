@@ -9,7 +9,7 @@ import com.tailoredshapes.inventoryserver.model.User;
 import java.util.Collection;
 import java.util.Map;
 
-public class InMemoryUserInventoryRepository extends InMemoryNestedRepository<Inventory, Map<Long, Inventory>>{
+public class InMemoryUserInventoryRepository extends InMemoryNestedRepository<Inventory, Map<Long, Inventory>> {
     private Provider<User> parent;
 
     @Inject

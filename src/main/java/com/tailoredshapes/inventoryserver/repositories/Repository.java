@@ -8,6 +8,7 @@ public interface Repository<T, Z> {
     T findBy(Finder<T, Z> finder);
 
     Collection<T> listBy(Finder<Collection<T>, Z> finder);
+
     Collection<T> list();
 
     T save(T t);
