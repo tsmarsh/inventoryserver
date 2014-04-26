@@ -1,4 +1,4 @@
-package com.tailoredshapes.inventoryserver.repositories.hibernate;
+package com.tailoredshapes.inventoryserver.repositories;
 
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -25,7 +25,7 @@ import static com.tailoredshapes.inventoryserver.GuiceTest.*;
 import static com.tailoredshapes.inventoryserver.HibernateTest.hibernateInjector;
 import static org.junit.Assert.assertEquals;
 
-public class HibernateCategoryRepositoryTest {
+public class CategoryRepositoryTest {
     private SimpleScope scope;
 
     @Test
