@@ -39,7 +39,26 @@ public class PestletTest {
         WebAppContext webAppContext = new WebAppContext();
         webAppContext.setContextPath("/");
 
-        webAppContext.setWar(this.getClass().getResource("/").getPath());
+        webAppContext.setWar(this.getClass().getResource("/hibernate").getPath());
+        server.setHandler(webAppContext);
+        server.start();
+
+        try {
+            testCanCreateAnInventory(port);
+        } finally {
+            server.stop();
+        }
+    }
+
+    @Test
+    public void testCanHandleInventoryRequestsInMemory() throws Exception {
+        int port = 6666;
+
+        final Server server = new Server(port);
+        WebAppContext webAppContext = new WebAppContext();
+        webAppContext.setContextPath("/");
+
+        webAppContext.setWar(this.getClass().getResource("/memory").getPath());
         server.setHandler(webAppContext);
         server.start();
 

@@ -30,6 +30,9 @@ public class CategoryRepositoryTest {
 
     @Test
     public void memoryFindByName() throws Exception {
+        scope = injector.getInstance(SimpleScope.class);
+        scope.enter();
+
         Repository<Category, Map<Long, Category>> repo = injector.getInstance(new Key<Repository<Category, Map<Long, Category>>>(){});
         FinderFactory<Category, String, Map<Long, Category>> findByFullName= injector.getInstance(new Key<FinderFactory<Category, String, Map<Long, Category>>>(){});
 
@@ -38,10 +41,15 @@ public class CategoryRepositoryTest {
             public void run() {
             }
         });
+
+        scope.exit();
     }
 
     @Test
     public void hibernateFindByName() throws Exception {
+        scope = hibernateInjector.getInstance(SimpleScope.class);
+        scope.enter();
+
         final EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = manager.getTransaction();
         transaction.begin();
@@ -58,11 +66,11 @@ public class CategoryRepositoryTest {
         });
 
         transaction.rollback();
+
+        scope.exit();
     }
 
     public <T> void testFindByName(Injector injector,Repository<Category, T> repo, FinderFactory<Category, String, T> findByFullName, Runnable reset) throws Exception {
-        scope = injector.getInstance(SimpleScope.class);
-        scope.enter();
         scope.seed(Key.get(User.class, Names.named("current_user")), new User());
 
         Category category = new CategoryBuilder().build();
@@ -73,8 +81,6 @@ public class CategoryRepositoryTest {
 
         Category byId = repo.findBy(findByFullName.lookFor(savedCategory.getFullname()));
         assertEquals(savedCategory, byId);
-
-        scope.exit();
     }
 
 
