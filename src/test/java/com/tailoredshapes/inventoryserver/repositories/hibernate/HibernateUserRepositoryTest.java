@@ -4,7 +4,7 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.repositories.UserRepository;
+import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import org.junit.After;
 import org.junit.Before;
@@ -40,7 +40,7 @@ public class HibernateUserRepositoryTest {
 
         DAO<User> dao = hibernateInjector.getInstance(new Key<DAO<User>>() {});
         User storedUser = dao.create(new User());
-        UserRepository repository = hibernateInjector.getInstance(UserRepository.class);
+        Repository<User, EntityManager> repository = hibernateInjector.getInstance(new Key<Repository<User, EntityManager>>(){});
 
         User byId = repository.findById(storedUser.getId());
         assertEquals(storedUser, byId);

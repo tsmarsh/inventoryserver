@@ -11,6 +11,7 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.CategoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
+import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.parsers.UserParser;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
@@ -49,6 +50,7 @@ public class UserParserTest {
         scope = hibernateInjector.getInstance(SimpleScope.class);
         scope.enter();
         scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
+        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), new InventoryBuilder().build());
         EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = manager.getTransaction();
 
@@ -61,7 +63,7 @@ public class UserParserTest {
     public void testParseNewUser(Injector injector) throws Exception {
         JSONObject userJSON = new JSONObject().put("name", "Archer");
 
-        UserParser userParser = injector.getInstance(UserParser.class);
+        Parser<User> userParser = injector.getInstance(new Key<Parser<User>>(){});
 
         User parsedUser = userParser.parse(userJSON.toString());
         assertEquals("Archer", parsedUser.getName());
@@ -84,6 +86,7 @@ public class UserParserTest {
         scope.enter();
         scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
 
+
         EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = manager.getTransaction();
 
@@ -94,6 +97,7 @@ public class UserParserTest {
 
     public void testParseExistingUser(Injector injector) throws Exception {
         Inventory inventory = new InventoryBuilder().id(null).build();
+        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
         Set<Inventory> inventories = new HashSet<>();
         inventories.add(inventory);
 
@@ -155,6 +159,7 @@ public class UserParserTest {
 
     public void testParseUpdatedUser(Injector injector, Runnable transactionCompleter) throws Exception {
         Inventory inventory = new InventoryBuilder().id(null).build();
+        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
         Set<Inventory> inventories = new HashSet<>();
         inventories.add(inventory);
 

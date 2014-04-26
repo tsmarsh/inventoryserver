@@ -1,11 +1,12 @@
 package com.tailoredshapes.inventoryserver.parsers;
 
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
+import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
-import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
-import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
-import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
+import com.tailoredshapes.inventoryserver.model.MetricType;
+import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
+import com.tailoredshapes.inventoryserver.repositories.Repository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,22 +16,29 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InventoryParser implements Parser<Inventory> {
+public class InventoryParser<A, B> implements Parser<Inventory> {
 
-    private final CategoryRepository categoryRepository;
-    private final InventoryRepository inventoryRepository;
-    private final MetricTypeRepository metricTypeRepository;
+    private final Repository<Category, A> categoryRepository;
+    private final Repository<Inventory, ?> inventoryRepository;
+    private final Repository<MetricType, B> metricTypeRepository;
     private final IdExtractor<Inventory> inventoryIdExtractor;
+    private final FinderFactory<Category, String, A> finderFactory;
+    private final FinderFactory<MetricType, String, B> nameFinderFactory;
 
     @Inject
-    public InventoryParser(CategoryRepository categoryRepository,
-                           InventoryRepository inventoryRepository,
-                           MetricTypeRepository metricTypeRepository,
-                           IdExtractor<Inventory> inventoryIdExtractor) {
+    public InventoryParser(Repository<Category, A> categoryRepository,
+                           Repository<Inventory, ?> inventoryRepository,
+                           Repository<MetricType, B> metricTypeRepository,
+                           IdExtractor<Inventory> inventoryIdExtractor,
+                           FinderFactory<Category, String, A> finderFactory,
+                           FinderFactory<MetricType, String, B> nameFinderFactory) {
+
         this.categoryRepository = categoryRepository;
         this.inventoryRepository = inventoryRepository;
         this.metricTypeRepository = metricTypeRepository;
         this.inventoryIdExtractor = inventoryIdExtractor;
+        this.finderFactory = finderFactory;
+        this.nameFinderFactory = nameFinderFactory;
     }
 
     @Override
@@ -40,7 +48,7 @@ public class InventoryParser implements Parser<Inventory> {
 
         String categoryFullName = jo.getString("category");
 
-        inventory.setCategory(categoryRepository.findByFullname(categoryFullName));
+        inventory.setCategory(categoryRepository.findBy(finderFactory.lookFor(categoryFullName)));
 
         if (jo.has("id")) {
             try {
@@ -77,7 +85,7 @@ public class InventoryParser implements Parser<Inventory> {
             JSONObject jsonObject = jsonMetrics.getJSONObject(i);
             metrics.add(new Metric()
                     .setValue(jsonObject.getString("value"))
-                    .setType(metricTypeRepository.findByName(jsonObject.getString("type"))));
+                    .setType(metricTypeRepository.findBy(nameFinderFactory.lookFor(jsonObject.getString("type")))));
 
         }
         return metrics;

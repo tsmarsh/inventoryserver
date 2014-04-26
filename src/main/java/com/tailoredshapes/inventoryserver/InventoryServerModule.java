@@ -35,9 +35,6 @@ public class InventoryServerModule implements Module {
         binder.bind(new TypeLiteral<Parser<User>>() {})
                 .to(UserParser.class);
 
-        binder.bind(new TypeLiteral<Parser<Inventory>>() {})
-                .to(InventoryParser.class);
-
         binder.bind(new TypeLiteral<IdExtractor<User>>() {})
                 .to(UrlIdExtractor.class);
 
@@ -49,9 +46,6 @@ public class InventoryServerModule implements Module {
 
         binder.bind(new TypeLiteral<Saver<Inventory>>() {})
                 .to(InventorySaver.class);
-
-        binder.bind(new TypeLiteral<Saver<Category>>() {})
-                .to(CategorySaver.class);
 
         binder.bind(new TypeLiteral<Saver<Metric>>() {})
                 .to(MetricSaver.class);

@@ -1,21 +1,26 @@
 package com.tailoredshapes.inventoryserver.dao;
 
 import com.tailoredshapes.inventoryserver.model.Category;
-import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
+import com.tailoredshapes.inventoryserver.repositories.Repository;
 import org.apache.commons.lang.StringUtils;
 
 import javax.inject.Inject;
 import java.util.Arrays;
 
-public class CategorySaver extends Saver<Category> {
+public class CategorySaver<T> extends Saver<Category> {
 
     private final DAO<Category> categoryDAO;
-    private final CategoryRepository categoryRepository;
+    private final Repository<Category, T> categoryRepository;
+    private FinderFactory<Category, String, T> fullNameFinderFactor;
 
     @Inject
-    public CategorySaver(DAO<Category> categoryDAO, CategoryRepository categoryRepository) {
+    public CategorySaver(DAO<Category> categoryDAO,
+                         Repository<Category, T> categoryRepository,
+                         FinderFactory<Category, String, T> fullNameFinderFactor){
         this.categoryDAO = categoryDAO;
         this.categoryRepository = categoryRepository;
+        this.fullNameFinderFactor = fullNameFinderFactor;
     }
 
     @Override
@@ -27,7 +32,7 @@ public class CategorySaver extends Saver<Category> {
             if (split.length > 1) {
                 String[] strings = Arrays.copyOfRange(split, 0, split.length - 1);
                 String parentCategory = StringUtils.join(strings, ".");
-                object.setParent(categoryRepository.findByFullname(parentCategory));
+                object.setParent(categoryRepository.findBy(fullNameFinderFactor.lookFor(parentCategory)));
             }
 
         }

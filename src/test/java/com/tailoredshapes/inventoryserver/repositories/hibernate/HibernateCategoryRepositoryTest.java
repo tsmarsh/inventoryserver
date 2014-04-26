@@ -6,7 +6,8 @@ import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.CategoryBuilder;
-import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
+import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import org.junit.After;
 import org.junit.Before;
@@ -41,13 +42,15 @@ public class HibernateCategoryRepositoryTest {
 
         Category category = new CategoryBuilder().build();
         DAO<Category> dao = hibernateInjector.getInstance(new Key<DAO<Category>>() {});
-        CategoryRepository repo = hibernateInjector.getInstance(CategoryRepository.class);
+        Repository<Category, EntityManager> repo = hibernateInjector.getInstance(new Key<Repository<Category, EntityManager>>(){});
         Category savedCategory = dao.create(category);
 
         manager.flush();
         manager.clear();
 
-        Category byId = repo.findByFullname(savedCategory.getFullname());
+        FinderFactory<Category, String, EntityManager> findByFullName= hibernateInjector.getInstance(new Key<FinderFactory<Category, String, EntityManager>>(){});
+
+        Category byId = repo.findBy(findByFullName.lookFor(savedCategory.getFullname()));
         assertEquals(savedCategory, byId);
 
         transaction.rollback();
@@ -58,10 +61,11 @@ public class HibernateCategoryRepositoryTest {
         EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = manager.getTransaction();
         transaction.begin();
+        Repository<Category, EntityManager> repo = hibernateInjector.getInstance(new Key<Repository<Category, EntityManager>>(){});
+        FinderFactory<Category, String, EntityManager> findByFullName= hibernateInjector.getInstance(new Key<FinderFactory<Category, String, EntityManager>>(){});
 
-        CategoryRepository repo = hibernateInjector.getInstance(CategoryRepository.class);
 
-        Category byId = repo.findByFullname("brian");
+        Category byId = repo.findBy(findByFullName.lookFor("brian"));
         assertEquals("brian", byId.getFullname());
 
         transaction.rollback();

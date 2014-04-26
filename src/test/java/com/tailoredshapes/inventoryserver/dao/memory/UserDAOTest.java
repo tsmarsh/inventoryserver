@@ -5,7 +5,9 @@ import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.HibernateTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
+import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
+import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import org.junit.After;
 import org.junit.Before;
@@ -47,6 +49,7 @@ public class UserDAOTest extends GuiceTest {
         scope = HibernateTest.hibernateInjector.getInstance(SimpleScope.class);
         scope.enter();
         scope.seed(Key.get(User.class, Names.named("current_user")), user);
+        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), new InventoryBuilder().build());
 
         EntityManager instance = HibernateTest.hibernateInjector.getInstance(EntityManager.class);
         EntityTransaction transaction = instance.getTransaction();

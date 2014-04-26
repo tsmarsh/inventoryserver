@@ -3,21 +3,26 @@ package com.tailoredshapes.inventoryserver;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
+import com.tailoredshapes.inventoryserver.dao.CategorySaver;
 import com.tailoredshapes.inventoryserver.dao.DAO;
+import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.model.*;
-import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
-import com.tailoredshapes.inventoryserver.repositories.InventoryRepository;
-import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
-import com.tailoredshapes.inventoryserver.repositories.UserRepository;
-import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryCategoryRepository;
-import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryInventoryRepository;
-import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryMetricTypeRepository;
-import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserRepository;
+import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
+import com.tailoredshapes.inventoryserver.parsers.Parser;
+import com.tailoredshapes.inventoryserver.repositories.Finder;
+import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
+import com.tailoredshapes.inventoryserver.repositories.Repository;
+import com.tailoredshapes.inventoryserver.repositories.finders.categories.HibernateFindByFullName;
+import com.tailoredshapes.inventoryserver.repositories.finders.categories.InMemoryFindByFullName;
+import com.tailoredshapes.inventoryserver.repositories.finders.metrictype.InMemoryFindByName;
+import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserInventoryRepository;
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.security.SHA;
 
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -49,16 +54,47 @@ public class InMemoryModule implements Module {
                 .to(new TypeLiteral<InMemoryDAO<MetricType, SHA>>() {});
 
 
-        binder.bind(InventoryRepository.class)
-                .to(new TypeLiteral<InMemoryInventoryRepository>() {});
+        binder.bind(new TypeLiteral<Repository<Inventory, ?>>(){})
+                .to(new TypeLiteral<Repository<Inventory, Map<Long, Inventory>>>() {});
 
-        binder.bind(new TypeLiteral<CategoryRepository>() {})
-                .to(new TypeLiteral<InMemoryCategoryRepository<SHA>>() {});
+        binder.bind(new TypeLiteral<Repository<User, ?>>(){})
+                .to(new TypeLiteral<Repository<User, Map<Long, User>>>() {});
 
-        binder.bind(new TypeLiteral<UserRepository>() {})
-                .to(InMemoryUserRepository.class);
+        binder.bind(new TypeLiteral<Repository<Category, ?>>(){})
+                .to(new TypeLiteral<Repository<Category, Map<Long, Category>>>() {});
 
-        binder.bind(new TypeLiteral<MetricTypeRepository>() {})
-                .to(new TypeLiteral<InMemoryMetricTypeRepository<SHA>>() {});
+        binder.bind(new TypeLiteral<Repository<Metric, ?>>(){})
+                .to(new TypeLiteral<Repository<Metric, Map<Long, Metric>>>() {});
+
+        binder.bind(new TypeLiteral<Repository<MetricType, ?>>(){})
+                .to(new TypeLiteral<Repository<MetricType, Map<Long, MetricType>>>() {});
+
+        binder.bind(new TypeLiteral<Repository<Inventory, Map<Long, Inventory>>>(){})
+                .to(new TypeLiteral<InMemoryUserInventoryRepository>() {});
+
+        binder.bind(new TypeLiteral<Repository<Category, Map<Long, Category>>>(){})
+                .to(new TypeLiteral<InMemoryRepository<Category>>(){});
+
+        binder.bind(new TypeLiteral<Repository<User, Map<Long, User>>>(){})
+                .to(new TypeLiteral<InMemoryRepository<User>>(){});
+
+        binder.bind(new TypeLiteral<Repository<Metric, Map<Long, Metric>>>(){})
+                .to(new TypeLiteral<InMemoryRepository<Metric>>(){});
+
+        binder.bind(new TypeLiteral<Repository<MetricType, Map<Long, MetricType>>>(){})
+                .to(new TypeLiteral<InMemoryRepository<MetricType>>(){});
+
+        binder.bind(new TypeLiteral<FinderFactory<Category, String, Map<Long, Category>>>(){})
+                .to(InMemoryFindByFullName.class);
+
+        binder.bind(new TypeLiteral<FinderFactory<MetricType, String, Map<Long, MetricType>>>(){})
+                .to(InMemoryFindByName.class);
+
+        binder.bind(new TypeLiteral<Parser<Inventory>>() {})
+                .to(new TypeLiteral<InventoryParser<Map<Long, Category>, Map<Long, MetricType>>>(){});
+
+        binder.bind(new TypeLiteral<Saver<Category>>() {})
+                .to(new TypeLiteral<CategorySaver<Map<Long, Category>>>(){});
+
     }
 }

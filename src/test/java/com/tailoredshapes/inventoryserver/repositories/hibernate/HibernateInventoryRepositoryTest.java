@@ -2,6 +2,7 @@ package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
 import com.google.inject.Key;
 import com.google.inject.name.Names;
+import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
@@ -13,6 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -21,7 +23,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 public class HibernateInventoryRepositoryTest {
     private DAO<Inventory> inventoryDAO;
-    private Repository<Inventory> repo;
+    private Repository<Inventory, EntityManager> repo;
 
     private SimpleScope scope;
     private User user;
@@ -41,14 +43,16 @@ public class HibernateInventoryRepositoryTest {
 
     @Test
     public void testFindById() throws Exception {
-        repo = hibernateInjector.getInstance(new Key<Repository<Inventory>>() {});
+        Inventory inventory = new InventoryBuilder().build();
+        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
+
+        repo = hibernateInjector.getInstance(new Key<Repository<Inventory, EntityManager>>() {});
         inventoryDAO = hibernateInjector.getInstance(new Key<DAO<Inventory>>() {});
         EntityManager em = hibernateInjector.getInstance(EntityManager.class);
 
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            Inventory inventory = new InventoryBuilder().build();
             Inventory savedInventory = inventoryDAO.create(inventory);
             em.flush();
             em.clear();
@@ -62,18 +66,22 @@ public class HibernateInventoryRepositoryTest {
 
     @Test
     public void testSave() throws Exception {
-        repo = hibernateInjector.getInstance(new Key<Repository<Inventory>>() {});
+        Inventory inventory = new InventoryBuilder().id(null).build();
+        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
+
+        repo = hibernateInjector.getInstance(new Key<Repository<Inventory, EntityManager>>() {});
         inventoryDAO = hibernateInjector.getInstance(new Key<DAO<Inventory>>() {});
-        Repository<User> userRepository = hibernateInjector.getInstance(new Key<Repository<User>>() {});
+        Repository<User, EntityManager> userRepository = hibernateInjector.getInstance(new Key<Repository<User, EntityManager>>() {});
         EntityManager em = hibernateInjector.getInstance(EntityManager.class);
 
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            Inventory inventory = new InventoryBuilder().id(null).build();
+
             Inventory savedInventory = repo.save(inventory);
             em.flush();
             em.clear();
+            System.out.println("User: " + System.identityHashCode(user));
             User foundUser = userRepository.findById(user.getId());
             assertThat(foundUser.getInventories()).containsOnly(savedInventory);
             assertThat(savedInventory.getId()).isNotNull();

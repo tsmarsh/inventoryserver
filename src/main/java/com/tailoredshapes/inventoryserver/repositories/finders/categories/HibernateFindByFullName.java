@@ -1,27 +1,21 @@
-package com.tailoredshapes.inventoryserver.repositories.hibernate;
+package com.tailoredshapes.inventoryserver.repositories.finders.categories;
 
 import com.tailoredshapes.inventoryserver.model.Category;
-import com.tailoredshapes.inventoryserver.repositories.CategoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.Finder;
+import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-public class HibernateCategoryRepository implements CategoryRepository {
+public class HibernateFindByFullName implements FinderFactory<Category, String, EntityManager>, Finder<Category, EntityManager> {
 
-
-    private final EntityManager manager;
-
-    @Inject
-    public HibernateCategoryRepository(EntityManager manager) {
-        this.manager = manager;
-    }
+    String categoryFullName;
 
     @Override
-    public Category findByFullname(String categoryFullName) {
+    public Category find(EntityManager manager) {
         CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
         CriteriaQuery<Category> cq = criteriaBuilder.createQuery(Category.class);
 
@@ -40,8 +34,9 @@ public class HibernateCategoryRepository implements CategoryRepository {
     }
 
     @Override
-    public boolean exists(String categoryFullName) {
-        return null != findByFullname(categoryFullName);
+    public Finder<Category, EntityManager> lookFor(String... categories) {
+        this.categoryFullName = categories[0];
+        return this;
     }
 }
 

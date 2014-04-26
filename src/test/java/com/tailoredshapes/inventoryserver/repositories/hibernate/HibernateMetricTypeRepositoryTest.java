@@ -1,9 +1,17 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
 import com.google.inject.Key;
+import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.dao.DAO;
+import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.MetricType;
-import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
+import com.tailoredshapes.inventoryserver.model.User;
+import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
+import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
+import com.tailoredshapes.inventoryserver.repositories.Repository;
+import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
@@ -13,6 +21,19 @@ import static com.tailoredshapes.inventoryserver.HibernateTest.hibernateInjector
 import static org.junit.Assert.assertEquals;
 
 public class HibernateMetricTypeRepositoryTest {
+    private SimpleScope scope;
+
+    @Before
+    public void setUp() throws Exception {
+        scope = hibernateInjector.getInstance(SimpleScope.class);
+        scope.enter();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        scope.exit();
+    }
+
     @Test
     public void testFindByName() throws Exception {
         EntityManager manager = hibernateInjector.getInstance(EntityManager.class);
@@ -21,10 +42,13 @@ public class HibernateMetricTypeRepositoryTest {
 
         MetricType type = new MetricType().setName("Face");
         DAO<MetricType> metricTypeDAO = hibernateInjector.getInstance(new Key<DAO<MetricType>>() {});
-        MetricTypeRepository repo = hibernateInjector.getInstance(MetricTypeRepository.class);
+        Repository<MetricType, EntityManager> repo = hibernateInjector.getInstance(new Key<Repository<MetricType, EntityManager>>(){});
+        FinderFactory<MetricType, String, EntityManager> byFullName= hibernateInjector.getInstance(new Key<FinderFactory<MetricType, String, EntityManager>>(){});
+
         MetricType metricType = metricTypeDAO.create(type);
 
-        MetricType byId = repo.findByName(metricType.getName());
+        MetricType byId = repo.findBy(byFullName.lookFor(metricType.getName()));
+
         assertEquals(metricType, byId);
 
         transaction.rollback();
@@ -36,9 +60,11 @@ public class HibernateMetricTypeRepositoryTest {
         EntityTransaction transaction = manager.getTransaction();
         transaction.begin();
 
-        MetricTypeRepository repo = hibernateInjector.getInstance(MetricTypeRepository.class);
+        Repository<MetricType, EntityManager> repo = hibernateInjector.getInstance(new Key<Repository<MetricType, EntityManager>>(){});
+        FinderFactory<MetricType, String, EntityManager> byFullName= hibernateInjector.getInstance(new Key<FinderFactory<MetricType, String, EntityManager>>(){});
 
-        MetricType byId = repo.findByName("archer");
+
+        MetricType byId = repo.findBy(byFullName.lookFor("archer"));
         assertEquals("archer", byId.getName());
 
         transaction.rollback();

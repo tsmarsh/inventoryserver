@@ -12,6 +12,7 @@ import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricTypeBuilder;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
+import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import org.junit.After;
@@ -25,7 +26,7 @@ import static junit.framework.Assert.assertEquals;
 
 public class InventoryParserTest {
 
-    private InventoryParser parser;
+    private Parser<Inventory> parser;
     private Serialiser<Inventory, String> serialiser;
     private SimpleScope scope;
 
@@ -35,7 +36,7 @@ public class InventoryParserTest {
         scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
         scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
-        parser = GuiceTest.injector.getInstance(InventoryParser.class);
+        parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>(){});
         serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
     }
 
@@ -54,9 +55,6 @@ public class InventoryParserTest {
 
     @Test
     public void shouldParseAnInventoryWithParent() throws Exception {
-
-
-        parser = GuiceTest.injector.getInstance(InventoryParser.class);
         serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
         DAO<Inventory> dao = GuiceTest.injector.getInstance(new Key<DAO<Inventory>>() {});
 

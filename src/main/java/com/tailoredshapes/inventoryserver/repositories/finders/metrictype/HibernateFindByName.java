@@ -1,25 +1,19 @@
-package com.tailoredshapes.inventoryserver.repositories.hibernate;
+package com.tailoredshapes.inventoryserver.repositories.finders.metrictype;
 
 import com.tailoredshapes.inventoryserver.model.MetricType;
-import com.tailoredshapes.inventoryserver.repositories.MetricTypeRepository;
+import com.tailoredshapes.inventoryserver.repositories.Finder;
+import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-public class HibernateMetricTypeRepository implements MetricTypeRepository {
-
-    private final EntityManager manager;
-
-    @Inject
-    public HibernateMetricTypeRepository(EntityManager manager) {
-        this.manager = manager;
-    }
+public class HibernateFindByName implements FinderFactory<MetricType, String, EntityManager>, Finder<MetricType, EntityManager> {
+    private String name;
 
     @Override
-    public MetricType findByName(String name) {
+    public MetricType find(EntityManager manager) {
         CriteriaBuilder cb = manager.getCriteriaBuilder();
         CriteriaQuery<MetricType> cq = cb.createQuery(MetricType.class);
         Root<MetricType> root = cq.from(MetricType.class);
@@ -32,6 +26,12 @@ public class HibernateMetricTypeRepository implements MetricTypeRepository {
             type = new MetricType().setName(name);
         }
         return type;
+    }
+
+    @Override
+    public Finder<MetricType, EntityManager> lookFor(String... strings) {
+        this.name = strings[0];
+        return this;
     }
 }
 

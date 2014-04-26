@@ -7,6 +7,7 @@ import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,14 +16,14 @@ import java.io.IOException;
 @Singleton
 public class TFilter<T> implements Filter {
 
-    private final Parser<T> parser;
+    private final Provider<Parser<T>> parser;
     private final IdExtractor<T> extractor;
-    private final Repository<T> repository;
+    private final Provider<Repository<T, ?>> repository;
     private final Class type;
     private final String parameterName;
 
     @Inject
-    public TFilter(Parser<T> parser, IdExtractor<T> extractor, Repository<T> repository, Class type, String parameterName) {
+    public TFilter(Provider<Parser<T>> parser, IdExtractor<T> extractor, Provider<Repository<T, ?>> repository, Class type, String parameterName) {
         this.parser = parser;
         this.extractor = extractor;
         this.repository = repository;
@@ -37,11 +38,11 @@ public class TFilter<T> implements Filter {
         T t = null;
         if (httpRequest.getParameterMap().containsKey(parameterName)) {
             String tJson = httpRequest.getParameter(parameterName);
-            t = parser.parse(tJson);
+            t = parser.get().parse(tJson);
         } else {
             Long extract = extractor.extract(((HttpServletRequest) request).getRequestURI());
             if (extract != null) {
-                t = repository.findById(extract);
+                t = repository.get().findById(extract);
                 if (t == null) {
                     throw new RuntimeException(String.format("No %s with id %d", type, extract));
                 }

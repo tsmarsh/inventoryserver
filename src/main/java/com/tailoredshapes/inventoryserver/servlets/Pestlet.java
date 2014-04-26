@@ -25,7 +25,7 @@ public class Pestlet<T extends Idable<T>> extends HttpServlet {
     private final Provider<Responder<Collection<T>>> collectionResponder;
     private final Provider<DAO<T>> dao;
     private final Provider<UrlBuilder<T>> urlBuilder;
-    private final Provider<Repository<T>> repository;
+    private final Provider<Repository<T, ?>> repository;
     private final Validator<T> validator;
 
     @Inject
@@ -33,7 +33,7 @@ public class Pestlet<T extends Idable<T>> extends HttpServlet {
                    Provider<Responder<T>> responder,
                    Provider<Responder<Collection<T>>> collectionResponder,
                    Provider<DAO<T>> dao, Provider<UrlBuilder<T>> urlBuilder,
-                   Provider<Repository<T>> repository,
+                   Provider<Repository<T, ?>> repository,
                    Validator<T> validator) {
 
         this.provider = provider;
