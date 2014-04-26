@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.security;
 
 import com.google.inject.Key;
+import com.google.inject.ScopeAnnotation;
 import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
@@ -25,9 +26,6 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 
 public class InventoryParserTest {
-
-    private Parser<Inventory> parser;
-    private Serialiser<Inventory, String> serialiser;
     private SimpleScope scope;
 
 
@@ -36,8 +34,6 @@ public class InventoryParserTest {
         scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
         scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
-        parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>(){});
-        serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
     }
 
     @After
@@ -48,6 +44,10 @@ public class InventoryParserTest {
     @Test
     public void shouldParseASimpleInventory() throws Exception {
         Inventory inventory = new InventoryBuilder().build();
+        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
+
+        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>(){});
+        Serialiser<Inventory, String> serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
 
         Inventory inv = parser.parse(serialiser.serialise(inventory));
         assertEquals(inventory.getCategory().getFullname(), inv.getCategory().getFullname());
@@ -55,13 +55,17 @@ public class InventoryParserTest {
 
     @Test
     public void shouldParseAnInventoryWithParent() throws Exception {
-        serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
         DAO<Inventory> dao = GuiceTest.injector.getInstance(new Key<DAO<Inventory>>() {});
 
         Inventory parent = new InventoryBuilder().build();
         parent = dao.create(parent);
 
         Inventory inventory = new InventoryBuilder().parent(parent).build();
+
+        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
+
+        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>(){});
+        Serialiser<Inventory, String> serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
 
         Inventory inv = parser.parse(serialiser.serialise(inventory));
 
@@ -79,6 +83,11 @@ public class InventoryParserTest {
         metrics.add(metric2);
 
         Inventory inventory = new InventoryBuilder().metrics(metrics).build();
+
+        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
+
+        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>(){});
+        Serialiser<Inventory, String> serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
 
 
         Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));

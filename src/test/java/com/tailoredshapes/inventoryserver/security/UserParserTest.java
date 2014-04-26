@@ -42,6 +42,7 @@ public class UserParserTest {
         scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
         scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
+        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), new InventoryBuilder().build());
         testParseNewUser(GuiceTest.injector);
     }
 

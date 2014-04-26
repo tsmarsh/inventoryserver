@@ -70,9 +70,6 @@ public class HibernateModule implements Module {
         binder.bind(new TypeLiteral<Repository<MetricType, EntityManager>>() {})
                 .to(new TypeLiteral<HibernateRepository<MetricType>>() {});
 
-        binder.bind(new TypeLiteral<Predicate<Inventory>>() {})
-                .to(InventoryCategoryPredicate.class);
-
         binder.bind(new TypeLiteral<FinderFactory<Category, String, EntityManager>>() {})
                 .to(HibernateFindByFullName.class);
 

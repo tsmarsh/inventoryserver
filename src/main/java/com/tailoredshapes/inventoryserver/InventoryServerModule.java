@@ -14,6 +14,7 @@ import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.parsers.UserParser;
+import com.tailoredshapes.inventoryserver.repositories.InventoryCategoryPredicate;
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
@@ -21,6 +22,8 @@ import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
 import com.tailoredshapes.inventoryserver.validators.InventoryValidator;
 import com.tailoredshapes.inventoryserver.validators.UserValidator;
 import com.tailoredshapes.inventoryserver.validators.Validator;
+
+import java.util.function.Predicate;
 
 public class InventoryServerModule implements Module {
     private final String host;
@@ -60,6 +63,9 @@ public class InventoryServerModule implements Module {
 
         binder.bind(new TypeLiteral<UrlBuilder<Inventory>>() {})
                 .to(InventoryUrlBuilder.class);
+
+        binder.bind(new TypeLiteral<Predicate<Inventory>>() {})
+                .to(InventoryCategoryPredicate.class);
 
         binder.bind(String.class)
                 .annotatedWith(Names.named("host"))
