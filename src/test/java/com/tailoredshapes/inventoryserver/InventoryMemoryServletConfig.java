@@ -8,7 +8,7 @@ import com.tailoredshapes.inventoryserver.*;
 public class InventoryMemoryServletConfig extends GuiceServletContextListener {
 
     private static final Injector injector = Guice.createInjector(
-            new InventoryServletModule(),
+            new InventoryServletModule(false, false),
             new InventoryServerModule("localhost", 6666),
             new InMemoryModule(),
             new JSONModule(),

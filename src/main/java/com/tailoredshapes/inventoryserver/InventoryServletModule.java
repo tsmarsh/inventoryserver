@@ -26,11 +26,21 @@ import javax.inject.Singleton;
 import java.util.Collection;
 
 public class InventoryServletModule extends ServletModule {
+    private final boolean usesPersistence;
+    private final boolean usesTransactions;
+
+    public InventoryServletModule(boolean usesPersistence, boolean usesTransactions) {this.usesPersistence = usesPersistence;
+        this.usesTransactions = usesTransactions;
+    }
+
     @Override
     protected void configureServlets() {
-        install(new JpaPersistModule("inventory_server"));
-        filter("/*").through(PersistFilter.class);
-        filter("/*").through(TransactionFilter.class);
+        if(usesPersistence){
+            filter("/*").through(PersistFilter.class);
+        }
+        if(usesTransactions){
+            filter("/*").through(TransactionFilter.class);
+        }
 
         serveRegex("/users/?-?\\d+/inventories(/-?\\d+)?").with(new Key<Pestlet<Inventory>>() {});
         filterRegex("/users/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<User>>() {});
