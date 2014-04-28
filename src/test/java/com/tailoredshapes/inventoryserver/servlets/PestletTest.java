@@ -22,7 +22,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 public class PestletTest {
 
@@ -98,15 +98,15 @@ public class PestletTest {
         return userUrl;
     }
 
-    private void readSavedUser(CloseableHttpClient httpClient, String userUrl) throws IOException {//READ USER
+    private void readSavedUser(CloseableHttpClient httpClient, String userUrl) throws IOException{
         HttpGet userGet = new HttpGet(userUrl);
         HttpResponse response = httpClient.execute(userGet);
         String userResponseString = EntityUtils.toString(response.getEntity());
         userGet.releaseConnection();
 
         JSONObject readUser = new JSONObject(userResponseString);
-        assertEquals("Archer", readUser.getString("name"));
-        assertNotNull(readUser.getString("publicKey"));
+        assertThat(readUser.getString("name")).isEqualTo("Archer");
+        assertThat(readUser.getString("publicKey")).isNotNull();
     }
 
     private void listSavedUser(CloseableHttpClient httpClient, int port) throws IOException {//READ USER
@@ -117,10 +117,10 @@ public class PestletTest {
 
         JSONObject userList = new JSONObject(userListResponse);
         JSONArray users = userList.getJSONArray("users");
-        assertEquals(1, users.length());
+        assertThat(users.length()).isEqualTo(1);
         JSONObject archer = users.getJSONObject(0);
-        assertEquals("Archer", archer.getString("name"));
-        assertNotNull(archer.getString("publicKey"));
+        assertThat(archer.getString("name")).isEqualTo("Archer");
+        assertThat(archer.getString("publicKey")).isNotNull();
     }
 
     private String createInventoryForUser(CloseableHttpClient httpClient, String userUrl) throws URISyntaxException, IOException {
@@ -137,7 +137,7 @@ public class PestletTest {
 
 
         HttpResponse createInventoryResponse = httpClient.execute(httpPost);
-        assertEquals(302, createInventoryResponse.getStatusLine().getStatusCode());
+        assertThat(createInventoryResponse.getStatusLine().getStatusCode()).isEqualTo(302);
         String inventoryLocation = createInventoryResponse.getFirstHeader("Location").getValue();
 
         httpPost.releaseConnection();
@@ -146,20 +146,19 @@ public class PestletTest {
 
     private JSONObject readSavedInventory(CloseableHttpClient httpClient, String inventoryLocation) throws IOException, URISyntaxException {
         URI uri = new URI(inventoryLocation);
-        assertTrue(uri.getPath().matches("/users/?-?\\d+/inventories(/-?\\d+)?"));
         HttpGet httpGet = new HttpGet(uri);
 
         HttpResponse readResponse = httpClient.execute(httpGet);
-        assertEquals(200, readResponse.getStatusLine().getStatusCode());
+        assertThat(readResponse.getStatusLine().getStatusCode()).isEqualTo(200);
 
         String inventoryJsonString = EntityUtils.toString(readResponse.getEntity());
 
         httpGet.releaseConnection();
 
         JSONObject getResponseObject = new JSONObject(inventoryJsonString);
-        assertEquals(inventoryLocation, getResponseObject.getString("id"));
-        assertEquals("com.tailoredshapes.test", getResponseObject.getString("category"));
-        assertEquals(0, getResponseObject.getJSONArray("metrics").length());
+        assertThat(getResponseObject.getString("id")).isEqualTo(inventoryLocation);
+        assertThat(getResponseObject.getString("category")).isEqualTo("com.tailoredshapes.test");
+        assertThat(getResponseObject.getJSONArray("metrics").length()).isEqualTo(0);
         return getResponseObject;
     }
 
@@ -183,10 +182,9 @@ public class PestletTest {
         updatePost.setEntity(new UrlEncodedFormEntity(parameters));
 
         HttpResponse updateResponse = httpClient.execute(updatePost);
-        assertEquals(302, updateResponse.getStatusLine().getStatusCode());
-        assertTrue(updateResponse.containsHeader("Location"));
+        assertThat(updateResponse.getStatusLine().getStatusCode()).isEqualTo(302);
         String updateLocation = updateResponse.getFirstHeader("Location").getValue();
-        assertNotSame(inventoryLocation, updateLocation);
+        assertThat(updateLocation).isNotEqualTo(inventoryLocation);
 
         updatePost.releaseConnection();
         return updateLocation;
@@ -197,16 +195,16 @@ public class PestletTest {
         HttpGet updateGet = new HttpGet(new URI(updateLocation));
         HttpResponse updatedResponse = httpClient.execute(updateGet);
 
-        assertEquals(200, updatedResponse.getStatusLine().getStatusCode());
+        assertThat(updatedResponse.getStatusLine().getStatusCode()).isEqualTo(200);
 
         String updatedInventoryString = EntityUtils.toString(updatedResponse.getEntity());
 
         updateGet.releaseConnection();
 
         JSONObject updatedResponseObject = new JSONObject(updatedInventoryString);
-        assertEquals(updateLocation, updatedResponseObject.getString("id"));
-        assertEquals("com.tailoredshapes.test", updatedResponseObject.getString("category"));
-        assertEquals(1, updatedResponseObject.getJSONArray("metrics").length());
+        assertThat(updatedResponseObject.getString("id")).isEqualTo(updateLocation);
+        assertThat(updatedResponseObject.getString("category")).isEqualTo("com.tailoredshapes.test");
+        assertThat(updatedResponseObject.getJSONArray("metrics").length()).isEqualTo(1);
     }
 }
 
