@@ -33,7 +33,7 @@ public class ChildFreeSaverTest {
     @Test
     public void shouldUpdateAnObject() {
         Map<Long, TestModel> db = new HashMap<>();
-        InMemoryDAO<TestModel, TestAlgorithm> dao = new InMemoryDAO<>(db, encoder, saver);
+        InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, encoder, saver);
         model = new TestModel().setValue("twifty");
         TestModel returnedTestModel = dao.create(model);
 
@@ -52,7 +52,7 @@ public class ChildFreeSaverTest {
     @Test
     public void shouldDeleteAnObject() {
         Map<Long, TestModel> db = new HashMap<>();
-        InMemoryDAO<TestModel, TestAlgorithm> dao = new InMemoryDAO<>(db, encoder, saver);
+        InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, encoder, saver);
         model = new TestModel().setValue("twifty");
         TestModel returnedTestModel = dao.create(model);
 

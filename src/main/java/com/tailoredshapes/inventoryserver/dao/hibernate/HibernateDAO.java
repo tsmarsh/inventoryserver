@@ -14,16 +14,16 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 @SuppressWarnings("unchecked")
-public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>, R extends Algorithm> implements DAO<T> {
+public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>> implements DAO<T> {
     private final Class<? super T> rawType;
     private final EntityManager manager;
     private final Saver<T> saver;
-    private final Encoder<T, R> encoder;
+    private final Encoder<T, ?> encoder;
 
     private final Logger log = LoggerFactory.getLogger(HibernateDAO.class);
 
     @Inject
-    public HibernateDAO(TypeLiteral<T> type, EntityManager manager, Saver<T> saver, Encoder<T, R> encoder) {
+    public HibernateDAO(TypeLiteral<T> type, EntityManager manager, Saver<T> saver, Encoder<T, ?> encoder) {
         this.manager = manager;
         this.saver = saver;
         this.encoder = encoder;

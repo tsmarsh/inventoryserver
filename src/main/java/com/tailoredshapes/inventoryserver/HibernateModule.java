@@ -28,33 +28,33 @@ public class HibernateModule implements Module {
     @Override
     public void configure(Binder binder) {
         binder.bind(new TypeLiteral<DAO<Inventory>>() {})
-                .to(new TypeLiteral<HibernateDAO<Inventory, SHA>>() {});
+                .to(new TypeLiteral<HibernateDAO<Inventory>>() {});
 
-        binder.bind(new TypeLiteral<HibernateDAO<Inventory, SHA>>() {});
+        binder.bind(new TypeLiteral<HibernateDAO<Inventory>>() {});
 
 
         binder.bind(new TypeLiteral<DAO<User>>() {})
-                .to(new TypeLiteral<HibernateDAO<User, RSA>>() {});
+                .to(new TypeLiteral<HibernateDAO<User>>() {});
 
 
-        binder.bind(new TypeLiteral<HibernateDAO<User, RSA>>() {});
+        binder.bind(new TypeLiteral<HibernateDAO<User>>() {});
 
 
         binder.bind(new TypeLiteral<DAO<Category>>() {})
-                .to(new TypeLiteral<HibernateDAO<Category, SHA>>() {});
+                .to(new TypeLiteral<HibernateDAO<Category>>() {});
 
-        binder.bind(new TypeLiteral<HibernateDAO<Category, SHA>>() {});
+        binder.bind(new TypeLiteral<HibernateDAO<Category>>() {});
 
 
         binder.bind(new TypeLiteral<DAO<Metric>>() {})
-                .to(new TypeLiteral<HibernateDAO<Metric, SHA>>() {});
+                .to(new TypeLiteral<HibernateDAO<Metric>>() {});
 
-        binder.bind(new TypeLiteral<HibernateDAO<Metric, SHA>>() {});
+        binder.bind(new TypeLiteral<HibernateDAO<Metric>>() {});
 
         binder.bind(new TypeLiteral<DAO<MetricType>>() {})
-                .to(new TypeLiteral<HibernateDAO<MetricType, SHA>>() {});
+                .to(new TypeLiteral<HibernateDAO<MetricType>>() {});
 
-        binder.bind(new TypeLiteral<HibernateDAO<MetricType, SHA>>() {});
+        binder.bind(new TypeLiteral<HibernateDAO<MetricType>>() {});
 
 
         binder.bind(new TypeLiteral<Repository<Category, EntityManager>>() {})

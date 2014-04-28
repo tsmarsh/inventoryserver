@@ -16,8 +16,6 @@ import com.tailoredshapes.inventoryserver.repositories.finders.categories.InMemo
 import com.tailoredshapes.inventoryserver.repositories.finders.metrictype.InMemoryFindByName;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserInventoryRepository;
-import com.tailoredshapes.inventoryserver.security.RSA;
-import com.tailoredshapes.inventoryserver.security.SHA;
 
 import javax.inject.Singleton;
 import java.util.Map;
@@ -34,21 +32,21 @@ public class InMemoryModule implements Module {
         binder.bind(new TypeLiteral<Map<Long, Category>>() {}).to(new TypeLiteral<ConcurrentHashMap<Long, Category>>() {}).in(Singleton.class);
 
         binder.bind(new TypeLiteral<DAO<Inventory>>() {})
-                .to(new TypeLiteral<InMemoryDAO<Inventory, SHA>>() {});
+                .to(new TypeLiteral<InMemoryDAO<Inventory>>() {});
 
         binder.bind(new TypeLiteral<DAO<User>>() {})
-                .to(new TypeLiteral<InMemoryDAO<User, RSA>>() {});
+                .to(new TypeLiteral<InMemoryDAO<User>>() {});
 
 
         binder.bind(new TypeLiteral<DAO<Category>>() {})
-                .to(new TypeLiteral<InMemoryDAO<Category, SHA>>() {});
+                .to(new TypeLiteral<InMemoryDAO<Category>>() {});
 
 
         binder.bind(new TypeLiteral<DAO<Metric>>() {})
-                .to(new TypeLiteral<InMemoryDAO<Metric, SHA>>() {});
+                .to(new TypeLiteral<InMemoryDAO<Metric>>() {});
 
         binder.bind(new TypeLiteral<DAO<MetricType>>() {})
-                .to(new TypeLiteral<InMemoryDAO<MetricType, SHA>>() {});
+                .to(new TypeLiteral<InMemoryDAO<MetricType>>() {});
 
 
         binder.bind(new TypeLiteral<Repository<Inventory, ?>>() {})

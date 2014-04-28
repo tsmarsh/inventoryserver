@@ -15,19 +15,19 @@ import com.tailoredshapes.inventoryserver.security.SHA;
 public class EncoderModule implements Module {
     @Override
     public void configure(Binder binder) {
-        binder.bind(new TypeLiteral<Encoder<User, RSA>>() {})
+        binder.bind(new TypeLiteral<Encoder<User, ?>>() {})
                 .to(new TypeLiteral<RSAEncoder<User>>() {});
 
-        binder.bind(new TypeLiteral<Encoder<Inventory, SHA>>() {})
+        binder.bind(new TypeLiteral<Encoder<Inventory, ?>>() {})
                 .to(new TypeLiteral<SHAEncoder<Inventory>>() {});
 
-        binder.bind(new TypeLiteral<Encoder<Metric, SHA>>() {})
+        binder.bind(new TypeLiteral<Encoder<Metric, ?>>() {})
                 .to(new TypeLiteral<SHAEncoder<Metric>>() {});
 
-        binder.bind(new TypeLiteral<Encoder<MetricType, SHA>>() {})
+        binder.bind(new TypeLiteral<Encoder<MetricType, ?>>() {})
                 .to(new TypeLiteral<SHAEncoder<MetricType>>() {});
 
-        binder.bind(new TypeLiteral<Encoder<Category, SHA>>() {})
+        binder.bind(new TypeLiteral<Encoder<Category, ?>>() {})
                 .to(new TypeLiteral<SHAEncoder<Category>>() {});
 
         binder.bind(new TypeLiteral<KeyProvider<RSA>>() {})

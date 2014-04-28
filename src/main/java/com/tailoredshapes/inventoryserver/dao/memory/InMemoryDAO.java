@@ -9,14 +9,14 @@ import com.tailoredshapes.inventoryserver.security.Algorithm;
 import javax.inject.Inject;
 import java.util.Map;
 
-public class InMemoryDAO<T extends Idable<T>, R extends Algorithm> implements DAO<T> {
+public class InMemoryDAO<T extends Idable<T>> implements DAO<T> {
 
     private final Map<Long, T> db;
-    private final Encoder<T, R> encoder;
+    private final Encoder<T, ?> encoder;
     private final Saver<T> saver;
 
     @Inject
-    public InMemoryDAO(Map<Long, T> db, Encoder<T, R> encoder, Saver<T> saver) {
+    public InMemoryDAO(Map<Long, T> db, Encoder<T, ?> encoder, Saver<T> saver) {
         this.encoder = encoder;
         this.saver = saver;
         this.db = db;
