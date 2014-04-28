@@ -5,7 +5,7 @@ import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 
 import javax.inject.Inject;
 
-public class LongHashEncoder <T> implements Encoder<T, LongHash>{
+public class LongHashEncoder<T> implements Encoder<T, LongHash> {
 
     Serialiser<T, String> serialiser;
 

@@ -15,7 +15,11 @@ public class InMemoryNestedRepository<T extends Idable<T>, P> extends InMemoryRe
     private Predicate<? super T> filter;
     private Repository<P, ?> parentRepo;
 
-    public InMemoryNestedRepository(Map<Long, T> db, DAO<T> dao, Provider<P> parent, Predicate<? super T> filter, Repository<P, ?> parentRepo) {
+    public InMemoryNestedRepository(Map<Long, T> db,
+                                    DAO<T> dao,
+                                    Provider<P> parent,
+                                    Predicate<? super T> filter,
+                                    Repository<P, ?> parentRepo) {
         super(db, dao);
         this.dao = dao;
         this.parent = parent;

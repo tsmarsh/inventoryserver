@@ -5,7 +5,6 @@ import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.name.Names;
 import com.google.inject.persist.PersistFilter;
-import com.google.inject.persist.jpa.JpaPersistModule;
 import com.google.inject.servlet.ServletModule;
 import com.google.inject.servlet.ServletScopes;
 import com.tailoredshapes.inventoryserver.dao.DAO;
@@ -29,16 +28,17 @@ public class InventoryServletModule extends ServletModule {
     private final boolean usesPersistence;
     private final boolean usesTransactions;
 
-    public InventoryServletModule(boolean usesPersistence, boolean usesTransactions) {this.usesPersistence = usesPersistence;
+    public InventoryServletModule(boolean usesPersistence, boolean usesTransactions) {
+        this.usesPersistence = usesPersistence;
         this.usesTransactions = usesTransactions;
     }
 
     @Override
     protected void configureServlets() {
-        if(usesPersistence){
+        if (usesPersistence) {
             filter("/*").through(PersistFilter.class);
         }
-        if(usesTransactions){
+        if (usesTransactions) {
             filter("/*").through(TransactionFilter.class);
         }
 

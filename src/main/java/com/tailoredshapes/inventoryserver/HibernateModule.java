@@ -13,7 +13,6 @@ import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
-import com.tailoredshapes.inventoryserver.repositories.InventoryCategoryPredicate;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.repositories.finders.categories.HibernateFindByFullName;
 import com.tailoredshapes.inventoryserver.repositories.finders.metrictype.HibernateFindByName;
