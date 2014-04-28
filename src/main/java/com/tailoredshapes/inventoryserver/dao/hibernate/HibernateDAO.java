@@ -20,7 +20,6 @@ public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>> impl
     private final Saver<T> saver;
     private final Encoder<T, ?> encoder;
 
-    private final Logger log = LoggerFactory.getLogger(HibernateDAO.class);
 
     @Inject
     public HibernateDAO(TypeLiteral<T> type, EntityManager manager, Saver<T> saver, Encoder<T, ?> encoder) {
@@ -32,7 +31,6 @@ public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>> impl
 
     @Override
     public T create(T object) {
-        log.info("Creating: " + object);
         object = saver.saveChildren(object);
 
         Long sig = encoder.encode(object);
@@ -41,16 +39,13 @@ public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>> impl
         T read = read(object);
         T out;
         if (read == null) {
-            log.info("Saving new");
             manager.persist(object);
             manager.flush();
             out = object;
         } else {
-            log.info("Found existing");
             out = read;
         }
 
-        log.info("Created: " + out);
         return out;
     }
 
@@ -61,7 +56,6 @@ public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>> impl
 
     @Override
     public T update(T object) {
-        log.info(">> Updating: " + object);
         T clone = object.shallowCopy();
         clone = saver.saveChildren(clone);
 
@@ -71,7 +65,6 @@ public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>> impl
             clone.setId(sig);
             T read = read(clone);
             if (read == null) {
-                log.info("Saving clone: " + clone);
                 manager.persist(clone);
                 try {
                     manager.flush();
@@ -80,14 +73,12 @@ public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>> impl
                 }
                 out = clone;
             } else {
-                log.info("Already exists: " + read);
                 out = read;
             }
         } else {
             out = object;
         }
 
-        log.info("<< Updated: " + out);
         return out;
     }
 
