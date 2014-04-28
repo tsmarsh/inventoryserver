@@ -8,12 +8,12 @@ import org.junit.Test;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class CategoryStringSerialiserTest{
+public class CategoryStringSerialiserTest {
 
     @Test
     public void testSerialise() throws Exception {
         Category category = new CategoryBuilder().id(555l).build();
-        
+
         CategoryStringSerialiser categoryStringSeriliser = new CategoryStringSerialiser();
 
         JSONObject jsonObject = new JSONObject(categoryStringSeriliser.serialise(category));

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class MetricTypeSerialiserTest{
+public class MetricTypeSerialiserTest {
     @Test
     public void testSerialise() throws Exception {
         MetricType mt = new MetricType().setId(141211l).setName("string");

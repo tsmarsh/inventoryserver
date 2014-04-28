@@ -40,7 +40,7 @@ public class HibernateUserRepositoryTest {
 
         DAO<User> dao = hibernateInjector.getInstance(new Key<DAO<User>>() {});
         User storedUser = dao.create(new User());
-        Repository<User, EntityManager> repository = hibernateInjector.getInstance(new Key<Repository<User, EntityManager>>(){});
+        Repository<User, EntityManager> repository = hibernateInjector.getInstance(new Key<Repository<User, EntityManager>>() {});
 
         User byId = repository.findById(storedUser.getId());
         assertEquals(storedUser, byId);

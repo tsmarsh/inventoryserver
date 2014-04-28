@@ -1,12 +1,8 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
 import com.google.inject.Key;
-import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.MetricType;
-import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
@@ -42,8 +38,8 @@ public class HibernateMetricTypeRepositoryTest {
 
         MetricType type = new MetricType().setName("Face");
         DAO<MetricType> metricTypeDAO = hibernateInjector.getInstance(new Key<DAO<MetricType>>() {});
-        Repository<MetricType, EntityManager> repo = hibernateInjector.getInstance(new Key<Repository<MetricType, EntityManager>>(){});
-        FinderFactory<MetricType, String, EntityManager> byFullName= hibernateInjector.getInstance(new Key<FinderFactory<MetricType, String, EntityManager>>(){});
+        Repository<MetricType, EntityManager> repo = hibernateInjector.getInstance(new Key<Repository<MetricType, EntityManager>>() {});
+        FinderFactory<MetricType, String, EntityManager> byFullName = hibernateInjector.getInstance(new Key<FinderFactory<MetricType, String, EntityManager>>() {});
 
         MetricType metricType = metricTypeDAO.create(type);
 
@@ -60,8 +56,8 @@ public class HibernateMetricTypeRepositoryTest {
         EntityTransaction transaction = manager.getTransaction();
         transaction.begin();
 
-        Repository<MetricType, EntityManager> repo = hibernateInjector.getInstance(new Key<Repository<MetricType, EntityManager>>(){});
-        FinderFactory<MetricType, String, EntityManager> byFullName= hibernateInjector.getInstance(new Key<FinderFactory<MetricType, String, EntityManager>>(){});
+        Repository<MetricType, EntityManager> repo = hibernateInjector.getInstance(new Key<Repository<MetricType, EntityManager>>() {});
+        FinderFactory<MetricType, String, EntityManager> byFullName = hibernateInjector.getInstance(new Key<FinderFactory<MetricType, String, EntityManager>>() {});
 
 
         MetricType byId = repo.findBy(byFullName.lookFor("archer"));

@@ -13,7 +13,7 @@ public class LongHashEncoderTest {
     public void testEncode() throws Exception {
         MetricType metricType = new MetricTypeBuilder().build();
 
-        LongHashEncoder<MetricType> instance = GuiceTest.injector.getInstance(new Key<LongHashEncoder<MetricType>>(){});
+        LongHashEncoder<MetricType> instance = GuiceTest.injector.getInstance(new Key<LongHashEncoder<MetricType>>() {});
         Long encode = instance.encode(metricType);
 
         assertNotSame(30582808516010022l, encode); //This is a fragile test

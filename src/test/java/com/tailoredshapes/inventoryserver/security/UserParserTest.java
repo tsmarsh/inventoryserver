@@ -64,7 +64,7 @@ public class UserParserTest {
     public void testParseNewUser(Injector injector) throws Exception {
         JSONObject userJSON = new JSONObject().put("name", "Archer");
 
-        Parser<User> userParser = injector.getInstance(new Key<Parser<User>>(){});
+        Parser<User> userParser = injector.getInstance(new Key<Parser<User>>() {});
 
         User parsedUser = userParser.parse(userJSON.toString());
         assertEquals("Archer", parsedUser.getName());

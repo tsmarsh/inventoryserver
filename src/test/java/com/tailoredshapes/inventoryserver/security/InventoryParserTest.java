@@ -1,7 +1,6 @@
 package com.tailoredshapes.inventoryserver.security;
 
 import com.google.inject.Key;
-import com.google.inject.ScopeAnnotation;
 import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.GuiceTest;
 import com.tailoredshapes.inventoryserver.dao.DAO;
@@ -12,7 +11,6 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricTypeBuilder;
-import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
@@ -46,7 +44,7 @@ public class InventoryParserTest {
         Inventory inventory = new InventoryBuilder().build();
         scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
 
-        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>(){});
+        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>() {});
         Serialiser<Inventory, String> serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
 
         Inventory inv = parser.parse(serialiser.serialise(inventory));
@@ -64,7 +62,7 @@ public class InventoryParserTest {
 
         scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
 
-        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>(){});
+        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>() {});
         Serialiser<Inventory, String> serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
 
         Inventory inv = parser.parse(serialiser.serialise(inventory));
@@ -86,7 +84,7 @@ public class InventoryParserTest {
 
         scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
 
-        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>(){});
+        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>() {});
         Serialiser<Inventory, String> serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
 
 

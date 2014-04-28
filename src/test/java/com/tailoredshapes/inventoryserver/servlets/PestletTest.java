@@ -1,7 +1,5 @@
 package com.tailoredshapes.inventoryserver.servlets;
 
-import com.tailoredshapes.inventoryserver.dao.hibernate.HibernateDAO;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -17,8 +15,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
 import java.net.URI;

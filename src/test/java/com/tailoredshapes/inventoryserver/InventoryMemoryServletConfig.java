@@ -3,7 +3,6 @@ package com.tailoredshapes.inventoryserver;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
-import com.tailoredshapes.inventoryserver.*;
 
 public class InventoryMemoryServletConfig extends GuiceServletContextListener {
 
