@@ -12,7 +12,7 @@ import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.security.RSAKeyProvider;
 import com.tailoredshapes.inventoryserver.security.SHA;
 
-public class RSAModule implements Module {
+public class EncoderModule implements Module {
     @Override
     public void configure(Binder binder) {
         binder.bind(new TypeLiteral<Encoder<User, RSA>>() {})

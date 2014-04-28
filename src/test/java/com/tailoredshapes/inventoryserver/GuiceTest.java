@@ -16,7 +16,7 @@ public class GuiceTest {
             new InventoryServerModule("localhost", 5555),
             new InMemoryModule(),
             new JSONModule(),
-            new RSAModule(),
+            new EncoderModule(),
             new Module() {
 
                 @Override

@@ -21,7 +21,7 @@ public class HibernateTest {
                 new InventoryServerModule("localhost", 5555),
                 new HibernateModule(),
                 new JSONModule(),
-                new RSAModule(),
+                new EncoderModule(),
                 new Module() {
 
                     @Override

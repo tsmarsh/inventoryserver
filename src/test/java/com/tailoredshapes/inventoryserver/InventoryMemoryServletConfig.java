@@ -7,11 +7,11 @@ import com.google.inject.servlet.GuiceServletContextListener;
 public class InventoryMemoryServletConfig extends GuiceServletContextListener {
 
     private static final Injector injector = Guice.createInjector(
-            new InventoryServletModule(false, false),
+            new UserRootServletModule(false, false),
             new InventoryServerModule("localhost", 6666),
             new InMemoryModule(),
             new JSONModule(),
-            new RSAModule());
+            new EncoderModule());
 
     @Override
     protected Injector getInjector() {

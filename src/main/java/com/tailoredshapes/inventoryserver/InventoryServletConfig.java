@@ -9,11 +9,11 @@ public class InventoryServletConfig extends GuiceServletContextListener {
 
     private static final Injector injector = Guice.createInjector(
             new JpaPersistModule("inventory_server"),
-            new InventoryServletModule(true, true),
+            new UserRootServletModule(true, true),
             new InventoryServerModule("localhost", 7777),
             new HibernateModule(),
             new JSONModule(),
-            new RSAModule());
+            new EncoderModule());
 
     @Override
     protected Injector getInjector() {

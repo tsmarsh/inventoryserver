@@ -24,11 +24,11 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Collection;
 
-public class InventoryServletModule extends ServletModule {
+public class UserRootServletModule extends ServletModule {
     private final boolean usesPersistence;
     private final boolean usesTransactions;
 
-    public InventoryServletModule(boolean usesPersistence, boolean usesTransactions) {
+    public UserRootServletModule(boolean usesPersistence, boolean usesTransactions) {
         this.usesPersistence = usesPersistence;
         this.usesTransactions = usesTransactions;
     }
