@@ -47,7 +47,7 @@ public class UrlIdExtractorTest {
 
         IdExtractor<User> urlIdExtractor = GuiceTest.injector.getInstance(new Key<IdExtractor<User>>() {});
         Long extract = urlIdExtractor.extract(exchange);
-        assertThat(new Long(555l)).isEqualTo( extract);
+        assertThat(new Long(555l)).isEqualTo(extract);
     }
 
     @Test

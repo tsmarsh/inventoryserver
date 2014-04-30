@@ -9,7 +9,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.eclipse.jetty.server.Server;
@@ -124,7 +123,7 @@ public class PestletTest {
         assertThat(location).isEqualTo(userUrl);
     }
 
-    private void readSavedUser(CloseableHttpClient httpClient, String userUrl) throws IOException{
+    private void readSavedUser(CloseableHttpClient httpClient, String userUrl) throws IOException {
         HttpGet userGet = new HttpGet(userUrl);
         HttpResponse response = httpClient.execute(userGet);
         String userResponseString = EntityUtils.toString(response.getEntity());
