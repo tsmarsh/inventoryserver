@@ -19,7 +19,7 @@ public class UrlIdExtractor<Z> implements IdExtractor<User> {
     private final FinderFactory<User, String, Z> finderFactory;
 
     @Inject
-    public UrlIdExtractor(Repository<User, Z> repo, FinderFactory<User, String, Z> finderFactory){
+    public UrlIdExtractor(Repository<User, Z> repo, FinderFactory<User, String, Z> finderFactory) {
         this.repo = repo;
         this.finderFactory = finderFactory;
     }
@@ -36,9 +36,9 @@ public class UrlIdExtractor<Z> implements IdExtractor<User> {
         Matcher matcher = userIdPattern.matcher(path);
         Long id = null;
         if (matcher.matches()) {
-            if(matcher.group(2) != null){
+            if (matcher.group(2) != null) {
                 id = Long.parseLong(matcher.group(2));
-            } else{
+            } else {
                 User by = repo.findBy(finderFactory.lookFor(matcher.group(1)));
                 id = by != null ? by.getId() : null;
             }

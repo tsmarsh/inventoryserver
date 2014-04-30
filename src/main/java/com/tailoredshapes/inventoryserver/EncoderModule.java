@@ -10,7 +10,6 @@ import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.security.KeyProvider;
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.security.RSAKeyProvider;
-import com.tailoredshapes.inventoryserver.security.SHA;
 
 public class EncoderModule implements Module {
     @Override

@@ -9,7 +9,6 @@ import com.tailoredshapes.inventoryserver.dao.CategorySaver;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.dao.hibernate.HibernateDAO;
-import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.extractors.UrlIdExtractor;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
@@ -20,8 +19,6 @@ import com.tailoredshapes.inventoryserver.repositories.finders.categories.Hibern
 import com.tailoredshapes.inventoryserver.repositories.finders.metrictype.HibernateFindByName;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateRepository;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateUserInventoryRepository;
-import com.tailoredshapes.inventoryserver.security.RSA;
-import com.tailoredshapes.inventoryserver.security.SHA;
 
 import javax.persistence.EntityManager;
 import java.util.function.Predicate;

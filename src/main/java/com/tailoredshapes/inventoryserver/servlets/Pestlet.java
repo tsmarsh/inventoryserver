@@ -52,7 +52,7 @@ public class Pestlet<T extends Idable<T>> extends HttpServlet {
         T t = provider.get();
         if (validator.validate(t)) {
             String tUrl = urlBuilder.get().build(t);
-            if(!new URL(tUrl).getPath().equals(req.getRequestURI())){
+            if (!new URL(tUrl).getPath().equals(req.getRequestURI())) {
                 resp.sendRedirect(tUrl);
             }
 

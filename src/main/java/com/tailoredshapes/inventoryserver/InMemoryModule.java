@@ -19,7 +19,6 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserInventoryRepository;
 
 import javax.inject.Singleton;
-import javax.persistence.EntityManager;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
