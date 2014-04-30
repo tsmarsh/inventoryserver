@@ -14,6 +14,7 @@ import com.tailoredshapes.inventoryserver.filters.TransactionFilter;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
+import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.responders.Responder;
 import com.tailoredshapes.inventoryserver.servlets.Pestlet;
@@ -43,11 +44,13 @@ public class UserRootServletModule extends ServletModule {
         }
 
         serveRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").with(new Key<Pestlet<Inventory>>() {});
-        filterRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<User>>() {});
-        filterRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<Inventory>>() {});
+        filterRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<Long, User, ?>>() {});
+        filterRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<Long, Inventory, ?>>() {});
 
         serveRegex("/users/?(\\w+)?/?(-?\\d+)?$").with(new Key<Pestlet<User>>() {});
-        filterRegex("/users/?(\\w+)?/?(-?\\d+)?$").through(new Key<TFilter<User>>() {});
+        filterRegex("/users/\\w+/-?\\d+$").through(new Key<TFilter<Long, User, ?>>() {});
+        filterRegex("/users/\\w+$").through(new Key<TFilter<String, User, ?>>() {});
+        filterRegex("/users$").through(new Key<TFilter<Long, User, ?>>() {});
 
         bind(Key.get(User.class, Names.named("current_user"))).to(User.class).in(ServletScopes.REQUEST);
         bind(Key.get(Inventory.class, Names.named("current_inventory"))).to(Inventory.class).in(ServletScopes.REQUEST);
@@ -74,21 +77,5 @@ public class UserRootServletModule extends ServletModule {
                                             Provider<Responder<Collection<User>>> collectionResponder,
                                             Provider<Repository<User, ?>> repository, Validator<User> validator) {
         return new Pestlet<>(provider, responder, collectionResponder, dao, urlBuilder, repository, validator);
-    }
-
-    @Provides
-    @Singleton
-    public TFilter<User> providesUserFilter(Provider<Parser<User>> parser,
-                                            Provider<IdExtractor<User>> idExtractor,
-                                            Provider<Repository<User, ?>> repository) {
-        return new TFilter<>(parser, idExtractor, repository, User.class, "user");
-    }
-
-    @Provides
-    @Singleton
-    public TFilter<Inventory> providesInventoryFilter(Provider<Parser<Inventory>> parser,
-                                                      Provider<IdExtractor<Inventory>> idExtractor,
-                                                      Provider<Repository<Inventory, ?>> repository) {
-        return new TFilter<>(parser, idExtractor, repository, Inventory.class, "inventory");
     }
 }

@@ -7,7 +7,8 @@ import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.dao.*;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.extractors.InventoryIdExtractor;
-import com.tailoredshapes.inventoryserver.extractors.UrlIdExtractor;
+import com.tailoredshapes.inventoryserver.extractors.UserIdExtractor;
+import com.tailoredshapes.inventoryserver.extractors.UserNameExtractor;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.MetricType;
@@ -40,10 +41,13 @@ public class InventoryServerModule implements Module {
         binder.bind(new TypeLiteral<Parser<User>>() {})
                 .to(UserParser.class);
 
-        binder.bind(new TypeLiteral<IdExtractor<User>>() {})
-                .to(new TypeLiteral<UrlIdExtractor<?>>() {});
+        binder.bind(new TypeLiteral<IdExtractor<Long, User>>() {})
+                .to(UserIdExtractor.class);
 
-        binder.bind(new TypeLiteral<IdExtractor<Inventory>>() {})
+        binder.bind(new TypeLiteral<IdExtractor<String, User>>() {})
+                .to(UserNameExtractor.class);
+
+        binder.bind(new TypeLiteral<IdExtractor<Long, Inventory>>() {})
                 .to(InventoryIdExtractor.class);
 
         binder.bind(new TypeLiteral<Saver<User>>() {})

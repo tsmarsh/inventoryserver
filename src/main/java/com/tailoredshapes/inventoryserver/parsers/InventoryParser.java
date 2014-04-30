@@ -21,7 +21,7 @@ public class InventoryParser<A, B> implements Parser<Inventory> {
     private final Repository<Category, A> categoryRepository;
     private final Repository<Inventory, ?> inventoryRepository;
     private final Repository<MetricType, B> metricTypeRepository;
-    private final IdExtractor<Inventory> inventoryIdExtractor;
+    private final IdExtractor<Long, Inventory> inventoryIdExtractor;
     private final FinderFactory<Category, String, A> finderFactory;
     private final FinderFactory<MetricType, String, B> nameFinderFactory;
 
@@ -29,7 +29,7 @@ public class InventoryParser<A, B> implements Parser<Inventory> {
     public InventoryParser(Repository<Category, A> categoryRepository,
                            Repository<Inventory, ?> inventoryRepository,
                            Repository<MetricType, B> metricTypeRepository,
-                           IdExtractor<Inventory> inventoryIdExtractor,
+                           IdExtractor<Long, Inventory> inventoryIdExtractor,
                            FinderFactory<Category, String, A> finderFactory,
                            FinderFactory<MetricType, String, B> nameFinderFactory) {
 

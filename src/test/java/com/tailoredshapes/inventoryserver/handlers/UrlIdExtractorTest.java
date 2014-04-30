@@ -45,7 +45,7 @@ public class UrlIdExtractorTest {
         URI uri = new URI(path);
         when(exchange.getRequestURI()).thenReturn(uri);
 
-        IdExtractor<User> urlIdExtractor = GuiceTest.injector.getInstance(new Key<IdExtractor<User>>() {});
+        IdExtractor<Long, User> urlIdExtractor = GuiceTest.injector.getInstance(new Key<IdExtractor<Long, User>>() {});
         Long extract = urlIdExtractor.extract(exchange);
         assertThat(new Long(555l)).isEqualTo(extract);
     }
@@ -57,7 +57,7 @@ public class UrlIdExtractorTest {
         URI uri = new URI(path);
         when(exchange.getRequestURI()).thenReturn(uri);
 
-        IdExtractor<User> urlIdExtractor = GuiceTest.injector.getInstance(new Key<IdExtractor<User>>() {});
+        IdExtractor<Long, User> urlIdExtractor = GuiceTest.injector.getInstance(new Key<IdExtractor<Long, User>>() {});
         Long extract = urlIdExtractor.extract(exchange);
         assertThat(new Long(-555l)).isEqualTo(extract);
     }
@@ -72,9 +72,9 @@ public class UrlIdExtractorTest {
         URI uri = new URI(path);
         when(exchange.getRequestURI()).thenReturn(uri);
 
-        IdExtractor<User> urlIdExtractor = GuiceTest.injector.getInstance(new Key<IdExtractor<User>>() {});
-        Long extract = urlIdExtractor.extract(exchange);
-        assertThat(new Long(archer.getId())).isEqualTo(extract);
+        IdExtractor<String, User> urlIdExtractor = GuiceTest.injector.getInstance(new Key<IdExtractor<String, User>>() {});
+        String extract = urlIdExtractor.extract(exchange);
+        assertThat(archer.getName()).isEqualTo(extract);
     }
 }
 

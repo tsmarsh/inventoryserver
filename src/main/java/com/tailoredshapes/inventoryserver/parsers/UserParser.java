@@ -19,11 +19,11 @@ public class UserParser implements Parser<User> {
 
     private final Repository<User, ?> repo;
     private final Parser<Inventory> inventoryParser;
-    private final IdExtractor<User> idExtractor;
+    private final IdExtractor<Long, User> idExtractor;
 
 
     @Inject
-    public UserParser(Repository<User, ?> repo, Parser<Inventory> inventoryParser, IdExtractor<User> idExtractor) {
+    public UserParser(Repository<User, ?> repo, Parser<Inventory> inventoryParser, IdExtractor<Long, User> idExtractor) {
         this.repo = repo;
         this.inventoryParser = inventoryParser;
         this.idExtractor = idExtractor;

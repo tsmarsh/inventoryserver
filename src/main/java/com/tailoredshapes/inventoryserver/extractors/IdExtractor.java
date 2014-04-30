@@ -2,9 +2,9 @@ package com.tailoredshapes.inventoryserver.extractors;
 
 import com.sun.net.httpserver.HttpExchange;
 
-public interface IdExtractor<T> {
-    Long extract(HttpExchange exchange);
+public interface IdExtractor<S, T> {
+    S extract(HttpExchange exchange);
 
-    Long extract(String path);
+    S extract(String path);
 }
 

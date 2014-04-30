@@ -6,12 +6,12 @@ import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 
 import java.util.Map;
 
-public class InMemoryFindByName implements FinderFactory<MetricType, String, Map<Long, MetricType>>, Finder<MetricType, Map<Long, MetricType>> {
+public class InMemoryFindMetricByName implements FinderFactory<MetricType, String, Map<Long, MetricType>>, Finder<MetricType, Map<Long, MetricType>> {
     private String name;
 
     @Override
-    public Finder<MetricType, Map<Long, MetricType>> lookFor(String... strings) {
-        this.name = strings[0];
+    public Finder<MetricType, Map<Long, MetricType>> lookFor(String strings) {
+        this.name = strings;
         return this;
     }
 

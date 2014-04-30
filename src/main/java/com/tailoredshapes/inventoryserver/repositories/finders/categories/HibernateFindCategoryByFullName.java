@@ -10,7 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-public class HibernateFindByFullName implements FinderFactory<Category, String, EntityManager>, Finder<Category, EntityManager> {
+public class HibernateFindCategoryByFullName implements FinderFactory<Category, String, EntityManager>, Finder<Category, EntityManager> {
 
     String categoryFullName;
 
@@ -34,8 +34,8 @@ public class HibernateFindByFullName implements FinderFactory<Category, String, 
     }
 
     @Override
-    public Finder<Category, EntityManager> lookFor(String... categories) {
-        this.categoryFullName = categories[0];
+    public Finder<Category, EntityManager> lookFor(String categories) {
+        this.categoryFullName = categories;
         return this;
     }
 }

@@ -6,7 +6,7 @@ import com.tailoredshapes.inventoryserver.model.Inventory;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class InventoryIdExtractor implements IdExtractor<Inventory> {
+public class InventoryIdExtractor implements IdExtractor<Long, Inventory> {
 
     private final Pattern userIdPattern = Pattern.compile("^/users/\\w+/-?\\d+/inventories/(-?\\d+)");
 

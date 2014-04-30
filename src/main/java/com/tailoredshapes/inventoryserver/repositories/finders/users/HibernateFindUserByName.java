@@ -9,7 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-public class HibernateFindByName implements FinderFactory<User, String, EntityManager>, Finder<User, EntityManager> {
+public class HibernateFindUserByName implements FinderFactory<User, String, EntityManager>, Finder<User, EntityManager> {
     private String name;
 
     @Override
@@ -29,8 +29,8 @@ public class HibernateFindByName implements FinderFactory<User, String, EntityMa
     }
 
     @Override
-    public Finder<User, EntityManager> lookFor(String... strings) {
-        this.name = strings[0];
+    public Finder<User, EntityManager> lookFor(String strings) {
+        this.name = strings;
         return this;
     }
 }

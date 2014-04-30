@@ -6,7 +6,7 @@ import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 
 import java.util.Map;
 
-public class InMemoryFindByFullName implements FinderFactory<Category, String, Map<Long, Category>>, Finder<Category, Map<Long, Category>> {
+public class InMemoryFindCategoryByFullName implements FinderFactory<Category, String, Map<Long, Category>>, Finder<Category, Map<Long, Category>> {
 
     String categoryFullName;
 
@@ -23,8 +23,8 @@ public class InMemoryFindByFullName implements FinderFactory<Category, String, M
 
 
     @Override
-    public Finder<Category, Map<Long, Category>> lookFor(String... categories) {
-        this.categoryFullName = categories[0];
+    public Finder<Category, Map<Long, Category>> lookFor(String categories) {
+        this.categoryFullName = categories;
         return this;
     }
 }
