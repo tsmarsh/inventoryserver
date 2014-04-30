@@ -12,8 +12,8 @@ public class UserUrlBuilderTest {
     @Test
     public void testBuild() throws Exception {
         UserUrlBuilder builder = new UserUrlBuilder("http", "tailoredshapes.com", 80);
-        User user = new UserBuilder().id(39291l).build();
-        assertEquals("http://tailoredshapes.com:80/users/39291", builder.build(user));
+        User user = new UserBuilder().name("Cassie").id(39291l).build();
+        assertEquals("http://tailoredshapes.com:80/users/Cassie/39291", builder.build(user));
     }
 
     @Test

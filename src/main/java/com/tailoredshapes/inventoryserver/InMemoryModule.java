@@ -7,6 +7,7 @@ import com.tailoredshapes.inventoryserver.dao.CategorySaver;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
+import com.tailoredshapes.inventoryserver.extractors.UrlIdExtractor;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
@@ -18,6 +19,7 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserInventoryRepository;
 
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -85,11 +87,16 @@ public class InMemoryModule implements Module {
         binder.bind(new TypeLiteral<FinderFactory<MetricType, String, Map<Long, MetricType>>>() {})
                 .to(InMemoryFindByName.class);
 
+        binder.bind(new TypeLiteral<FinderFactory<User, String, Map<Long, User>>>() {})
+                .to(com.tailoredshapes.inventoryserver.repositories.finders.users.InMemoryFindByName.class);
+
         binder.bind(new TypeLiteral<Parser<Inventory>>() {})
                 .to(new TypeLiteral<InventoryParser<Map<Long, Category>, Map<Long, MetricType>>>() {});
 
         binder.bind(new TypeLiteral<Saver<Category>>() {})
                 .to(new TypeLiteral<CategorySaver<Map<Long, Category>>>() {});
 
+        binder.bind(new TypeLiteral<UrlIdExtractor<?>>() {})
+                .to(new TypeLiteral<UrlIdExtractor<Map<Long, User>>>() {});
     }
 }

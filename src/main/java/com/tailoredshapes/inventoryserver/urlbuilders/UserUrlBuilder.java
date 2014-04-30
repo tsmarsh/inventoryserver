@@ -28,7 +28,7 @@ public class UserUrlBuilder implements UrlBuilder<User> {
         try {
 
             return user.getId() != null ?
-                    new URL(protocol, host, port, String.format("/users/" + user.getId())).toString()
+                    new URL(protocol, host, port, String.format("/users/%s/%d", user.getName(), user.getId())).toString()
                     : null;
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);

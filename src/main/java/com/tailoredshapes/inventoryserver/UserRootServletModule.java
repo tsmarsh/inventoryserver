@@ -42,12 +42,12 @@ public class UserRootServletModule extends ServletModule {
             filter("/*").through(TransactionFilter.class);
         }
 
-        serveRegex("/users/?-?\\d+/inventories(/-?\\d+)?").with(new Key<Pestlet<Inventory>>() {});
-        filterRegex("/users/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<User>>() {});
-        filterRegex("/users/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<Inventory>>() {});
+        serveRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").with(new Key<Pestlet<Inventory>>() {});
+        filterRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<User>>() {});
+        filterRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<Inventory>>() {});
 
-        serveRegex("/users(/-?\\d+)?$").with(new Key<Pestlet<User>>() {});
-        filterRegex("/users(/-?\\d+)?$").through(new Key<TFilter<User>>() {});
+        serveRegex("/users/?(\\w+)?/?(-?\\d+)?$").with(new Key<Pestlet<User>>() {});
+        filterRegex("/users/?(\\w+)?/?(-?\\d+)?$").through(new Key<TFilter<User>>() {});
 
         bind(Key.get(User.class, Names.named("current_user"))).to(User.class).in(ServletScopes.REQUEST);
         bind(Key.get(Inventory.class, Names.named("current_inventory"))).to(Inventory.class).in(ServletScopes.REQUEST);
@@ -55,25 +55,40 @@ public class UserRootServletModule extends ServletModule {
 
     @Provides
     @Singleton
-    public Pestlet<Inventory> providePestletInventory(@Named("current_inventory") Provider<Inventory> provider, Provider<Responder<Inventory>> responder, Provider<Responder<Collection<Inventory>>> collectionResponder, Provider<DAO<Inventory>> dao, Provider<UrlBuilder<Inventory>> urlBuilder, Provider<Repository<Inventory, ?>> repository, Validator<Inventory> validator) {
+    public Pestlet<Inventory> providePestletInventory(@Named("current_inventory") Provider<Inventory> provider,
+                                                      Provider<Responder<Inventory>> responder,
+                                                      Provider<Responder<Collection<Inventory>>> collectionResponder,
+                                                      Provider<DAO<Inventory>> dao,
+                                                      Provider<UrlBuilder<Inventory>> urlBuilder,
+                                                      Provider<Repository<Inventory, ?>> repository,
+                                                      Validator<Inventory> validator) {
         return new Pestlet<>(provider, responder, collectionResponder, dao, urlBuilder, repository, validator);
     }
 
     @Provides
     @Singleton
-    public Pestlet<User> providePestletUser(@Named("current_user") Provider<User> provider, Provider<Responder<User>> responder, Provider<DAO<User>> dao, Provider<UrlBuilder<User>> urlBuilder, Provider<Responder<Collection<User>>> collectionResponder, Provider<Repository<User, ?>> repository, Validator<User> validator) {
+    public Pestlet<User> providePestletUser(@Named("current_user") Provider<User> provider,
+                                            Provider<Responder<User>> responder,
+                                            Provider<DAO<User>> dao,
+                                            Provider<UrlBuilder<User>> urlBuilder,
+                                            Provider<Responder<Collection<User>>> collectionResponder,
+                                            Provider<Repository<User, ?>> repository, Validator<User> validator) {
         return new Pestlet<>(provider, responder, collectionResponder, dao, urlBuilder, repository, validator);
     }
 
     @Provides
     @Singleton
-    public TFilter<User> providesUserFilter(Provider<Parser<User>> parser, IdExtractor<User> idExtractor, Provider<Repository<User, ?>> repository) {
+    public TFilter<User> providesUserFilter(Provider<Parser<User>> parser,
+                                            Provider<IdExtractor<User>> idExtractor,
+                                            Provider<Repository<User, ?>> repository) {
         return new TFilter<>(parser, idExtractor, repository, User.class, "user");
     }
 
     @Provides
     @Singleton
-    public TFilter<Inventory> providesInventoryFilter(Provider<Parser<Inventory>> parser, IdExtractor<Inventory> idExtractor, Provider<Repository<Inventory, ?>> repository) {
+    public TFilter<Inventory> providesInventoryFilter(Provider<Parser<Inventory>> parser,
+                                                      Provider<IdExtractor<Inventory>> idExtractor,
+                                                      Provider<Repository<Inventory, ?>> repository) {
         return new TFilter<>(parser, idExtractor, repository, Inventory.class, "inventory");
     }
 }

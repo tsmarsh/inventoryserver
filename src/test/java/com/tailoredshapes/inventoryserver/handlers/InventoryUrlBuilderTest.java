@@ -25,7 +25,7 @@ public class InventoryUrlBuilderTest {
     public void init() {
         scope = GuiceTest.injector.getInstance(SimpleScope.class);
         scope.enter();
-        final User user = new UserBuilder().id(51284l).build();
+        final User user = new UserBuilder().name("Cassie").id(51284l).build();
         scope.seed(Key.get(User.class, Names.named("current_user")), user);
     }
 
@@ -41,7 +41,7 @@ public class InventoryUrlBuilderTest {
 
         UrlBuilder<Inventory> inventoryUrlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<Inventory>>() {});
         String url = inventoryUrlBuilder.build(inventory);
-        assertEquals("http://localhost:5555/users/51284/inventories/141211", url);
+        assertEquals("http://localhost:5555/users/Cassie/51284/inventories/141211", url);
     }
 
     @Test

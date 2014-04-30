@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collection;
 
 @Singleton
@@ -50,6 +51,11 @@ public class Pestlet<T extends Idable<T>> extends HttpServlet {
 
         T t = provider.get();
         if (validator.validate(t)) {
+            String tUrl = urlBuilder.get().build(t);
+            if(!new URL(tUrl).getPath().equals(req.getRequestURI())){
+                resp.sendRedirect(tUrl);
+            }
+
             responder.get().respond(t, resp.getWriter());
         } else {
             collectionResponder.get().respond(repository.get().list(), resp.getWriter());

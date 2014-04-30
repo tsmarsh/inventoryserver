@@ -9,6 +9,8 @@ import com.tailoredshapes.inventoryserver.dao.CategorySaver;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.dao.hibernate.HibernateDAO;
+import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
+import com.tailoredshapes.inventoryserver.extractors.UrlIdExtractor;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
@@ -75,6 +77,9 @@ public class HibernateModule implements Module {
         binder.bind(new TypeLiteral<FinderFactory<MetricType, String, EntityManager>>() {})
                 .to(HibernateFindByName.class);
 
+        binder.bind(new TypeLiteral<FinderFactory<User, String, EntityManager>>() {})
+                .to(com.tailoredshapes.inventoryserver.repositories.finders.users.HibernateFindByName.class);
+
         binder.bind(new TypeLiteral<Parser<Inventory>>() {})
                 .to(new TypeLiteral<InventoryParser<EntityManager, EntityManager>>() {});
 
@@ -96,6 +101,9 @@ public class HibernateModule implements Module {
 
         binder.bind(new TypeLiteral<Repository<MetricType, ?>>() {})
                 .to(new TypeLiteral<Repository<MetricType, EntityManager>>() {});
+
+        binder.bind(new TypeLiteral<UrlIdExtractor<?>>() {})
+                .to(new TypeLiteral<UrlIdExtractor<EntityManager>>() {});
     }
 
     @Provides

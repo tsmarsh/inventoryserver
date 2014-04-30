@@ -41,7 +41,7 @@ public class InventoryServerModule implements Module {
                 .to(UserParser.class);
 
         binder.bind(new TypeLiteral<IdExtractor<User>>() {})
-                .to(UrlIdExtractor.class);
+                .to(new TypeLiteral<UrlIdExtractor<?>>() {});
 
         binder.bind(new TypeLiteral<IdExtractor<Inventory>>() {})
                 .to(InventoryIdExtractor.class);

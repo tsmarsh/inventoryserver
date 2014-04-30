@@ -17,13 +17,13 @@ import java.io.IOException;
 public class TFilter<T> implements Filter {
 
     private final Provider<Parser<T>> parser;
-    private final IdExtractor<T> extractor;
+    private final Provider<IdExtractor<T>> extractor;
     private final Provider<Repository<T, ?>> repository;
     private final Class type;
     private final String parameterName;
 
     @Inject
-    public TFilter(Provider<Parser<T>> parser, IdExtractor<T> extractor, Provider<Repository<T, ?>> repository, Class type, String parameterName) {
+    public TFilter(Provider<Parser<T>> parser, Provider<IdExtractor<T>> extractor, Provider<Repository<T, ?>> repository, Class type, String parameterName) {
         this.parser = parser;
         this.extractor = extractor;
         this.repository = repository;
@@ -40,7 +40,7 @@ public class TFilter<T> implements Filter {
             String tJson = httpRequest.getParameter(parameterName);
             t = parser.get().parse(tJson);
         } else {
-            Long extract = extractor.extract(((HttpServletRequest) request).getRequestURI());
+            Long extract = extractor.get().extract(((HttpServletRequest) request).getRequestURI());
             if (extract != null) {
                 t = repository.get().findById(extract);
                 if (t == null) {

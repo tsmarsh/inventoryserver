@@ -1,14 +1,16 @@
 package com.tailoredshapes.inventoryserver.servlets;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
+import org.apache.http.*;
+import org.apache.http.client.RedirectStrategy;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -65,9 +67,21 @@ public class PestletTest {
     }
 
     public void testCanCreateAnInventory(Integer port) throws Exception {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpClient httpClient = HttpClients.custom().setRedirectStrategy(new RedirectStrategy() {
+            @Override
+            public boolean isRedirected(HttpRequest request, HttpResponse response, HttpContext context) throws ProtocolException {
+                return false;
+            }
+
+            @Override
+            public HttpUriRequest getRedirect(HttpRequest request, HttpResponse response, HttpContext context) throws ProtocolException {
+                return null;
+            }
+        }).build();
 
         String userUrl = createUser(port, httpClient);
+
+        readSavedUserHead(httpClient, port, userUrl);
 
         readSavedUser(httpClient, userUrl);
 
@@ -96,6 +110,18 @@ public class PestletTest {
         String userUrl = location.getValue();
 
         return userUrl;
+    }
+
+    private void readSavedUserHead(CloseableHttpClient httpClient, int port, String userUrl) throws URISyntaxException, IOException {
+        HttpGet userHeadGet = new HttpGet(new URI(String.format("http://localhost:%d/users/Archer", port)));
+        HttpResponse response = httpClient.execute(userHeadGet);
+        assertThat(response.getStatusLine().getStatusCode()).isEqualTo(302);
+
+        String location = response.getFirstHeader("Location").getValue();
+
+        userHeadGet.releaseConnection();
+
+        assertThat(location).isEqualTo(userUrl);
     }
 
     private void readSavedUser(CloseableHttpClient httpClient, String userUrl) throws IOException{
