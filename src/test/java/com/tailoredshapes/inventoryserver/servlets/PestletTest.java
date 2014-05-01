@@ -28,7 +28,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class PestletTest {
 
     @Test
-    public void testCanHandleInventoryRequestsInHibernate() throws Exception {
+    public void testCanHandleUserRootRequestsInHibernate() throws Exception {
         int port = 7777;
 
         final Server server = new Server(port);
@@ -40,14 +40,14 @@ public class PestletTest {
         server.start();
 
         try {
-            testCanCreateAnInventory(port);
+            testCanCreateAUser(port);
         } finally {
             server.stop();
         }
     }
 
     @Test
-    public void testCanHandleInventoryRequestsInMemory() throws Exception {
+    public void testCanHandleUserRootRequestsInMemory() throws Exception {
         int port = 6666;
 
         final Server server = new Server(port);
@@ -59,13 +59,13 @@ public class PestletTest {
         server.start();
 
         try {
-            testCanCreateAnInventory(port);
+            testCanCreateAUser(port);
         } finally {
             server.stop();
         }
     }
 
-    public void testCanCreateAnInventory(Integer port) throws Exception {
+    public void testCanCreateAUser(Integer port) throws Exception {
         CloseableHttpClient httpClient = HttpClients.custom().setRedirectStrategy(new RedirectStrategy() {
             @Override
             public boolean isRedirected(HttpRequest request, HttpResponse response, HttpContext context) throws ProtocolException {
