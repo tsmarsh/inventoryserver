@@ -28,25 +28,6 @@ public class InMemoryModule implements Module {
     @Override
     public void configure(Binder binder) {
 
-        binder.bind(new TypeLiteral<Map<Long, User>>() {})
-                .to(new TypeLiteral<ConcurrentHashMap<Long, User>>() {})
-                .in(Singleton.class);
-
-        binder.bind(new TypeLiteral<Map<Long, Inventory>>() {})
-                .to(new TypeLiteral<ConcurrentHashMap<Long, Inventory>>() {})
-                .in(Singleton.class);
-        binder.bind(new TypeLiteral<Map<Long, Metric>>() {})
-                .to(new TypeLiteral<ConcurrentHashMap<Long, Metric>>() {})
-                .in(Singleton.class);
-
-        binder.bind(new TypeLiteral<Map<Long, MetricType>>() {})
-                .to(new TypeLiteral<ConcurrentHashMap<Long, MetricType>>() {})
-                .in(Singleton.class);
-
-        binder.bind(new TypeLiteral<Map<Long, Category>>() {})
-                .to(new TypeLiteral<ConcurrentHashMap<Long, Category>>() {})
-                .in(Singleton.class);
-
         binder.bind(new TypeLiteral<DAO<Inventory>>() {})
                 .to(new TypeLiteral<InMemoryDAO<Inventory>>() {});
 
@@ -79,21 +60,6 @@ public class InMemoryModule implements Module {
 
         binder.bind(new TypeLiteral<Repository<MetricType, ?>>() {})
                 .to(new TypeLiteral<Repository<MetricType, Map<Long, MetricType>>>() {});
-
-        binder.bind(new TypeLiteral<Repository<Inventory, Map<Long, Inventory>>>() {})
-                .to(new TypeLiteral<InMemoryUserInventoryRepository>() {});
-
-        binder.bind(new TypeLiteral<Repository<Category, Map<Long, Category>>>() {})
-                .to(new TypeLiteral<InMemoryRepository<Category>>() {});
-
-        binder.bind(new TypeLiteral<Repository<User, Map<Long, User>>>() {})
-                .to(new TypeLiteral<InMemoryRepository<User>>() {});
-
-        binder.bind(new TypeLiteral<Repository<Metric, Map<Long, Metric>>>() {})
-                .to(new TypeLiteral<InMemoryRepository<Metric>>() {});
-
-        binder.bind(new TypeLiteral<Repository<MetricType, Map<Long, MetricType>>>() {})
-                .to(new TypeLiteral<InMemoryRepository<MetricType>>() {});
 
         binder.bind(new TypeLiteral<FinderFactory<Category, String, Map<Long, Category>>>() {})
                 .to(InMemoryFindCategoryByFullName.class);

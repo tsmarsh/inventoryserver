@@ -20,6 +20,7 @@ public class HibernateTest {
                 new JpaPersistModule("inventory_server"),
                 new InventoryServerModule("localhost", 5555),
                 new HibernateModule(),
+                new UserRootHibernateRepositoryModule(),
                 new JSONModule(),
                 new EncoderModule(),
                 new Module() {

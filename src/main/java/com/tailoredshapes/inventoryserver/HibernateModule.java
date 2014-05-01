@@ -57,19 +57,6 @@ public class HibernateModule implements Module {
 
         binder.bind(new TypeLiteral<HibernateDAO<MetricType>>() {});
 
-
-        binder.bind(new TypeLiteral<Repository<Category, EntityManager>>() {})
-                .to(new TypeLiteral<HibernateRepository<Category>>() {});
-
-        binder.bind(new TypeLiteral<Repository<User, EntityManager>>() {})
-                .to(new TypeLiteral<HibernateRepository<User>>() {});
-
-        binder.bind(new TypeLiteral<Repository<Metric, EntityManager>>() {})
-                .to(new TypeLiteral<HibernateRepository<Metric>>() {});
-
-        binder.bind(new TypeLiteral<Repository<MetricType, EntityManager>>() {})
-                .to(new TypeLiteral<HibernateRepository<MetricType>>() {});
-
         binder.bind(new TypeLiteral<FinderFactory<Category, String, EntityManager>>() {})
                 .to(HibernateFindCategoryByFullName.class);
 
@@ -115,15 +102,6 @@ public class HibernateModule implements Module {
 
         binder.bind(new TypeLiteral<TFilter<Long, Inventory, ?>>() {})
                 .to(new TypeLiteral<TFilter<Long, Inventory, EntityManager>>() {});
-    }
-
-    @Provides
-    public Repository<Inventory, EntityManager> inventoryRepositoryProvider(EntityManager manager,
-                                                                            TypeLiteral<Inventory> type,
-                                                                            @Named("current_user") com.google.inject.Provider<User> parent,
-                                                                            DAO<Inventory> dao, Repository<User, ?> parentRepo,
-                                                                            Predicate<Inventory> filter) {
-        return new HibernateUserInventoryRepository(manager, type, parent, dao, parentRepo, filter);
     }
 
     @Provides

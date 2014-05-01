@@ -15,6 +15,8 @@ public class GuiceTest {
     public static Injector injector = Guice.createInjector(
             new InventoryServerModule("localhost", 5555),
             new InMemoryModule(),
+            new InMemoryDBModule(),
+            new UserRootInMemoryRepositoryModule(),
             new JSONModule(),
             new EncoderModule(),
             new Module() {
