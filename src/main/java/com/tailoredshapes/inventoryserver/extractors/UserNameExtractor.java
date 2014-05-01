@@ -1,11 +1,8 @@
 package com.tailoredshapes.inventoryserver.extractors;
 
-import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 import com.sun.net.httpserver.HttpExchange;
 import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
-import com.tailoredshapes.inventoryserver.repositories.Repository;
 
 import java.net.URI;
 import java.util.regex.Matcher;

@@ -6,7 +6,6 @@ import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
-import com.tailoredshapes.inventoryserver.extractors.UserIdExtractor;
 import com.tailoredshapes.inventoryserver.filters.TFilter;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
@@ -118,39 +117,39 @@ public class InMemoryModule implements Module {
                 .to(new TypeLiteral<CategorySaver<Map<Long, Category>>>() {});
 
         binder.bind(new TypeLiteral<TFilter<Long, User, ?>>() {})
-                .to(new TypeLiteral<TFilter<Long, User, Map<Long, User>>>(){});
+                .to(new TypeLiteral<TFilter<Long, User, Map<Long, User>>>() {});
 
         binder.bind(new TypeLiteral<TFilter<String, User, ?>>() {})
-                .to(new TypeLiteral<TFilter<String, User, Map<Long, User>>>(){});
+                .to(new TypeLiteral<TFilter<String, User, Map<Long, User>>>() {});
 
         binder.bind(new TypeLiteral<TFilter<Long, Inventory, ?>>() {})
-                .to(new TypeLiteral<TFilter<Long, Inventory, Map<Long, Inventory>>>(){});
+                .to(new TypeLiteral<TFilter<Long, Inventory, Map<Long, Inventory>>>() {});
     }
 
     @Provides
     @Singleton
-    public TFilter<Long,User, Map<Long, User>> providesUserFromIdFilter(Provider<Parser<User>> parser,
-                                                              Provider<IdExtractor<Long, User>> idExtractor,
-                                                              Provider<Repository<User, Map<Long, User>>> repository,
-                                                              Provider<FinderFactory<User, Long, Map<Long, User>>> finderFactory) {
+    public TFilter<Long, User, Map<Long, User>> providesUserFromIdFilter(Provider<Parser<User>> parser,
+                                                                         Provider<IdExtractor<Long, User>> idExtractor,
+                                                                         Provider<Repository<User, Map<Long, User>>> repository,
+                                                                         Provider<FinderFactory<User, Long, Map<Long, User>>> finderFactory) {
         return new TFilter<>(parser, idExtractor, finderFactory, repository, User.class, "user");
     }
 
     @Provides
     @Singleton
-    public TFilter<String,User, Map<Long, User>> providesUserFromNameFilter(Provider<Parser<User>> parser,
-                                                                  Provider<IdExtractor<String, User>> idExtractor,
-                                                                  Provider<Repository<User, Map<Long, User>>> repository,
-                                                                  Provider<FinderFactory<User, String, Map<Long, User>>> finderFactory) {
+    public TFilter<String, User, Map<Long, User>> providesUserFromNameFilter(Provider<Parser<User>> parser,
+                                                                             Provider<IdExtractor<String, User>> idExtractor,
+                                                                             Provider<Repository<User, Map<Long, User>>> repository,
+                                                                             Provider<FinderFactory<User, String, Map<Long, User>>> finderFactory) {
         return new TFilter<>(parser, idExtractor, finderFactory, repository, User.class, "user");
     }
 
     @Provides
     @Singleton
-    public TFilter<Long,Inventory, Map<Long, Inventory>> providesInventoryFromIdFilter(Provider<Parser<Inventory>> parser,
-                                                                        Provider<IdExtractor<Long, Inventory>> idExtractor,
-                                                                        Provider<Repository<Inventory, Map<Long, Inventory>>> repository,
-                                                                        Provider<FinderFactory<Inventory, Long, Map<Long, Inventory>>> finderFactory) {
+    public TFilter<Long, Inventory, Map<Long, Inventory>> providesInventoryFromIdFilter(Provider<Parser<Inventory>> parser,
+                                                                                        Provider<IdExtractor<Long, Inventory>> idExtractor,
+                                                                                        Provider<Repository<Inventory, Map<Long, Inventory>>> repository,
+                                                                                        Provider<FinderFactory<Inventory, Long, Map<Long, Inventory>>> finderFactory) {
         return new TFilter<>(parser, idExtractor, finderFactory, repository, Inventory.class, "inventory");
     }
 }

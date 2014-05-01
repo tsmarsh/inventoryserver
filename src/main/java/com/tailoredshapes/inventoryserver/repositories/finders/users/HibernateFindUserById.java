@@ -5,7 +5,6 @@ import com.tailoredshapes.inventoryserver.repositories.Finder;
 import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 
 import javax.persistence.EntityManager;
-import java.util.Map;
 
 public class HibernateFindUserById implements FinderFactory<User, Long, EntityManager>, Finder<User, EntityManager> {
     private Long id;

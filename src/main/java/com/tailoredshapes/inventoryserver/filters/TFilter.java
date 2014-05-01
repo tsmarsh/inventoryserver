@@ -1,7 +1,6 @@
 package com.tailoredshapes.inventoryserver.filters;
 
 import com.google.inject.Key;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
@@ -25,6 +24,7 @@ public class TFilter<S, T, U> implements Filter {
     private final Provider<Repository<T, U>> repository;
     private final Class<T> type;
     private final String parameterName;
+
     @Inject
     public TFilter(Provider<Parser<T>> parser,
                    Provider<IdExtractor<S, T>> extractor,
