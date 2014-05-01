@@ -1,7 +1,6 @@
 package com.tailoredshapes.inventoryserver;
 
 import com.google.inject.*;
-import com.google.inject.name.Named;
 import com.tailoredshapes.inventoryserver.dao.CategorySaver;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.Saver;
@@ -18,12 +17,9 @@ import com.tailoredshapes.inventoryserver.repositories.finders.inventories.Hiber
 import com.tailoredshapes.inventoryserver.repositories.finders.metrictype.HibernateFindMetricTypeByName;
 import com.tailoredshapes.inventoryserver.repositories.finders.users.HibernateFindUserById;
 import com.tailoredshapes.inventoryserver.repositories.finders.users.HibernateFindUserByName;
-import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateRepository;
-import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateUserInventoryRepository;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import java.util.function.Predicate;
 
 public class HibernateModule implements Module {
     @Override

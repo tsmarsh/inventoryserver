@@ -17,12 +17,9 @@ import com.tailoredshapes.inventoryserver.repositories.finders.inventories.InMem
 import com.tailoredshapes.inventoryserver.repositories.finders.metrictype.InMemoryFindMetricByName;
 import com.tailoredshapes.inventoryserver.repositories.finders.users.InMemoryFindUserById;
 import com.tailoredshapes.inventoryserver.repositories.finders.users.InMemoryFindUserByName;
-import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository;
-import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserInventoryRepository;
 
 import javax.inject.Singleton;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class InMemoryModule implements Module {
     @Override

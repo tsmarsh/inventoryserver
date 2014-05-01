@@ -10,7 +10,7 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserInvent
 
 import java.util.Map;
 
-public class UserRootInMemoryRepositoryModule implements Module{
+public class UserRootInMemoryRepositoryModule implements Module {
     @Override
     public void configure(Binder binder) {
 
