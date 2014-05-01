@@ -16,7 +16,7 @@ public class HibernateNestedRepository<T extends Idable<T>, P> extends Hibernate
     private final Provider<P> parent;
     private final DAO<T> dao;
     private final Repository<P, ?> parentRepo;
-    private Predicate<T> filter;
+    private final Predicate<T> filter;
 
     @Inject
     public HibernateNestedRepository(EntityManager manager,

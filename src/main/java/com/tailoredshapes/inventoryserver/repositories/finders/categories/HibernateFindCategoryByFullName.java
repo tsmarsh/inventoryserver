@@ -12,7 +12,7 @@ import javax.persistence.criteria.Root;
 
 public class HibernateFindCategoryByFullName implements FinderFactory<Category, String, EntityManager>, Finder<Category, EntityManager> {
 
-    String categoryFullName;
+    private String categoryFullName;
 
     @Override
     public Category find(EntityManager manager) {

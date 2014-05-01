@@ -12,7 +12,7 @@ public class CategorySaver<T> extends Saver<Category> {
 
     private final DAO<Category> categoryDAO;
     private final Repository<Category, T> categoryRepository;
-    private FinderFactory<Category, String, T> fullNameFinderFactor;
+    private final FinderFactory<Category, String, T> fullNameFinderFactor;
 
     @Inject
     public CategorySaver(DAO<Category> categoryDAO,

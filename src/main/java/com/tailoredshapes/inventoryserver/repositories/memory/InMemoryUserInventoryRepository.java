@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class InMemoryUserInventoryRepository extends InMemoryNestedRepository<Inventory, User> {
-    private Provider<User> parent;
+    private final Provider<User> parent;
 
     @Inject
     public InMemoryUserInventoryRepository(Map<Long, Inventory> db,

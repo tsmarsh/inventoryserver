@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class InMemoryFindCategoryByFullName implements FinderFactory<Category, String, Map<Long, Category>>, Finder<Category, Map<Long, Category>> {
 
-    String categoryFullName;
+    private String categoryFullName;
 
     @Override
     public Category find(Map<Long, Category> db) {

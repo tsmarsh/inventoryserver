@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 public class LongHashEncoder<T> implements Encoder<T, LongHash> {
 
-    Serialiser<T, String> serialiser;
+    private final Serialiser<T, String> serialiser;
 
     @Inject
     public LongHashEncoder(Serialiser<T, String> serialiser) {

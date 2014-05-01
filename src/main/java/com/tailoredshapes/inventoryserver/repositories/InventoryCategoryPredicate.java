@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 @RequestScoped
 public class InventoryCategoryPredicate implements Predicate<Inventory> {
 
-    private Inventory t;
+    private final Inventory t;
 
     @Inject
     public InventoryCategoryPredicate(@Named("current_inventory") Inventory t) {

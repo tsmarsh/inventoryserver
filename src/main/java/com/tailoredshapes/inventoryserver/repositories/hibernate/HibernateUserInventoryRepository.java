@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.function.Predicate;
 
 public class HibernateUserInventoryRepository extends HibernateNestedRepository<Inventory, User> {
-    private Provider<User> parent;
+    private final Provider<User> parent;
 
     @Inject
     public HibernateUserInventoryRepository(EntityManager manager,

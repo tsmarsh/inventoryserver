@@ -55,7 +55,7 @@ public class TFilter<S, T, U> implements Filter {
                 Finder<T, U> finder = finderFactory.get().lookFor(extract);
                 t = repository.get().findBy(finder);
                 if (t == null) {
-                    throw new RuntimeException(String.format("No %s with id %d", type, extract));
+                    throw new RuntimeException(String.format("No %s with id %s", type, extract));
                 }
             }
         }

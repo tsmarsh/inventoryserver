@@ -12,7 +12,7 @@ import java.util.Map;
 public class InMemoryRepository<T extends Idable<T>> implements Repository<T, Map<Long, T>> {
 
     private final Map<Long, T> db;
-    private DAO<T> dao;
+    private final DAO<T> dao;
 
     @Inject
     public InMemoryRepository(Map<Long, T> db, DAO<T> dao) {

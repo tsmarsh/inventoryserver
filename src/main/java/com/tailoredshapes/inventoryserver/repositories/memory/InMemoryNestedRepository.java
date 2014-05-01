@@ -10,16 +10,16 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class InMemoryNestedRepository<T extends Idable<T>, P> extends InMemoryRepository<T> {
-    private DAO<T> dao;
-    private Provider<P> parent;
-    private Predicate<? super T> filter;
-    private Repository<P, ?> parentRepo;
+    private final DAO<T> dao;
+    private final Provider<P> parent;
+    private final Predicate<? super T> filter;
+    private final Repository<P, ?> parentRepo;
 
-    public InMemoryNestedRepository(Map<Long, T> db,
-                                    DAO<T> dao,
-                                    Provider<P> parent,
-                                    Predicate<? super T> filter,
-                                    Repository<P, ?> parentRepo) {
+    InMemoryNestedRepository(Map<Long, T> db,
+                             DAO<T> dao,
+                             Provider<P> parent,
+                             Predicate<? super T> filter,
+                             Repository<P, ?> parentRepo) {
         super(db, dao);
         this.dao = dao;
         this.parent = parent;

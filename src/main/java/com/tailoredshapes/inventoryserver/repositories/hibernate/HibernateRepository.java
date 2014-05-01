@@ -19,7 +19,7 @@ import java.util.Collection;
 public class HibernateRepository<T extends Idable<T>> implements Repository<T, EntityManager> {
     private final EntityManager manager;
     private final DAO<T> dao;
-    private Class<T> rawType;
+    private final Class<T> rawType;
 
     @Inject
     public HibernateRepository(EntityManager manager, TypeLiteral<T> type, DAO<T> dao) {
