@@ -65,6 +65,67 @@ public class PestletTest {
         }
     }
 
+    @Test
+    public void testCanHandleInventoryRootRequestsInHibernate() throws Exception {
+        int port = 7777;
+
+        final Server server = new Server(port);
+        WebAppContext webAppContext = new WebAppContext();
+        webAppContext.setContextPath("/");
+
+        webAppContext.setWar(this.getClass().getResource("/hibernate").getPath());
+        server.setHandler(webAppContext);
+        server.start();
+
+        try {
+            testCanCreateAnInventory(port);
+        } finally {
+            server.stop();
+        }
+    }
+
+    @Test
+    public void testCanHandleInventoryRootRequestsInMemory() throws Exception {
+        int port = 6666;
+
+        final Server server = new Server(port);
+        WebAppContext webAppContext = new WebAppContext();
+        webAppContext.setContextPath("/");
+
+        webAppContext.setWar(this.getClass().getResource("/memory").getPath());
+        server.setHandler(webAppContext);
+        server.start();
+
+        try {
+            testCanCreateAnInventory(port);
+        } finally {
+            server.stop();
+        }
+    }
+
+    public void testCanCreateAnInventory(Integer port) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.custom().setRedirectStrategy(new RedirectStrategy() {
+            @Override
+            public boolean isRedirected(HttpRequest request, HttpResponse response, HttpContext context) throws ProtocolException {
+                return false;
+            }
+
+            @Override
+            public HttpUriRequest getRedirect(HttpRequest request, HttpResponse response, HttpContext context) throws ProtocolException {
+                return null;
+            }
+        }).build();
+
+        String inventoryLocation = createInventory(port, httpClient);
+
+        JSONObject getResponseObject = readSavedInventory(httpClient, inventoryLocation);
+
+        String updateLocation = updateInventory(httpClient, inventoryLocation, getResponseObject);
+
+        readUpdatedInventory(httpClient, updateLocation);
+    }
+
+
     public void testCanCreateAUser(Integer port) throws Exception {
         CloseableHttpClient httpClient = HttpClients.custom().setRedirectStrategy(new RedirectStrategy() {
             @Override
@@ -90,9 +151,25 @@ public class PestletTest {
 
         JSONObject getResponseObject = readSavedInventory(httpClient, inventoryLocation);
 
-        String updateLocation = updateUsersInventory(httpClient, inventoryLocation, getResponseObject);
+        String updateLocation = updateInventory(httpClient, inventoryLocation, getResponseObject);
 
         readUpdatedInventory(httpClient, updateLocation);
+    }
+
+    private String createInventory(Integer port, CloseableHttpClient httpClient) throws URISyntaxException, IOException {
+
+        JSONObject inventoryJsonObject = new JSONObject();
+        inventoryJsonObject.put("category", "com.test.inventory");
+
+        HttpPost inventoryPost = new HttpPost(new URI(String.format("http://localhost:%d/inventories", port)));
+        List<NameValuePair> parameters = new ArrayList<>();
+        parameters.add(new BasicNameValuePair("inventory", inventoryJsonObject.toString()));
+        inventoryPost.setEntity(new UrlEncodedFormEntity(parameters));
+        HttpResponse inventoryResponse = httpClient.execute(inventoryPost);
+
+        Header location = inventoryResponse.getFirstHeader("Location");
+
+        return location.getValue();
     }
 
     private String createUser(Integer port, CloseableHttpClient httpClient) throws URISyntaxException, IOException {//CREATE USER
@@ -187,7 +264,7 @@ public class PestletTest {
         return getResponseObject;
     }
 
-    private String updateUsersInventory(CloseableHttpClient httpClient, String inventoryLocation, JSONObject getResponseObject) throws IOException, URISyntaxException {
+    private String updateInventory(CloseableHttpClient httpClient, String inventoryLocation, JSONObject getResponseObject) throws IOException, URISyntaxException {
         List<NameValuePair> parameters;
         URI uri = new URI(inventoryLocation);
         parameters = new ArrayList<>();
