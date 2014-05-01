@@ -6,7 +6,7 @@ import com.google.inject.persist.jpa.JpaPersistModule;
 
 public class InventoryServletConfig {
 
-    protected static final Injector injector = Guice.createInjector(
+    static final Injector injector = Guice.createInjector(
             new JpaPersistModule("inventory_server"));
 }
 
