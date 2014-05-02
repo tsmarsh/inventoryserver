@@ -11,6 +11,7 @@ public class UserRootHibernateServletConfig extends GuiceServletContextListener 
                 new HibernateModule(),
                 new JSONModule(),
                 new EncoderModule(),
+                new UserRootUrlBuilders(),
                 new UserRootServletModule(true, true),
                 new UserRootHibernateRepositoryModule());
     }

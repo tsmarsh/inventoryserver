@@ -22,6 +22,7 @@ public class HibernateTest {
                 new HibernateModule(),
                 new UserRootHibernateRepositoryModule(),
                 new JSONModule(),
+                new UserRootUrlBuilders(),
                 new EncoderModule(),
                 new Module() {
 

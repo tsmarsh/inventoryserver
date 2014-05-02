@@ -17,6 +17,7 @@ public class GuiceTest {
             new InMemoryModule(),
             new InMemoryDBModule(),
             new UserRootInMemoryRepositoryModule(),
+            new UserRootUrlBuilders(),
             new JSONModule(),
             new EncoderModule(),
             new Module() {
