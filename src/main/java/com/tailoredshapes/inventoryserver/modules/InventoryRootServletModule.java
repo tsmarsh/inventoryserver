@@ -1,4 +1,4 @@
-package com.tailoredshapes.inventoryserver;
+package com.tailoredshapes.inventoryserver.modules;
 
 import com.google.inject.Key;
 import com.google.inject.Provider;

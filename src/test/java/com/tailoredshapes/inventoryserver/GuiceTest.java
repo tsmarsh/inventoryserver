@@ -8,6 +8,7 @@ import com.google.inject.name.Names;
 import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
+import com.tailoredshapes.inventoryserver.modules.*;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 
 public class GuiceTest {

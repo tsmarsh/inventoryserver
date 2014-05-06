@@ -1,4 +1,4 @@
-package com.tailoredshapes.inventoryserver;
+package com.tailoredshapes.inventoryserver.modules;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
