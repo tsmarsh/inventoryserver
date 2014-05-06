@@ -2,7 +2,7 @@ package com.tailoredshapes.inventoryserver;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.tailoredshapes.inventoryserver.modules.InMemoryDBModule;
+import com.tailoredshapes.inventoryserver.modules.memory.InMemoryDBModule;
 
 public class InventoryMemoryServletConfig {
 

@@ -1,4 +1,4 @@
-package com.tailoredshapes.inventoryserver.modules;
+package com.tailoredshapes.inventoryserver.modules.jpa;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
@@ -14,7 +14,7 @@ import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateUserIn
 import javax.persistence.EntityManager;
 import java.util.function.Predicate;
 
-public class InventoryRootHibernateRepositoryModule implements Module {
+public class UserRootHibernateRepositoryModule implements Module {
     @Override
     public void configure(Binder binder) {
         binder.bind(new TypeLiteral<Repository<Category, EntityManager>>() {})
@@ -23,13 +23,19 @@ public class InventoryRootHibernateRepositoryModule implements Module {
         binder.bind(new TypeLiteral<Repository<User, EntityManager>>() {})
                 .to(new TypeLiteral<HibernateRepository<User>>() {});
 
-        binder.bind(new TypeLiteral<Repository<Inventory, EntityManager>>() {})
-                .to(new TypeLiteral<HibernateRepository<Inventory>>() {});
-
         binder.bind(new TypeLiteral<Repository<Metric, EntityManager>>() {})
                 .to(new TypeLiteral<HibernateRepository<Metric>>() {});
 
         binder.bind(new TypeLiteral<Repository<MetricType, EntityManager>>() {})
                 .to(new TypeLiteral<HibernateRepository<MetricType>>() {});
+    }
+
+    @Provides
+    public Repository<Inventory, EntityManager> inventoryRepositoryProvider(EntityManager manager,
+                                                                            TypeLiteral<Inventory> type,
+                                                                            @Named("current_user") com.google.inject.Provider<User> parent,
+                                                                            DAO<Inventory> dao, Repository<User, ?> parentRepo,
+                                                                            Predicate<Inventory> filter) {
+        return new HibernateUserInventoryRepository(manager, type, parent, dao, parentRepo, filter);
     }
 }

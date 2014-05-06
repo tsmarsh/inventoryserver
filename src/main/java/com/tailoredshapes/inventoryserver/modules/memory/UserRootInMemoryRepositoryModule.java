@@ -1,4 +1,4 @@
-package com.tailoredshapes.inventoryserver.modules;
+package com.tailoredshapes.inventoryserver.modules.memory;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
@@ -6,15 +6,16 @@ import com.google.inject.TypeLiteral;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository;
+import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryUserInventoryRepository;
 
 import java.util.Map;
 
-public class InventoryRootInMemoryRepositoryModule implements Module {
+public class UserRootInMemoryRepositoryModule implements Module {
     @Override
     public void configure(Binder binder) {
 
         binder.bind(new TypeLiteral<Repository<Inventory, Map<Long, Inventory>>>() {})
-                .to(new TypeLiteral<InMemoryRepository<Inventory>>() {});
+                .to(new TypeLiteral<InMemoryUserInventoryRepository>() {});
 
         binder.bind(new TypeLiteral<Repository<Category, Map<Long, Category>>>() {})
                 .to(new TypeLiteral<InMemoryRepository<Category>>() {});

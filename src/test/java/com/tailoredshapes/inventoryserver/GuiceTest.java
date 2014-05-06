@@ -9,6 +9,9 @@ import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.modules.*;
+import com.tailoredshapes.inventoryserver.modules.memory.InMemoryDBModule;
+import com.tailoredshapes.inventoryserver.modules.memory.InMemoryModule;
+import com.tailoredshapes.inventoryserver.modules.memory.UserRootInMemoryRepositoryModule;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 
 public class GuiceTest {

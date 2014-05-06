@@ -1,4 +1,4 @@
-package com.tailoredshapes.inventoryserver.modules;
+package com.tailoredshapes.inventoryserver.modules.memory;
 
 import com.google.inject.*;
 import com.tailoredshapes.inventoryserver.dao.CategorySaver;

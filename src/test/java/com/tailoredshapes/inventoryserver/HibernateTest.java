@@ -11,6 +11,8 @@ import com.google.inject.servlet.RequestScoped;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.modules.*;
+import com.tailoredshapes.inventoryserver.modules.jpa.HibernateModule;
+import com.tailoredshapes.inventoryserver.modules.jpa.UserRootHibernateRepositoryModule;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 
 public class HibernateTest {
