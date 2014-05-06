@@ -1,12 +1,12 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
-import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Idable;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 import java.util.function.Predicate;

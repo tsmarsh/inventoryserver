@@ -24,6 +24,7 @@ public class GuiceTest {
             new UserRootUrlBuilders(),
             new JSONModule(),
             new EncoderModule(),
+            new RandomShitModule(),
             new Module() {
 
                 @Override
