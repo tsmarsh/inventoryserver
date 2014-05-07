@@ -1,9 +1,6 @@
 package com.tailoredshapes.inventoryserver.modules.jpa;
 
-import com.google.inject.Binder;
-import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.TypeLiteral;
+import com.google.inject.*;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.dao.*;
@@ -37,6 +34,7 @@ import com.tailoredshapes.inventoryserver.security.KeyProvider;
 import com.tailoredshapes.inventoryserver.security.RSA;
 import com.tailoredshapes.inventoryserver.security.RSAKeyProvider;
 import com.tailoredshapes.inventoryserver.serialisers.*;
+import com.tailoredshapes.inventoryserver.servlets.Pestlet;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserRootInventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
@@ -50,201 +48,230 @@ import javax.persistence.EntityManager;
 import java.util.Collection;
 import java.util.function.Predicate;
 
-public class UserRootHibernateRepositoryModule implements Module {
+public class UserRootHibernateRepositoryModule extends PrivateModule {
 
     @Override
-    public void configure(Binder binder) {
-        binder.bind(new TypeLiteral<Repository<Category, EntityManager>>() {})
+    protected void configure() {
+        bind(new TypeLiteral<Repository<Category, EntityManager>>() {})
                 .to(new TypeLiteral<HibernateRepository<Category>>() {});
 
-        binder.bind(new TypeLiteral<Repository<User, EntityManager>>() {})
+        bind(new TypeLiteral<Repository<User, EntityManager>>() {})
                 .to(new TypeLiteral<HibernateRepository<User>>() {});
 
-        binder.bind(new TypeLiteral<Repository<Metric, EntityManager>>() {})
+        bind(new TypeLiteral<Repository<Metric, EntityManager>>() {})
                 .to(new TypeLiteral<HibernateRepository<Metric>>() {});
 
-        binder.bind(new TypeLiteral<Repository<MetricType, EntityManager>>() {})
+        bind(new TypeLiteral<Repository<MetricType, EntityManager>>() {})
                 .to(new TypeLiteral<HibernateRepository<MetricType>>() {});
 
 
         ///
 
-        binder.bind(new TypeLiteral<DAO<Inventory>>() {})
+        bind(new TypeLiteral<DAO<Inventory>>() {})
                 .to(new TypeLiteral<HibernateDAO<Inventory>>() {});
 
-        binder.bind(new TypeLiteral<HibernateDAO<Inventory>>() {});
+        bind(new TypeLiteral<HibernateDAO<Inventory>>() {});
 
 
-        binder.bind(new TypeLiteral<DAO<User>>() {})
+        bind(new TypeLiteral<DAO<User>>() {})
                 .to(new TypeLiteral<HibernateDAO<User>>() {});
 
 
-        binder.bind(new TypeLiteral<HibernateDAO<User>>() {});
+        bind(new TypeLiteral<HibernateDAO<User>>() {});
 
 
-        binder.bind(new TypeLiteral<DAO<Category>>() {})
+        bind(new TypeLiteral<DAO<Category>>() {})
                 .to(new TypeLiteral<HibernateDAO<Category>>() {});
 
-        binder.bind(new TypeLiteral<HibernateDAO<Category>>() {});
+        bind(new TypeLiteral<HibernateDAO<Category>>() {});
 
 
-        binder.bind(new TypeLiteral<DAO<Metric>>() {})
+        bind(new TypeLiteral<DAO<Metric>>() {})
                 .to(new TypeLiteral<HibernateDAO<Metric>>() {});
 
-        binder.bind(new TypeLiteral<HibernateDAO<Metric>>() {});
+        bind(new TypeLiteral<HibernateDAO<Metric>>() {});
 
-        binder.bind(new TypeLiteral<DAO<MetricType>>() {})
+        bind(new TypeLiteral<DAO<MetricType>>() {})
                 .to(new TypeLiteral<HibernateDAO<MetricType>>() {});
 
-        binder.bind(new TypeLiteral<HibernateDAO<MetricType>>() {});
+        bind(new TypeLiteral<HibernateDAO<MetricType>>() {});
 
-        binder.bind(new TypeLiteral<FinderFactory<Category, String, EntityManager>>() {})
+        bind(new TypeLiteral<FinderFactory<Category, String, EntityManager>>() {})
                 .to(HibernateFindCategoryByFullName.class);
 
-        binder.bind(new TypeLiteral<FinderFactory<MetricType, String, EntityManager>>() {})
+        bind(new TypeLiteral<FinderFactory<MetricType, String, EntityManager>>() {})
                 .to(HibernateFindMetricTypeByName.class);
 
-        binder.bind(new TypeLiteral<FinderFactory<User, String, EntityManager>>() {})
+        bind(new TypeLiteral<FinderFactory<User, String, EntityManager>>() {})
                 .to(HibernateFindUserByName.class);
 
-        binder.bind(new TypeLiteral<FinderFactory<User, Long, EntityManager>>() {})
+        bind(new TypeLiteral<FinderFactory<User, Long, EntityManager>>() {})
                 .to(HibernateFindUserById.class);
 
-        binder.bind(new TypeLiteral<FinderFactory<Inventory, Long, EntityManager>>() {})
+        bind(new TypeLiteral<FinderFactory<Inventory, Long, EntityManager>>() {})
                 .to(HibernateFindInventoryById.class);
 
-        binder.bind(new TypeLiteral<Parser<Inventory>>() {})
+        bind(new TypeLiteral<Parser<Inventory>>() {})
                 .to(new TypeLiteral<InventoryParser<EntityManager, EntityManager>>() {});
 
-        binder.bind(new TypeLiteral<Saver<Category>>() {})
+        bind(new TypeLiteral<Saver<Category>>() {})
                 .to(new TypeLiteral<CategorySaver<EntityManager>>() {});
 
 
-        binder.bind(new TypeLiteral<Repository<Inventory, ?>>() {})
+        bind(new TypeLiteral<Repository<Inventory, ?>>() {})
                 .to(new TypeLiteral<Repository<Inventory, EntityManager>>() {});
 
-        binder.bind(new TypeLiteral<Repository<User, ?>>() {})
+        bind(new TypeLiteral<Repository<User, ?>>() {})
                 .to(new TypeLiteral<Repository<User, EntityManager>>() {});
 
-        binder.bind(new TypeLiteral<Repository<Category, ?>>() {})
+        bind(new TypeLiteral<Repository<Category, ?>>() {})
                 .to(new TypeLiteral<Repository<Category, EntityManager>>() {});
 
-        binder.bind(new TypeLiteral<Repository<Metric, ?>>() {})
+        bind(new TypeLiteral<Repository<Metric, ?>>() {})
                 .to(new TypeLiteral<Repository<Metric, EntityManager>>() {});
 
-        binder.bind(new TypeLiteral<Repository<MetricType, ?>>() {})
+        bind(new TypeLiteral<Repository<MetricType, ?>>() {})
                 .to(new TypeLiteral<Repository<MetricType, EntityManager>>() {});
 
-        binder.bind(new TypeLiteral<TFilter<Long, User, ?>>() {})
-                .to(new TypeLiteral<TFilter<Long, User, EntityManager>>() {});
+        bind(new TypeLiteral<TFilter<Long, User, ?>>() {}).annotatedWith(Names.named("user_root"))
+                .to(Key.get(new TypeLiteral<TFilter<Long, User, EntityManager>>() {}));
 
-        binder.bind(new TypeLiteral<TFilter<String, User, ?>>() {})
-                .to(new TypeLiteral<TFilter<String, User, EntityManager>>() {});
+        bind(new TypeLiteral<TFilter<String, User, ?>>() {}).annotatedWith(Names.named("user_root"))
+                .to(Key.get(new TypeLiteral<TFilter<String, User, EntityManager>>() {}));
 
-        binder.bind(new TypeLiteral<TFilter<Long, Inventory, ?>>() {})
-                .to(new TypeLiteral<TFilter<Long, Inventory, EntityManager>>() {});
+        bind(new TypeLiteral<TFilter<Long, Inventory, ?>>() {}).annotatedWith(Names.named("user_root"))
+                .to(Key.get(new TypeLiteral<TFilter<Long, Inventory, EntityManager>>() {}));
 
-        binder.bind(new TypeLiteral<Encoder<User, ?>>() {})
+        expose(new TypeLiteral<TFilter<Long, User, ?>>() {}).annotatedWith(Names.named("user_root"));
+        expose(new TypeLiteral<TFilter<String, User, ?>>() {}).annotatedWith(Names.named("user_root"));
+        expose(new TypeLiteral<TFilter<Long, Inventory, ?>>() {}).annotatedWith(Names.named("user_root"));
+
+        bind(new TypeLiteral<Encoder<User, ?>>() {})
                 .to(new TypeLiteral<RSAEncoder<User>>() {});
 
-        binder.bind(new TypeLiteral<Encoder<Inventory, ?>>() {})
+        bind(new TypeLiteral<Encoder<Inventory, ?>>() {})
                 .to(new TypeLiteral<SHAEncoder<Inventory>>() {});
 
-        binder.bind(new TypeLiteral<Encoder<Metric, ?>>() {})
+        bind(new TypeLiteral<Encoder<Metric, ?>>() {})
                 .to(new TypeLiteral<SHAEncoder<Metric>>() {});
 
-        binder.bind(new TypeLiteral<Encoder<MetricType, ?>>() {})
+        bind(new TypeLiteral<Encoder<MetricType, ?>>() {})
                 .to(new TypeLiteral<SHAEncoder<MetricType>>() {});
 
-        binder.bind(new TypeLiteral<Encoder<Category, ?>>() {})
+        bind(new TypeLiteral<Encoder<Category, ?>>() {})
                 .to(new TypeLiteral<SHAEncoder<Category>>() {});
 
-        binder.bind(new TypeLiteral<KeyProvider<RSA>>() {})
+        bind(new TypeLiteral<KeyProvider<RSA>>() {})
                 .to(RSAKeyProvider.class);
 
         ///
 
-        binder.bind(new TypeLiteral<Serialiser<Inventory, byte[]>>() {})
+        bind(new TypeLiteral<Serialiser<Inventory, byte[]>>() {})
                 .to(InventorySerialiser.class);
 
-        binder.bind(new TypeLiteral<Serialiser<Inventory, String>>() {})
+        bind(new TypeLiteral<Serialiser<Inventory, String>>() {})
                 .to(InventoryStringSerialiser.class);
 
-        binder.bind(new TypeLiteral<Serialiser<Category, byte[]>>() {})
+        bind(new TypeLiteral<Serialiser<Category, byte[]>>() {})
                 .to(new TypeLiteral<CategorySerialiser>() {});
 
-        binder.bind(new TypeLiteral<Serialiser<Category, String>>() {})
+        bind(new TypeLiteral<Serialiser<Category, String>>() {})
                 .to(new TypeLiteral<CategoryStringSerialiser>() {});
 
-        binder.bind(new TypeLiteral<Serialiser<User, byte[]>>() {})
+        bind(new TypeLiteral<Serialiser<User, byte[]>>() {})
                 .to(UserSerialiser.class);
 
-        binder.bind(new TypeLiteral<Serialiser<User, String>>() {})
+        bind(new TypeLiteral<Serialiser<User, String>>() {})
                 .to(UserStringSerialiser.class);
 
-        binder.bind(new TypeLiteral<Serialiser<Metric, byte[]>>() {})
+        bind(new TypeLiteral<Serialiser<Metric, byte[]>>() {})
                 .to(MetricSerialiser.class);
 
-        binder.bind(new TypeLiteral<Serialiser<Metric, String>>() {})
+        bind(new TypeLiteral<Serialiser<Metric, String>>() {})
                 .to(MetricStringSerialiser.class);
 
-        binder.bind(new TypeLiteral<Serialiser<MetricType, byte[]>>() {})
+        bind(new TypeLiteral<Serialiser<MetricType, byte[]>>() {})
                 .to(new TypeLiteral<MetricTypeSerialiser>() {});
 
-        binder.bind(new TypeLiteral<Serialiser<MetricType, String>>() {})
+        bind(new TypeLiteral<Serialiser<MetricType, String>>() {})
                 .to(new TypeLiteral<MetricTypeStringSerialiser>() {});
 
-        binder.bind(new TypeLiteral<Responder<Inventory>>() {})
+        bind(new TypeLiteral<Responder<Inventory>>() {})
                 .to(new TypeLiteral<JSONResponder<Inventory>>() {});
 
-        binder.bind(new TypeLiteral<Responder<User>>() {})
+        bind(new TypeLiteral<Responder<User>>() {})
                 .to(new TypeLiteral<JSONResponder<User>>() {});
 
         ///
 
-        binder.bind(new TypeLiteral<UrlBuilder<User>>() {})
+        bind(new TypeLiteral<UrlBuilder<User>>() {})
                 .to(UserUrlBuilder.class);
 
-        binder.bind(new TypeLiteral<UrlBuilder<Inventory>>() {})
+        bind(new TypeLiteral<UrlBuilder<Inventory>>() {})
                 .to(UserRootInventoryUrlBuilder.class);
 
         ///
 
-        binder.bind(new TypeLiteral<Parser<User>>() {})
+        bind(new TypeLiteral<Parser<User>>() {})
                 .to(UserParser.class);
 
-        binder.bind(new TypeLiteral<IdExtractor<Long, User>>() {})
+        bind(new TypeLiteral<IdExtractor<Long, User>>() {})
                 .to(UserIdExtractor.class);
 
-        binder.bind(new TypeLiteral<IdExtractor<String, User>>() {})
+        bind(new TypeLiteral<IdExtractor<String, User>>() {})
                 .to(UserNameExtractor.class);
 
-        binder.bind(new TypeLiteral<IdExtractor<Long, Inventory>>() {})
+        bind(new TypeLiteral<IdExtractor<Long, Inventory>>() {})
                 .to(InventoryIdExtractor.class);
 
-        binder.bind(new TypeLiteral<Saver<User>>() {})
+        bind(new TypeLiteral<Saver<User>>() {})
                 .to(new TypeLiteral<UserSaver<RSA>>() {});
 
-        binder.bind(new TypeLiteral<Saver<Inventory>>() {})
+        bind(new TypeLiteral<Saver<Inventory>>() {})
                 .to(InventorySaver.class);
 
-        binder.bind(new TypeLiteral<Saver<Metric>>() {})
+        bind(new TypeLiteral<Saver<Metric>>() {})
                 .to(MetricSaver.class);
 
-        binder.bind(new TypeLiteral<Saver<MetricType>>() {})
+        bind(new TypeLiteral<Saver<MetricType>>() {})
                 .to(new TypeLiteral<ChildFreeSaver<MetricType>>() {});
 
-        binder.bind(new TypeLiteral<Predicate<Inventory>>() {})
+        bind(new TypeLiteral<Predicate<Inventory>>() {})
                 .to(InventoryCategoryPredicate.class);
 
-        binder.bind(new TypeLiteral<Validator<User>>() {})
+        bind(new TypeLiteral<Validator<User>>() {})
                 .to(UserValidator.class);
 
-        binder.bind(new TypeLiteral<Validator<Inventory>>() {})
-                .to(InventoryValidator.class);
-
+        bind(new TypeLiteral<Validator<Inventory>>() {})
+                .to(InventoryValidator.class);    
     }
 
+    @Provides
+    @Singleton
+    @Exposed
+    @javax.inject.Named("user_root")
+    public Pestlet<Inventory> providePestletInventory(@javax.inject.Named("current_inventory") com.google.inject.Provider<Inventory> provider,
+                                                      com.google.inject.Provider<Responder<Inventory>> responder,
+                                                      com.google.inject.Provider<Responder<Collection<Inventory>>> collectionResponder,
+                                                      com.google.inject.Provider<DAO<Inventory>> dao,
+                                                      com.google.inject.Provider<UrlBuilder<Inventory>> urlBuilder,
+                                                      com.google.inject.Provider<Repository<Inventory, ?>> repository,
+                                                      Validator<Inventory> validator) {
+        return new Pestlet<>(provider, responder, collectionResponder, dao, urlBuilder, repository, validator);
+    }
+
+    @Provides
+    @Singleton
+    @Exposed
+    @javax.inject.Named("user_root")
+    public Pestlet<User> providePestletUser(@javax.inject.Named("current_user") com.google.inject.Provider<User> provider,
+                                            com.google.inject.Provider<Responder<User>> responder,
+                                            com.google.inject.Provider<DAO<User>> dao,
+                                            com.google.inject.Provider<UrlBuilder<User>> urlBuilder,
+                                            com.google.inject.Provider<Responder<Collection<User>>> collectionResponder,
+                                            com.google.inject.Provider<Repository<User, ?>> repository, Validator<User> validator) {
+        return new Pestlet<>(provider, responder, collectionResponder, dao, urlBuilder, repository, validator);
+    }
     @Provides
     public Repository<Inventory, EntityManager> inventoryRepositoryProvider(EntityManager manager,
                                                                             TypeLiteral<Inventory> type,

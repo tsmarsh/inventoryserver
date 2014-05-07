@@ -3,6 +3,7 @@ package com.tailoredshapes.inventoryserver.modules;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.google.inject.persist.PersistFilter;
 import com.google.inject.servlet.ServletModule;
@@ -40,39 +41,16 @@ public class UserRootServletModule extends ServletModule {
             filter("/*").through(TransactionFilter.class);
         }
 
-        serveRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").with(new Key<Pestlet<Inventory>>() {});
-        filterRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<Long, User, ?>>() {});
-        filterRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").through(new Key<TFilter<Long, Inventory, ?>>() {});
+        serveRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").with(Key.get(new TypeLiteral<Pestlet<Inventory>>(){}, Names.named("user_root")));
+        filterRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").through(Key.get(new TypeLiteral<TFilter<Long, User, ?>>(){}, Names.named("user_root")));
+        filterRegex("/users/\\w+/?-?\\d+/inventories(/-?\\d+)?").through(Key.get(new TypeLiteral<TFilter<Long, Inventory, ?>>(){}, Names.named("user_root")));
 
-        serveRegex("/users/?(\\w+)?/?(-?\\d+)?$").with(new Key<Pestlet<User>>() {});
-        filterRegex("/users/\\w+/-?\\d+$").through(new Key<TFilter<Long, User, ?>>() {});
-        filterRegex("/users/\\w+$").through(new Key<TFilter<String, User, ?>>() {});
-        filterRegex("/users$").through(new Key<TFilter<Long, User, ?>>() {});
+        serveRegex("/users/?(\\w+)?/?(-?\\d+)?$").with(Key.get(new TypeLiteral<Pestlet<User>>(){}, Names.named("user_root")));
+        filterRegex("/users/\\w+/-?\\d+$").through(Key.get(new TypeLiteral<TFilter<Long, User, ?>>(){}, Names.named("user_root")));
+        filterRegex("/users/\\w+$").through(Key.get(new TypeLiteral<TFilter<String, User, ?>>(){}, Names.named("user_root")));
+        filterRegex("/users$").through(Key.get(new TypeLiteral<TFilter<Long, User, ?>>(){}, Names.named("user_root")));
 
         bind(Key.get(User.class, Names.named("current_user"))).to(User.class).in(ServletScopes.REQUEST);
         bind(Key.get(Inventory.class, Names.named("current_inventory"))).to(Inventory.class).in(ServletScopes.REQUEST);
-    }
-
-    @Provides
-    @Singleton
-    public Pestlet<Inventory> providePestletInventory(@Named("current_inventory") Provider<Inventory> provider,
-                                                      Provider<Responder<Inventory>> responder,
-                                                      Provider<Responder<Collection<Inventory>>> collectionResponder,
-                                                      Provider<DAO<Inventory>> dao,
-                                                      Provider<UrlBuilder<Inventory>> urlBuilder,
-                                                      Provider<Repository<Inventory, ?>> repository,
-                                                      Validator<Inventory> validator) {
-        return new Pestlet<>(provider, responder, collectionResponder, dao, urlBuilder, repository, validator);
-    }
-
-    @Provides
-    @Singleton
-    public Pestlet<User> providePestletUser(@Named("current_user") Provider<User> provider,
-                                            Provider<Responder<User>> responder,
-                                            Provider<DAO<User>> dao,
-                                            Provider<UrlBuilder<User>> urlBuilder,
-                                            Provider<Responder<Collection<User>>> collectionResponder,
-                                            Provider<Repository<User, ?>> repository, Validator<User> validator) {
-        return new Pestlet<>(provider, responder, collectionResponder, dao, urlBuilder, repository, validator);
     }
 }
