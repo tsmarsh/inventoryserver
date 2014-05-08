@@ -6,7 +6,7 @@ import com.tailoredshapes.inventoryserver.InventoryServletConfig;
 import com.tailoredshapes.inventoryserver.modules.RoutesModule;
 import com.tailoredshapes.inventoryserver.modules.InventoryServerModule;
 
-public class UserRootHibernateServletConfig extends GuiceServletContextListener {
+public class HibernateServletConfig extends GuiceServletContextListener {
     @Override
     protected Injector getInjector() {
         return InventoryServletConfig.injector.createChildInjector(

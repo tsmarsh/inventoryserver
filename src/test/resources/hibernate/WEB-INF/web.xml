@@ -16,7 +16,7 @@
     </filter-mapping>
 
     <listener>
-        <listener-class>com.tailoredshapes.inventoryserver.modules.jpa.UserRootHibernateServletConfig</listener-class>
+        <listener-class>com.tailoredshapes.inventoryserver.modules.jpa.HibernateServletConfig</listener-class>
     </listener>
 
 </web-app>
