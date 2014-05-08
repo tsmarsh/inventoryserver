@@ -1,8 +1,6 @@
 package com.tailoredshapes.inventoryserver.modules.jpa;
 
 import com.google.inject.*;
-import com.google.inject.Provider;
-import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.tailoredshapes.inventoryserver.dao.*;
 import com.tailoredshapes.inventoryserver.dao.hibernate.HibernateDAO;
@@ -14,7 +12,6 @@ import com.tailoredshapes.inventoryserver.filters.TFilter;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
-import com.tailoredshapes.inventoryserver.parsers.UserParser;
 import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 import com.tailoredshapes.inventoryserver.repositories.InventoryCategoryPredicate;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
@@ -22,9 +19,7 @@ import com.tailoredshapes.inventoryserver.repositories.finders.categories.Hibern
 import com.tailoredshapes.inventoryserver.repositories.finders.inventories.HibernateFindInventoryById;
 import com.tailoredshapes.inventoryserver.repositories.finders.metrictype.HibernateFindMetricTypeByName;
 import com.tailoredshapes.inventoryserver.repositories.finders.users.HibernateFindUserById;
-import com.tailoredshapes.inventoryserver.repositories.finders.users.HibernateFindUserByName;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateRepository;
-import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateUserInventoryRepository;
 import com.tailoredshapes.inventoryserver.responders.JSONListResponder;
 import com.tailoredshapes.inventoryserver.responders.JSONResponder;
 import com.tailoredshapes.inventoryserver.responders.Responder;
@@ -35,13 +30,10 @@ import com.tailoredshapes.inventoryserver.serialisers.*;
 import com.tailoredshapes.inventoryserver.servlets.Pestlet;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
-import com.tailoredshapes.inventoryserver.urlbuilders.UserRootInventoryUrlBuilder;
-import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
 import com.tailoredshapes.inventoryserver.validators.InventoryValidator;
 import com.tailoredshapes.inventoryserver.validators.UserValidator;
 import com.tailoredshapes.inventoryserver.validators.Validator;
 
-import javax.inject.*;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import java.util.Collection;

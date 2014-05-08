@@ -9,7 +9,7 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository
 
 import java.util.Map;
 
-public class InventoryRootInMemoryRepositoryModule implements Module {
+class InventoryRootInMemoryRepositoryModule implements Module {
     @Override
     public void configure(Binder binder) {
 

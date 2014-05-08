@@ -2,29 +2,7 @@ package com.tailoredshapes.inventoryserver.modules;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
-import com.tailoredshapes.inventoryserver.dao.*;
-import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
-import com.tailoredshapes.inventoryserver.extractors.InventoryIdExtractor;
-import com.tailoredshapes.inventoryserver.extractors.UserIdExtractor;
-import com.tailoredshapes.inventoryserver.extractors.UserNameExtractor;
-import com.tailoredshapes.inventoryserver.model.Inventory;
-import com.tailoredshapes.inventoryserver.model.Metric;
-import com.tailoredshapes.inventoryserver.model.MetricType;
-import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.parsers.Parser;
-import com.tailoredshapes.inventoryserver.parsers.UserParser;
-import com.tailoredshapes.inventoryserver.repositories.InventoryCategoryPredicate;
-import com.tailoredshapes.inventoryserver.security.RSA;
-import com.tailoredshapes.inventoryserver.urlbuilders.UserRootInventoryUrlBuilder;
-import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
-import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
-import com.tailoredshapes.inventoryserver.validators.InventoryValidator;
-import com.tailoredshapes.inventoryserver.validators.UserValidator;
-import com.tailoredshapes.inventoryserver.validators.Validator;
-
-import java.util.function.Predicate;
 
 public class InventoryServerModule implements Module {
     private final String host;

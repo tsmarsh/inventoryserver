@@ -1,27 +1,16 @@
 package com.tailoredshapes.inventoryserver.modules;
 
 import com.google.inject.Key;
-import com.google.inject.Provider;
-import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.google.inject.persist.PersistFilter;
 import com.google.inject.servlet.ServletModule;
 import com.google.inject.servlet.ServletScopes;
-import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.filters.TFilter;
 import com.tailoredshapes.inventoryserver.filters.TransactionFilter;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.repositories.Repository;
-import com.tailoredshapes.inventoryserver.responders.Responder;
 import com.tailoredshapes.inventoryserver.servlets.Pestlet;
-import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
-import com.tailoredshapes.inventoryserver.validators.Validator;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
-import java.util.Collection;
 
 public class RoutesModule extends ServletModule {
     private final boolean usesPersistence;
