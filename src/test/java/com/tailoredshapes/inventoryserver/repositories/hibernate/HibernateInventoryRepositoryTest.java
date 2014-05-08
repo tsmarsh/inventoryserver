@@ -79,7 +79,6 @@ public class HibernateInventoryRepositoryTest {
             Inventory savedInventory = repo.save(inventory);
             em.flush();
             em.clear();
-            System.out.println("User: " + System.identityHashCode(user));
             User foundUser = userRepository.findById(user.getId());
             assertThat(foundUser.getInventories()).containsOnly(savedInventory);
             assertThat(savedInventory.getId()).isNotNull();
