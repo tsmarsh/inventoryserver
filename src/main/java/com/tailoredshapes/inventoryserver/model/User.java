@@ -1,9 +1,6 @@
 package com.tailoredshapes.inventoryserver.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
@@ -11,6 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 @Entity
+@Cacheable
 public class User implements Idable<User>, Keyed, Cloneable, ShallowCopy<User> {
 
     @Id

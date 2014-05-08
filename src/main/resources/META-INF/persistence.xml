@@ -22,6 +22,7 @@
             <property name="javax.persistence.jdbc.user" value="SA"/>
             <property name="javax.persistence.jdbc.password" value=""/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider" />
         </properties>
     </persistence-unit>
 

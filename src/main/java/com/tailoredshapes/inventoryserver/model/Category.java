@@ -1,11 +1,9 @@
 package com.tailoredshapes.inventoryserver.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
+@Cacheable
 public class Category implements Idable<Category>, Cloneable, ShallowCopy<Category> {
     @Id
     private Long id;

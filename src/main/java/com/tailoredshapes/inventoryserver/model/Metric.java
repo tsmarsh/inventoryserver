@@ -1,11 +1,9 @@
 package com.tailoredshapes.inventoryserver.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
+@Cacheable
 public class Metric implements Idable<Metric>, Cloneable, ShallowCopy<Metric> {
 
     @Id
