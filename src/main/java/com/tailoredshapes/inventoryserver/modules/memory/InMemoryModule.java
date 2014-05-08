@@ -14,7 +14,7 @@ import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.repositories.finders.categories.InMemoryFindCategoryByFullName;
 import com.tailoredshapes.inventoryserver.repositories.finders.inventories.InMemoryFindInventoryById;
-import com.tailoredshapes.inventoryserver.repositories.finders.metrictype.InMemoryFindMetricByName;
+import com.tailoredshapes.inventoryserver.repositories.finders.metrictype.InMemoryFindMetricTypeByName;
 import com.tailoredshapes.inventoryserver.repositories.finders.users.InMemoryFindUserById;
 import com.tailoredshapes.inventoryserver.repositories.finders.users.InMemoryFindUserByName;
 
@@ -62,7 +62,7 @@ public class InMemoryModule implements Module {
                 .to(InMemoryFindCategoryByFullName.class);
 
         binder.bind(new TypeLiteral<FinderFactory<MetricType, String, Map<Long, MetricType>>>() {})
-                .to(InMemoryFindMetricByName.class);
+                .to(InMemoryFindMetricTypeByName.class);
 
         binder.bind(new TypeLiteral<FinderFactory<User, String, Map<Long, User>>>() {})
                 .to(InMemoryFindUserByName.class);
