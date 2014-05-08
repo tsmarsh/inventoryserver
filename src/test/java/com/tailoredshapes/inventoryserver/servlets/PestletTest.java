@@ -65,66 +65,6 @@ public class PestletTest {
         }
     }
 
-    @Test
-    public void testCanHandleInventoryRootRequestsInHibernate() throws Exception {
-        int port = 7777;
-
-        final Server server = new Server(port);
-        WebAppContext webAppContext = new WebAppContext();
-        webAppContext.setContextPath("/");
-
-        webAppContext.setWar(this.getClass().getResource("/hibernate").getPath());
-        server.setHandler(webAppContext);
-        server.start();
-
-        try {
-            testCanCreateAnInventory(port);
-        } finally {
-            server.stop();
-        }
-    }
-
-    @Test
-    public void testCanHandleInventoryRootRequestsInMemory() throws Exception {
-        int port = 6666;
-
-        final Server server = new Server(port);
-        WebAppContext webAppContext = new WebAppContext();
-        webAppContext.setContextPath("/");
-
-        webAppContext.setWar(this.getClass().getResource("/memory").getPath());
-        server.setHandler(webAppContext);
-        server.start();
-
-        try {
-            testCanCreateAnInventory(port);
-        } finally {
-            server.stop();
-        }
-    }
-
-    public void testCanCreateAnInventory(Integer port) throws Exception {
-        CloseableHttpClient httpClient = HttpClients.custom().setRedirectStrategy(new RedirectStrategy() {
-            @Override
-            public boolean isRedirected(HttpRequest request, HttpResponse response, HttpContext context) throws ProtocolException {
-                return false;
-            }
-
-            @Override
-            public HttpUriRequest getRedirect(HttpRequest request, HttpResponse response, HttpContext context) throws ProtocolException {
-                return null;
-            }
-        }).build();
-
-        String inventoryLocation = createInventory(port, httpClient);
-
-        JSONObject getResponseObject = readSavedInventory(httpClient, inventoryLocation);
-
-        String updateLocation = updateInventory(httpClient, inventoryLocation, getResponseObject);
-
-        readUpdatedInventory(httpClient, updateLocation);
-    }
-
 
     public void testCanCreateAUser(Integer port) throws Exception {
         CloseableHttpClient httpClient = HttpClients.custom().setRedirectStrategy(new RedirectStrategy() {
@@ -139,6 +79,8 @@ public class PestletTest {
             }
         }).build();
 
+        // User Root
+
         String userUrl = createUser(port, httpClient);
 
         readSavedUserHead(httpClient, port, userUrl);
@@ -149,11 +91,20 @@ public class PestletTest {
 
         String inventoryLocation = createInventoryForUser(httpClient, userUrl);
 
-        JSONObject getResponseObject = readSavedInventory(httpClient, inventoryLocation);
+        JSONObject getResponseObject = readSavedInventory(httpClient, inventoryLocation, "com.tailoredshapes.test");
 
         String updateLocation = updateInventory(httpClient, inventoryLocation, getResponseObject);
 
-        readUpdatedInventory(httpClient, updateLocation);
+        readUpdatedInventory(httpClient, updateLocation, "com.tailoredshapes.test");
+
+        // Inventory Root
+        String inventoryRootLocation = createInventory(port, httpClient);
+
+        JSONObject savedInventory = readSavedInventory(httpClient, inventoryRootLocation, "com.test.inventory");
+
+        String updatedInventoryLocation = updateInventory(httpClient, inventoryRootLocation, savedInventory);
+
+        readUpdatedInventory(httpClient, updatedInventoryLocation, "com.test.inventory");
     }
 
     private String createInventory(Integer port, CloseableHttpClient httpClient) throws URISyntaxException, IOException {
@@ -169,6 +120,7 @@ public class PestletTest {
 
         Header location = inventoryResponse.getFirstHeader("Location");
 
+        inventoryPost.releaseConnection();
         return location.getValue();
     }
 
@@ -185,6 +137,7 @@ public class PestletTest {
         Header location = userReponse.getFirstHeader("Location");
         String userUrl = location.getValue();
 
+        userPost.releaseConnection();
         return userUrl;
     }
 
@@ -246,7 +199,7 @@ public class PestletTest {
         return inventoryLocation;
     }
 
-    private JSONObject readSavedInventory(CloseableHttpClient httpClient, String inventoryLocation) throws IOException, URISyntaxException {
+    private JSONObject readSavedInventory(CloseableHttpClient httpClient, String inventoryLocation, String category) throws IOException, URISyntaxException {
         URI uri = new URI(inventoryLocation);
         HttpGet httpGet = new HttpGet(uri);
 
@@ -259,7 +212,7 @@ public class PestletTest {
 
         JSONObject getResponseObject = new JSONObject(inventoryJsonString);
         assertThat(getResponseObject.getString("id")).isEqualTo(inventoryLocation);
-        assertThat(getResponseObject.getString("category")).isEqualTo("com.tailoredshapes.test");
+        assertThat(getResponseObject.getString("category")).isEqualTo(category);
         assertThat(getResponseObject.getJSONArray("metrics").length()).isEqualTo(0);
         return getResponseObject;
     }
@@ -292,7 +245,7 @@ public class PestletTest {
         return updateLocation;
     }
 
-    private void readUpdatedInventory(CloseableHttpClient httpClient, String updateLocation) throws URISyntaxException, IOException {//READ
+    private void readUpdatedInventory(CloseableHttpClient httpClient, String updateLocation, String category) throws URISyntaxException, IOException {//READ
 
         HttpGet updateGet = new HttpGet(new URI(updateLocation));
         HttpResponse updatedResponse = httpClient.execute(updateGet);
@@ -305,7 +258,7 @@ public class PestletTest {
 
         JSONObject updatedResponseObject = new JSONObject(updatedInventoryString);
         assertThat(updatedResponseObject.getString("id")).isEqualTo(updateLocation);
-        assertThat(updatedResponseObject.getString("category")).isEqualTo("com.tailoredshapes.test");
+        assertThat(updatedResponseObject.getString("category")).isEqualTo(category);
         assertThat(updatedResponseObject.getJSONArray("metrics").length()).isEqualTo(1);
     }
 }

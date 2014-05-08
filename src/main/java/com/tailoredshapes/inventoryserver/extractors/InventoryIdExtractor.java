@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class InventoryIdExtractor implements IdExtractor<Long, Inventory> {
 
-    private final Pattern userIdPattern = Pattern.compile("^/users/\\w+/-?\\d+/inventories/(-?\\d+)");
+    private final Pattern userIdPattern = Pattern.compile("^.*/inventories/?(-?\\d+)");
 
 
     @Override
@@ -27,3 +27,4 @@ public class InventoryIdExtractor implements IdExtractor<Long, Inventory> {
         }
     }
 }
+

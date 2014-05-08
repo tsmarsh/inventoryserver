@@ -13,6 +13,7 @@ public class UserRootHibernateServletConfig extends GuiceServletContextListener 
         return InventoryServletConfig.injector.createChildInjector(
                 new InventoryServerModule("localhost", 7777),
                 new UserRootServletModule(true, true),
-                new UserRootHibernateRepositoryModule());
+                new UserRootHibernateRepositoryModule(),
+                new InventoryRootHibernateModule());
     }
 }
