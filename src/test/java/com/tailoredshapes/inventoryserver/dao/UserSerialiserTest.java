@@ -45,7 +45,6 @@ public class UserSerialiserTest {
     @Test
     public void testShouldSerializeAUser() throws Exception {
         UserSerialiser userSerialiser = GuiceTest.injector.getInstance(UserSerialiser.class);
-        UrlBuilder<User> urlBuilder = GuiceTest.injector.getInstance(new Key<UrlBuilder<User>>() {});
         JSONObject jsonObject = new JSONObject(new String(userSerialiser.serialise(user)));
 
 

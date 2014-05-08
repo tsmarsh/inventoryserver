@@ -1,12 +1,12 @@
 package com.tailoredshapes.inventoryserver.serialisers;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.util.Base64;
 
 
 public class UserSerialiser implements Serialiser<User, byte[]> {
@@ -22,7 +22,7 @@ public class UserSerialiser implements Serialiser<User, byte[]> {
     public byte[] serialise(User user) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", user.getName());
-        jsonObject.put("publicKey", Base64.encode(user.getPublicKey().getEncoded()));
+        jsonObject.put("publicKey", Base64.getEncoder().encodeToString(user.getPublicKey().getEncoded()));
 
         JSONArray inventories = new JSONArray();
         for (Inventory inventory : user.getInventories()) {
