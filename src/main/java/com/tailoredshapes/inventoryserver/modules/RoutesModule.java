@@ -23,11 +23,11 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Collection;
 
-public class UserRootServletModule extends ServletModule {
+public class RoutesModule extends ServletModule {
     private final boolean usesPersistence;
     private final boolean usesTransactions;
 
-    public UserRootServletModule(boolean usesPersistence, boolean usesTransactions) {
+    public RoutesModule(boolean usesPersistence, boolean usesTransactions) {
         this.usesPersistence = usesPersistence;
         this.usesTransactions = usesTransactions;
     }

@@ -10,13 +10,11 @@ import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.modules.*;
 import com.tailoredshapes.inventoryserver.modules.jpa.HibernateModule;
-import com.tailoredshapes.inventoryserver.modules.jpa.UserRootHibernateRepositoryModule;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateRepository;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateUserInventoryRepository;
 import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
 
-import javax.inject.*;
 import javax.persistence.EntityManager;
 import java.util.function.Predicate;
 

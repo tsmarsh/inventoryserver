@@ -48,7 +48,7 @@ import javax.persistence.EntityManager;
 import java.util.Collection;
 import java.util.function.Predicate;
 
-public class UserRootHibernateRepositoryModule extends PrivateModule {
+public class UserRootHibernateModule extends PrivateModule {
 
     @Override
     protected void configure() {
