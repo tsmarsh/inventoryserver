@@ -5,6 +5,7 @@ import com.tailoredshapes.inventoryserver.repositories.Finder;
 import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -14,14 +15,12 @@ public class HibernateFindUserByName implements FinderFactory<User, String, Enti
 
     @Override
     public User find(EntityManager manager) {
-        CriteriaBuilder cb = manager.getCriteriaBuilder();
-        CriteriaQuery<User> cq = cb.createQuery(User.class);
-        Root<User> root = cq.from(User.class);
-        cq.where(cb.equal(root.get("name"), name));
+        Query cq = manager.createQuery("select u from User u where u.name = :name")
+                .setParameter("name", name);
 
         User type;
         try {
-            type = manager.createQuery(cq).getSingleResult();
+            type = (User) cq.getSingleResult();
         } catch (Exception e) {
             type = new User().setName(name);
         }

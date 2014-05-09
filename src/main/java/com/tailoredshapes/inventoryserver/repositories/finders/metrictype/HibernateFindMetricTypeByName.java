@@ -5,6 +5,7 @@ import com.tailoredshapes.inventoryserver.repositories.Finder;
 import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -14,14 +15,12 @@ public class HibernateFindMetricTypeByName implements FinderFactory<MetricType, 
 
     @Override
     public MetricType find(EntityManager manager) {
-        CriteriaBuilder cb = manager.getCriteriaBuilder();
-        CriteriaQuery<MetricType> cq = cb.createQuery(MetricType.class);
-        Root<MetricType> root = cq.from(MetricType.class);
-        cq.where(cb.equal(root.get("name"), name));
+        Query cq = manager.createQuery("select m from MetricType m where m.name = :name")
+                          .setParameter("name", name);
 
         MetricType type;
         try {
-            type = manager.createQuery(cq).getSingleResult();
+            type = (MetricType) cq.getSingleResult();
         } catch (Exception e) {
             type = new MetricType().setName(name);
         }

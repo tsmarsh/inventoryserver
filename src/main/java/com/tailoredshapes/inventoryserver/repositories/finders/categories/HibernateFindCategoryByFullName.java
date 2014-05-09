@@ -5,6 +5,7 @@ import com.tailoredshapes.inventoryserver.repositories.Finder;
 import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,17 +17,12 @@ public class HibernateFindCategoryByFullName implements FinderFactory<Category, 
 
     @Override
     public Category find(EntityManager manager) {
-        CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
-        CriteriaQuery<Category> cq = criteriaBuilder.createQuery(Category.class);
-
-        Root<Category> root = cq.from(Category.class);
-        cq.where(criteriaBuilder.equal(root.get("fullname"), categoryFullName));
-
-        TypedQuery<Category> query = manager.createQuery(cq);
+        Query query = manager.createQuery("select c from Category c where c.fullname = :fullname")
+                             .setParameter("fullname", categoryFullName);
 
         Category cat;
         try {
-            cat = query.getSingleResult();
+            cat = (Category) query.getSingleResult();
         } catch (Exception e) {
             cat = new Category().setFullname(categoryFullName);
         }
