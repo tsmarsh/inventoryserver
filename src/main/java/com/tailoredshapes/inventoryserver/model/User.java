@@ -9,21 +9,24 @@ import java.util.HashSet;
 
 @Entity
 @Cacheable
+@Table(name = "users")
 public class User implements Idable<User>, Keyed, Cloneable, ShallowCopy<User> {
 
     @Id
+    @Column(name = "user_id")
     private Long id;
 
-    @Column(updatable = false)
+    @Column(updatable = false, name = "user_name")
     private String name;
 
-    @Column(length = 1024, updatable = false)
+    @Column(length = 1024, updatable = false, name = "private_key")
     private PrivateKey privateKey;
 
-    @Column(length = 1024, updatable = false)
+    @Column(length = 1024, updatable = false, name = "public_key")
     private PublicKey publicKey;
 
     @ManyToMany
+    @JoinTable(name = "user_inventories", joinColumns = @JoinColumn(name = "user_id", updatable = false), inverseJoinColumns = @JoinColumn(name="inventory_id", updatable = false))
     private Collection<Inventory> inventories = new HashSet<>();
 
     public Long getId() {

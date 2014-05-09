@@ -4,15 +4,18 @@ import javax.persistence.*;
 
 @Entity
 @Cacheable
+@Table
 public class Metric implements Idable<Metric>, Cloneable, ShallowCopy<Metric> {
 
     @Id
+    @Column(name = "metric_id")
     private Long id;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, name = "metric_value")
     private String value;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "metric_type_id")
     private MetricType type;
 
     public Long getId() {

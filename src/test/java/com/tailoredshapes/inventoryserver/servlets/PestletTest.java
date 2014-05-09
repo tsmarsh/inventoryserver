@@ -11,6 +11,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.cassandraunit.utils.EmbeddedCassandraServerHelper;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.json.JSONArray;
@@ -26,6 +27,26 @@ import java.util.List;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class PestletTest {
+
+    @Test
+    public void testCanHandleUserRootRequestsInCassandra() throws Exception {
+        int port = 8888;
+
+        final Server server = new Server(port);
+        WebAppContext webAppContext = new WebAppContext();
+        webAppContext.setContextPath("/");
+
+        webAppContext.setWar(this.getClass().getResource("/cassandra").getPath());
+        server.setHandler(webAppContext);
+        server.start();
+
+        try {
+            testCanCreateAUser(port);
+        } finally {
+            server.stop();
+        }
+
+    }
 
     @Test
     public void testCanHandleUserRootRequestsInHibernate() throws Exception {

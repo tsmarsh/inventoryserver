@@ -4,17 +4,20 @@ import javax.persistence.*;
 
 @Entity
 @Cacheable
+@Table(name = "categories")
 public class Category implements Idable<Category>, Cloneable, ShallowCopy<Category> {
     @Id
+    @Column(name = "category_id")
     private Long id;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, name = "category_name")
     private String name;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, name = "fullname")
     private String fullname;
 
     @ManyToOne
+    @JoinColumn(name = "category_parent_id")
     private Category parent;
 
     public Category() {

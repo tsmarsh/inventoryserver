@@ -6,18 +6,23 @@ import java.util.List;
 
 @Entity
 @Cacheable
+@Table(name = "inventories")
 public class Inventory implements Idable<Inventory>, Cloneable, ShallowCopy<Inventory> {
 
     @Id
+    @Column(name = "inventory_id")
     private Long id;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToMany
+    @JoinTable(name = "inventory_metrics", joinColumns = @JoinColumn(name = "inventory_join_id", updatable = false), inverseJoinColumns = @JoinColumn(name="metric_join_id", updatable = false))
     private List<Metric> metrics = new ArrayList<>();
 
     @ManyToOne
+    @JoinColumn(name = "inventory_parent_id")
     private Inventory parent;
 
     public Long getId() {

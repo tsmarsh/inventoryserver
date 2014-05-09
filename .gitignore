@@ -6,3 +6,5 @@ release.properties
 .idea/
 *.iml
 stats/
+venv
+.vagrant

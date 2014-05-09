@@ -1,18 +1,17 @@
 package com.tailoredshapes.inventoryserver.model;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Cacheable
+@Table
 public class MetricType implements Idable<MetricType>, Cloneable, ShallowCopy<MetricType> {
 
     @Id
+    @Column(name = "metric_type_id")
     private Long id;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, name = "metric_type_name")
     private String name;
 
     public Long getId() {
