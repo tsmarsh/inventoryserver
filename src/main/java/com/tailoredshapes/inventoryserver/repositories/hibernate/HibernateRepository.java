@@ -46,13 +46,7 @@ public class HibernateRepository<T extends Idable<T>> implements Repository<T, E
 
     @Override
     public Collection<T> list() {
-        CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
-        CriteriaQuery<T> cq = criteriaBuilder.createQuery(rawType);
-        Root<T> from = cq.from(rawType);
-        CriteriaQuery<T> all = cq.select(from);
-        TypedQuery<? super T> query = manager.createQuery(all);
-        //noinspection unchecked,unchecked
-        return (Collection<T>) query.getResultList();
+        return manager.createQuery(String.format("select t from %s t", rawType.getName())).getResultList();
     }
 
     @Override
