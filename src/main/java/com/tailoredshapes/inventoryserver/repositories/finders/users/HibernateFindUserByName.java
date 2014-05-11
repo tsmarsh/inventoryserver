@@ -6,9 +6,6 @@ import com.tailoredshapes.inventoryserver.repositories.FinderFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 public class HibernateFindUserByName implements FinderFactory<User, String, EntityManager>, Finder<User, EntityManager> {
     private String name;
