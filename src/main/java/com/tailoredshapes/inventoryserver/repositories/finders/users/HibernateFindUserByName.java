@@ -20,7 +20,7 @@ public class HibernateFindUserByName implements FinderFactory<User, String, Enti
 
         User type;
         try {
-            type = (User) cq.getSingleResult();
+            type = manager.merge((User) cq.getSingleResult());
         } catch (Exception e) {
             type = new User().setName(name);
         }

@@ -22,7 +22,7 @@ public class HibernateFindCategoryByFullName implements FinderFactory<Category, 
 
         Category cat;
         try {
-            cat = (Category) query.getSingleResult();
+            cat = manager.merge((Category) query.getSingleResult());
         } catch (Exception e) {
             cat = new Category().setFullname(categoryFullName);
         }

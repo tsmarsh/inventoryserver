@@ -9,6 +9,7 @@ import com.tailoredshapes.inventoryserver.repositories.Repository;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -46,7 +47,9 @@ public class HibernateRepository<T extends Idable<T>> implements Repository<T, E
 
     @Override
     public Collection<T> list() {
-        return manager.createQuery(String.format("select t from %s t", rawType.getName())).getResultList();
+        String getAllTs = String.format("select t from %s t", rawType.getSimpleName());
+        Query query = manager.createQuery(getAllTs);
+        return query.getResultList();
     }
 
     @Override

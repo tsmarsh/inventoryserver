@@ -20,7 +20,7 @@ public class HibernateFindMetricTypeByName implements FinderFactory<MetricType, 
 
         MetricType type;
         try {
-            type = (MetricType) cq.getSingleResult();
+            type = manager.merge((MetricType) cq.getSingleResult());
         } catch (Exception e) {
             type = new MetricType().setName(name);
         }

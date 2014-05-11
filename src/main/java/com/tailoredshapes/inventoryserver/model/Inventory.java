@@ -13,16 +13,16 @@ public class Inventory implements Idable<Inventory>, Cloneable, ShallowCopy<Inve
     @Column(name = "inventory_id")
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "inventory_metrics", joinColumns = @JoinColumn(name = "inventory_join_id", updatable = false), inverseJoinColumns = @JoinColumn(name="metric_join_id", updatable = false))
     private List<Metric> metrics = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "inventory_parent_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "inventory_parent_id", updatable = false)
     private Inventory parent;
 
     public Long getId() {

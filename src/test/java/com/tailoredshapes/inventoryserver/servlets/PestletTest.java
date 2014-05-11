@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.servlets;
 
+import org.apache.commons.logging.impl.Log4JLogger;
 import org.apache.http.*;
 import org.apache.http.client.RedirectStrategy;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -17,6 +18,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -27,26 +30,6 @@ import java.util.List;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class PestletTest {
-
-    @Test
-    public void testCanHandleUserRootRequestsInCassandra() throws Exception {
-        int port = 8888;
-
-        final Server server = new Server(port);
-        WebAppContext webAppContext = new WebAppContext();
-        webAppContext.setContextPath("/");
-
-        webAppContext.setWar(this.getClass().getResource("/cassandra").getPath());
-        server.setHandler(webAppContext);
-        server.start();
-
-        try {
-            testCanCreateAUser(port);
-        } finally {
-            server.stop();
-        }
-
-    }
 
     @Test
     public void testCanHandleUserRootRequestsInHibernate() throws Exception {

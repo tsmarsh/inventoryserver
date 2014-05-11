@@ -1,5 +1,8 @@
 package com.tailoredshapes.inventoryserver.model;
 
+import com.impetus.kundera.index.IndexCollection;
+import com.impetus.kundera.index.Index;
+
 import javax.persistence.*;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -10,23 +13,26 @@ import java.util.HashSet;
 @Entity
 @Cacheable
 @Table(name = "users")
+@IndexCollection(columns = {@Index(name = "name")})
 public class User implements Idable<User>, Keyed, Cloneable, ShallowCopy<User> {
 
     @Id
     @Column(name = "user_id")
     private Long id;
 
-    @Column(updatable = false, name = "user_name")
+    @Column(updatable = false, name = "user_name", nullable = false)
     private String name;
 
-    @Column(length = 1024, updatable = false, name = "private_key")
+    @Column(length = 1024, updatable = false, name = "private_key", nullable = false)
     private PrivateKey privateKey;
 
-    @Column(length = 1024, updatable = false, name = "public_key")
+    @Column(length = 1024, updatable = false, name = "public_key", nullable = false)
     private PublicKey publicKey;
 
-    @ManyToMany
-    @JoinTable(name = "user_inventories", joinColumns = @JoinColumn(name = "user_id", updatable = false), inverseJoinColumns = @JoinColumn(name="inventory_id", updatable = false))
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_inventories",
+               joinColumns = @JoinColumn(name = "user_id", updatable = false),
+               inverseJoinColumns = @JoinColumn(name="inventory_id", updatable = false))
     private Collection<Inventory> inventories = new HashSet<>();
 
     public Long getId() {

@@ -1,10 +1,14 @@
 package com.tailoredshapes.inventoryserver.model;
 
+import com.impetus.kundera.index.IndexCollection;
+import com.impetus.kundera.index.Index;
+
 import javax.persistence.*;
 
 @Entity
 @Cacheable
 @Table(name = "categories")
+@IndexCollection(columns = {@Index(name = "name"), @Index(name = "fullname")})
 public class Category implements Idable<Category>, Cloneable, ShallowCopy<Category> {
     @Id
     @Column(name = "category_id")
@@ -16,7 +20,7 @@ public class Category implements Idable<Category>, Cloneable, ShallowCopy<Catego
     @Column(nullable = false, updatable = false, name = "fullname")
     private String fullname;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_parent_id")
     private Category parent;
 

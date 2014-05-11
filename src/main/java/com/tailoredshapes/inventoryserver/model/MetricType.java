@@ -1,10 +1,14 @@
 package com.tailoredshapes.inventoryserver.model;
 
+import com.impetus.kundera.index.IndexCollection;
+import com.impetus.kundera.index.Index;
+
 import javax.persistence.*;
 
 @Entity
 @Cacheable
-@Table
+@Table(name = "metric_types")
+@IndexCollection(columns = {@Index(name="name")})
 public class MetricType implements Idable<MetricType>, Cloneable, ShallowCopy<MetricType> {
 
     @Id
