@@ -1,7 +1,7 @@
 package com.tailoredshapes.inventoryserver.model;
 
-import com.impetus.kundera.index.IndexCollection;
 import com.impetus.kundera.index.Index;
+import com.impetus.kundera.index.IndexCollection;
 
 import javax.persistence.*;
 import java.security.PrivateKey;
@@ -31,8 +31,8 @@ public class User implements Idable<User>, Keyed, Cloneable, ShallowCopy<User> {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_inventories",
-               joinColumns = @JoinColumn(name = "user_id", updatable = false),
-               inverseJoinColumns = @JoinColumn(name="inventory_id", updatable = false))
+            joinColumns = @JoinColumn(name = "user_id", updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "inventory_id", updatable = false))
     private Collection<Inventory> inventories = new HashSet<>();
 
     public Long getId() {

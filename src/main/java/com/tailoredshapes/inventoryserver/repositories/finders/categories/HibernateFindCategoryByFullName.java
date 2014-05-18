@@ -14,7 +14,7 @@ public class HibernateFindCategoryByFullName implements FinderFactory<Category, 
     @Override
     public Category find(EntityManager manager) {
         Query query = manager.createQuery("select c from Category c where c.fullname = :fullname")
-                             .setParameter("fullname", categoryFullName);
+                .setParameter("fullname", categoryFullName);
 
         Category cat;
         try {

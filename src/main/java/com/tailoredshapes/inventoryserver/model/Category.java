@@ -1,7 +1,7 @@
 package com.tailoredshapes.inventoryserver.model;
 
-import com.impetus.kundera.index.IndexCollection;
 import com.impetus.kundera.index.Index;
+import com.impetus.kundera.index.IndexCollection;
 
 import javax.persistence.*;
 

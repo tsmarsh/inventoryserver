@@ -272,38 +272,39 @@ public class UserRootMemoryModule extends PrivateModule {
                                             com.google.inject.Provider<Repository<User, ?>> repository, Validator<User> validator) {
         return new Pestlet<>(provider, responder, collectionResponder, dao, urlBuilder, repository, validator);
     }
+
     @Provides
     public Repository<Inventory, Map<Long, Inventory>> inventoryRepositoryProvider(Map<Long, Inventory> manager,
-                                                                            @Named("current_user") Provider<User> parent,
-                                                                            DAO<Inventory> dao, Repository<User, ?> parentRepo,
-                                                                            Predicate<Inventory> filter) {
+                                                                                   @Named("current_user") Provider<User> parent,
+                                                                                   DAO<Inventory> dao, Repository<User, ?> parentRepo,
+                                                                                   Predicate<Inventory> filter) {
         return new InMemoryUserInventoryRepository(manager, dao, parent, parentRepo, filter);
     }
 
     @Provides
     @Singleton
     public TFilter<Long, User, Map<Long, User>> providesUserFromIdFilter(com.google.inject.Provider<Parser<User>> parser,
-                                                                       com.google.inject.Provider<IdExtractor<Long, User>> idExtractor,
-                                                                       com.google.inject.Provider<Repository<User, Map<Long, User>>> repository,
-                                                                       com.google.inject.Provider<FinderFactory<User, Long, Map<Long, User>>> finderFactory) {
+                                                                         com.google.inject.Provider<IdExtractor<Long, User>> idExtractor,
+                                                                         com.google.inject.Provider<Repository<User, Map<Long, User>>> repository,
+                                                                         com.google.inject.Provider<FinderFactory<User, Long, Map<Long, User>>> finderFactory) {
         return new TFilter<>(parser, idExtractor, finderFactory, repository, User.class, "user");
     }
 
     @Provides
     @Singleton
     public TFilter<String, User, Map<Long, User>> providesUserFromNameFilter(com.google.inject.Provider<Parser<User>> parser,
-                                                                           com.google.inject.Provider<IdExtractor<String, User>> idExtractor,
-                                                                           com.google.inject.Provider<Repository<User, Map<Long, User>>> repository,
-                                                                           com.google.inject.Provider<FinderFactory<User, String, Map<Long, User>>> finderFactory) {
+                                                                             com.google.inject.Provider<IdExtractor<String, User>> idExtractor,
+                                                                             com.google.inject.Provider<Repository<User, Map<Long, User>>> repository,
+                                                                             com.google.inject.Provider<FinderFactory<User, String, Map<Long, User>>> finderFactory) {
         return new TFilter<>(parser, idExtractor, finderFactory, repository, User.class, "user");
     }
 
     @Provides
     @Singleton
     public TFilter<Long, Inventory, Map<Long, Inventory>> providesInventoryFromIdFilter(com.google.inject.Provider<Parser<Inventory>> parser,
-                                                                                 com.google.inject.Provider<IdExtractor<Long, Inventory>> idExtractor,
-                                                                                 com.google.inject.Provider<Repository<Inventory, Map<Long, Inventory>>> repository,
-                                                                                 com.google.inject.Provider<FinderFactory<Inventory, Long, Map<Long, Inventory>>> finderFactory) {
+                                                                                        com.google.inject.Provider<IdExtractor<Long, Inventory>> idExtractor,
+                                                                                        com.google.inject.Provider<Repository<Inventory, Map<Long, Inventory>>> repository,
+                                                                                        com.google.inject.Provider<FinderFactory<Inventory, Long, Map<Long, Inventory>>> finderFactory) {
         return new TFilter<>(parser, idExtractor, finderFactory, repository, Inventory.class, "inventory");
     }
 

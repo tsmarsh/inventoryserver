@@ -9,7 +9,7 @@ import com.tailoredshapes.inventoryserver.modules.memory.InMemoryDBModule;
 import com.tailoredshapes.inventoryserver.modules.memory.InventoryRootMemoryModule;
 import com.tailoredshapes.inventoryserver.modules.memory.UserRootMemoryModule;
 
-public class MemoryServletConfig extends GuiceServletContextListener{
+public class MemoryServletConfig extends GuiceServletContextListener {
 
     @Override
     protected Injector getInjector() {

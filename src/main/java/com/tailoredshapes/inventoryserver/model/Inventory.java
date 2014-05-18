@@ -18,7 +18,7 @@ public class Inventory implements Idable<Inventory>, Cloneable, ShallowCopy<Inve
     private Category category;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "inventory_metrics", joinColumns = @JoinColumn(name = "inventory_join_id", updatable = false), inverseJoinColumns = @JoinColumn(name="metric_join_id", updatable = false))
+    @JoinTable(name = "inventory_metrics", joinColumns = @JoinColumn(name = "inventory_join_id", updatable = false), inverseJoinColumns = @JoinColumn(name = "metric_join_id", updatable = false))
     private List<Metric> metrics = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)

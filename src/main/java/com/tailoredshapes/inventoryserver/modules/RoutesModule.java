@@ -53,7 +53,7 @@ public class RoutesModule extends ServletModule {
 
         bind(Key.get(User.class, Names.named("current_user")))
                 .to(User.class).in(ServletScopes.REQUEST);
-        
+
         bind(Key.get(Inventory.class, Names.named("current_inventory")))
                 .to(Inventory.class).in(ServletScopes.REQUEST);
     }

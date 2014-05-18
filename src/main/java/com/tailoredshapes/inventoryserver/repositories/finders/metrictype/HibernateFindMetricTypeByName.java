@@ -13,7 +13,7 @@ public class HibernateFindMetricTypeByName implements FinderFactory<MetricType, 
     @Override
     public MetricType find(EntityManager manager) {
         Query cq = manager.createQuery("select m from MetricType m where m.name = :name")
-                          .setParameter("name", name);
+                .setParameter("name", name);
 
         MetricType type;
         try {

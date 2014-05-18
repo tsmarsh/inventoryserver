@@ -44,19 +44,19 @@ public class InventoryRootMemoryModule extends PrivateModule {
 
     @Override
     protected void configure() {
-        bind(new TypeLiteral<Repository<Category,Map<Long, Category>>>() {})
+        bind(new TypeLiteral<Repository<Category, Map<Long, Category>>>() {})
                 .to(new TypeLiteral<InMemoryRepository<Category>>() {});
 
-        bind(new TypeLiteral<Repository<Inventory,Map<Long, Inventory>>>() {})
+        bind(new TypeLiteral<Repository<Inventory, Map<Long, Inventory>>>() {})
                 .to(new TypeLiteral<InMemoryRepository<Inventory>>() {});
 
-        bind(new TypeLiteral<Repository<User,Map<Long, User>>>() {})
+        bind(new TypeLiteral<Repository<User, Map<Long, User>>>() {})
                 .to(new TypeLiteral<InMemoryRepository<User>>() {});
 
-        bind(new TypeLiteral<Repository<Metric,Map<Long, Metric>>>() {})
+        bind(new TypeLiteral<Repository<Metric, Map<Long, Metric>>>() {})
                 .to(new TypeLiteral<InMemoryRepository<Metric>>() {});
 
-        bind(new TypeLiteral<Repository<MetricType,Map<Long, MetricType>>>() {})
+        bind(new TypeLiteral<Repository<MetricType, Map<Long, MetricType>>>() {})
                 .to(new TypeLiteral<InMemoryRepository<MetricType>>() {});
 
 
@@ -91,42 +91,42 @@ public class InventoryRootMemoryModule extends PrivateModule {
 
         bind(new TypeLiteral<InMemoryDAO<MetricType>>() {});
 
-        bind(new TypeLiteral<FinderFactory<Category, String,Map<Long, Category>>>() {})
+        bind(new TypeLiteral<FinderFactory<Category, String, Map<Long, Category>>>() {})
                 .to(InMemoryFindCategoryByFullName.class);
 
-        bind(new TypeLiteral<FinderFactory<MetricType, String,Map<Long, MetricType>>>() {})
+        bind(new TypeLiteral<FinderFactory<MetricType, String, Map<Long, MetricType>>>() {})
                 .to(InMemoryFindMetricTypeByName.class);
 
-        bind(new TypeLiteral<FinderFactory<User, Long,Map<Long, User>>>() {})
+        bind(new TypeLiteral<FinderFactory<User, Long, Map<Long, User>>>() {})
                 .to(InMemoryFindUserById.class);
 
-        bind(new TypeLiteral<FinderFactory<Inventory, Long,Map<Long, Inventory>>>() {})
+        bind(new TypeLiteral<FinderFactory<Inventory, Long, Map<Long, Inventory>>>() {})
                 .to(InMemoryFindInventoryById.class);
 
         bind(new TypeLiteral<Parser<Inventory>>() {})
-                .to(new TypeLiteral<InventoryParser<Map<Long, Category>,Map<Long, MetricType>>>() {});
+                .to(new TypeLiteral<InventoryParser<Map<Long, Category>, Map<Long, MetricType>>>() {});
 
         bind(new TypeLiteral<Saver<Category>>() {})
                 .to(new TypeLiteral<CategorySaver<Map<Long, Category>>>() {});
 
 
         bind(new TypeLiteral<Repository<Inventory, ?>>() {})
-                .to(new TypeLiteral<Repository<Inventory,Map<Long, Inventory>>>() {});
+                .to(new TypeLiteral<Repository<Inventory, Map<Long, Inventory>>>() {});
 
         bind(new TypeLiteral<Repository<User, ?>>() {})
-                .to(new TypeLiteral<Repository<User,Map<Long, User>>>() {});
+                .to(new TypeLiteral<Repository<User, Map<Long, User>>>() {});
 
         bind(new TypeLiteral<Repository<Category, ?>>() {})
-                .to(new TypeLiteral<Repository<Category,Map<Long, Category>>>() {});
+                .to(new TypeLiteral<Repository<Category, Map<Long, Category>>>() {});
 
         bind(new TypeLiteral<Repository<Metric, ?>>() {})
-                .to(new TypeLiteral<Repository<Metric,Map<Long, Metric>>>() {});
+                .to(new TypeLiteral<Repository<Metric, Map<Long, Metric>>>() {});
 
         bind(new TypeLiteral<Repository<MetricType, ?>>() {})
-                .to(new TypeLiteral<Repository<MetricType,Map<Long, MetricType>>>() {});
+                .to(new TypeLiteral<Repository<MetricType, Map<Long, MetricType>>>() {});
 
         bind(new TypeLiteral<TFilter<Long, Inventory, ?>>() {}).annotatedWith(Names.named("inventory_root"))
-                .to(Key.get(new TypeLiteral<TFilter<Long, Inventory,Map<Long, Inventory>>>() {}));
+                .to(Key.get(new TypeLiteral<TFilter<Long, Inventory, Map<Long, Inventory>>>() {}));
 
         expose(new TypeLiteral<TFilter<Long, Inventory, ?>>() {}).annotatedWith(Names.named("inventory_root"));
 
@@ -227,10 +227,10 @@ public class InventoryRootMemoryModule extends PrivateModule {
 
     @Provides
     @Singleton
-    public TFilter<Long, Inventory,Map<Long, Inventory>> providesInventoryFromIdFilter(com.google.inject.Provider<Parser<Inventory>> parser,
-                                                                                 com.google.inject.Provider<IdExtractor<Long, Inventory>> idExtractor,
-                                                                                 com.google.inject.Provider<Repository<Inventory,Map<Long, Inventory>>> repository,
-                                                                                 com.google.inject.Provider<FinderFactory<Inventory, Long,Map<Long, Inventory>>> finderFactory) {
+    public TFilter<Long, Inventory, Map<Long, Inventory>> providesInventoryFromIdFilter(com.google.inject.Provider<Parser<Inventory>> parser,
+                                                                                        com.google.inject.Provider<IdExtractor<Long, Inventory>> idExtractor,
+                                                                                        com.google.inject.Provider<Repository<Inventory, Map<Long, Inventory>>> repository,
+                                                                                        com.google.inject.Provider<FinderFactory<Inventory, Long, Map<Long, Inventory>>> finderFactory) {
         return new TFilter<>(parser, idExtractor, finderFactory, repository, Inventory.class, "inventory");
     }
 

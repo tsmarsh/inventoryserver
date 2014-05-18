@@ -243,7 +243,7 @@ public class UserRootJPAModule extends PrivateModule {
                 .to(UserValidator.class);
 
         bind(new TypeLiteral<Validator<Inventory>>() {})
-                .to(InventoryValidator.class);    
+                .to(InventoryValidator.class);
     }
 
     @Provides
@@ -272,6 +272,7 @@ public class UserRootJPAModule extends PrivateModule {
                                             com.google.inject.Provider<Repository<User, ?>> repository, Validator<User> validator) {
         return new Pestlet<>(provider, responder, collectionResponder, dao, urlBuilder, repository, validator);
     }
+
     @Provides
     public Repository<Inventory, EntityManager> inventoryRepositoryProvider(EntityManager manager,
                                                                             TypeLiteral<Inventory> type,
