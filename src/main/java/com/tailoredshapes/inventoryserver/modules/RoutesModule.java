@@ -7,7 +7,6 @@ import com.google.inject.name.Names;
 import com.google.inject.persist.PersistFilter;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
-import com.google.inject.servlet.ServletScopes;
 import com.tailoredshapes.inventoryserver.filters.TFilter;
 import com.tailoredshapes.inventoryserver.filters.TransactionFilter;
 import com.tailoredshapes.inventoryserver.model.Inventory;
@@ -15,7 +14,6 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.servlets.Pestlet;
 
 import javax.inject.Named;
-import javax.inject.Scope;
 
 public class RoutesModule extends ServletModule {
     private final boolean usesPersistence;
@@ -60,14 +58,14 @@ public class RoutesModule extends ServletModule {
     @Provides
     @Named("current_user")
     @RequestScoped
-    public User providesCurrentUser(){
+    public User providesCurrentUser() {
         return new User();
     }
 
     @Provides
     @Named("current_inventory")
     @RequestScoped
-    public Inventory providesCurrentInventory(){
+    public Inventory providesCurrentInventory() {
         return new Inventory();
     }
 }
