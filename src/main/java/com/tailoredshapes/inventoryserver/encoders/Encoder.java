@@ -1,7 +1,6 @@
 package com.tailoredshapes.inventoryserver.encoders;
 
-import com.tailoredshapes.inventoryserver.security.Algorithm;
-
-public interface Encoder<T, R extends Algorithm> {
-    Long encode(T object);
+@FunctionalInterface
+public interface Encoder {
+    Long encode(Object object);
 }

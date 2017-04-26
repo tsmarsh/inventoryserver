@@ -1,69 +1,65 @@
 package com.tailoredshapes.inventoryserver.dao.memory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.tailoredshapes.inventoryserver.dao.ChildFreeSaver;
 import com.tailoredshapes.inventoryserver.dao.Saver;
-import com.tailoredshapes.inventoryserver.encoders.Encoder;
+import com.tailoredshapes.inventoryserver.encoders.Encoders;
 import com.tailoredshapes.inventoryserver.model.TestModel;
-import com.tailoredshapes.inventoryserver.security.TestAlgorithm;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ChildFreeSaverTest {
-    Long testId = 1l;
 
-    private TestModel model;
+  private TestModel model;
 
-    private Encoder<TestModel, TestAlgorithm> encoder = new Encoder<TestModel, TestAlgorithm>() {
-        @Override
-        public Long encode(TestModel object) {
-            return testId;
-        }
-    };
+  private Saver<TestModel> saver = new ChildFreeSaver<>();
 
-    private Saver<TestModel> saver = new ChildFreeSaver<>();
+  @Test
+  public void shouldUpdateAnObject() {
+    Map<Long, TestModel> db = new HashMap<>();
+    Long testId = -2500449328580418595L;
 
-    @Test
-    public void shouldUpdateAnObject() {
-        Map<Long, TestModel> db = new HashMap<>();
-        InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, encoder, saver);
-        model = new TestModel().setValue("twifty");
-        TestModel returnedTestModel = dao.create(model);
+    InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, Encoders.shaEncoder, saver);
+    model = new TestModel().setValue("twifty");
+    TestModel returnedTestModel = dao.create(model);
 
-        assertEquals(testId, returnedTestModel.getId());
-        assertEquals("twifty", returnedTestModel.getValue());
+    assertEquals(testId, returnedTestModel.getId());
+    assertEquals("twifty", returnedTestModel.getValue());
 
-        TestModel updatedModel = new TestModel().setId(testId).setValue("eleventy");
-        dao.update(updatedModel);
+    TestModel updatedModel = new TestModel().setId(testId).setValue("eleventy");
+    dao.update(updatedModel);
 
-        TestModel lookupModel = new TestModel().setId(testId);
+    TestModel lookupModel = new TestModel().setId(testId);
 
-        TestModel readModel = dao.read(lookupModel);
-        assertEquals("eleventy", readModel.getValue());
-    }
+    TestModel readModel = dao.read(lookupModel);
+    assertEquals("eleventy", readModel.getValue());
+  }
 
-    @Test
-    public void shouldDeleteAnObject() {
-        Map<Long, TestModel> db = new HashMap<>();
-        InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, encoder, saver);
-        model = new TestModel().setValue("twifty");
-        TestModel returnedTestModel = dao.create(model);
+  @Test
+  public void shouldDeleteAnObject() {
+    Map<Long, TestModel> db = new HashMap<>();
+    InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, Encoders.shaEncoder, saver);
+    model = new TestModel().setValue("twifty");
+    TestModel returnedTestModel = dao.create(model);
 
-        assertEquals(testId, returnedTestModel.getId());
-        assertEquals("twifty", returnedTestModel.getValue());
+    Long testId = -2948433279160353849L;
 
-        TestModel deleteModel = new TestModel().setId(testId);
-        dao.delete(deleteModel);
+    assertEquals(testId, returnedTestModel.getId());
+    assertEquals("twifty", returnedTestModel.getValue());
 
-        TestModel lookupModel = new TestModel().setId(testId);
+    TestModel deleteModel = new TestModel().setId(testId);
+    dao.delete(deleteModel);
 
-        assertNull(dao.read(lookupModel));
-    }
+    TestModel lookupModel = new TestModel().setId(testId);
+
+    assertNull(dao.read(lookupModel));
+  }
 }

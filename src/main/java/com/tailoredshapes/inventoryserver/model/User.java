@@ -1,127 +1,97 @@
 package com.tailoredshapes.inventoryserver.model;
 
-import com.impetus.kundera.index.Index;
-import com.impetus.kundera.index.IndexCollection;
-
-import javax.persistence.*;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
 @Cacheable
 @Table(name = "users")
-@IndexCollection(columns = {@Index(name = "name")})
-public class User implements Idable<User>, Keyed, Cloneable, ShallowCopy<User> {
+public class User implements Idable<User>, Cloneable, ShallowCopy<User> {
 
-    @Id
-    @Column(name = "user_id")
-    private Long id;
+  @Id
+  @Column(name = "user_id")
+  private Long id;
 
-    @Column(updatable = false, name = "user_name", nullable = false)
-    private String name;
+  @Column(updatable = false, name = "user_name", nullable = false)
+  private String name;
 
-    @Column(length = 1024, updatable = false, name = "private_key", nullable = false)
-    private PrivateKey privateKey;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "user_inventories",
+    joinColumns = @JoinColumn(name = "user_id", updatable = false),
+    inverseJoinColumns = @JoinColumn(name = "inventory_id", updatable = false))
+  private Collection<Inventory> inventories = new HashSet<>();
 
-    @Column(length = 1024, updatable = false, name = "public_key", nullable = false)
-    private PublicKey publicKey;
+  public Long getId() {
+    return id;
+  }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_inventories",
-            joinColumns = @JoinColumn(name = "user_id", updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "inventory_id", updatable = false))
-    private Collection<Inventory> inventories = new HashSet<>();
+  public User setId(Long id) {
+    this.id = id;
+    return this;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public User setId(Long id) {
-        this.id = id;
-        return this;
-    }
+  public User setName(String name) {
+    this.name = name;
+    return this;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public Collection<Inventory> getInventories() {
+    return this.inventories;
+  }
 
-    public User setName(String name) {
-        this.name = name;
-        return this;
-    }
+  public User setInventories(Collection<Inventory> inventories) {
+    this.inventories = inventories;
+    return this;
+  }
 
-    public PrivateKey getPrivateKey() {
-        return privateKey;
-    }
+  @Override
+  public User clone() throws CloneNotSupportedException {
+    return (User) super.clone();
+  }
 
-    public User setPrivateKey(PrivateKey privateKey) {
-        this.privateKey = privateKey;
-        return this;
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) { return true; }
+    if (!(o instanceof User)) { return false; }
 
-    public PublicKey getPublicKey() {
-        return publicKey;
-    }
+    User user = (User) o;
 
-    public User setPublicKey(PublicKey publicKey) {
-        this.publicKey = publicKey;
-        return this;
-    }
+    return id.equals(user.id) && !(name != null ? !name.equals(user.name) : user.name != null);
+  }
 
-    public Collection<Inventory> getInventories() {
-        return this.inventories;
-    }
+  @Override
+  public int hashCode() {
+    int result = id.hashCode();
+    result = 31 * result + (name != null ? name.hashCode() : 0);
+    return result;
+  }
 
-    public User setInventories(Collection<Inventory> inventories) {
-        this.inventories = inventories;
-        return this;
-    }
+  @Override
+  public String toString() {
+    return "User{" +
+           "id=" + id +
+           ", name='" + name + '\'' +
+           ", inventories=" + inventories +
+           '}';
+  }
 
-    @Override
-    public User clone() throws CloneNotSupportedException {
-        return (User) super.clone();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-
-        User user = (User) o;
-
-        if (!id.equals(user.id)) return false;
-        return !(name != null ? !name.equals(user.name) : user.name != null) && !(privateKey != null ? !Arrays.equals(privateKey.getEncoded(), user.privateKey.getEncoded()) : user.privateKey != null) && !(publicKey != null ? !Arrays.equals(publicKey.getEncoded(), user.publicKey.getEncoded()) : user.publicKey != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (privateKey != null ? Arrays.hashCode(privateKey.getEncoded()) : 0);
-        result = 31 * result + (publicKey != null ? Arrays.hashCode(publicKey.getEncoded()) : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", privateKey=" + privateKey +
-                ", publicKey=" + publicKey +
-                ", inventories=" + inventories +
-                '}';
-    }
-
-    @Override
-    public User shallowCopy() {
-        return new User().setId(null)
-                .setPrivateKey(privateKey)
-                .setPublicKey(publicKey)
-                .setInventories(inventories);
-    }
+  @Override
+  public User shallowCopy() {
+    return new User().setId(null)
+      .setInventories(inventories);
+  }
 }

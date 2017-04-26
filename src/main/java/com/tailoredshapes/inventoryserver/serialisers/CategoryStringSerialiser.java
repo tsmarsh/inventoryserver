@@ -3,7 +3,7 @@ package com.tailoredshapes.inventoryserver.serialisers;
 import com.tailoredshapes.inventoryserver.model.Category;
 import org.json.JSONObject;
 
-public class CategoryStringSerialiser implements Serialiser<Category, String> {
+public class CategoryStringSerialiser implements Serialiser<Category> {
     @Override
     public String serialise(Category object) {
         JSONObject jsonObject = new JSONObject();

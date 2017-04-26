@@ -1,9 +1,19 @@
 package com.tailoredshapes.inventoryserver.security;
 
-import com.google.inject.Key;
-import com.google.inject.name.Names;
-import com.tailoredshapes.inventoryserver.GuiceTest;
-import com.tailoredshapes.inventoryserver.dao.DAO;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.google.gson.Gson;
+
+import com.tailoredshapes.inventoryserver.dao.CategorySaver;
+import com.tailoredshapes.inventoryserver.dao.InventorySaver;
+import com.tailoredshapes.inventoryserver.dao.MetricSaver;
+import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
+import com.tailoredshapes.inventoryserver.encoders.Encoders;
+import com.tailoredshapes.inventoryserver.extractors.Extractors;
+import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.MetricType;
@@ -11,88 +21,109 @@ import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricBuilder;
 import com.tailoredshapes.inventoryserver.model.builders.MetricTypeBuilder;
+import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
-import com.tailoredshapes.inventoryserver.scopes.SimpleScope;
+import com.tailoredshapes.inventoryserver.repositories.Repository;
+import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryLookers;
+import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository;
+import com.tailoredshapes.inventoryserver.serialisers.InventoryStringSerialiser;
+import com.tailoredshapes.inventoryserver.serialisers.MetricStringSerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
-import org.junit.After;
+import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
 public class InventoryParserTest {
-    private SimpleScope scope;
 
+  Gson gson = new Gson();
 
-    @Before
-    public void init() {
-        scope = GuiceTest.injector.getInstance(SimpleScope.class);
-        scope.enter();
-        scope.seed(Key.get(User.class, Names.named("current_user")), new User().setId(141211l));
-    }
+  private Repository.FindBy<Category, Map<Long, Category>>
+    iMcategoryFindBy;
+  private Repository.FindById<Inventory>
+    iMinventoryFindById;
+  private Repository.FindBy<MetricType, Map<Long, MetricType>>
+    iMmetricTypeFindBy;
+  private InMemoryDAO<MetricType>
+    iMMetricTypeDAO;
+  private InMemoryDAO<Metric>
+    iMMetricDAO;
+  private InMemoryDAO<Inventory>
+    dao;
+  private Parser<Inventory>
+    parser;
+  private InMemoryDAO<Category>
+    iMCatDAO;
+  private InventoryStringSerialiser serialiser;
 
-    @After
-    public void tearDown() throws Exception {
-        scope.exit();
-    }
+  @Before
+  public void setUp() throws Exception {
+    Map<Long, Category> catdb = new HashMap<>();
+    Map<Long, Inventory> invdb = new HashMap<>();
+    Map<Long, Metric> metdb = new HashMap<>();
+    Map<Long, MetricType> metTypedb = new HashMap<>();
+    Map<Long, User> udb = new HashMap<>();
 
-    @Test
-    public void shouldParseASimpleInventory() throws Exception {
-        Inventory inventory = new InventoryBuilder().build();
-        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
+    iMcategoryFindBy = InMemoryRepository.findBy(catdb);
+    iMinventoryFindById = InMemoryRepository.findById(invdb);
+    iMmetricTypeFindBy = InMemoryRepository.findBy(metTypedb);
 
-        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>() {});
-        Serialiser<Inventory, String> serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
+    iMMetricTypeDAO = new InMemoryDAO<>(metTypedb, Encoders.shaEncoder, (x, t) -> t);
+    iMMetricDAO = new InMemoryDAO<>(metdb, Encoders.shaEncoder, new MetricSaver(iMMetricTypeDAO));
+    iMCatDAO = new InMemoryDAO<>(catdb,
+                                 Encoders.shaEncoder,
+                                 new CategorySaver<>(iMcategoryFindBy, InMemoryLookers.categoryByFullName));
+    dao = new InMemoryDAO<>(invdb, Encoders.shaEncoder, new InventorySaver(iMMetricDAO, iMCatDAO));
+    parser = InventoryParser.inventoryParser(iMcategoryFindBy,
+                                             iMinventoryFindById,
+                                             iMmetricTypeFindBy, InMemoryLookers.categoryByFullName,
+                                             InMemoryLookers.metricTypeByName,
+                                             Extractors.inventoryExtractor);
 
-        Inventory inv = parser.parse(serialiser.serialise(inventory));
-        assertEquals(inventory.getCategory().getFullname(), inv.getCategory().getFullname());
-    }
+    serialiser =
+      new InventoryStringSerialiser(new InventoryUrlBuilder("http", "localhost", 5555), new MetricStringSerialiser());
 
-    @Test
-    public void shouldParseAnInventoryWithParent() throws Exception {
-        DAO<Inventory> dao = GuiceTest.injector.getInstance(new Key<DAO<Inventory>>() {});
+  }
 
-        Inventory parent = new InventoryBuilder().build();
-        parent = dao.create(parent);
+  @Test
+  public void shouldParseASimpleInventory() throws Exception {
+    Inventory inventory = new InventoryBuilder().build();
 
-        Inventory inventory = new InventoryBuilder().parent(parent).build();
+    Inventory inv = parser.parse(serialiser.serialise(inventory));
+    assertEquals(inventory.getCategory().getFullname(), inv.getCategory().getFullname());
+  }
 
-        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
+  @Test
+  public void shouldParseAnInventoryWithParent() throws Exception {
+    Inventory parent = new InventoryBuilder().build();
+    parent = dao.create(parent);
 
-        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>() {});
-        Serialiser<Inventory, String> serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
+    Inventory inventory = new InventoryBuilder().parent(parent).build();
 
-        Inventory inv = parser.parse(serialiser.serialise(inventory));
+    Inventory inv = parser.parse(serialiser.serialise(inventory));
 
-        assertEquals(parent, inv.getParent());
+    assertEquals(parent, inv.getParent());
 
-    }
+  }
 
-    @Test
-    public void shouldParseAnInventoryWithMetrics() throws Exception {
-        List<Metric> metrics = new ArrayList<>(2);
-        MetricType testType = new MetricTypeBuilder().build();
-        Metric metric1 = new MetricBuilder().type(testType).value("Cassie").build();
-        Metric metric2 = new MetricBuilder().type(testType).value("Archer").build();
-        metrics.add(metric1);
-        metrics.add(metric2);
+  @Test
+  public void shouldParseAnInventoryWithMetrics() throws Exception {
+    List<Metric> metrics = new ArrayList<>(2);
+    MetricType testType = new MetricTypeBuilder().build();
+    Metric metric1 = new MetricBuilder().type(testType).value("Cassie").build();
+    Metric metric2 = new MetricBuilder().type(testType).value("Archer").build();
+    metrics.add(metric1);
+    metrics.add(metric2);
 
-        Inventory inventory = new InventoryBuilder().metrics(metrics).build();
+    Inventory inventory = new InventoryBuilder().metrics(metrics).build();
 
-        scope.seed(Key.get(Inventory.class, Names.named("current_inventory")), inventory);
+    Inventory inv = parser.parse(serialiser.serialise(inventory));
 
-        Parser<Inventory> parser = GuiceTest.injector.getInstance(new Key<Parser<Inventory>>() {});
-        Serialiser<Inventory, String> serialiser = GuiceTest.injector.getInstance(new Key<Serialiser<Inventory, String>>() {});
-
-
-        Inventory inv = parser.parse(new String(serialiser.serialise(inventory)));
-
-        assertEquals(inv.getMetrics().get(0).getValue(), "Cassie");
-        assertEquals(inv.getMetrics().get(0).getType().getName(), testType.getName());
-        assertEquals(inv.getMetrics().get(1).getValue(), "Archer");
-        assertEquals(inv.getMetrics().get(1).getType().getName(), testType.getName());
-    }
+    assertEquals(inv.getMetrics().get(0).getValue(), "Cassie");
+    assertEquals(inv.getMetrics().get(0).getType().getName(), testType.getName());
+    assertEquals(inv.getMetrics().get(1).getValue(), "Archer");
+    assertEquals(inv.getMetrics().get(1).getType().getName(), testType.getName());
+  }
 }

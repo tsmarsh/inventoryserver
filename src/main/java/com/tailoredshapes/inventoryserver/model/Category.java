@@ -1,14 +1,17 @@
 package com.tailoredshapes.inventoryserver.model;
 
-import com.impetus.kundera.index.Index;
-import com.impetus.kundera.index.IndexCollection;
-
-import javax.persistence.*;
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Cacheable
 @Table(name = "categories")
-@IndexCollection(columns = {@Index(name = "name"), @Index(name = "fullname")})
 public class Category implements Idable<Category>, Cloneable, ShallowCopy<Category> {
     @Id
     @Column(name = "category_id")

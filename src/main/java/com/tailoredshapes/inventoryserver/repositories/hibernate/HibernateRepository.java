@@ -1,55 +1,37 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
-import com.google.inject.TypeLiteral;
-import com.google.inject.servlet.RequestScoped;
+import java.util.Collection;
+import java.util.function.Predicate;
+
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Idable;
+import com.tailoredshapes.inventoryserver.model.Inventory;
+import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.Finder;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.Collection;
 
-@RequestScoped
-public class HibernateRepository<T extends Idable<T>> implements Repository<T, EntityManager> {
-    private final EntityManager manager;
-    private final DAO<T> dao;
-    private final Class<T> rawType;
+public interface HibernateRepository extends Repository {
 
-    @Inject
-    public HibernateRepository(EntityManager manager, TypeLiteral<T> type, DAO<T> dao) {
-        this.manager = manager;
-        this.dao = dao;
-        //noinspection unchecked,unchecked
-        this.rawType = (Class<T>) type.getRawType();
-    }
+  static <T> FindById<T> findById(Class<T> rawType, EntityManager manager) {
+     return (id) -> manager.find(rawType, id);
+  }
 
-    @Override
-    public T findById(Long id) {
-        return manager.find(rawType, id);
-    }
+  static <T> FindBy<T, EntityManager> findBy(EntityManager manager) {
+    return (finder) -> finder.find(manager);
+  }
 
-    @Override
-    public T findBy(Finder<T, EntityManager> finder) {
-        return finder.find(manager);
-    }
+  static <T> ListBy<T, EntityManager> listBy(EntityManager manager){
+    return (finder) -> finder.find(manager);
+  }
 
-    @Override
-    public Collection<T> listBy(Finder<Collection<T>, EntityManager> finder) {
-        return finder.find(manager);
-    }
-
-    @Override
-    public Collection<T> list() {
-        String getAllTs = String.format("select t from %s t", rawType.getSimpleName());
-        Query query = manager.createQuery(getAllTs);
-        return query.getResultList();
-    }
-
-    @Override
-    public T save(final T t) {
-        return t.getId() == null ? dao.create(t) : dao.update(t);
-    }
+  static <T> List<T> list(Class<T> rawType, EntityManager manager) {
+    return () -> {
+      String getAllTs = String.format("select t from %s t", rawType.getSimpleName());
+      Query query = manager.createQuery(getAllTs);
+      return query.getResultList();
+    };
+  }
 }

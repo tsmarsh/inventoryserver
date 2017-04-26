@@ -1,0 +1,190 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Inventory Server
+  description: |
+host: localhost:5555
+basePath: /
+schemes:
+  - http
+produces:
+  - application/json
+consumes:
+  - application/json
+
+paths:
+  /inventories:
+    get:
+      description: Returns all inventories
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Inventory'
+
+    post:
+      description: Create a new inventory
+      parameters:
+        - in: body
+          schema:
+            $ref: '#/definitions/Inventory'
+          required: true
+      responses:
+        302:
+          description: The url of the new inventory
+
+  /users/{userId}/inventories:
+    get:
+      description: Returns all inventories for a user
+      parameters:
+        - in: path
+          name: userId
+          type: string
+          required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Inventory'
+    post:
+      description: Creates a new inventory for a user
+      parameters:
+        - in: path
+          name: userId
+          type: string
+          required: true
+        - in: body
+          schema:
+            $ref: '#/definitions/Inventory'
+          required: true
+      responses:
+        302:
+          description: The url of the new inventory
+
+  /users/{userId}/inventories/{inventoryId}:
+    get:
+      description: Return the inventory for this user with that id
+      parameters:
+        - in: path
+          name: userId
+          type: string
+          required: true
+        - in: path
+          name: inventoryId
+          type: string
+          required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Inventory'
+    post:
+      description: Updates the inventory for this user with that id.
+      parameters:
+        - in: path
+          name: userId
+          type: string
+          required: true
+        - in: path
+          name: inventoryId
+          type: string
+          required: true
+        - in: body
+          schema:
+            $ref: '#/definitions/Inventory'
+          required: true
+      responses:
+        302:
+          description: The url of the new inventory
+
+  /users:
+    get:
+      description: The list of all users
+      responses:
+        200:
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+    post:
+      description: Add a new user
+      parameters:
+        - in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        302:
+          description: The url of the new user
+
+  /users/{userId}:
+    get:
+      description: Redirects to the latest version of the user
+
+  /users/{userId}/{userVersion}:
+    get:
+      description: The user at this version
+    post:
+      description: Updates the user
+      responses:
+        302:
+            description: The new url for the user
+
+
+definitions:
+  Inventory:
+    type: object
+    properties:
+      id:
+        type: integer
+      category:
+        $ref: '#/definitions/Category'
+      parent:
+        $ref: '#/definitions/Inventory'
+      metrics:
+        type: array
+        items:
+          $ref: '#/definitions/Metric'
+  Category:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      fullname:
+        type: string
+      parent:
+        $ref: '#/definitions/Category'
+  Metric:
+    type: object
+    properties:
+      id:
+        type: integer
+      value:
+        type: string
+      type:
+        $ref: '#/definitions/MetricType'
+  MetricType:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      inventories:
+        type: array
+        items:
+          $ref: '#/definitions/Inventory'
