@@ -1,13 +1,8 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.function.Predicate;
 
-import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Idable;
-import com.tailoredshapes.inventoryserver.model.Inventory;
-import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 
 public interface InMemoryRepository<T extends Idable<T>> extends Repository {

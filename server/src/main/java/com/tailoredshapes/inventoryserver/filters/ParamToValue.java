@@ -4,12 +4,10 @@ import java.util.function.Function;
 
 import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
-import com.tailoredshapes.inventoryserver.repositories.Finder;
 import com.tailoredshapes.inventoryserver.repositories.Looker;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 
 import spark.Request;
-import spark.Response;
 
 import static com.tailoredshapes.underbar.Die.dieIf;
 

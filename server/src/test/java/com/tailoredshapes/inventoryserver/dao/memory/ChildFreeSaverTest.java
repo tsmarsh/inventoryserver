@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.tailoredshapes.inventoryserver.dao.ChildFreeSaver;
 import com.tailoredshapes.inventoryserver.dao.Saver;
-import com.tailoredshapes.inventoryserver.encoders.Encoders;
 import com.tailoredshapes.inventoryserver.model.TestModel;
 
 import org.junit.Test;

@@ -3,7 +3,6 @@ package com.tailoredshapes.inventoryserver.dao.memory;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.tailoredshapes.inventoryserver.TestPersistence;
 import com.tailoredshapes.inventoryserver.dao.CategorySaver;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.InventorySaver;

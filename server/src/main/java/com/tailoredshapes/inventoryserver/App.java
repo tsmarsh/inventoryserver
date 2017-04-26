@@ -1,27 +1,5 @@
 package com.tailoredshapes.inventoryserver;
 
-import java.net.URL;
-import java.util.function.Function;
-
-import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.extractors.IdExtractor;
-import com.tailoredshapes.inventoryserver.filters.ParamToValue;
-import com.tailoredshapes.inventoryserver.model.Idable;
-import com.tailoredshapes.inventoryserver.parsers.Parser;
-import com.tailoredshapes.inventoryserver.repositories.Looker;
-import com.tailoredshapes.inventoryserver.repositories.Repository;
-import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateRepository;
-import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
-import com.tailoredshapes.inventoryserver.validators.Validator;
-
-import javax.persistence.EntityManager;
-
-import static com.tailoredshapes.inventoryserver.Persistence.persistent;
-import static com.tailoredshapes.inventoryserver.Persistence.transactional;
-import static com.tailoredshapes.inventoryserver.Pestlet.getlet;
-import static com.tailoredshapes.inventoryserver.Pestlet.postlet;
-import static com.tailoredshapes.inventoryserver.ProdPersistence.emf;
-import static com.tailoredshapes.inventoryserver.filters.ParamToValue.valueExtractor;
 import static spark.Spark.get;
 import static spark.Spark.post;
 

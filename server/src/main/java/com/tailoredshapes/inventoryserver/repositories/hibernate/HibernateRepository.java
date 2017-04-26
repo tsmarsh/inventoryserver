@@ -1,13 +1,5 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
-import java.util.Collection;
-import java.util.function.Predicate;
-
-import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.model.Idable;
-import com.tailoredshapes.inventoryserver.model.Inventory;
-import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.repositories.Finder;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 
 import javax.persistence.EntityManager;

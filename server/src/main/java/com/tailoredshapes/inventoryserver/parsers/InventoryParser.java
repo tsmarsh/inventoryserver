@@ -12,7 +12,6 @@ import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.repositories.Looker;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
-import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateRepository;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

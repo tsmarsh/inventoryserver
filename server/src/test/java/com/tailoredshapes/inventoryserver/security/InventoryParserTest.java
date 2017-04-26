@@ -28,7 +28,6 @@ import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryLookers;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository;
 import com.tailoredshapes.inventoryserver.serialisers.InventoryStringSerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.MetricStringSerialiser;
-import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 
 import org.junit.Before;
