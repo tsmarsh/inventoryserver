@@ -164,7 +164,7 @@ public class UserParserTest {
 
   @Test
   public void testParseExistingUserInMemory() throws Exception {
-    testParseExistingUser(User::toString, imUserParser, iMUserDAO);
+    testParseExistingUser(userSerializer, imUserParser, iMUserDAO);
   }
 
   @Test
@@ -172,7 +172,7 @@ public class UserParserTest {
     EntityTransaction transaction = em.getTransaction();
 
     transaction.begin();
-    testParseExistingUser(User::toString, userParser, userDAO);
+    testParseExistingUser(userSerializer, userParser, userDAO);
     transaction.rollback();
   }
 

@@ -29,6 +29,7 @@ import org.junit.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import static com.tailoredshapes.inventoryserver.TestPersistence.emf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -67,6 +68,7 @@ public class UserDAOTest {
 
   @Before
   public void setUp() throws Exception {
+    em = emf.createEntityManager();
     categoryFindBy = HibernateRepository.findBy(em);
     inventoryFindById = HibernateRepository.findById(Inventory.class, em);
     userFindById = HibernateRepository.findById(User.class, em);
@@ -111,8 +113,6 @@ public class UserDAOTest {
 
   @Test
   public void testHibernate() throws Exception {
-
-    EntityManager em = TestPersistence.emf.createEntityManager();
     EntityTransaction transaction = em.getTransaction();
     transaction.begin();
 

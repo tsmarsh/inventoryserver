@@ -25,9 +25,9 @@ public class ChildFreeSaverTest {
   @Test
   public void shouldUpdateAnObject() {
     Map<Long, TestModel> db = new HashMap<>();
-    Long testId = -2500449328580418595L;
+    Long testId = 1L;
 
-    InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, Encoders.shaEncoder, saver);
+    InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, (x) -> 1L, saver);
     model = new TestModel().setValue("twifty");
     TestModel returnedTestModel = dao.create(model);
 
@@ -46,11 +46,11 @@ public class ChildFreeSaverTest {
   @Test
   public void shouldDeleteAnObject() {
     Map<Long, TestModel> db = new HashMap<>();
-    InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, Encoders.shaEncoder, saver);
+    InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, (x)-> 1L, saver);
     model = new TestModel().setValue("twifty");
     TestModel returnedTestModel = dao.create(model);
 
-    Long testId = -2948433279160353849L;
+    Long testId = 1L;
 
     assertEquals(testId, returnedTestModel.getId());
     assertEquals("twifty", returnedTestModel.getValue());
