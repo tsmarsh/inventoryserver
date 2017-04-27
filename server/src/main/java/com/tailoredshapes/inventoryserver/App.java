@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver;
 
 import static spark.Spark.get;
+import static spark.Spark.port;
 import static spark.Spark.post;
 
 public class App {
@@ -37,6 +38,7 @@ public class App {
 //  }
 
   public static void main(String... args) {
-
+    port(1414);
+    Router.route(ProdPersistence.emf);
   }
 }

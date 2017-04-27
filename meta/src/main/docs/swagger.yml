@@ -5,7 +5,6 @@ info:
   title: Inventory Server
   description: |
 host: localhost:5555
-basePath: /
 schemes:
   - http
 produces:
@@ -17,6 +16,7 @@ paths:
   /inventories:
     get:
       description: Returns all inventories
+      operationId: allInventories
       responses:
         200:
           description: Success
@@ -27,8 +27,10 @@ paths:
 
     post:
       description: Create a new inventory
+      operationId: createInventory
       parameters:
         - in: body
+          name: inventory
           schema:
             $ref: '#/definitions/Inventory'
           required: true
@@ -39,6 +41,7 @@ paths:
   /users/{userId}/inventories:
     get:
       description: Returns all inventories for a user
+      operationId: allInventoriesForUser
       parameters:
         - in: path
           name: userId
@@ -53,12 +56,14 @@ paths:
               $ref: '#/definitions/Inventory'
     post:
       description: Creates a new inventory for a user
+      operationId: createInventoryForUser
       parameters:
         - in: path
           name: userId
           type: string
           required: true
         - in: body
+          name: inventory
           schema:
             $ref: '#/definitions/Inventory'
           required: true
@@ -69,6 +74,7 @@ paths:
   /users/{userId}/inventories/{inventoryId}:
     get:
       description: Return the inventory for this user with that id
+      operationId: getInventoryForUser
       parameters:
         - in: path
           name: userId
@@ -85,6 +91,7 @@ paths:
             $ref: '#/definitions/Inventory'
     post:
       description: Updates the inventory for this user with that id.
+      operationId: updateInventoryForUser
       parameters:
         - in: path
           name: userId
@@ -95,6 +102,7 @@ paths:
           type: string
           required: true
         - in: body
+          name: inventory
           schema:
             $ref: '#/definitions/Inventory'
           required: true
@@ -105,17 +113,21 @@ paths:
   /users:
     get:
       description: The list of all users
+      operationId: allUsers
       responses:
         200:
+          description: ok
           schema:
             type: array
             items:
               $ref: '#/definitions/User'
     post:
       description: Add a new user
+      operationId: createUser
       parameters:
         - in: body
           required: true
+          name: user
           schema:
             $ref: '#/definitions/User'
       responses:
@@ -125,12 +137,51 @@ paths:
   /users/{userId}:
     get:
       description: Redirects to the latest version of the user
+      operationId: findLatestUser
+      parameters:
+        - in: path
+          name: userId
+          type: string
+          required: true
+      responses:
+        302:
+          description: The url of the user
 
   /users/{userId}/{userVersion}:
     get:
       description: The user at this version
+      operationId: getUser
+      parameters:
+        - in: path
+          name: userId
+          type: string
+          required: true
+        - in: path
+          name: userVersion
+          type: string
+          required: true
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/User'
     post:
       description: Updates the user
+      operationId: updateUser
+      parameters:
+        - in: path
+          name: userId
+          type: string
+          required: true
+        - in: path
+          name: userVersion
+          type: string
+          required: true
+        - in: body
+          name: user
+          required: true
+          schema:
+            $ref: '#/definitions/User'
       responses:
         302:
             description: The new url for the user
@@ -141,11 +192,11 @@ definitions:
     type: object
     properties:
       id:
-        type: integer
+        type: string
       category:
-        $ref: '#/definitions/Category'
+        type: string
       parent:
-        $ref: '#/definitions/Inventory'
+        type: string
       metrics:
         type: array
         items:
@@ -153,19 +204,15 @@ definitions:
   Category:
     type: object
     properties:
-      id:
-        type: integer
       name:
         type: string
       fullname:
         type: string
       parent:
-        $ref: '#/definitions/Category'
+        type: string
   Metric:
     type: object
     properties:
-      id:
-        type: integer
       value:
         type: string
       type:
@@ -173,18 +220,16 @@ definitions:
   MetricType:
     type: object
     properties:
-      id:
-        type: integer
       name:
         type: string
   User:
     type: object
     properties:
       id:
-        type: integer
+        type: string
       name:
         type: string
       inventories:
         type: array
         items:
-          $ref: '#/definitions/Inventory'
+          type: string
