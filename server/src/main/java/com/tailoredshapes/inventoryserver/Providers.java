@@ -21,6 +21,7 @@ import com.tailoredshapes.inventoryserver.serialisers.MetricStringSerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
+import com.tailoredshapes.inventoryserver.validators.Environment;
 
 import javax.persistence.EntityManager;
 
@@ -31,22 +32,22 @@ import static com.tailoredshapes.inventoryserver.repositories.hibernate.Hibernat
 import static com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateRepository.findBy;
 import static com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateRepository.findById;
 
-public class Providers {
+public interface Providers {
 
   interface DAOProvider<T> extends Function<EntityManager, DAO<T>> {}
 
-  public static DAOProvider<MetricType> metricTypeDAO = (em) ->
+  DAOProvider<MetricType> metricTypeDAO = (em) ->
     new HibernateDAO<>(MetricType.class, em, new ChildFreeSaver<>(), shaEncoder);
-  public static DAOProvider<Metric> metricDAO = (em) ->
+  DAOProvider<Metric> metricDAO = (em) ->
     new HibernateDAO<>(Metric.class, em, new MetricSaver(metricTypeDAO.apply(em)), shaEncoder);
-  public static DAOProvider<Category> categoryDAO = (em) ->
+  DAOProvider<Category> categoryDAO = (em) ->
     new HibernateDAO<>(
       Category.class,
       em,
       new CategorySaver<>(findBy(em), catergoryByFullName),
       shaEncoder);
 
-  public static DAOProvider<Inventory> inventoryDAO = (em) ->
+  DAOProvider<Inventory> inventoryDAO = (em) ->
     new HibernateDAO<>(Inventory.class,
                        em,
                        new InventorySaver(metricDAO.apply(em), categoryDAO.apply(em)),
@@ -54,7 +55,7 @@ public class Providers {
 
   interface ParserProvider<T> extends Function<EntityManager, Parser<T>> {}
 
-  public static ParserProvider<Inventory> inventoryParser = (em) -> InventoryParser.inventoryParser(
+  ParserProvider<Inventory> inventoryParser = (em) -> InventoryParser.inventoryParser(
     findBy(em),
     findById(Inventory.class, em),
     findBy(em),
@@ -62,15 +63,11 @@ public class Providers {
     metricTypeByName,
     inventoryExtractor);
 
-  public static String protocol = "http";
-  public static String host = "localhost";
-  public static int port = 1414;
+  UrlBuilder<Inventory> inventoryUrlBuilder = new InventoryUrlBuilder(Environment.protocol, Environment.host, Environment.port);
 
-  public static UrlBuilder<Inventory> inventoryUrlBuilder = new InventoryUrlBuilder(protocol, host, port);
-
-  public static Serialiser<Inventory>  inventorySerialiser =
+  Serialiser<Inventory>  inventorySerialiser =
     new InventoryStringSerialiser(inventoryUrlBuilder, new MetricStringSerialiser());
 
-  public static Function<EntityManager, Repository.List<Inventory>> inventoryList = (em) -> HibernateRepository.list(Inventory.class, em);
+  Function<EntityManager, Repository.List<Inventory>> inventoryList = (em) -> HibernateRepository.list(Inventory.class, em);
 }
 

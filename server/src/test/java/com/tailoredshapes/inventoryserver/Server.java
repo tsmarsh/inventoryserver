@@ -1,6 +1,8 @@
 package com.tailoredshapes.inventoryserver;
 
 
+import com.tailoredshapes.inventoryserver.validators.Environment;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,11 +13,11 @@ public class Server {
     static Logger logger = LoggerFactory.getLogger(Server.class);
 
     public static void start(){
-        Providers.port = 5555;
-        logger.info("Starting test server on port " + Providers.port);
+      Environment.port = 5555;
+        logger.info("Starting test server on port " + Environment.port);
         if(!started){
             started = true;
-            port(Providers.port);
+            port(Environment.port);
             Router.route(TestPersistence.emf);
         }
     }

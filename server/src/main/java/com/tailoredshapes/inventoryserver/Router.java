@@ -6,6 +6,7 @@ import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
+import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateRepository;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,6 +20,7 @@ import static com.tailoredshapes.inventoryserver.Providers.inventoryList;
 import static com.tailoredshapes.inventoryserver.Providers.inventoryParser;
 import static com.tailoredshapes.inventoryserver.Providers.inventorySerialiser;
 import static com.tailoredshapes.inventoryserver.Providers.inventoryUrlBuilder;
+import static com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateLookers.inventoryById;
 import static com.tailoredshapes.underbar.UnderBar.map;
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -44,6 +46,14 @@ public interface Router {
         res.redirect(inventoryUrlBuilder.build(saved));
         return null;
       }));
+
+    get("/inventories/:id", "application/json", (req, res) ->
+      persistent(emf, (em) -> {
+        Repository.FindById<Inventory> byId = HibernateRepository.findById(Inventory.class, em);
+        return byId.findById(Long.parseLong(req.params("id")));
+      }), (result) ->
+      inventorySerialiser.serialise((Inventory) result)
+    );
   }
 }
 

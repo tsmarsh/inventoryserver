@@ -1,5 +1,7 @@
 package com.tailoredshapes.inventoryserver;
 
+import com.tailoredshapes.inventoryserver.validators.Environment;
+
 import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.post;
@@ -38,7 +40,7 @@ public class App {
 //  }
 
   public static void main(String... args) {
-    port(Providers.port);
+    port(Environment.port);
     Router.route(ProdPersistence.emf);
   }
 }
