@@ -101,11 +101,9 @@ public class HibernateInventoryRepositoryTest {
 
   @Test
   public void shouldFindUserById() throws Exception {
-
     User storedUser = userDAO.create(new UserBuilder().build());
 
     User byId = HibernateRepository.findById(User.class, em).findById(storedUser.getId());
     Assert.assertEquals(storedUser, byId);
-
   }
 }

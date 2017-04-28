@@ -8,13 +8,10 @@ import com.tailoredshapes.inventoryserver.dao.Saver;
 import com.tailoredshapes.inventoryserver.model.TestModel;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-@RunWith(MockitoJUnitRunner.class)
 public class ChildFreeSaverTest {
 
   private TestModel model;
@@ -45,7 +42,7 @@ public class ChildFreeSaverTest {
   @Test
   public void shouldDeleteAnObject() {
     Map<Long, TestModel> db = new HashMap<>();
-    InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, (x)-> 1L, saver);
+    InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, (x) -> 1L, saver);
     model = new TestModel().setValue("twifty");
     TestModel returnedTestModel = dao.create(model);
 

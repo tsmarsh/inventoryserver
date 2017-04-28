@@ -48,6 +48,7 @@ public interface Persistence {
       T t;
       try {
         t = s.apply(em);
+        em.flush();
         transaction.commit();
         return t;
       } catch (Exception e) {

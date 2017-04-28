@@ -6,6 +6,7 @@ import com.tailoredshapes.inventoryserver.model.Category;
 import com.tailoredshapes.inventoryserver.repositories.Looker;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 
+import static com.tailoredshapes.underbar.UnderBar.list;
 import static com.tailoredshapes.underbar.UnderString.join;
 
 
@@ -29,7 +30,7 @@ public class CategorySaver<T> implements Saver<Category> {
       object.setName(split[split.length - 1]);
       if (split.length > 1) {
         String[] strings = Arrays.copyOfRange(split, 0, split.length - 1);
-        String parentCategory = join(strings, ".");
+        String parentCategory = join(".", list(strings));
         object.setParent(findBy.findBy(fullNameFinderFactor.lookFor(parentCategory)));
       }
 
