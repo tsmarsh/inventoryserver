@@ -44,7 +44,8 @@ public class InventoryAPITest {
 
     user.setName("Tilda");
 
-    api.createUser(user);
+    User saved = api.createUser(user);
+    assertEquals("Tilda", saved.getName());
 
     List<User> users = api.allUsers();
     assertEquals("Tilda", first(users).getName());

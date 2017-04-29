@@ -148,8 +148,12 @@ paths:
           schema:
             $ref: '#/definitions/User'
       responses:
+        200:
+          description: What effectively happens
+          schema:
+            $ref: '#/definitions/User'
         302:
-          description: The url of the new user
+          description: The url of the new user and what actually happens
 
   /users/{userId}:
     get:
