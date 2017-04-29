@@ -35,8 +35,25 @@ paths:
             $ref: '#/definitions/Inventory'
           required: true
       responses:
+        200:
+          schema:
+            $ref: '#/definitions/Inventory'
         302:
           description: The url of the new inventory
+
+  /inventory/{inventoryId}:
+    get:
+      description: Reads this version of an inventory
+      operationId: readInventory
+      parameters:
+        - in: path
+          name: inventoryId
+          type: number
+          required: true
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/Inventory'
 
   /users/{userId}/inventories:
     get:
