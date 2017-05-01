@@ -12,7 +12,10 @@
   </Appenders>
 
   <Loggers>
-    <Logger name="org.hibernate.type" level="trace" additivity="false">
+    <Logger name="org.hibernate.type" level="error" additivity="false">
+      <AppenderRef ref="STDOUT"/>
+    </Logger>
+    <Logger name="com.tailoredshapes" level="debug" additivity="false">
       <AppenderRef ref="STDOUT"/>
     </Logger>
 
