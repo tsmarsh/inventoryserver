@@ -42,12 +42,13 @@ public interface HibernateLookers {
 
   Looker<String, User, EntityManager> userByName = (name) ->
     (EntityManager manager) -> {
-      Query cq = manager.createQuery("select u from User u where u.name = :name")
-        .setParameter("name", name);
+      Query cq = manager.createQuery("select u from User u where u.name = :name order by u.created desc ")
+        .setParameter("name", name).setMaxResults(1);
 
       User type;
       try {
-        type = manager.merge((User) cq.getSingleResult());
+        User user = (User) cq.getSingleResult();
+        type = manager.merge(user);
       } catch (Exception e) {
         type = new User().setName(name);
       }

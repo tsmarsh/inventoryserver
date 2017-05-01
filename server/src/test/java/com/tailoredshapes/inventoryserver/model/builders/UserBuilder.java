@@ -1,6 +1,7 @@
 package com.tailoredshapes.inventoryserver.model.builders;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 
 import com.tailoredshapes.inventoryserver.model.Inventory;
@@ -11,6 +12,7 @@ public class UserBuilder {
   private final User user;
   Long id = 555l;
   String name = "Archer";
+  Date created = new Date();
   Collection<Inventory> inventoryMap = new HashSet<>();
 
   public UserBuilder() {
@@ -32,7 +34,12 @@ public class UserBuilder {
     return this;
   }
 
+  public UserBuilder created(Date created){
+    this.created = created;
+    return this;
+  }
+
   public User build() {
-    return user.setId(id).setName(name).setInventories(inventoryMap);
+    return user.setId(id).setCreated(created).setName(name).setInventories(inventoryMap);
   }
 }

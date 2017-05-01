@@ -57,7 +57,7 @@ paths:
         302:
           description: The url of the new inventory
 
-  /inventory/{inventoryId}:
+  /inventories/{inventoryId}:
     get:
       description: Reads this version of an inventory
       operationId: readInventory
@@ -110,7 +110,11 @@ paths:
           type: string
           required: true
       responses:
-        302:
+        200:
+          description: What effectively happens
+          schema:
+            $ref: '#/definitions/User'
+        3f02:
           description: The url of the user
 
   /users/{name}/{userVersion}:
@@ -282,5 +286,4 @@ definitions:
       inventories:
         type: array
         items:
-          type: string
-          pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)
+          $ref: '#/definitions/Inventory'

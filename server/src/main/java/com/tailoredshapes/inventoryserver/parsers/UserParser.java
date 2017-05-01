@@ -2,6 +2,7 @@ package com.tailoredshapes.inventoryserver.parsers;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ public interface UserParser {
     return (s) -> {
       JSONObject jsonUser = new JSONObject(s);
       User user = new User();
+
       if (jsonUser.has("id")) {
         String id = jsonUser.getString("id");
         try {
