@@ -7,9 +7,11 @@ import org.junit.Test;
 
 import io.swagger.client.api.DefaultApi;
 import io.swagger.client.model.Inventory;
+import io.swagger.client.model.Metric;
 import io.swagger.client.model.User;
 
 import static com.tailoredshapes.underbar.UnderBar.first;
+import static com.tailoredshapes.underbar.UnderBar.list;
 import static org.junit.Assert.assertEquals;
 
 public class InventoryAPITest {
@@ -51,4 +53,23 @@ public class InventoryAPITest {
     assertEquals("Tilda", first(users).getName());
   }
 
+  @Test
+  public void shouldAddAnInventoryOnAUser() throws Exception {
+    DefaultApi api = new DefaultApi();
+
+    Metric metric = new Metric();
+    metric.setType("Arrows");
+    metric.setValue("34");
+
+    Inventory inventory = new Inventory();
+    inventory.setMetrics(list(metric));
+    inventory.setCategory("test.flarp");
+
+    User user = new User();
+    user.setName("Archer");
+
+    Inventory archer = api.updateInventoryForUser("Archer", "test.flarp", inventory);
+    assertEquals("test.flarp", archer.getCategory());
+
+  }
 }

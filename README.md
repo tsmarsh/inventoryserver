@@ -1,4 +1,4 @@
-3# Inventory Server #
+# Inventory Server #
 
 A common feature of online games is the 'inventory' which provides a list of all of the items 'owned' by an object.
 

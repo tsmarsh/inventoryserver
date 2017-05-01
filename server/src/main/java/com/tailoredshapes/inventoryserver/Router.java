@@ -7,11 +7,13 @@ import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
+import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateLookers;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateRepository;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import static com.tailoredshapes.inventoryserver.Persistence.persistent;
@@ -89,6 +91,24 @@ public interface Router {
           return byId.findById(Long.parseLong(req.params("id")));
         }),
         (result) -> userSerialiser.serialise((User) result));
+
+    post("/users/:name/inventories/:category", (req, res) -> transactional(emf, (em) -> {
+      Repository.FindBy<User, EntityManager> findBy = HibernateRepository.findBy(em);
+      DAO<Inventory> dao = inventoryDAO.apply(em);
+      Repository.Save<Inventory> saver = Repository.save(dao);
+      Parser<Inventory> parser = inventoryParser.apply(em);
+
+      User user = findBy.findBy(HibernateLookers.userByName.lookFor(req.params("name")));
+
+      user.getInventories().removeIf((inv) -> inv.getCategory().getFullname().equals(req.params("category")));
+      Inventory inv = parser.parse(req.body());
+      Inventory saved = saver.save(inv);
+      user.getInventories().add(saved);
+
+      res.redirect(inventoryUrlBuilder.build(saved));
+
+      return null;
+    }));
   }
 }
 
