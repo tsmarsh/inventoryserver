@@ -18,14 +18,14 @@ import static com.tailoredshapes.underbar.Die.rethrow;
 public interface Pestlet {
 
   static <T> Function<T, Object> getlet(Validator<T> validator,
-                                     UrlBuilder<T> urlBuilder,
-                                     Request req,
-                                     Response res,
-                                     Repository.List<T> repository) {
+                                        UrlBuilder<T> urlBuilder,
+                                        Request req,
+                                        Response res,
+                                        Repository.List<T> repository) {
     return (t) -> {
       if (validator.validate(t)) {
         String tUrl = urlBuilder.build(t);
-        URL url = rethrow(()->new URL(tUrl), ()-> String.format("%s not a valid url", tUrl));
+        URL url = rethrow(() -> new URL(tUrl), () -> String.format("%s not a valid url", tUrl));
 
         if (!url.getPath().equals(req.uri())) {
           res.redirect(tUrl);

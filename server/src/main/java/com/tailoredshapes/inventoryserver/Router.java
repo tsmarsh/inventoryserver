@@ -97,7 +97,6 @@ public interface Router {
         return null;
       }));
 
-
     get("/users/:name/inventories", "application/json", (req, res) ->
           persistent(emf, (em) -> {
             log.debug("allInventoriesForUser");
@@ -111,7 +110,6 @@ public interface Router {
           new JSONArray(map((Collection<Inventory>) result, (i) -> new JSONObject(inventorySerialiser.serialise(i))));
         return resp.toString();
       });
-
 
     get("/users/:name", "application/json", (req, res) -> transactional(emf, (em) -> {
       log.debug("findLatestUser");

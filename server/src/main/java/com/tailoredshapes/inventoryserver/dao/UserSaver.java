@@ -9,7 +9,7 @@ import com.tailoredshapes.inventoryserver.model.User;
 public class UserSaver implements Saver<User> {
   private final DAO<Inventory> inventoryDAO;
 
-  public UserSaver( DAO<Inventory> inventoryDAO) {
+  public UserSaver(DAO<Inventory> inventoryDAO) {
     this.inventoryDAO = inventoryDAO;
   }
 

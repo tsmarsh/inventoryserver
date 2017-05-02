@@ -10,6 +10,27 @@ import com.tailoredshapes.inventoryserver.model.User;
 
 public interface Repository {
 
+  static <T extends Idable> Save<T> save(DAO<T> dao) {
+    return (t) -> t.getId() == null ? dao.create(t) : dao.update(t);
+  }
+  static <T extends Idable> Save<T> saveNested(T parent,
+                                               DAO<T> dao,
+                                               Predicate<T> filter,
+                                               List<T> lister,
+                                               Save<T> saver) {
+    return (t) -> {
+      T savedT = t.getId() == null ? dao.create(t) : dao.update(t);
+      Collection<T> ts = lister.list();
+      ts.removeIf(filter);
+      ts.add(savedT);
+      saver.save(parent);
+      return savedT;
+    };
+  }
+  static List<Inventory> listFromUser(User parent) {
+    return parent::getInventories;
+  }
+
   @FunctionalInterface
   interface FindById<T> {
     T findById(Long extract);
@@ -33,24 +54,5 @@ public interface Repository {
   @FunctionalInterface
   interface Save<T> {
     T save(T t);
-  }
-
-  static <T extends Idable> Save<T> save(DAO<T> dao) {
-    return (t) -> t.getId() == null ? dao.create(t) : dao.update(t);
-  }
-
-  static <T extends Idable> Save<T> saveNested(T parent, DAO<T> dao, Predicate<T> filter, List<T> lister, Save<T> saver ) {
-    return (t) -> {
-      T savedT = t.getId() == null ? dao.create(t) : dao.update(t);
-      Collection<T> ts = lister.list();
-      ts.removeIf(filter);
-      ts.add(savedT);
-      saver.save(parent);
-      return savedT;
-    };
-  }
-
-  static List<Inventory> listFromUser(User parent) {
-    return parent::getInventories;
   }
 }

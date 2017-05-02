@@ -122,7 +122,9 @@ public class UserParserTest {
 
     iMMetricTypeDAO = new InMemoryDAO<>(metTypedb, Encoders.shaEncoder, (x, t) -> t);
     iMMetricDAO = new InMemoryDAO<>(metdb, Encoders.shaEncoder, new MetricSaver(iMMetricTypeDAO));
-    iMCatDAO = new InMemoryDAO<>(catdb, Encoders.shaEncoder, new CategorySaver<>(iMcategoryFindBy, InMemoryLookers.categoryByFullName));
+    iMCatDAO = new InMemoryDAO<>(catdb,
+                                 Encoders.shaEncoder,
+                                 new CategorySaver<>(iMcategoryFindBy, InMemoryLookers.categoryByFullName));
     iMInventoryDAO = new InMemoryDAO<>(invdb, Encoders.shaEncoder, new InventorySaver(iMMetricDAO, iMCatDAO));
     iMUserDAO = new InMemoryDAO<>(udb, Encoders.shaEncoder, new UserSaver(iMInventoryDAO));
     inMemoryInventoryParser = InventoryParser.inventoryParser(iMcategoryFindBy,
@@ -134,7 +136,8 @@ public class UserParserTest {
 
     InventoryUrlBuilder inventoryUrlBuilder = new InventoryUrlBuilder("http", "localhost", 5555);
     userSerializer = new UserStringSerialiser(new UserUrlBuilder("http", "localhost", 5555),
-                                              new InventoryStringSerialiser(inventoryUrlBuilder, new MetricStringSerialiser()));
+                                              new InventoryStringSerialiser(inventoryUrlBuilder,
+                                                                            new MetricStringSerialiser()));
   }
 
   @Test

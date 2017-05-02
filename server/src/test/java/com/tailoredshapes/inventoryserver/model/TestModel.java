@@ -2,26 +2,26 @@ package com.tailoredshapes.inventoryserver.model;
 
 public class TestModel implements Idable<TestModel> {
 
-    private Long id = 0l;
-    private String value;
+  private Long id = 0l;
+  private String value;
 
-    @Override
-    public Long getId() {
-        return id;
-    }
+  @Override
+  public Long getId() {
+    return id;
+  }
 
-    @Override
-    public TestModel setId(Long id) {
-        this.id = id;
-        return this;
-    }
+  @Override
+  public TestModel setId(Long id) {
+    this.id = id;
+    return this;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public String getValue() {
+    return value;
+  }
 
-    public TestModel setValue(String value) {
-        this.value = value;
-        return this;
-    }
+  public TestModel setValue(String value) {
+    this.value = value;
+    return this;
+  }
 }

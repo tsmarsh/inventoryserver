@@ -2,7 +2,6 @@ package com.tailoredshapes.inventoryserver.parsers;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -34,7 +34,7 @@ public class UserBuilder {
     return this;
   }
 
-  public UserBuilder created(Date created){
+  public UserBuilder created(Date created) {
     this.created = created;
     return this;
   }

@@ -1,5 +1,5 @@
 package com.tailoredshapes.inventoryserver.parsers;
 
 public interface Parser<T> {
-    T parse(String s);
+  T parse(String s);
 }

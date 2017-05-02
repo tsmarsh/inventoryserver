@@ -96,7 +96,6 @@ public class InventoryAPITest {
     inventory2.setMetrics(list(metric2));
     inventory2.setCategory("test.floop");
 
-
     User user = new User();
     user.setName("Archer");
 

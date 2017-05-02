@@ -34,7 +34,8 @@ public interface InMemoryLookers {
     return new MetricType().setName(name);
   };
 
-  Looker<String, User, Map<Long, User>> userByName = name -> db -> first(filter(db.values(), (u) -> u.getName().equals(name)));
+  Looker<String, User, Map<Long, User>> userByName =
+    name -> db -> first(filter(db.values(), (u) -> u.getName().equals(name)));
 
   Looker<Long, User, Map<Long, User>> userById = id -> db -> db.get(id);
 }

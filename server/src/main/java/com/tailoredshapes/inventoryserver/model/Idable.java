@@ -1,7 +1,7 @@
 package com.tailoredshapes.inventoryserver.model;
 
 public interface Idable<T> {
-    Long getId();
+  Long getId();
 
-    T setId(Long id);
+  T setId(Long id);
 }

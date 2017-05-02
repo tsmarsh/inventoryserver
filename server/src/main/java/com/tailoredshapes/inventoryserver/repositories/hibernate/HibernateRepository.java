@@ -8,14 +8,14 @@ import javax.persistence.Query;
 public interface HibernateRepository extends Repository {
 
   static <T> FindById<T> findById(Class<T> rawType, EntityManager manager) {
-     return (id) -> manager.find(rawType, id);
+    return (id) -> manager.find(rawType, id);
   }
 
   static <T> FindBy<T, EntityManager> findBy(EntityManager manager) {
     return (finder) -> finder.find(manager);
   }
 
-  static <T> ListBy<T, EntityManager> listBy(EntityManager manager){
+  static <T> ListBy<T, EntityManager> listBy(EntityManager manager) {
     return (finder) -> finder.find(manager);
   }
 

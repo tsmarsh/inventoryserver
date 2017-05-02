@@ -40,8 +40,6 @@ import static com.tailoredshapes.inventoryserver.repositories.hibernate.Hibernat
 
 public interface Providers {
 
-  interface DAOProvider<T> extends Function<EntityManager, DAO<T>> {}
-
   DAOProvider<MetricType> metricTypeDAO = (em) ->
     new HibernateDAO<>(MetricType.class, em, new ChildFreeSaver<>(), shaEncoder);
   DAOProvider<Metric> metricDAO = (em) ->
@@ -52,18 +50,13 @@ public interface Providers {
       em,
       new CategorySaver<>(findBy(em), catergoryByFullName),
       shaEncoder);
-
   DAOProvider<Inventory> inventoryDAO = (em) ->
     new HibernateDAO<>(Inventory.class,
                        em,
                        new InventorySaver(metricDAO.apply(em), categoryDAO.apply(em)),
                        shaEncoder);
-
-  DAOProvider<User> userDAO = (em) -> new HibernateDAO<>(User.class, em, new UserSaver(inventoryDAO.apply(em)), shaEncoder);
-
-
-  interface ParserProvider<T> extends Function<EntityManager, Parser<T>> {}
-
+  DAOProvider<User> userDAO =
+    (em) -> new HibernateDAO<>(User.class, em, new UserSaver(inventoryDAO.apply(em)), shaEncoder);
   ParserProvider<Inventory> inventoryParser = (em) -> InventoryParser.inventoryParser(
     findBy(em),
     findById(Inventory.class, em),
@@ -71,18 +64,19 @@ public interface Providers {
     catergoryByFullName,
     metricTypeByName,
     inventoryExtractor);
-
-  ParserProvider<User> userParser = (em) -> UserParser.userParser(findById(User.class, em), inventoryParser.apply(em), userIdExtractor);
-
-  UrlBuilder<Inventory> inventoryUrlBuilder = new InventoryUrlBuilder(Environment.protocol, Environment.host, Environment.port);
+  ParserProvider<User> userParser =
+    (em) -> UserParser.userParser(findById(User.class, em), inventoryParser.apply(em), userIdExtractor);
+  UrlBuilder<Inventory> inventoryUrlBuilder =
+    new InventoryUrlBuilder(Environment.protocol, Environment.host, Environment.port);
   UrlBuilder<User> userUrlBuilder = new UserUrlBuilder(Environment.protocol, Environment.host, Environment.port);
-
-  Serialiser<Inventory>  inventorySerialiser =
+  Serialiser<Inventory> inventorySerialiser =
     new InventoryStringSerialiser(inventoryUrlBuilder, new MetricStringSerialiser());
-
   Serialiser<User> userSerialiser = new UserStringSerialiser(userUrlBuilder, inventorySerialiser);
-
-  Function<EntityManager, Repository.List<Inventory>> inventoryList = (em) -> HibernateRepository.list(Inventory.class, em);
+  Function<EntityManager, Repository.List<Inventory>> inventoryList =
+    (em) -> HibernateRepository.list(Inventory.class, em);
   Function<EntityManager, Repository.List<User>> userList = (em) -> HibernateRepository.list(User.class, em);
+
+  interface DAOProvider<T> extends Function<EntityManager, DAO<T>> {}
+  interface ParserProvider<T> extends Function<EntityManager, Parser<T>> {}
 }
 

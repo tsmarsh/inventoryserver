@@ -25,7 +25,7 @@ public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>> impl
 
   @Override
   public T create(T object) {
-    object = saver.saveChildren(this,object);
+    object = saver.saveChildren(this, object);
 
     Long sig = encoder.encode(object);
 
