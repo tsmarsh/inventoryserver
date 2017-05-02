@@ -8,8 +8,6 @@ public interface DAO<T> {
 
   T update(T object);
 
-  T delete(T object);
-
   T upsert(T object);
 }
 

@@ -48,13 +48,6 @@ public class InMemoryDAO<T extends Idable<T>> implements DAO<T> {
   }
 
   @Override
-  public T delete(T object) {
-    object = db.get(object.getId());
-    db.remove(object.getId());
-    return object;
-  }
-
-  @Override
   public T upsert(T object) {
     if (object != null) {
       if (null == object.getId()) {
