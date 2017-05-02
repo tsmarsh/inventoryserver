@@ -1,4 +1,4 @@
-package com.tailoredshapes.inventoryserver.validators;
+package com.tailoredshapes.inventoryserver;
 
 public class Environment {
   public static String protocol = "http";

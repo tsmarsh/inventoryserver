@@ -1,8 +1,6 @@
 package com.tailoredshapes.inventoryserver;
 
 
-import com.tailoredshapes.inventoryserver.validators.Environment;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

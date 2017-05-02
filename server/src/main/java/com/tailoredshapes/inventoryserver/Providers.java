@@ -26,7 +26,6 @@ import com.tailoredshapes.inventoryserver.serialisers.UserStringSerialiser;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
-import com.tailoredshapes.inventoryserver.validators.Environment;
 
 import javax.persistence.EntityManager;
 
