@@ -1,0 +1,289 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Inventory Server
+  description: |
+    A common feature of online games is the 'inventory' which provides a list of all of the items 'owned' by an object.
+
+    It is frequently used in MMOs.
+
+    This project attempts to make scaling this service easier by making the developer work a little harder up front,
+    by using persistent objects. The expected out come is that the datastore is significantly smaller, due to massive
+    inventory and item reuse. Another benefit is caching, the majority of calls to the service can be cached indefinitely.
+
+    The service provides the notions of
+
+    * A _user_\: A root object that has a collection of inventories
+    * An _inventory_\: Items that can be collected under a single category, eg\: Player attributes, achievements, rock collection
+    * An _item_\: A datum in an inventory, eg\: First name, Sword of Justice
+
+
+host: localhost:5555
+schemes:
+  - http
+produces:
+  - application/json
+consumes:
+  - application/json
+
+paths:
+  /inventories:
+    get:
+      description: Returns all inventories
+      operationId: allInventories
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Inventory'
+
+    post:
+      description: Create a new inventory
+      operationId: createInventory
+      parameters:
+        - in: body
+          name: inventory
+          schema:
+            $ref: '#/definitions/Inventory'
+          required: true
+      responses:
+        200:
+          description: Effective result
+          schema:
+            $ref: '#/definitions/Inventory'
+        302:
+          description: The url of the new inventory
+
+  /inventories/{inventoryId}:
+    get:
+      description: Reads this version of an inventory
+      operationId: readInventory
+      parameters:
+        - in: path
+          name: inventoryId
+          type: number
+          required: true
+      responses:
+        200:
+          description: The found inventory
+          schema:
+            $ref: '#/definitions/Inventory'
+
+  /users:
+    get:
+      description: The list of all users
+      operationId: allUsers
+      responses:
+        200:
+          description: ok
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+    post:
+      description: Add a new user
+      operationId: createUser
+      parameters:
+        - in: body
+          required: true
+          name: user
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: What effectively happens
+          schema:
+            $ref: '#/definitions/User'
+        302:
+          description: The url of the new user and what actually happens
+
+  /users/{name}:
+    get:
+      description: Redirects to the latest version of the user
+      operationId: findLatestUser
+      parameters:
+        - in: path
+          name: name
+          type: string
+          required: true
+      responses:
+        200:
+          description: What effectively happens
+          schema:
+            $ref: '#/definitions/User'
+        3f02:
+          description: The url of the user
+
+  /users/{name}/{userVersion}:
+    get:
+      description: The user at this version
+      operationId: getUser
+      parameters:
+        - in: path
+          name: name
+          type: string
+          required: true
+        - in: path
+          name: userVersion
+          type: string
+          required: true
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/User'
+    post:
+      description: Updates the user
+      operationId: updateUser
+      parameters:
+        - in: path
+          name: name
+          type: string
+          required: true
+        - in: path
+          name: userVersion
+          type: string
+          required: true
+        - in: body
+          name: user
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/User'
+        302:
+            description: The new url for the user
+
+  /users/{name}/inventories:
+    get:
+      description: Returns all inventories for a user
+      operationId: allInventoriesForUser
+      parameters:
+        - in: path
+          name: name
+          type: string
+          required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Inventory'
+    post:
+      description: Creates a new inventory for a user
+      operationId: createInventoryForUser
+      parameters:
+        - in: path
+          name: name
+          type: string
+          required: true
+        - in: body
+          name: inventory
+          schema:
+            $ref: '#/definitions/Inventory'
+          required: true
+      responses:
+        302:
+          description: The url of the new inventory
+
+  /users/{name}/inventories/{category}:
+    get:
+      description: Return the inventory for this user with that id
+      operationId: getInventoryForUser
+      parameters:
+        - in: path
+          name: name
+          type: string
+          required: true
+        - in: path
+          name: category
+          description: category of the inventory you are intersted in
+          type: string
+          required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/Inventory'
+    post:
+      description: Updates the inventory for this user with that id.
+      operationId: updateInventoryForUser
+      parameters:
+        - in: path
+          name: name
+          type: string
+          required: true
+        - in: path
+          name: category
+          type: string
+          required: true
+        - in: body
+          name: inventory
+          schema:
+            $ref: '#/definitions/Inventory'
+          required: true
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/Inventory'
+        302:
+          description: The url of the new inventory
+
+definitions:
+  Inventory:
+    type: object
+    properties:
+      id:
+        type: string
+        pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)
+      category:
+        type: string
+        pattern: \w+(\.\w+)*
+      parent:
+        type: string
+        pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)
+
+      metrics:
+        type: array
+        items:
+          $ref: '#/definitions/Metric'
+  Category:
+    type: object
+    properties:
+      name:
+        type: string
+        pattern: \w+
+      fullname:
+        type: string
+        pattern: \w+(\.\w+)*
+      parent:
+        type: string
+        pattern: \w+(\.\w+)*
+  Metric:
+    type: object
+    properties:
+      value:
+        type: string
+      type:
+        type: string
+
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+        pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)
+      name:
+        type: string
+      inventories:
+        type: array
+        items:
+          $ref: '#/definitions/Inventory'

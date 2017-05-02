@@ -8,3 +8,4 @@ release.properties
 stats/
 venv
 .vagrant
+**/dependency-reduced-pom.xml
