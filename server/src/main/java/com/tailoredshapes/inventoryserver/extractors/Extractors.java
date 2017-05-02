@@ -7,7 +7,6 @@ public interface Extractors {
 
   Pattern inventoryIdPattern = Pattern.compile("^.*/inventories/?(-?\\d+)");
   Pattern userIdPattern = Pattern.compile("/users/\\w+/?(-?\\d+)?/?.*$");
-  Pattern userNamePattern = Pattern.compile("/users/(\\w+)/?.*$");
 
   IdExtractor<Long> inventoryExtractor = (path) -> {
     Matcher matcher = inventoryIdPattern.matcher(path);
@@ -23,16 +22,6 @@ public interface Extractors {
     Long id = null;
     if (matcher.matches()) {
       id = Long.parseLong(matcher.group(1));
-    }
-
-    return id;
-  };
-
-  IdExtractor<String> userNameExtractor = (path) -> {
-    Matcher matcher = userNamePattern.matcher(path);
-    String id = null;
-    if (matcher.matches()) {
-      id = matcher.group(1);
     }
 
     return id;
