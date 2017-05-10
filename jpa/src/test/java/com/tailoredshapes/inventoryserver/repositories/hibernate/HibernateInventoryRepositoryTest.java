@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
+import com.tailoredshapes.inventoryserver.TestPersistence;
 import com.tailoredshapes.inventoryserver.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.dao.CategorySaver;

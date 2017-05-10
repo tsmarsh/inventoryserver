@@ -12,7 +12,7 @@
 
     <modules>
         <module>meta</module>
-        <module>server</module>
+        <module>core</module>
         <module>memory</module>
         <module>jpa</module>
     </modules>
