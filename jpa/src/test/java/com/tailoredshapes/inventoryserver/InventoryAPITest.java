@@ -2,6 +2,7 @@ package com.tailoredshapes.inventoryserver;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -10,6 +11,12 @@ import io.swagger.client.model.Inventory;
 import io.swagger.client.model.Metric;
 import io.swagger.client.model.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
+import javax.transaction.Transaction;
+
+import static com.tailoredshapes.inventoryserver.TestPersistence.emf;
 import static com.tailoredshapes.underbar.UnderBar.first;
 import static com.tailoredshapes.underbar.UnderBar.list;
 import static org.junit.Assert.assertEquals;
@@ -21,6 +28,17 @@ public class InventoryAPITest {
   public static void start() {
 
     Server.start();
+  }
+
+  @Before
+  public void clearDB() throws Exception {
+    EntityManager em = emf.createEntityManager();
+    EntityTransaction transaction = em.getTransaction();
+    transaction.begin();
+    Query dropAll = em.createNativeQuery("TRUNCATE SCHEMA PUBLIC AND COMMIT NO CHECK");
+    dropAll.executeUpdate();
+    transaction.commit();
+    em.close();
   }
 
   @Test
