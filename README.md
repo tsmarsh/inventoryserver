@@ -18,7 +18,7 @@ There is currently no authentication, but it should be easy to add.
 
 ### What is this repository for? ###
 
-This repository is for anyone interested in seeing a demostration of a medium sized [Pestful](http://tailoredshapes.com/blog/2013/04/21/pest/) project. It doubles as the backend for my forthcoming game. 
+This repository is for anyone interested in seeing a demostration of a medium sized [Pestful](http://tailoredshapes.com/blog/2013/04/21/pest/) project. 
 
 ### How do I get set up? ###
 
@@ -27,14 +27,14 @@ The project is built using [Maven](http://maven.apache.org/) on top of [Java 8](
 It also uses vagrant to get you up and running quickly with a 'real' database.
 
 * vagrant up - will give you a working mysql database
-* mvn jetty:run - will give you a single instance of the app
 
 This is a developer setup.
 
 If you plan on using this project in production you are expected to:
 
-* configure persistence.xml for your datastore
-* mvn package: then deploy the war. [How you deploy is up to you](http://martinfowler.com/bliki/ContinuousDelivery.html)
+* configure ProdPersistence
+
+* mvn package: then deploy the jar. [How you deploy is up to you](http://martinfowler.com/bliki/ContinuousDelivery.html)
 
 ### Contribution guidelines ###
 
@@ -45,25 +45,28 @@ Great pains have been taken to make the code as modular and isolated as pragmati
 
 ### Why Java? ###
 
-Java was the first language I used in a job where my title included the word 'software'.
+This project used to be about how to write SOLID, practical, Java services (see the project before the Spark work was merged in.), but has since evolved into a show case of how different Java 8 is vs Java 7 and older.
 
-It is also the language that most of my degree was in so I'm very comfortable thinking in it.
-
-It has strengths that interested me for this project:
-
+Moving away from small, single purpose objects 
 * Fast and reliable refactoring tools (IntelliJ)
 * Excellent runtime characteristics for a server.
 * Very fast build / test cycle (ms)
-* More people can read and understand Java than almost any other language, a feature I value for a reference implementation.
+* More people can read and understand Java than almost any other language, a feature I value for a reference implementation... but this project might scare some of them. Its different.
 
-But thats not the full reason.
+#### Modern Java ####
 
-I'm an [ex-ThoughtWorker](http://thoughtworks.com). Code quality is in my blood. I wanted to provide a concrete example
-of what I believe good Java should look like:
+With the last iteration of this project I reached the conclusion that if you follow SOLID to its logical conclusion you end up with a lot of objects that look a lot like closures.
 
-* Using Dependency Injection to simplify composition over inheritance.
-* Using Dependency Injection to prevent objects being passed up and down the call stack
-* Using Java standards to allow for easy portability between vendors.
+I also learned that its hard to manage those closures when there is only one of them in each file.
+
+Moving to using static functions in interfaces has had the benefit of making the code very testable and, I hope, easier to manager.
+
+At the very least it has meant that I've been able to express the problem in about half the code. 
+
+So you now have a language that was already 'expressive enough' with good SOLID engineering practices, and effectively doubled its 'expressivity'. But it retains the runtime performance we've come to expect from the JVM and has world class tooling. 
+
+Its getting harder to justify using another language for server side development. 
+
 
 This is still very much a work in progress.
 

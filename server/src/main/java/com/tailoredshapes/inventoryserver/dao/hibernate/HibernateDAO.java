@@ -77,13 +77,6 @@ public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>> impl
   }
 
   @Override
-  public T delete(T object) {
-    object = (T) manager.find(rawType, object.getId());
-    manager.remove(object);
-    return object;
-  }
-
-  @Override
   public T upsert(T object) {
     if (object != null) {
       if (null == object.getId()) {

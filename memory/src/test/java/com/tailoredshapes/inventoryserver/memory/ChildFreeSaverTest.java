@@ -41,23 +41,4 @@ public class ChildFreeSaverTest {
     Assert.assertEquals("eleventy", readModel.getValue());
   }
 
-  @Test
-  public void shouldDeleteAnObject() {
-    Map<Long, TestModel> db = new HashMap<>();
-    InMemoryDAO<TestModel> dao = new InMemoryDAO<>(db, (x) -> 1L, saver);
-    model = new TestModel().setValue("twifty");
-    TestModel returnedTestModel = dao.create(model);
-
-    Long testId = 1L;
-
-    Assert.assertEquals(testId, returnedTestModel.getId());
-    Assert.assertEquals("twifty", returnedTestModel.getValue());
-
-    TestModel deleteModel = new TestModel().setId(testId);
-    dao.delete(deleteModel);
-
-    TestModel lookupModel = new TestModel().setId(testId);
-
-    assertNull(dao.read(lookupModel));
-  }
 }
