@@ -1,6 +1,8 @@
 package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
 import com.tailoredshapes.inventoryserver.TestPersistence;
+import com.tailoredshapes.inventoryserver.builders.InventoryBuilder;
+import com.tailoredshapes.inventoryserver.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.dao.CategorySaver;
 import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.InventorySaver;
@@ -13,8 +15,6 @@ import com.tailoredshapes.inventoryserver.model.Inventory;
 import com.tailoredshapes.inventoryserver.model.Metric;
 import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.model.User;
-import com.tailoredshapes.inventoryserver.model.builders.InventoryBuilder;
-import com.tailoredshapes.inventoryserver.model.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 
 import org.junit.After;

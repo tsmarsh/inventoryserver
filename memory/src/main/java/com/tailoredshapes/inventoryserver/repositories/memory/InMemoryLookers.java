@@ -1,5 +1,6 @@
 package com.tailoredshapes.inventoryserver.repositories.memory;
 
+import java.util.List;
 import java.util.Map;
 
 import com.tailoredshapes.inventoryserver.model.Category;
@@ -35,7 +36,14 @@ public interface InMemoryLookers {
   };
 
   Looker<String, User, Map<Long, User>> userByName =
-    name -> db -> first(filter(db.values(), (u) -> u.getName().equals(name)));
+    name -> db -> {
+      List<User> filtered = filter(db.values(), (u) -> u.getName().equals(name));
+      if (filtered.size() > 0) {
+        return first(filtered);
+      } else {
+        return new User().setName(name);
+      }
+    };
 
   Looker<Long, User, Map<Long, User>> userById = id -> db -> db.get(id);
 }

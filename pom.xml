@@ -13,6 +13,8 @@
     <modules>
         <module>meta</module>
         <module>server</module>
+        <module>memory</module>
+        <module>jpa</module>
     </modules>
 
     <properties>
