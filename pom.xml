@@ -12,7 +12,9 @@
 
     <modules>
         <module>meta</module>
-        <module>server</module>
+        <module>core</module>
+        <module>memory</module>
+        <module>jpa</module>
     </modules>
 
     <properties>
@@ -30,6 +32,23 @@
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.8</version>
+                <executions>
+                    <execution>
+                        <id>merge</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <append>true</append>
+                            <destFile>${project.basedir}/../target/jacoco.exec</destFile>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
