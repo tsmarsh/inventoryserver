@@ -21,4 +21,12 @@ public class InMemoryServer {
       InMemoryRouter.route();
     }
   }
+
+  public static void resetDB() {
+    InMemoryProviders.userDB.clear();
+    InMemoryProviders.inventoryDB.clear();
+    InMemoryProviders.categoryDB.clear();
+    InMemoryProviders.metricDB.clear();
+    InMemoryProviders.metricTypeDB.clear();
+  }
 }

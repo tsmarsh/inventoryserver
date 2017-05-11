@@ -2,6 +2,7 @@ package com.tailoredshapes.inventoryserver;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,6 +22,11 @@ public class InMemoryInventoryAPITest {
   @BeforeClass
   public static void start() {
     InMemoryServer.start();
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    InMemoryServer.resetDB();
   }
 
   @Test
