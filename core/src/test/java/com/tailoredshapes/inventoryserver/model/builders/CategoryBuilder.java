@@ -6,6 +6,7 @@ public class CategoryBuilder {
   Long id = null;
   String name = "test";
   String fullname = "test";
+  Category parent = null;
 
   public CategoryBuilder id(Long id) {
     this.id = id;
@@ -22,7 +23,12 @@ public class CategoryBuilder {
     return this;
   }
 
+  public CategoryBuilder parent(Category parent) {
+    this.parent = parent;
+    return this;
+  }
+
   public Category build() {
-    return new Category().setId(id).setName(name).setFullname(fullname);
+    return new Category().setParent(parent).setId(id).setName(name).setFullname(fullname);
   }
 }

@@ -20,10 +20,7 @@ import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.parsers.UserParser;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository;
-import com.tailoredshapes.inventoryserver.serialisers.InventoryStringSerialiser;
-import com.tailoredshapes.inventoryserver.serialisers.MetricStringSerialiser;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
-import com.tailoredshapes.inventoryserver.serialisers.UserStringSerialiser;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
@@ -35,6 +32,9 @@ import static com.tailoredshapes.inventoryserver.repositories.memory.InMemoryLoo
 import static com.tailoredshapes.inventoryserver.repositories.memory.InMemoryLookers.metricTypeByName;
 import static com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository.findBy;
 import static com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository.findById;
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.inventorySerializerBuilder;
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.metricSerialiser;
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.userSerializerBuilder;
 
 public interface InMemoryProviders {
 
@@ -61,13 +61,16 @@ public interface InMemoryProviders {
     inventoryExtractor);
 
   Parser<User> userParser = UserParser.userParser(findById(userDB), inventoryParser, userIdExtractor);
+
   UrlBuilder<Inventory> inventoryUrlBuilder =
     new InventoryUrlBuilder(Environment.protocol, Environment.host, Environment.port);
+
   UrlBuilder<User> userUrlBuilder = new UserUrlBuilder(Environment.protocol, Environment.host, Environment.port);
 
   Serialiser<Inventory> inventorySerialiser =
-    new InventoryStringSerialiser(inventoryUrlBuilder, new MetricStringSerialiser());
-  Serialiser<User> userSerialiser = new UserStringSerialiser(userUrlBuilder, inventorySerialiser);
+    inventorySerializerBuilder.apply(inventoryUrlBuilder, metricSerialiser);
+
+  Serialiser<User> userSerialiser = userSerializerBuilder.apply(userUrlBuilder, inventorySerialiser);
 
   Repository.List<Inventory> inventoryList = InMemoryRepository.list(inventoryDB);
   Repository.List<User> userList = InMemoryRepository.list(userDB);

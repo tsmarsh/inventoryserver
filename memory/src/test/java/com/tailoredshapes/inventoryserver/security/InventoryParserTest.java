@@ -26,13 +26,14 @@ import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryLookers;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository;
-import com.tailoredshapes.inventoryserver.serialisers.InventoryStringSerialiser;
-import com.tailoredshapes.inventoryserver.serialisers.MetricStringSerialiser;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.inventorySerializerBuilder;
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.metricSerialiser;
 import static junit.framework.Assert.assertEquals;
 
 public class InventoryParserTest {
@@ -55,7 +56,7 @@ public class InventoryParserTest {
     parser;
   private InMemoryDAO<Category>
     iMCatDAO;
-  private InventoryStringSerialiser serialiser;
+  private Serialiser<Inventory> serialiser;
 
   @Before
   public void setUp() throws Exception {
@@ -82,7 +83,7 @@ public class InventoryParserTest {
                                              Extractors.inventoryExtractor);
 
     serialiser =
-      new InventoryStringSerialiser(new InventoryUrlBuilder("http", "localhost", 5555), new MetricStringSerialiser());
+      inventorySerializerBuilder.apply(new InventoryUrlBuilder("http", "localhost", 5555), metricSerialiser);
 
   }
 

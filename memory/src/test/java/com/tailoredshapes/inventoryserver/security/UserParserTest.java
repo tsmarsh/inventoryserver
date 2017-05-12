@@ -27,9 +27,7 @@ import com.tailoredshapes.inventoryserver.parsers.UserParser;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryLookers;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository;
-import com.tailoredshapes.inventoryserver.serialisers.InventoryStringSerialiser;
-import com.tailoredshapes.inventoryserver.serialisers.MetricStringSerialiser;
-import com.tailoredshapes.inventoryserver.serialisers.UserStringSerialiser;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
 
@@ -37,6 +35,9 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.inventorySerializerBuilder;
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.metricSerialiser;
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.userSerializerBuilder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -62,7 +63,7 @@ public class UserParserTest {
   private Repository.FindById<User> iMuserFindById;
   private Parser<User> imUserParser;
 
-  private UserStringSerialiser userSerializer;
+  private Serialiser<User> userSerializer;
 
   @Before
   public void setUp() throws Exception {
@@ -92,9 +93,10 @@ public class UserParserTest {
     imUserParser = UserParser.userParser(iMuserFindById, inMemoryInventoryParser, Extractors.userIdExtractor);
 
     InventoryUrlBuilder inventoryUrlBuilder = new InventoryUrlBuilder("http", "localhost", 5555);
-    userSerializer = new UserStringSerialiser(new UserUrlBuilder("http", "localhost", 5555),
-                                              new InventoryStringSerialiser(inventoryUrlBuilder,
-                                                                            new MetricStringSerialiser()));
+
+    userSerializer = userSerializerBuilder.apply(new UserUrlBuilder("http", "localhost", 5555),
+                                              inventorySerializerBuilder.apply(inventoryUrlBuilder,
+                                                                            metricSerialiser));
   }
 
   @Test

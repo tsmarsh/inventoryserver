@@ -1,15 +1,12 @@
 package com.tailoredshapes.inventoryserver;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import com.tailoredshapes.inventoryserver.builders.CategoryBuilder;
 import com.tailoredshapes.inventoryserver.builders.InventoryBuilder;
 import com.tailoredshapes.inventoryserver.builders.UserBuilder;
 import com.tailoredshapes.inventoryserver.dao.CategorySaver;
-import com.tailoredshapes.inventoryserver.dao.DAO;
 import com.tailoredshapes.inventoryserver.dao.InventorySaver;
 import com.tailoredshapes.inventoryserver.dao.MetricSaver;
 import com.tailoredshapes.inventoryserver.dao.UserSaver;
@@ -27,9 +24,7 @@ import com.tailoredshapes.inventoryserver.parsers.UserParser;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateLookers;
 import com.tailoredshapes.inventoryserver.repositories.hibernate.HibernateRepository;
-import com.tailoredshapes.inventoryserver.serialisers.InventoryStringSerialiser;
-import com.tailoredshapes.inventoryserver.serialisers.MetricStringSerialiser;
-import com.tailoredshapes.inventoryserver.serialisers.UserStringSerialiser;
+import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
 
@@ -40,6 +35,9 @@ import org.junit.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.inventorySerializerBuilder;
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.metricSerialiser;
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.userSerializerBuilder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -62,7 +60,7 @@ public class UserParserTest {
   private HibernateDAO<Category> categoryDAO;
   private HibernateDAO<Inventory> inventoryDAO;
   private HibernateDAO<User> userDAO;
-  private UserStringSerialiser userSerializer;
+  private Serialiser<User> userSerializer;
 
   @Before
   public void setUp() throws Exception {
@@ -91,9 +89,9 @@ public class UserParserTest {
 
 
     InventoryUrlBuilder inventoryUrlBuilder = new InventoryUrlBuilder("http", "localhost", 5555);
-    userSerializer = new UserStringSerialiser(new UserUrlBuilder("http", "localhost", 5555),
-                                              new InventoryStringSerialiser(inventoryUrlBuilder,
-                                                                            new MetricStringSerialiser()));
+    userSerializer = userSerializerBuilder.apply(new UserUrlBuilder("http", "localhost", 5555),
+                                              inventorySerializerBuilder.apply(inventoryUrlBuilder,
+                                                                            metricSerialiser));
   }
 
 
