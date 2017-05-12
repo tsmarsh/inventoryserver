@@ -15,10 +15,6 @@ public interface HibernateRepository extends Repository {
     return (finder) -> finder.find(manager);
   }
 
-  static <T> ListBy<T, EntityManager> listBy(EntityManager manager) {
-    return (finder) -> finder.find(manager);
-  }
-
   static <T> List<T> list(Class<T> rawType, EntityManager manager) {
     return () -> {
       String getAllTs = String.format("select t from %s t", rawType.getSimpleName());

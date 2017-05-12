@@ -15,10 +15,6 @@ public interface InMemoryRepository<T extends Idable<T>> extends Repository {
     return (finder) -> finder.find(db);
   }
 
-  static <T> ListBy<T, Map<Long, T>> listBy(Map<Long, T> db) {
-    return (finder) -> finder.find(db);
-  }
-
   static <T> List<T> list(Map<Long, T> db) {
     return db::values;
   }
