@@ -39,6 +39,13 @@
                 <version>0.7.8</version>
                 <executions>
                     <execution>
+                        <id>jacoco-site</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>merge</id>
                         <goals>
                             <goal>prepare-agent</goal>
