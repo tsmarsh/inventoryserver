@@ -114,7 +114,7 @@ paths:
           description: What effectively happens
           schema:
             $ref: '#/definitions/User'
-        3f02:
+        302:
           description: The url of the user
 
   /users/{name}/{userVersion}:
@@ -240,6 +240,8 @@ paths:
 definitions:
   Inventory:
     type: object
+    required:
+      - "category"
     properties:
       id:
         type: string
@@ -257,6 +259,8 @@ definitions:
           $ref: '#/definitions/Metric'
   Category:
     type: object
+    required:
+      - "fullname"
     properties:
       name:
         type: string
@@ -277,6 +281,8 @@ definitions:
 
   User:
     type: object
+    required:
+      - "name"
     properties:
       id:
         type: string
