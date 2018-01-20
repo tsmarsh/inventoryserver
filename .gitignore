@@ -17,3 +17,9 @@ bdd/inventory_server/
 bdd/swagger.yml
 
 .DS_Store
+/inventory_server
+/temp
+/deploy-memory/terraform.tfstate
+/deploy-memory/terraform.tfstate.backup
+/deploy-memory/ip.txt
+/deploy-memory/.terraform

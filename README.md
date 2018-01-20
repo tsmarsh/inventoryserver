@@ -16,6 +16,34 @@ The service provides the notions of
 
 There is currently no authentication, but it should be easy to add.
 
+## Running the Tests ##
+
+The service tests are held in a jupyter notebook which gives an overview of
+
+1. The architecture
+2. How to build
+3. How to deploy
+4. How to generate a client
+5. How to use the client
+
+To use the notebook you will need to do something like the following:
+
+```
+virtualenv -p python3 venv
+source venv/bin/activate
+pip install -r requirements.txt
+jupyter notebook
+```
+
+This will require the following:
+
+* [Maven](https://maven.apache.org/)
+* [Java 8](https://java.oracle.com) (9 is fine too)
+* [graphviz](https://www.graphviz.org/)
+* [terraform](https://www.terraform.io/)
+
+These tools are known to be available via homebrew, yum and apt.
+
 ### What is this repository for? ###
 
 This repository is for anyone interested in seeing a demostration of a medium sized [Pestful](http://tailoredshapes.com/blog/2013/04/21/pest/) project. 
