@@ -32,12 +32,15 @@
         <version>2.2.2</version>
         <executions>
           <execution>
+            <id>java</id>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
               <inputSpec>${project.basedir}/src/main/docs/swagger.yml</inputSpec>
-              <language>java</language>`
+              <language>java</language>
+              <apiPackage>com.tailoredshapes.inventoryserver.api.client</apiPackage>
+              <modelPackage>com.tailoredshapes.inventoryserver.api.model</modelPackage>
             </configuration>
           </execution>
         </executions>
@@ -90,19 +93,19 @@
     <dependency>
       <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
-      <version>2.3.4</version>
+      <version>2.4.0</version>
     </dependency>
     <dependency>
       <groupId>com.github.javafaker</groupId>
       <artifactId>javafaker</artifactId>
-      <version>0.12</version>
+      <version>0.14</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>2.7.19</version>
+      <version>2.13.0</version>
       <scope>test</scope>
     </dependency>
 
@@ -115,7 +118,7 @@
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
-      <version>${jodatime-version}</version>
+      <version>2.9.9</version>
     </dependency>
 
     <dependency>
@@ -127,20 +130,20 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.8.7</version>
+      <version>2.9.3</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>2.8.7</version>
+      <version>2.9.3</version>
     </dependency>
 
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
-      <version>2.8.0</version>
+      <version>2.8.2</version>
     </dependency>
 
   </dependencies>

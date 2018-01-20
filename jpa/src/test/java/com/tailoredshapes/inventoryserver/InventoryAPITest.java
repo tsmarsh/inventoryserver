@@ -1,20 +1,17 @@
 package com.tailoredshapes.inventoryserver;
 
-import java.util.List;
-
+import com.tailoredshapes.inventoryserver.api.client.DefaultApi;
+import com.tailoredshapes.inventoryserver.api.model.Inventory;
+import com.tailoredshapes.inventoryserver.api.model.Metric;
+import com.tailoredshapes.inventoryserver.api.model.User;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.swagger.client.api.DefaultApi;
-import io.swagger.client.model.Inventory;
-import io.swagger.client.model.Metric;
-import io.swagger.client.model.User;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import javax.transaction.Transaction;
+import java.util.List;
 
 import static com.tailoredshapes.inventoryserver.TestPersistence.emf;
 import static com.tailoredshapes.underbar.UnderBar.first;
@@ -24,106 +21,106 @@ import static org.junit.Assert.assertTrue;
 
 public class InventoryAPITest {
 
-  @BeforeClass
-  public static void start() {
+    @BeforeClass
+    public static void start() {
 
-    Server.start();
-  }
+        Server.start();
+    }
 
-  @Before
-  public void clearDB() throws Exception {
-    EntityManager em = emf.createEntityManager();
-    EntityTransaction transaction = em.getTransaction();
-    transaction.begin();
-    Query dropAll = em.createNativeQuery("TRUNCATE SCHEMA PUBLIC AND COMMIT NO CHECK");
-    dropAll.executeUpdate();
-    transaction.commit();
-    em.close();
-  }
+    @Before
+    public void clearDB() throws Exception {
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        Query dropAll = em.createNativeQuery("TRUNCATE SCHEMA PUBLIC AND COMMIT NO CHECK");
+        dropAll.executeUpdate();
+        transaction.commit();
+        em.close();
+    }
 
-  @Test
-  public void shouldReturnAllInventories() throws Exception {
-    DefaultApi api = new DefaultApi();
-    List<Inventory> inventories = api.allInventories();
-    assertEquals(0, inventories.size());
+    @Test
+    public void shouldReturnAllInventories() throws Exception {
+        DefaultApi api = new DefaultApi();
+        List<Inventory> inventories = api.allInventories();
+        assertEquals(0, inventories.size());
 
-    Inventory inventory = new Inventory();
+        Inventory inventory = new Inventory();
 
-    inventory.setCategory("test.category");
+        inventory.setCategory("test.category");
 
-    api.createInventory(inventory);
+        api.createInventory(inventory);
 
-    List<Inventory> moreInventories = api.allInventories();
-    assertEquals("test.category", first(moreInventories).getCategory());
-  }
+        List<Inventory> moreInventories = api.allInventories();
+        assertEquals("test.category", first(moreInventories).getCategory());
+    }
 
-  @Test
-  public void shouldReturnAllUsers() throws Exception {
-    DefaultApi api = new DefaultApi();
+    @Test
+    public void shouldReturnAllUsers() throws Exception {
+        DefaultApi api = new DefaultApi();
 
-    User user = new User();
+        User user = new User();
 
-    user.setName("Tilda");
+        user.setName("Tilda");
 
-    User saved = api.createUser(user);
-    assertEquals("Tilda", saved.getName());
+        User saved = api.createUser(user);
+        assertEquals("Tilda", saved.getName());
 
-    List<User> users = api.allUsers();
-    assertEquals("Tilda", first(users).getName());
-  }
+        List<User> users = api.allUsers();
+        assertEquals("Tilda", first(users).getName());
+    }
 
-  @Test
-  public void shouldAddAnInventoryOnAUser() throws Exception {
-    DefaultApi api = new DefaultApi();
+    @Test
+    public void shouldAddAnInventoryOnAUser() throws Exception {
+        DefaultApi api = new DefaultApi();
 
-    Metric metric = new Metric();
-    metric.setType("Arrows");
-    metric.setValue("34");
+        Metric metric = new Metric();
+        metric.setType("Arrows");
+        metric.setValue("34");
 
-    Inventory inventory = new Inventory();
-    inventory.setMetrics(list(metric));
-    inventory.setCategory("test.flarp");
+        Inventory inventory = new Inventory();
+        inventory.setMetrics(list(metric));
+        inventory.setCategory("test.flarp");
 
-    User user = new User();
-    user.setName("Archer");
+        User user = new User();
+        user.setName("Archer");
 
-    Inventory archer = api.updateInventoryForUser("Archer", "test.flarp", inventory);
-    assertEquals("test.flarp", archer.getCategory());
+        Inventory archer = api.updateInventoryForUser("Archer", "test.flarp", inventory);
+        assertEquals("test.flarp", archer.getCategory());
 
-    User savedArcher = api.findLatestUser("Archer");
-    assertEquals("test.flarp", first(savedArcher.getInventories()).getCategory());
-  }
+        User savedArcher = api.findLatestUser("Archer");
+        assertEquals("test.flarp", first(savedArcher.getInventories()).getCategory());
+    }
 
-  @Test
-  public void shouldReturnAllInventoriesForAUser() throws Exception {
-    DefaultApi api = new DefaultApi();
+    @Test
+    public void shouldReturnAllInventoriesForAUser() throws Exception {
+        DefaultApi api = new DefaultApi();
 
-    Metric metric = new Metric();
-    metric.setType("Arrows");
-    metric.setValue("34");
+        Metric metric = new Metric();
+        metric.setType("Arrows");
+        metric.setValue("34");
 
-    Inventory inventory = new Inventory();
-    inventory.setMetrics(list(metric));
-    inventory.setCategory("test.flarp");
+        Inventory inventory = new Inventory();
+        inventory.setMetrics(list(metric));
+        inventory.setCategory("test.flarp");
 
-    Metric metric2 = new Metric();
-    metric2.setType("Bows");
-    metric2.setValue("1");
+        Metric metric2 = new Metric();
+        metric2.setType("Bows");
+        metric2.setValue("1");
 
-    Inventory inventory2 = new Inventory();
-    inventory2.setMetrics(list(metric2));
-    inventory2.setCategory("test.floop");
+        Inventory inventory2 = new Inventory();
+        inventory2.setMetrics(list(metric2));
+        inventory2.setCategory("test.floop");
 
-    User user = new User();
-    user.setName("Archer");
+        User user = new User();
+        user.setName("Archer");
 
-    api.createUser(user);
+        api.createUser(user);
 
-    Inventory inv1 = api.updateInventoryForUser("Archer", "test.flarp", inventory);
-    Inventory inv2 = api.updateInventoryForUser("Archer", "test.floop", inventory2);
+        Inventory inv1 = api.updateInventoryForUser("Archer", "test.flarp", inventory);
+        Inventory inv2 = api.updateInventoryForUser("Archer", "test.floop", inventory2);
 
-    List<Inventory> inventories = api.allInventoriesForUser("Archer");
-    assertTrue(inventories.contains(inv1));
-    assertTrue(inventories.contains(inv2));
-  }
+        List<Inventory> inventories = api.allInventoriesForUser("Archer");
+        assertTrue(inventories.contains(inv1));
+        assertTrue(inventories.contains(inv2));
+    }
 }

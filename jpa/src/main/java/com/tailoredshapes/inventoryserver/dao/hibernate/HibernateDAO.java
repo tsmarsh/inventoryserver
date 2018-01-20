@@ -34,7 +34,6 @@ public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>> impl
     T out;
     if (read == null) {
       manager.persist(object);
-//      manager.flush();
       out = object;
     } else {
       out = read;

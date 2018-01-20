@@ -54,7 +54,7 @@ paths:
           description: Effective result
           schema:
             $ref: '#/definitions/Inventory'
-        302:
+        303:
           description: The url of the new inventory
 
   /inventories/{inventoryId}:
@@ -97,7 +97,7 @@ paths:
           description: What effectively happens
           schema:
             $ref: '#/definitions/User'
-        302:
+        303:
           description: The url of the new user and what actually happens
 
   /users/{name}:
@@ -114,7 +114,7 @@ paths:
           description: What effectively happens
           schema:
             $ref: '#/definitions/User'
-        3f02:
+        303:
           description: The url of the user
 
   /users/{name}/{userVersion}:
@@ -157,7 +157,7 @@ paths:
           description: ok
           schema:
             $ref: '#/definitions/User'
-        302:
+        303:
             description: The new url for the user
 
   /users/{name}/inventories:
@@ -190,7 +190,7 @@ paths:
             $ref: '#/definitions/Inventory'
           required: true
       responses:
-        302:
+        303:
           description: The url of the new inventory
 
   /users/{name}/inventories/{category}:
@@ -234,22 +234,22 @@ paths:
           description: ok
           schema:
             $ref: '#/definitions/Inventory'
-        302:
+        303:
           description: The url of the new inventory
 
 definitions:
   Inventory:
     type: object
+    required:
+      - "category"
     properties:
       id:
         type: string
-        pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)
       category:
         type: string
         pattern: \w+(\.\w+)*
       parent:
         type: string
-        pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)
 
       metrics:
         type: array
@@ -257,6 +257,8 @@ definitions:
           $ref: '#/definitions/Metric'
   Category:
     type: object
+    required:
+      - "fullname"
     properties:
       name:
         type: string
@@ -277,10 +279,11 @@ definitions:
 
   User:
     type: object
+    required:
+      - "name"
     properties:
       id:
         type: string
-        pattern: https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)
       name:
         type: string
       inventories:

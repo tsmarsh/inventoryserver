@@ -1,21 +1,17 @@
 package com.tailoredshapes.inventoryserver;
 
-import java.util.List;
-
+import com.tailoredshapes.inventoryserver.api.client.DefaultApi;
+import com.tailoredshapes.inventoryserver.api.model.Inventory;
+import com.tailoredshapes.inventoryserver.api.model.Metric;
+import com.tailoredshapes.inventoryserver.api.model.User;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import io.swagger.client.api.DefaultApi;
-import io.swagger.client.model.Inventory;
-import io.swagger.client.model.Metric;
-import io.swagger.client.model.User;
+import java.util.List;
 
-import static com.tailoredshapes.underbar.UnderBar.filter;
-import static com.tailoredshapes.underbar.UnderBar.first;
-import static com.tailoredshapes.underbar.UnderBar.list;
+import static com.tailoredshapes.underbar.UnderBar.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class InMemoryInventoryAPITest {
 
@@ -53,7 +49,7 @@ public class InMemoryInventoryAPITest {
 
     user.setName("Tilda");
 
-    User saved = api.createUser(user);
+    User saved = api.createUser (user);
     assertEquals("Tilda", saved.getName());
 
     List<User> users = api.allUsers();
