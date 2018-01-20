@@ -59,7 +59,7 @@
     <dependency>
       <groupId>com.tailoredshapes.underbar</groupId>
       <artifactId>ocho</artifactId>
-      <version>0.1.0</version>
+      <version>0.1.2</version>
     </dependency>
     <dependency>
       <groupId>com.sparkjava</groupId>
@@ -94,7 +94,7 @@
     <dependency>
       <groupId>com.tailoredshapes.underbar</groupId>
       <artifactId>stash</artifactId>
-      <version>0.1.0</version>
+      <version>0.1.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
@@ -115,6 +115,11 @@
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-slf4j-impl</artifactId>
       <version>2.8.2</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.3.0</version>
     </dependency>
 
     <!-- Test Dependencies -->

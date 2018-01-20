@@ -9,3 +9,11 @@ stats/
 venv
 .vagrant
 **/dependency-reduced-pom.xml
+**/.DS_Store
+**/.ipynb_checkpoints/
+**/.swagger-codegen/
+bdd/index.html
+bdd/inventory_server/
+bdd/swagger.yml
+
+.DS_Store

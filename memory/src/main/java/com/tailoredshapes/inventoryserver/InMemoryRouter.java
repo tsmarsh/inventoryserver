@@ -55,7 +55,7 @@ public interface InMemoryRouter {
       Inventory inventory = parser.parse(req.body());
       Inventory saved = Repository.save(dao).save(inventory);
 
-      res.redirect(inventoryUrlBuilder.build(saved));
+      res.redirect(inventoryUrlBuilder.build(saved), 303);
       return null;
     });
 
@@ -83,7 +83,7 @@ public interface InMemoryRouter {
       User user = userParser.parse(req.body());
       User saved = Repository.save(userDAO).save(user);
 
-      res.redirect(userUrlBuilder.build(saved));
+      res.redirect(userUrlBuilder.build(saved), 303);
       return null;
     });
 
@@ -104,7 +104,7 @@ public interface InMemoryRouter {
       log.debug("findLatestUser");
       User user = findUserBy.findBy(InMemoryLookers.userByName.lookFor(req.params("name")));
 
-      res.redirect(userUrlBuilder.build(user));
+      res.redirect(userUrlBuilder.build(user), 303);
       return null;
     });
 
@@ -122,7 +122,7 @@ public interface InMemoryRouter {
       Inventory inv =
         first(filter(user.getInventories(), (i) -> i.getCategory().getFullname().equals(req.params("category"))));
 
-      res.redirect(inventoryUrlBuilder.build(inv));
+      res.redirect(inventoryUrlBuilder.build(inv), 303);
 
       return null;
     });
@@ -141,7 +141,7 @@ public interface InMemoryRouter {
 
       userSaver.save(user);
 
-      res.redirect(inventoryUrlBuilder.build(saved));
+      res.redirect(inventoryUrlBuilder.build(saved), 303);
 
       return null;
     });

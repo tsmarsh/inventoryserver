@@ -60,7 +60,7 @@ public interface Router {
         Inventory inventory = parser.parse(req.body());
         Inventory saved = Repository.save(dao).save(inventory);
 
-        res.redirect(inventoryUrlBuilder.build(saved));
+        res.redirect(inventoryUrlBuilder.build(saved), 303);
         return null;
       }));
 
@@ -93,7 +93,7 @@ public interface Router {
         User user = parser.parse(req.body());
         User saved = Repository.save(dao).save(user);
 
-        res.redirect(userUrlBuilder.build(saved));
+        res.redirect(userUrlBuilder.build(saved), 303);
         return null;
       }));
 
@@ -117,7 +117,7 @@ public interface Router {
 
       User user = findBy.findBy(HibernateLookers.userByName.lookFor(req.params("name")));
 
-      res.redirect(userUrlBuilder.build(user));
+      res.redirect(userUrlBuilder.build(user), 303);
       return null;
     }));
 
@@ -139,7 +139,7 @@ public interface Router {
       Inventory inv =
         first(filter(user.getInventories(), (i) -> i.getCategory().getFullname().equals(req.params("category"))));
 
-      res.redirect(inventoryUrlBuilder.build(inv));
+      res.redirect(inventoryUrlBuilder.build(inv), 303);
 
       return null;
     }));
@@ -162,7 +162,7 @@ public interface Router {
 
       userSaver.save(user);
 
-      res.redirect(inventoryUrlBuilder.build(saved));
+      res.redirect(inventoryUrlBuilder.build(saved), 303);
 
       return null;
     }));
