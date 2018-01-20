@@ -59,7 +59,7 @@
     <dependency>
       <groupId>com.tailoredshapes.underbar</groupId>
       <artifactId>ocho</artifactId>
-      <version>0.1.2</version>
+      <version>0.1.1</version>
     </dependency>
     <dependency>
       <groupId>com.sparkjava</groupId>
@@ -79,7 +79,7 @@
     <dependency>
       <groupId>com.tailoredshapes.underbar</groupId>
       <artifactId>stash</artifactId>
-      <version>0.1.2</version>
+      <version>0.1.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
