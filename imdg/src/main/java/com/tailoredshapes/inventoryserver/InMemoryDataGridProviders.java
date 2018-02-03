@@ -1,31 +1,26 @@
 package com.tailoredshapes.inventoryserver;
 
-import java.util.Map;
-
-import com.hazelcast.core.*;
-import com.hazelcast.config.*;
-
-import com.tailoredshapes.inventoryserver.dao.CategorySaver;
-import com.tailoredshapes.inventoryserver.dao.ChildFreeSaver;
-import com.tailoredshapes.inventoryserver.dao.DAO;
-import com.tailoredshapes.inventoryserver.dao.InventorySaver;
-import com.tailoredshapes.inventoryserver.dao.MetricSaver;
-import com.tailoredshapes.inventoryserver.dao.UserSaver;
+import com.hazelcast.config.Config;
+import com.hazelcast.config.SerializerConfig;
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
+import com.tailoredshapes.inventoryserver.dao.*;
 import com.tailoredshapes.inventoryserver.dao.memory.InMemoryDAO;
-import com.tailoredshapes.inventoryserver.model.Category;
-import com.tailoredshapes.inventoryserver.model.Inventory;
-import com.tailoredshapes.inventoryserver.model.Metric;
-import com.tailoredshapes.inventoryserver.model.MetricType;
-import com.tailoredshapes.inventoryserver.model.User;
+import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.parsers.InventoryParser;
 import com.tailoredshapes.inventoryserver.parsers.Parser;
 import com.tailoredshapes.inventoryserver.parsers.UserParser;
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository;
 import com.tailoredshapes.inventoryserver.serialisers.Serialiser;
+import com.tailoredshapes.inventoryserver.serialisers.Serialisers;
+import com.tailoredshapes.inventoryserver.serialisers.hazelcast.HazelcastSerialisers;
 import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
+
+import java.util.Arrays;
+import java.util.Map;
 
 import static com.tailoredshapes.inventoryserver.encoders.Encoders.shaEncoder;
 import static com.tailoredshapes.inventoryserver.extractors.Extractors.inventoryExtractor;
@@ -34,13 +29,33 @@ import static com.tailoredshapes.inventoryserver.repositories.memory.InMemoryLoo
 import static com.tailoredshapes.inventoryserver.repositories.memory.InMemoryLookers.metricTypeByName;
 import static com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository.findBy;
 import static com.tailoredshapes.inventoryserver.repositories.memory.InMemoryRepository.findById;
-import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.inventorySerializerBuilder;
-import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.metricSerialiser;
-import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.userSerializerBuilder;
+import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.*;
 
 public interface InMemoryDataGridProviders {
 
-  Config cfg = new Config();
+  static Config buildConfig(){
+    Config config = new Config();
+    config.getSerializationConfig()
+            .addSerializerConfig(
+                    new SerializerConfig()
+                      .setTypeClass(User.class).setImplementation(HazelcastSerialisers.userSerializer))
+            .addSerializerConfig(
+                    new SerializerConfig()
+                            .setTypeClass(Category.class).setImplementation(HazelcastSerialisers.categorySerialiser))
+            .addSerializerConfig(
+                    new SerializerConfig()
+                            .setTypeClass(Inventory.class).setImplementation(HazelcastSerialisers.inventorySerializer))
+            .addSerializerConfig(
+                    new SerializerConfig()
+                            .setTypeClass(Metric.class).setImplementation(HazelcastSerialisers.metricSerialiser))
+            .addSerializerConfig(
+                    new SerializerConfig()
+                            .setTypeClass(MetricType.class).setImplementation(HazelcastSerialisers.metricTypeSerialiser));
+    return config;
+  }
+
+  Config cfg = buildConfig();
+
   HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
 
   Map<Long, MetricType> metricTypeDB = instance.getMap("metricType");
