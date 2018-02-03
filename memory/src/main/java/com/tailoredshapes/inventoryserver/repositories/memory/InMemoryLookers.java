@@ -9,8 +9,7 @@ import com.tailoredshapes.inventoryserver.model.MetricType;
 import com.tailoredshapes.inventoryserver.model.User;
 import com.tailoredshapes.inventoryserver.repositories.Looker;
 
-import static com.tailoredshapes.underbar.UnderBar.filter;
-import static com.tailoredshapes.underbar.UnderBar.first;
+import static com.tailoredshapes.underbar.UnderBar.*;
 
 public interface InMemoryLookers {
   Looker<String, Category, Map<Long, Category>> categoryByFullName = (categoryFullName) -> (db) -> {
@@ -39,7 +38,7 @@ public interface InMemoryLookers {
     name -> db -> {
       List<User> filtered = filter(db.values(), (u) -> u.getName().equals(name));
       if (filtered.size() > 0) {
-        return first(filtered);
+        return last(sortBy(filtered, User::getCreated));
       } else {
         return new User().setName(name);
       }

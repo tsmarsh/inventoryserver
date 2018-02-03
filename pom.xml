@@ -15,6 +15,7 @@
         <module>core</module>
         <module>memory</module>
         <module>jpa</module>
+        <module>imdg</module>
     </modules>
 
     <properties>
