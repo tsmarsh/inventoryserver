@@ -10,6 +10,7 @@ import com.tailoredshapes.inventoryserver.repositories.Repository;
 import com.tailoredshapes.inventoryserver.repositories.memory.InMemoryLookers;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,11 +53,16 @@ public interface InMemoryRouter {
       log.debug("createInventory");
       DAO<Inventory> dao = inventoryDAO;
       Parser<Inventory> parser = inventoryParser;
-      Inventory inventory = parser.parse(req.body());
-      Inventory saved = Repository.save(dao).save(inventory);
+      try {
+          Inventory inventory = parser.parse(req.body());
+          Inventory saved = Repository.save(dao).save(inventory);
 
-      res.redirect(inventoryUrlBuilder.build(saved), 303);
-      return null;
+          res.redirect(inventoryUrlBuilder.build(saved), 303);
+          return null;
+      }catch (JSONException e){
+          log.error("Failed to parse: " + req.body());
+          throw e;
+      }
     });
 
     get("/inventories/:id", "application/json", (req, res) -> {
@@ -80,11 +86,17 @@ public interface InMemoryRouter {
 
     post("/users", "application/json", (req, res) -> {
       log.debug("createUser");
-      User user = userParser.parse(req.body());
-      User saved = Repository.save(userDAO).save(user);
+      try {
+          User user = userParser.parse(req.body());
+          User saved = Repository.save(userDAO).save(user);
 
-      res.redirect(userUrlBuilder.build(saved), 303);
-      return null;
+          res.redirect(userUrlBuilder.build(saved), 303);
+          return null;
+      } catch (JSONException e){
+          log.error("Failed to parse: " + req.body());
+          throw e;
+      }
+
     });
 
     get("/users/:name/inventories", "application/json", (req, res) ->

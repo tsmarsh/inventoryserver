@@ -23,3 +23,10 @@ bdd/swagger.yml
 /deploy-memory/terraform.tfstate.backup
 /deploy-memory/ip.txt
 /deploy-memory/.terraform
+
+**/.classpath
+**/.project
+**/.settings
+.vscode
+
+__pycache__/

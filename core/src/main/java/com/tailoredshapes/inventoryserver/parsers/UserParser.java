@@ -22,7 +22,7 @@ public interface UserParser {
       JSONObject jsonUser = new JSONObject(s);
       User user = new User();
 
-      if (jsonUser.has("id")) {
+      if (jsonUser.has("id") && !jsonUser.isNull("id")) {
         String id = jsonUser.getString("id");
         try {
           user = findById.findById(idExtractor.extract(new URL(id).getPath()));

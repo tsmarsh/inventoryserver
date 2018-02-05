@@ -33,7 +33,7 @@ public interface InventoryParser {
 
       inventory.setCategory(categoryRepository.findBy(finderFactory.lookFor(categoryFullName)));
 
-      if (jo.has("id")) {
+      if (jo.has("id") && !jo.isNull("id")) {
         try {
           inventory.setId(inventoryIdExtractor.extract(new URL(jo.getString("id")).getPath()));
         } catch (MalformedURLException e) {
@@ -41,7 +41,7 @@ public interface InventoryParser {
         }
       }
 
-      if (jo.has("parent")) {
+      if (jo.has("parent") && !jo.isNull("parent")) {
         long parent_id;
         try {
           parent_id = inventoryIdExtractor.extract(new URL(jo.getString("parent")).getPath());
