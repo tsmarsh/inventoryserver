@@ -23,3 +23,5 @@ bdd/swagger.yml
 /deploy-memory/terraform.tfstate.backup
 /deploy-memory/ip.txt
 /deploy-memory/.terraform
+*.log
+meta/src/main/docs/out.json
