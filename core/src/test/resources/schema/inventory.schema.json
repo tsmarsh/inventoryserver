@@ -1,0 +1,22 @@
+{
+  "type" : "object",
+  "properties" : {
+
+    "id" : {
+      "type" : "string"
+    },
+    "category" : {
+      "$ref" : "definitions.schema.json#/definitions/category"
+    },
+    "parent" : {
+      "type": "string"
+    },
+    "metrics" : {
+      "type": "array",
+      "items" : {
+        "$ref" : "definitions.schema.json#/definitions/metric"
+      }
+    }
+  },
+  "required" : ["category"]
+}

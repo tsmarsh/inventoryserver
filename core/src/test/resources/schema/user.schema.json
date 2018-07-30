@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "id": {
+      "$ref"
+    },
+    "name": {
+      "type": "string"
+    },
+    "inventories": {
+      "type": "array",
+      "items": {
+        "$ref": "inventory.schema.json#/definitions/Inventory"
+      }
+    }
+  }
+}

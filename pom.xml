@@ -85,6 +85,12 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java8</artifactId>
+            <version>3.0.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <reporting>
         <plugins>
