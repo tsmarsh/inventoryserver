@@ -32,8 +32,8 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.inventorySerializerBuilder;
 import static com.tailoredshapes.inventoryserver.serialisers.Serialisers.metricSerialiser;

@@ -71,7 +71,7 @@ public class InMemoryInventoryAPITest {
     User user = new User();
     user.setName("Archer");
 
-    Inventory archer = api.updateInventoryForUser("Archer", "test.flarp", inventory);
+    Inventory archer = api.updateInventoryForUser(inventory,"Archer", "test.flarp");
     assertEquals("test.flarp", archer.getCategory());
 
     User savedArcher = api.findLatestUser("Archer");
@@ -103,8 +103,8 @@ public class InMemoryInventoryAPITest {
 
     api.createUser(user);
 
-    Inventory inv1 = api.updateInventoryForUser("Archer", "test.flarp", inventory);
-    Inventory inv2 = api.updateInventoryForUser("Archer", "test.floop", inventory2);
+    Inventory inv1 = api.updateInventoryForUser(inventory, "Archer", "test.flarp");
+    Inventory inv2 = api.updateInventoryForUser(inventory2, "Archer", "test.floop");
 
     List<Inventory> inventories = api.allInventoriesForUser("Archer");
     assertEquals(1, filter(inventories, (i) -> !i.getCategory().equals("test.flarp")).size());

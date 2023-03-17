@@ -2,8 +2,8 @@ package com.tailoredshapes.inventoryserver.repositories.hibernate;
 
 import com.tailoredshapes.inventoryserver.repositories.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 public interface HibernateRepository extends Repository {
 

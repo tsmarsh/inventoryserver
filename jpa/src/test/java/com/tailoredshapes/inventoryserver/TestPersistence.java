@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 
 import static com.tailoredshapes.inventoryserver.Persistence.archiverPersistenceUnitInfo;
 import static com.tailoredshapes.inventoryserver.Persistence.managedClasses;

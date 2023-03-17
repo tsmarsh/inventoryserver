@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 
 import static com.tailoredshapes.inventoryserver.Persistence.archiverPersistenceUnitInfo;
 import static com.tailoredshapes.inventoryserver.Persistence.managedClasses;
@@ -19,7 +19,6 @@ import static org.hibernate.cfg.AvailableSettings.QUERY_STARTUP_CHECKING;
 import static org.hibernate.cfg.AvailableSettings.SHOW_SQL;
 import static org.hibernate.cfg.AvailableSettings.STATEMENT_BATCH_SIZE;
 import static org.hibernate.cfg.AvailableSettings.USE_QUERY_CACHE;
-import static org.hibernate.cfg.AvailableSettings.USE_REFLECTION_OPTIMIZER;
 import static org.hibernate.cfg.AvailableSettings.USE_SECOND_LEVEL_CACHE;
 import static org.hibernate.cfg.AvailableSettings.USE_STRUCTURED_CACHE;
 
@@ -42,7 +41,6 @@ public interface ProdPersistence {
       put(SHOW_SQL, true);
       put(QUERY_STARTUP_CHECKING, true);
       put(GENERATE_STATISTICS, true);
-      put(USE_REFLECTION_OPTIMIZER, true);
       put(USE_SECOND_LEVEL_CACHE, false);
       put(USE_QUERY_CACHE, false);
       put(USE_STRUCTURED_CACHE, false);

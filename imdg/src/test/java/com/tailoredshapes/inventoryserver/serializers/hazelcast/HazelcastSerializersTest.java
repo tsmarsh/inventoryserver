@@ -4,7 +4,7 @@ package com.tailoredshapes.inventoryserver.serializers.hazelcast;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.IMap;
+import com.hazelcast.map.IMap;
 import com.tailoredshapes.inventoryserver.InMemoryDataGridProviders;
 import com.tailoredshapes.inventoryserver.model.*;
 import com.tailoredshapes.inventoryserver.serialisers.hazelcast.HazelcastSerialisers;
@@ -15,8 +15,6 @@ import org.junit.Test;
 import java.util.*;
 
 import static com.tailoredshapes.underbar.UnderBar.first;
-import static com.tailoredshapes.underbar.UnderBar.list;
-import static com.tailoredshapes.underbar.UnderBar.set;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

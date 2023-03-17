@@ -6,7 +6,7 @@ import com.tailoredshapes.inventoryserver.encoders.Encoder;
 import com.tailoredshapes.inventoryserver.model.Idable;
 import com.tailoredshapes.inventoryserver.model.ShallowCopy;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 @SuppressWarnings("unchecked")
 public class HibernateDAO<T extends Cloneable & Idable<T> & ShallowCopy<T>> implements DAO<T> {

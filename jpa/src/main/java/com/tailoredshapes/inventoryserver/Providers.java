@@ -24,7 +24,7 @@ import com.tailoredshapes.inventoryserver.urlbuilders.InventoryUrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UrlBuilder;
 import com.tailoredshapes.inventoryserver.urlbuilders.UserUrlBuilder;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import static com.tailoredshapes.inventoryserver.encoders.Encoders.shaEncoder;
 import static com.tailoredshapes.inventoryserver.extractors.Extractors.inventoryExtractor;
