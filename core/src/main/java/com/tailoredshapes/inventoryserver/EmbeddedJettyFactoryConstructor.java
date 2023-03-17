@@ -1,6 +1,6 @@
 package com.tailoredshapes.inventoryserver;
 
-import org.eclipse.jetty.server.AbstractNCSARequestLog;
+import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
@@ -8,9 +8,9 @@ import spark.embeddedserver.jetty.EmbeddedJettyFactory;
 import spark.embeddedserver.jetty.JettyServerFactory;
 
 public class EmbeddedJettyFactoryConstructor {
-    AbstractNCSARequestLog requestLog;
+    RequestLog requestLog;
 
-    public EmbeddedJettyFactoryConstructor(AbstractNCSARequestLog requestLog) {
+    public EmbeddedJettyFactoryConstructor(RequestLog requestLog) {
         this.requestLog = requestLog;
     }
 

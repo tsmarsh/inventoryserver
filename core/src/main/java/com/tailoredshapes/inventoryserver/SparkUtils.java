@@ -2,7 +2,8 @@ package com.tailoredshapes.inventoryserver;
 
 import java.util.logging.Logger;
 
-import org.eclipse.jetty.server.AbstractNCSARequestLog;
+import org.eclipse.jetty.server.CustomRequestLog;
+import org.eclipse.jetty.server.RequestLog;
 import spark.embeddedserver.EmbeddedServers;
 import spark.embeddedserver.jetty.EmbeddedJettyFactory;
 
@@ -13,7 +14,7 @@ public class SparkUtils {
     }
 
     private static EmbeddedJettyFactory createEmbeddedJettyFactoryWithRequestLog(Logger logger) {
-        AbstractNCSARequestLog requestLog = new RequestLogFactory(logger).create();
+        RequestLog requestLog = new CustomRequestLog();
         return new EmbeddedJettyFactoryConstructor(requestLog).create();
     }
 }
